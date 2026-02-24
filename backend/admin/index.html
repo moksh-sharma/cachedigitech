@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – CacheDigitech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;700&family=Raleway:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Oswald:wght@400;700&family=Nunito:wght@400;700&family=Space+Grotesk:wght@400;700&family=DM+Sans:wght@400;700&family=Roboto+Mono:wght@400;700&family=Source+Code+Pro:wght@400;700&family=Caveat:wght@400;700&family=Pacifico&family=Bebas+Neue&family=Anton&family=Abril+Fatface&family=Crimson+Text:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { admin: { side: '#0f172a', sideHover: '#1e293b', accent: '#dc2626' } }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .admin-sidebar a.active { background: rgba(255,255,255,0.1); color: #fff; border-left-color: #dc2626; }
+    .admin-sidebar a:not(.active):hover { background: rgba(255,255,255,0.06); }
+    .stat-card { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08); }
+    .admin-panel { display: none; }
+    .admin-panel.is-active { display: block; }
+    .admin-sidebar { transition: transform 0.2s ease; }
+    .hero-heading-editor .ql-editor { min-height: 120px; font-size: 1rem; }
+    .hero-heading-editor .ql-toolbar.ql-snow { border-radius: 8px 8px 0 0; }
+    .hero-heading-editor .ql-container.ql-snow { border-radius: 0 0 8px 8px; }
+    .hero-heading-editor .ql-editor span[class*="apple-gray"] { color: #6e6e73; }
+    .hero-heading-editor .ql-toolbar .ql-gray::before { content: 'Gray'; }
+    /* Font picker dropdown styling */
+    .hero-heading-editor .ql-toolbar .ql-font .ql-picker-label { min-width: 130px; }
+    .hero-heading-editor .ql-toolbar .ql-font .ql-picker-options { max-height: 250px; overflow-y: auto; }
+    .hero-heading-editor .ql-font .ql-picker-label::before,
+    .hero-heading-editor .ql-font .ql-picker-item::before { content: attr(data-value) !important; }
+    .hero-heading-editor .ql-font .ql-picker-label[data-value=""]::before,
+    .hero-heading-editor .ql-font .ql-picker-item[data-value=""]::before { content: 'Default' !important; }
+    /* Size picker dropdown styling */
+    .hero-heading-editor .ql-toolbar .ql-size .ql-picker-label { min-width: 70px; }
+    .hero-heading-editor .ql-toolbar .ql-size .ql-picker-options { max-height: 250px; overflow-y: auto; }
+    .hero-heading-editor .ql-size .ql-picker-label::before,
+    .hero-heading-editor .ql-size .ql-picker-item::before { content: attr(data-value) !important; }
+    .hero-heading-editor .ql-size .ql-picker-label[data-value=""]::before,
+    .hero-heading-editor .ql-size .ql-picker-item[data-value=""]::before { content: 'Size' !important; }
+    @media (max-width: 768px) {
+      .admin-sidebar { transform: translateX(-100%); }
+      .admin-sidebar.open { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="admin-sidebar fixed inset-y-0 left-0 z-30 w-64 bg-admin-side text-white flex flex-col shadow-xl">
+      <div class="p-5 border-b border-white/10">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold text-lg tracking-tight">CacheDigitech</span>
+          <button type="button" id="sidebar-close" class="md:hidden p-2 -mr-2 rounded-lg hover:bg-white/10" aria-label="Close menu">✕</button>
+        </div>
+        <p class="text-slate-400 text-xs mt-1">Admin Panel</p>
+      </div>
+      <nav class="flex-1 overflow-y-auto py-4">
+        <div class="px-3 mb-4">
+          <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Overview</span>
+        </div>
+        <ul class="space-y-0.5 px-2">
+          <li><a href="#" data-tab="dashboard" class="admin-nav flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent text-slate-300">📊 Dashboard</a></li>
+        </ul>
+        <div class="px-3 mt-6 mb-2">
+          <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Site</span>
+        </div>
+        <ul class="space-y-0.5 px-2">
+          <li><a href="#" data-tab="configuration" class="admin-nav flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent text-slate-300">⚙️ Configuration</a></li>
+          <li><a href="#" data-tab="content" class="admin-nav flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent text-slate-300">📝 Website content</a></li>
+          <li><a href="#" data-tab="media" class="admin-nav flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent text-slate-300">🖼️ Media</a></li>
+          <li><a href="#" data-tab="chatbot" class="admin-nav flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent text-slate-300">💬 Chatbot</a></li>
+        </ul>
+        <div class="px-3 mt-6 mb-2" id="nav-group-admin">
+          <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Administration</span>
+        </div>
+        <ul class="space-y-0.5 px-2">
+          <li id="nav-item-users"><a href="#" data-tab="users" class="admin-nav flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent text-slate-300">👥 Users</a></li>
+        </ul>
+      </nav>
+      <div class="p-3 border-t border-white/10">
+        <a href="/" class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white text-sm">← Back to site</a>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col md:pl-64 min-h-screen">
+      <!-- Top bar -->
+      <header class="bg-white border-b border-slate-200 sticky top-0 z-20 flex items-center justify-between px-4 py-3 shadow-sm">
+        <button type="button" id="sidebar-open" class="md:hidden p-2 rounded-lg hover:bg-slate-100" aria-label="Open menu">☰</button>
+        <div class="flex-1 md:flex-none"></div>
+        <div class="flex items-center gap-3">
+          <span id="user-info" class="text-sm text-slate-600 truncate max-w-[140px]"></span>
+          <button type="button" id="logout-btn" class="text-sm px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium">Logout</button>
+        </div>
+      </header>
+
+      <main class="flex-1 p-4 md:p-6 lg:p-8">
+        <!-- Panel: Dashboard -->
+        <section id="panel-dashboard" class="admin-panel is-active">
+          <h1 class="text-xl font-semibold text-slate-800 mb-6">Dashboard</h1>
+          <div id="stats-error" class="hidden text-red-600 text-sm mb-4"></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+              <p class="text-slate-500 text-sm font-medium">Total page views</p>
+              <p id="stat-total-views" class="text-2xl font-bold text-slate-800 mt-1">—</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+              <p class="text-slate-500 text-sm font-medium">Unique visitors</p>
+              <p id="stat-unique" class="text-2xl font-bold text-slate-800 mt-1">—</p>
+            </div>
+            <div class="stat-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+              <p class="text-slate-500 text-sm font-medium">Last updated</p>
+              <p id="stat-last-updated" class="text-slate-800 mt-1">—</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+            <div class="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">Page views by path</div>
+            <div id="stats-by-path" class="p-4 text-sm text-slate-600">Loading…</div>
+          </div>
+        </section>
+
+        <!-- Panel: Configuration -->
+        <section id="panel-configuration" class="admin-panel">
+          <h1 class="text-xl font-semibold text-slate-800 mb-6">Configuration</h1>
+          <div id="config-error" class="hidden text-red-600 text-sm mb-2"></div>
+          <div id="config-success" class="hidden text-emerald-600 text-sm mb-2">Settings saved.</div>
+          <div class="max-w-xl">
+            <form id="config-form" class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
+              <div>
+                <label for="siteName" class="block text-sm font-medium text-slate-600 mb-1">Site name</label>
+                <input type="text" id="siteName" name="siteName" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400 focus:border-slate-400" />
+              </div>
+              <div>
+                <label for="contactEmail" class="block text-sm font-medium text-slate-600 mb-1">Contact email</label>
+                <input type="email" id="contactEmail" name="contactEmail" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400 focus:border-slate-400" />
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="maintenanceMode" name="maintenanceMode" class="rounded border-slate-300 text-slate-600 focus:ring-slate-400" />
+                <label for="maintenanceMode" class="text-sm font-medium text-slate-600">Maintenance mode</label>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="analyticsEnabled" name="analyticsEnabled" class="rounded border-slate-300 text-slate-600 focus:ring-slate-400" />
+                <label for="analyticsEnabled" class="text-sm font-medium text-slate-600">Analytics enabled</label>
+              </div>
+              <button type="submit" class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">Save settings</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Panel: Chatbot -->
+        <section id="panel-chatbot" class="admin-panel">
+          <h1 class="text-xl font-semibold text-slate-800 mb-2">Chatbot</h1>
+          <p class="text-slate-500 text-sm mb-6">Configure the hero section chatbot. Requires <code class="bg-slate-100 px-1 rounded text-xs">OPENAI_API_KEY</code> in the server environment.</p>
+          <div id="chatbot-error" class="hidden text-red-600 text-sm mb-2"></div>
+          <div id="chatbot-success" class="hidden text-emerald-600 text-sm mb-2">Chatbot settings saved.</div>
+          <div class="max-w-2xl space-y-6">
+            <form id="chatbot-form" class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4">
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="chatbot-enabled" name="enabled" class="rounded border-slate-300 text-slate-600 focus:ring-slate-400" />
+                <label for="chatbot-enabled" class="text-sm font-medium text-slate-600">Enable chatbot on the website</label>
+              </div>
+              <div>
+                <label for="chatbot-systemPrompt" class="block text-sm font-medium text-slate-600 mb-1">System prompt</label>
+                <textarea id="chatbot-systemPrompt" name="systemPrompt" rows="5" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-sm" placeholder="Instructions for the AI (e.g. tone, scope, company context). Leave blank to use the default."></textarea>
+              </div>
+              <div>
+                <label for="chatbot-model" class="block text-sm font-medium text-slate-600 mb-1">Model</label>
+                <input type="text" id="chatbot-model" name="model" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400 focus:border-slate-400" placeholder="gpt-4o-mini" />
+                <p class="text-xs text-slate-500 mt-1">OpenAI model name (e.g. gpt-4o-mini, gpt-4o). Empty = use server default.</p>
+              </div>
+              <div>
+                <label for="chatbot-maxTokens" class="block text-sm font-medium text-slate-600 mb-1">Max tokens per reply</label>
+                <input type="number" id="chatbot-maxTokens" name="maxTokens" min="100" max="4096" class="w-full max-w-[120px] rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400" placeholder="512" />
+              </div>
+
+              <!-- Animation Settings -->
+              <div class="border-t border-slate-200 pt-4 mt-4">
+                <h3 class="text-sm font-semibold text-slate-700 mb-3">Chatbot Animation</h3>
+                <div class="space-y-3">
+                  <div>
+                    <label for="chatbot-expandSpeed" class="block text-sm font-medium text-slate-600 mb-1">Expand animation duration (seconds)</label>
+                    <input type="number" id="chatbot-expandSpeed" min="0.3" max="3" step="0.1" class="w-full max-w-[120px] rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400" placeholder="1.2" />
+                    <p class="text-xs text-slate-500 mt-1">How long the chatbot takes to expand to full screen (0.3 – 3s). Default: 1.2s.</p>
+                  </div>
+                  <div>
+                    <label for="chatbot-textFadeSpeed" class="block text-sm font-medium text-slate-600 mb-1">Text fade-out duration (seconds)</label>
+                    <input type="number" id="chatbot-textFadeSpeed" min="0.2" max="2" step="0.1" class="w-full max-w-[120px] rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400" placeholder="0.8" />
+                    <p class="text-xs text-slate-500 mt-1">How long the hero text takes to fade out (0.2 – 2s). Default: 0.8s.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RAG Settings -->
+              <div class="border-t border-slate-200 pt-4 mt-4">
+                <h3 class="text-sm font-semibold text-slate-700 mb-3">Knowledge Base (RAG)</h3>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" id="chatbot-ragEnabled" class="rounded border-slate-300 text-slate-600 focus:ring-slate-400" />
+                    <label for="chatbot-ragEnabled" class="text-sm font-medium text-slate-600">Enable RAG / custom knowledge base</label>
+                  </div>
+                  <div>
+                    <label for="chatbot-pineconeIndex" class="block text-sm font-medium text-slate-600 mb-1">Pinecone index name</label>
+                    <input type="text" id="chatbot-pineconeIndex" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400 focus:border-slate-400" placeholder="my-index" />
+                    <p class="text-xs text-slate-500 mt-1">Must be an existing Pinecone index with dimension 1536. Falls back to <code class="bg-slate-100 px-1 rounded text-xs">PINECONE_INDEX</code> env var if empty.</p>
+                  </div>
+                  <div>
+                    <label for="chatbot-ragTopK" class="block text-sm font-medium text-slate-600 mb-1">RAG top K results</label>
+                    <input type="number" id="chatbot-ragTopK" min="1" max="20" class="w-full max-w-[100px] rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400" placeholder="5" />
+                    <p class="text-xs text-slate-500 mt-1">Number of knowledge base chunks to retrieve per query.</p>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">Save chatbot settings</button>
+            </form>
+
+            <!-- Chatbot UI Customization -->
+            <div id="chatbot-ui-card" class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center">
+                <span class="font-medium text-slate-700">UI Customization</span>
+                <button type="button" id="chatbot-ui-save-btn" class="px-3 py-1.5 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-700">Save UI settings</button>
+              </div>
+              <div id="chatbot-ui-fields" class="p-4 space-y-4">
+                <p class="text-sm text-slate-500">Loading...</p>
+              </div>
+              <div id="chatbot-ui-error" class="hidden text-red-600 text-sm px-4 pb-3"></div>
+              <div id="chatbot-ui-success" class="hidden text-emerald-600 text-sm px-4 pb-3"></div>
+            </div>
+
+            <!-- Knowledge Base Documents -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">Knowledge Base Documents</div>
+              <div class="p-4 space-y-4">
+                <div id="rag-error" class="hidden text-red-600 text-sm"></div>
+                <div id="rag-success" class="hidden text-emerald-600 text-sm"></div>
+                <form id="rag-upload-form" class="flex flex-wrap items-end gap-3">
+                  <div>
+                    <label for="rag-file" class="block text-sm font-medium text-slate-600 mb-1">Upload PDF</label>
+                    <input type="file" id="rag-file" name="file" accept="application/pdf,.pdf" class="block w-full text-sm text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200" />
+                  </div>
+                  <button type="submit" id="rag-upload-btn" class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700 disabled:opacity-50">Upload &amp; Process</button>
+                </form>
+                <div id="rag-documents-list" class="text-sm text-slate-600">Loading...</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Panel: Content -->
+        <section id="panel-content" class="admin-panel">
+          <h1 class="text-xl font-semibold text-slate-800 mb-2">Website content</h1>
+          <p class="text-slate-500 text-sm mb-6">Edit content for pages and sections. Select a page, then edit each section and save.</p>
+          <div id="content-error" class="hidden text-red-600 text-sm mb-2"></div>
+          <div id="content-success" class="hidden text-emerald-600 text-sm mb-2">Content saved.</div>
+          <div class="mb-4 flex flex-wrap items-end gap-4">
+            <div class="flex-1 min-w-[200px]">
+              <label for="content-page-select" class="block text-sm font-medium text-slate-600 mb-1">Page</label>
+              <select id="content-page-select" class="w-full max-w-md rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400">
+                <option value="">— Select page —</option>
+              </select>
+            </div>
+            <button type="button" id="content-seed-btn" class="px-3 py-2 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-100">Load website defaults</button>
+          </div>
+          <div id="content-sections" class="space-y-6">
+            <p id="content-sections-placeholder" class="text-slate-500 text-sm">Select a page to edit its sections.</p>
+          </div>
+        </section>
+
+        <!-- Panel: Media -->
+        <section id="panel-media" class="admin-panel">
+          <h1 class="text-xl font-semibold text-slate-800 mb-2">Media</h1>
+          <p class="text-slate-500 text-sm mb-6">Upload images to the library and assign them to page sections. The site will use these images where configured.</p>
+          <div id="media-error" class="hidden text-red-600 text-sm mb-2"></div>
+          <div id="media-success" class="hidden text-emerald-600 text-sm mb-2"></div>
+
+          <div class="mb-6">
+            <h2 class="text-lg font-medium text-slate-700 mb-3">Library</h2>
+            <form id="media-upload-form" class="flex flex-wrap items-end gap-3 mb-4">
+              <div>
+                <label for="media-file" class="block text-sm font-medium text-slate-600 mb-1">Upload image</label>
+                <input type="file" id="media-file" name="file" accept="image/*" class="block w-full text-sm text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200" />
+              </div>
+              <button type="submit" id="media-upload-btn" class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700 disabled:opacity-50">Upload</button>
+            </form>
+            <div id="media-library-list" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">Loading…</div>
+          </div>
+
+          <div>
+            <h2 class="text-lg font-medium text-slate-700 mb-3">Image placements</h2>
+            <p class="text-slate-500 text-sm mb-3">Assign an image from the library to each placement. The site will show the assigned image (or the default) for that section.</p>
+            <div id="media-placements-list" class="space-y-3">Loading…</div>
+          </div>
+        </section>
+
+        <!-- Modal: Pick image for placement -->
+        <div id="media-picker-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 hidden">
+          <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[80vh] flex flex-col">
+            <div class="px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+              <span class="font-medium text-slate-800">Choose image</span>
+              <button type="button" id="media-picker-close" class="p-2 rounded-lg hover:bg-slate-100 text-slate-600">✕</button>
+            </div>
+            <div id="media-picker-grid" class="p-4 overflow-y-auto flex-1 grid grid-cols-3 sm:grid-cols-4 gap-3">Loading…</div>
+            <div class="px-4 py-3 border-t border-slate-200 text-sm text-slate-500">Click an image to assign it to this placement. You can also upload a new image in the Library first.</div>
+          </div>
+        </div>
+
+        <!-- Panel: Users (admin only) -->
+        <section id="panel-users" class="admin-panel">
+          <h1 class="text-xl font-semibold text-slate-800 mb-6">Users</h1>
+          <div id="users-error" class="hidden text-red-600 text-sm mb-2"></div>
+          <div id="users-success" class="hidden text-emerald-600 text-sm mb-2">User added.</div>
+          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm mb-6 max-w-2xl">
+            <div class="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">Add user</div>
+            <form id="user-form" class="p-4 space-y-3">
+              <div>
+                <label for="new-email" class="block text-sm font-medium text-slate-600 mb-1">Email</label>
+                <input type="email" id="new-email" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400" />
+              </div>
+              <div>
+                <label for="new-password" class="block text-sm font-medium text-slate-600 mb-1">Password</label>
+                <input type="password" id="new-password" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400" />
+              </div>
+              <div>
+                <label for="new-name" class="block text-sm font-medium text-slate-600 mb-1">Name</label>
+                <input type="text" id="new-name" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400" placeholder="Optional" />
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="new-role-admin" class="rounded border-slate-300 text-slate-600 focus:ring-slate-400" />
+                <label for="new-role-admin" class="text-sm font-medium text-slate-600">Admin (can manage users)</label>
+              </div>
+              <button type="submit" class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">Add user</button>
+            </form>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm max-w-2xl">
+            <div class="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">All users</div>
+            <div id="users-list" class="p-4 text-sm text-slate-600">Loading…</div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Overlay for mobile sidebar -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-20 hidden md:hidden" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.js"></script>
+  <script>
+    const API = window.location.origin;
+    const fetchOpts = { credentials: 'include' };
+    let currentUser = null;
+
+    function switchPanel(tabId) {
+      document.querySelectorAll('.admin-panel').forEach((p) => p.classList.remove('is-active'));
+      document.querySelectorAll('.admin-nav').forEach((a) => a.classList.remove('active'));
+      const panel = document.getElementById('panel-' + tabId);
+      const link = document.querySelector('.admin-nav[data-tab="' + tabId + '"]');
+      if (panel) panel.classList.add('is-active');
+      if (link) link.classList.add('active');
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.add('hidden');
+      if (tabId === 'media' && typeof loadMediaLibrary === 'function') { loadMediaLibrary(); loadMediaPlacements(); }
+      if (tabId === 'chatbot' && typeof loadChatbotConfig === 'function') loadChatbotConfig();
+    }
+
+    document.querySelectorAll('.admin-nav').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchPanel(a.dataset.tab);
+      });
+    });
+
+    document.getElementById('sidebar-open').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('sidebar-overlay').classList.remove('hidden');
+    });
+    document.getElementById('sidebar-close').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.add('hidden');
+    });
+    document.getElementById('sidebar-overlay').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.add('hidden');
+    });
+
+    async function checkAuth() {
+      try {
+        const res = await fetch(API + '/api/auth/me', fetchOpts);
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        const data = await res.json();
+        currentUser = data.user;
+        document.getElementById('user-info').textContent = currentUser.name || currentUser.email;
+        if (currentUser.role !== 'admin') {
+          document.getElementById('nav-group-admin').style.display = 'none';
+          document.getElementById('nav-item-users').style.display = 'none';
+        } else {
+          loadUsers();
+        }
+      } catch (e) {
+        window.location.href = '/admin/login';
+      }
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await fetch(API + '/api/auth/logout', { method: 'POST', ...fetchOpts });
+      window.location.href = '/admin/login';
+    });
+
+    async function loadStats() {
+      const errEl = document.getElementById('stats-error');
+      try {
+        const res = await fetch(API + '/api/stats', fetchOpts);
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        const data = await res.json();
+        errEl.classList.add('hidden');
+        document.getElementById('stat-total-views').textContent = data.totalPageViews ?? 0;
+        document.getElementById('stat-unique').textContent = data.uniqueVisitors ?? 0;
+        document.getElementById('stat-last-updated').textContent = data.lastUpdated ? new Date(data.lastUpdated).toLocaleString() : '—';
+        const byPath = data.pageViewsByPath || {};
+        const paths = Object.entries(byPath).sort((a, b) => b[1] - a[1]);
+        document.getElementById('stats-by-path').innerHTML = paths.length
+          ? paths.map(([path, count]) => `<div class="flex justify-between py-1.5"><span class="font-mono text-slate-700">${path || '/'}</span><span class="font-medium">${count}</span></div>`).join('')
+          : '<p class="text-slate-500">No page view data yet.</p>';
+      } catch (e) {
+        errEl.textContent = 'Could not load stats.';
+        errEl.classList.remove('hidden');
+      }
+    }
+
+    async function loadConfig() {
+      const errEl = document.getElementById('config-error');
+      try {
+        const res = await fetch(API + '/api/config', fetchOpts);
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        const data = await res.json();
+        errEl.classList.add('hidden');
+        document.getElementById('siteName').value = data.siteName ?? '';
+        document.getElementById('contactEmail').value = data.contactEmail ?? '';
+        document.getElementById('maintenanceMode').checked = !!data.maintenanceMode;
+        document.getElementById('analyticsEnabled').checked = data.analyticsEnabled !== false;
+      } catch (e) {
+        errEl.textContent = 'Could not load config.';
+        errEl.classList.remove('hidden');
+      }
+    }
+
+    async function loadUsers() {
+      const listEl = document.getElementById('users-list');
+      try {
+        const res = await fetch(API + '/api/users', fetchOpts);
+        if (res.status === 403 || res.status === 401) { listEl.innerHTML = '<p class="text-slate-500">Access denied.</p>'; return; }
+        const users = await res.json();
+        listEl.innerHTML = users.length
+          ? users.map((u) => `<div class="flex justify-between items-center py-2.5 border-b border-slate-100 last:border-0"><span class="text-slate-700">${u.name || u.email}</span><span class="text-slate-500 text-xs">${u.email} · ${u.role}</span>${u.id !== currentUser?.id ? `<button type="button" class="text-red-600 hover:text-red-700 text-xs font-medium" data-user-id="${u.id}">Remove</button>` : ''}</div>`).join('')
+          : '<p class="text-slate-500">No users yet.</p>';
+        listEl.querySelectorAll('[data-user-id]').forEach((btn) => btn.addEventListener('click', () => removeUser(btn.dataset.userId)));
+      } catch (e) {
+        listEl.innerHTML = '<p class="text-slate-500">Could not load users.</p>';
+      }
+    }
+
+    async function removeUser(id) {
+      if (!confirm('Remove this user?')) return;
+      try {
+        const res = await fetch(API + '/api/users/' + id, { method: 'DELETE', ...fetchOpts });
+        if (res.ok) loadUsers();
+      } catch (e) {}
+    }
+
+    document.getElementById('config-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('config-error');
+      const okEl = document.getElementById('config-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      const payload = { siteName: document.getElementById('siteName').value, contactEmail: document.getElementById('contactEmail').value, maintenanceMode: document.getElementById('maintenanceMode').checked, analyticsEnabled: document.getElementById('analyticsEnabled').checked };
+      try {
+        const res = await fetch(API + '/api/config', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify(payload) });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        if (!res.ok) throw new Error('Save failed');
+        okEl.classList.remove('hidden');
+        setTimeout(() => okEl.classList.add('hidden'), 3000);
+      } catch (e) {
+        errEl.textContent = 'Could not save settings.';
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    async function loadChatbotConfig() {
+      try {
+        const res = await fetch(API + '/api/config', fetchOpts);
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        const config = await res.json();
+        const c = config.chatbot || {};
+        document.getElementById('chatbot-enabled').checked = c.enabled !== false;
+        document.getElementById('chatbot-systemPrompt').value = c.systemPrompt || '';
+        document.getElementById('chatbot-model').value = c.model || '';
+        document.getElementById('chatbot-maxTokens').value = (c.maxTokens != null && c.maxTokens !== '') ? String(c.maxTokens) : '';
+        // Animation fields
+        document.getElementById('chatbot-expandSpeed').value = (c.expandSpeed != null && c.expandSpeed !== '') ? String(c.expandSpeed) : '';
+        document.getElementById('chatbot-textFadeSpeed').value = (c.textFadeSpeed != null && c.textFadeSpeed !== '') ? String(c.textFadeSpeed) : '';
+        // RAG fields
+        document.getElementById('chatbot-ragEnabled').checked = !!c.ragEnabled;
+        document.getElementById('chatbot-pineconeIndex').value = c.pineconeIndex || '';
+        document.getElementById('chatbot-ragTopK').value = (c.ragTopK != null && c.ragTopK !== '') ? String(c.ragTopK) : '';
+      } catch (e) {
+        document.getElementById('chatbot-error').textContent = 'Could not load chatbot settings.';
+        document.getElementById('chatbot-error').classList.remove('hidden');
+      }
+      // Also load RAG documents list
+      loadRagDocuments();
+    }
+
+    document.getElementById('chatbot-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('chatbot-error');
+      const okEl = document.getElementById('chatbot-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      const maxTokensVal = document.getElementById('chatbot-maxTokens').value.trim();
+      const ragTopKVal = document.getElementById('chatbot-ragTopK').value.trim();
+      const expandSpeedVal = document.getElementById('chatbot-expandSpeed').value.trim();
+      const textFadeSpeedVal = document.getElementById('chatbot-textFadeSpeed').value.trim();
+      const chatbot = {
+        enabled: document.getElementById('chatbot-enabled').checked,
+        systemPrompt: document.getElementById('chatbot-systemPrompt').value.trim(),
+        model: document.getElementById('chatbot-model').value.trim(),
+        maxTokens: maxTokensVal === '' ? undefined : Math.max(100, Math.min(4096, parseInt(maxTokensVal, 10) || 512)),
+        expandSpeed: expandSpeedVal === '' ? undefined : Math.max(0.3, Math.min(3, parseFloat(expandSpeedVal) || 1.2)),
+        textFadeSpeed: textFadeSpeedVal === '' ? undefined : Math.max(0.2, Math.min(2, parseFloat(textFadeSpeedVal) || 0.8)),
+        ragEnabled: document.getElementById('chatbot-ragEnabled').checked,
+        pineconeIndex: document.getElementById('chatbot-pineconeIndex').value.trim(),
+        ragTopK: ragTopKVal === '' ? undefined : Math.max(1, Math.min(20, parseInt(ragTopKVal, 10) || 5)),
+      };
+      try {
+        const getRes = await fetch(API + '/api/config', fetchOpts);
+        if (getRes.status === 401) { window.location.href = '/admin/login'; return; }
+        const current = await getRes.json();
+        const payload = { ...current, chatbot };
+        const res = await fetch(API + '/api/config', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify(payload) });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        if (!res.ok) throw new Error('Save failed');
+        okEl.classList.remove('hidden');
+        setTimeout(() => okEl.classList.add('hidden'), 3000);
+      } catch (e) {
+        errEl.textContent = 'Could not save chatbot settings.';
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('user-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('users-error');
+      const okEl = document.getElementById('users-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      const payload = { email: document.getElementById('new-email').value.trim(), password: document.getElementById('new-password').value, name: document.getElementById('new-name').value.trim() || undefined, role: document.getElementById('new-role-admin').checked ? 'admin' : 'user' };
+      try {
+        const res = await fetch(API + '/api/users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify(payload) });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          document.getElementById('new-email').value = '';
+          document.getElementById('new-password').value = '';
+          document.getElementById('new-name').value = '';
+          document.getElementById('new-role-admin').checked = false;
+          okEl.classList.remove('hidden');
+          setTimeout(() => okEl.classList.add('hidden'), 3000);
+          loadUsers();
+          return;
+        }
+        errEl.textContent = data.error || 'Could not add user.';
+        errEl.classList.remove('hidden');
+      } catch (e) {
+        errEl.textContent = 'Could not add user.';
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    // --------------- RAG Documents ---------------
+    async function loadRagDocuments() {
+      const listEl = document.getElementById('rag-documents-list');
+      if (!listEl) return;
+      try {
+        const res = await fetch(API + '/api/rag/documents', fetchOpts);
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        const docs = await res.json();
+        if (docs.length === 0) {
+          listEl.innerHTML = '<p class="text-slate-500">No documents uploaded yet. Upload a PDF above to build your knowledge base.</p>';
+          return;
+        }
+        listEl.innerHTML = docs.map((d) =>
+          `<div class="flex items-center justify-between py-2.5 border-b border-slate-100 last:border-0">
+            <div class="min-w-0 flex-1">
+              <p class="font-medium text-slate-700 truncate" title="${escapeHtml(d.name)}">${escapeHtml(d.name)}</p>
+              <p class="text-xs text-slate-500">${d.chunkCount} chunks &middot; ${d.createdAt ? new Date(d.createdAt).toLocaleString() : ''}</p>
+            </div>
+            <button type="button" class="rag-delete-btn text-red-600 hover:text-red-700 text-xs font-medium ml-3 flex-shrink-0" data-id="${d.id}">Delete</button>
+          </div>`
+        ).join('');
+        listEl.querySelectorAll('.rag-delete-btn').forEach((btn) => btn.addEventListener('click', () => deleteRagDocument(btn.dataset.id)));
+      } catch (e) {
+        listEl.innerHTML = '<p class="text-slate-500">Could not load documents.</p>';
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    async function deleteRagDocument(id) {
+      if (!confirm('Delete this document and its vectors from the knowledge base?')) return;
+      const errEl = document.getElementById('rag-error');
+      const okEl = document.getElementById('rag-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      try {
+        const res = await fetch(API + '/api/rag/documents/' + id, { method: 'DELETE', ...fetchOpts });
+        if (res.ok) {
+          okEl.textContent = 'Document deleted.';
+          okEl.classList.remove('hidden');
+          setTimeout(() => okEl.classList.add('hidden'), 3000);
+          loadRagDocuments();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          errEl.textContent = data.error || 'Delete failed.';
+          errEl.classList.remove('hidden');
+        }
+      } catch (e) {
+        errEl.textContent = 'Could not delete document.';
+        errEl.classList.remove('hidden');
+      }
+    }
+
+    document.getElementById('rag-upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('rag-file');
+      const btn = document.getElementById('rag-upload-btn');
+      const errEl = document.getElementById('rag-error');
+      const okEl = document.getElementById('rag-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      if (!fileInput.files || !fileInput.files[0]) { errEl.textContent = 'Select a PDF file.'; errEl.classList.remove('hidden'); return; }
+      const file = fileInput.files[0];
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        errEl.textContent = 'Only PDF files are allowed.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      const fd = new FormData();
+      fd.append('file', file);
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+      try {
+        const res = await fetch(API + '/api/rag/documents', { method: 'POST', credentials: 'include', body: fd });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          fileInput.value = '';
+          okEl.textContent = 'Document uploaded and processed (' + (data.chunkCount || 0) + ' chunks).';
+          okEl.classList.remove('hidden');
+          setTimeout(() => okEl.classList.add('hidden'), 5000);
+          loadRagDocuments();
+        } else {
+          errEl.textContent = data.error || 'Upload failed.';
+          errEl.classList.remove('hidden');
+        }
+      } catch (e) {
+        errEl.textContent = 'Upload failed. Check your connection.';
+        errEl.classList.remove('hidden');
+      }
+      btn.disabled = false;
+      btn.textContent = 'Upload & Process';
+    });
+
+    // --------------- Media ---------------
+    let mediaList = [];
+    let placementsEditable = { definitions: [], assignments: {} };
+    let pickerPlacement = null;
+
+    async function loadMediaLibrary() {
+      const el = document.getElementById('media-library-list');
+      if (!el) return;
+      try {
+        const res = await fetch(API + '/api/media', fetchOpts);
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        mediaList = await res.json();
+        const base = API.replace(/\/$/, '');
+        el.innerHTML = mediaList.length
+          ? mediaList.map((m) => `<div class="rounded-lg border border-slate-200 overflow-hidden bg-white shadow-sm"><img src="${base}/media/${m.path}" alt="" class="w-full h-24 object-cover" /><div class="p-2 flex justify-between items-center"><span class="text-xs text-slate-600 truncate" title="${m.filename}">${m.filename}</span><button type="button" class="media-delete text-red-600 hover:text-red-700 text-xs font-medium" data-id="${m.id}">Delete</button></div></div>`).join('')
+          : '<p class="text-slate-500 col-span-full text-sm">No images yet. Upload one above.</p>';
+        el.querySelectorAll('.media-delete').forEach((b) => b.addEventListener('click', () => deleteMedia(b.dataset.id)));
+      } catch (e) {
+        el.innerHTML = '<p class="text-slate-500 col-span-full text-sm">Could not load library.</p>';
+      }
+    }
+
+    async function deleteMedia(id) {
+      if (!confirm('Delete this image from the library? It may be used in placements.')) return;
+      try {
+        const res = await fetch(API + '/api/media/' + id, { method: 'DELETE', ...fetchOpts });
+        if (res.ok) { loadMediaLibrary(); loadMediaPlacements(); }
+      } catch (e) {}
+    }
+
+    async function loadMediaPlacements() {
+      const el = document.getElementById('media-placements-list');
+      if (!el) return;
+      try {
+        const res = await fetch(API + '/api/media/placements/editable', fetchOpts);
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        placementsEditable = await res.json();
+        const defs = placementsEditable.definitions || [];
+        const assign = placementsEditable.assignments || {};
+        const base = API.replace(/\/$/, '');
+        el.innerHTML = defs.length
+          ? defs.map((d) => {
+              const key = `${d.pageId}.${d.sectionId}.${d.fieldKey}`;
+              const a = assign[key];
+              const url = a ? (a.url && a.url.startsWith('http') ? a.url : base + a.url) : (d.defaultUrl && (d.defaultUrl.startsWith('http') ? d.defaultUrl : base + (d.defaultUrl.startsWith('/') ? '' : '/') + d.defaultUrl));
+              return `<div class="flex items-center gap-4 rounded-lg border border-slate-200 bg-white p-3"><div class="w-16 h-16 rounded overflow-hidden bg-slate-100 flex-shrink-0"><img src="${url}" alt="" class="w-full h-full object-cover" onerror="this.style.background='#e2e8f0'" /></div><div class="flex-1 min-w-0"><p class="font-medium text-slate-800 text-sm">${d.label}</p><p class="text-xs text-slate-500">${d.pageId} → ${d.sectionId}.${d.fieldKey}</p></div><button type="button" class="media-change-placement px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 text-sm hover:bg-slate-50" data-page-id="${d.pageId}" data-section-id="${d.sectionId}" data-field-key="${d.fieldKey}">Change</button></div>`;
+            }).join('')
+          : '<p class="text-slate-500 text-sm">No placements defined.</p>';
+        el.querySelectorAll('.media-change-placement').forEach((b) => b.addEventListener('click', () => openMediaPicker(b.dataset.pageId, b.dataset.sectionId, b.dataset.fieldKey)));
+      } catch (e) {
+        el.innerHTML = '<p class="text-slate-500 text-sm">Could not load placements.</p>';
+      }
+    }
+
+    function openMediaPicker(pageId, sectionId, fieldKey) {
+      pickerPlacement = { pageId, sectionId, fieldKey };
+      document.getElementById('media-picker-modal').classList.remove('hidden');
+      const grid = document.getElementById('media-picker-grid');
+      const base = API.replace(/\/$/, '');
+      grid.innerHTML = mediaList.length
+        ? mediaList.map((m) => `<button type="button" class="media-pick-item rounded-lg border-2 border-slate-200 overflow-hidden hover:border-slate-400 focus:border-admin-accent"><img src="${base}/media/${m.path}" alt="" class="w-full h-20 object-cover" data-id="${m.id}" /></button>`).join('')
+        : '<p class="text-slate-500 col-span-full text-sm">No images in library. Upload one in the Library section first.</p>';
+      grid.querySelectorAll('.media-pick-item').forEach((btn) => {
+        const img = btn.querySelector('img');
+        if (img && img.dataset.id) btn.addEventListener('click', () => assignPlacement(img.dataset.id));
+      });
+    }
+
+    async function assignPlacement(mediaId) {
+      if (!pickerPlacement) return;
+      try {
+        const res = await fetch(API + '/api/media/placement', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ ...pickerPlacement, mediaId }) });
+        if (res.ok) {
+          document.getElementById('media-picker-modal').classList.add('hidden');
+          pickerPlacement = null;
+          loadMediaPlacements();
+          const okEl = document.getElementById('media-success');
+          okEl.textContent = 'Placement updated.';
+          okEl.classList.remove('hidden');
+          setTimeout(() => okEl.classList.add('hidden'), 3000);
+        }
+      } catch (e) {}
+    }
+
+    document.getElementById('media-picker-close').addEventListener('click', () => {
+      document.getElementById('media-picker-modal').classList.add('hidden');
+      pickerPlacement = null;
+    });
+    document.getElementById('media-picker-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'media-picker-modal') { document.getElementById('media-picker-modal').classList.add('hidden'); pickerPlacement = null; }
+    });
+
+    document.getElementById('media-upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('media-file');
+      const btn = document.getElementById('media-upload-btn');
+      const errEl = document.getElementById('media-error');
+      const okEl = document.getElementById('media-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      if (!fileInput.files || !fileInput.files[0]) { errEl.textContent = 'Select a file.'; errEl.classList.remove('hidden'); return; }
+      const fd = new FormData();
+      fd.append('file', fileInput.files[0]);
+      btn.disabled = true;
+      try {
+        const res = await fetch(API + '/api/media', { method: 'POST', credentials: 'include', body: fd });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          fileInput.value = '';
+          loadMediaLibrary();
+          okEl.textContent = 'Image uploaded.';
+          okEl.classList.remove('hidden');
+          setTimeout(() => okEl.classList.add('hidden'), 3000);
+        } else { errEl.textContent = data.error || 'Upload failed.'; errEl.classList.remove('hidden'); }
+      } catch (e) { errEl.textContent = 'Upload failed.'; errEl.classList.remove('hidden'); }
+      btn.disabled = false;
+    });
+
+    let contentSchema = null, contentData = null;
+    function fieldLabel(fieldId) {
+      const labels = { tagline: 'Tagline', heading: 'Heading', subheading: 'Subheading', stat1: 'Stat 1', stat2: 'Stat 2', stat3: 'Stat 3', title: 'Title', subtitle: 'Subtitle', body: 'Body (HTML supported)', ctaText: 'CTA button text', bannerText: 'Banner text', questionHeading: 'Question heading', askCtaText: 'Ask CTA text', headingFont: 'Heading font', headingFontSize: 'Heading font size', headingAnimation: 'Heading animation', headingAnimationDuration: 'Animation duration (s)', headingAnimationDelay: 'Animation delay (s)',
+        chatHeading: 'Heading line 1', chatHeadingLine2: 'Heading line 2', chatPlaceholder: 'Input placeholder',
+        chatCardBgFrom: 'Card gradient start', chatCardBgMid: 'Card gradient middle', chatCardBgTo: 'Card gradient end',
+        chatCardRadius: 'Border radius (px)', chatCardHeight: 'Card height (px)', chatCardMaxWidth: 'Card max-width (px)',
+        chatAccentFrom: 'Accent gradient start', chatAccentTo: 'Accent gradient end',
+        chatAiBubbleBg: 'AI bubble background', chatAiBubbleText: 'AI bubble text color', chatUserBubbleText: 'User bubble text color',
+        chatHeadingFontSize: 'Heading font size (px)', chatBodyFontSize: 'Message font size (px)'
+      };
+      return labels[fieldId] || fieldId.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase());
+    }
+    function isLongField(fieldId) { return fieldId === 'body' || fieldId === 'subheading' || fieldId === 'heading'; }
+    function isHeroHeadingField(pageId, sectionId, fieldId) { return pageId === 'home' && sectionId === 'hero' && fieldId === 'heading'; }
+    var heroStyleFieldIds = ['headingFont', 'headingFontSize', 'headingAnimation', 'headingAnimationDuration', 'headingAnimationDelay'];
+    function isHeroHeadingStyleField(fieldId) { return heroStyleFieldIds.indexOf(fieldId) !== -1; }
+
+    // --- Chatbot UI custom fields ---
+    var chatbotColorFields = ['chatCardBgFrom', 'chatCardBgMid', 'chatCardBgTo', 'chatAccentFrom', 'chatAccentTo', 'chatAiBubbleText', 'chatUserBubbleText'];
+    var chatbotNumberFields = ['chatCardRadius', 'chatCardHeight', 'chatCardMaxWidth', 'chatHeadingFontSize', 'chatBodyFontSize'];
+    var chatbotTextFields = ['chatHeading', 'chatHeadingLine2', 'chatPlaceholder', 'chatAiBubbleBg'];
+    var chatbotAllFields = chatbotColorFields.concat(chatbotNumberFields).concat(chatbotTextFields);
+    function isChatbotField(fieldId) { return chatbotAllFields.indexOf(fieldId) !== -1; }
+
+    var chatbotFieldGroups = [
+      { label: 'Content', fields: ['chatHeading', 'chatHeadingLine2', 'chatPlaceholder'] },
+      { label: 'Card Appearance', fields: ['chatCardBgFrom', 'chatCardBgMid', 'chatCardBgTo', 'chatCardRadius', 'chatCardHeight', 'chatCardMaxWidth'] },
+      { label: 'Accent Colors', fields: ['chatAccentFrom', 'chatAccentTo'] },
+      { label: 'Message Bubbles', fields: ['chatAiBubbleBg', 'chatAiBubbleText', 'chatUserBubbleText'] },
+      { label: 'Typography', fields: ['chatHeadingFontSize', 'chatBodyFontSize'] }
+    ];
+
+    function buildChatbotSectionHtml(secData) {
+      var inputClass = 'w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400';
+      var html = '';
+      // Live preview
+      html += '<div class="mb-4 p-4 rounded-xl border border-slate-200 bg-slate-50"><p class="text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">Live Preview</p><div id="chatbot-preview" class="mx-auto rounded-2xl overflow-hidden flex flex-col" style="max-width:320px;height:280px;"></div></div>';
+      for (var g = 0; g < chatbotFieldGroups.length; g++) {
+        var group = chatbotFieldGroups[g];
+        html += '<div class="border-t border-slate-100 pt-3 mt-3"><p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">' + group.label + '</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
+        for (var f = 0; f < group.fields.length; f++) {
+          var fid = group.fields[f];
+          var lbl = fieldLabel(fid);
+          var val = (secData[fid] != null && secData[fid] !== '') ? String(secData[fid]) : '';
+          if (chatbotColorFields.indexOf(fid) !== -1) {
+            html += '<div><label class="block text-xs font-medium text-slate-600 mb-1">' + lbl + '</label><div class="flex items-center gap-2"><input type="color" data-field="' + fid + '" value="' + (val || '#000000') + '" class="w-10 h-10 rounded-lg border border-slate-300 cursor-pointer p-0.5" /><input type="text" data-field-text-mirror="' + fid + '" value="' + val + '" class="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-slate-800 text-sm focus:ring-2 focus:ring-slate-400" placeholder="#hex" /></div></div>';
+          } else if (chatbotNumberFields.indexOf(fid) !== -1) {
+            var numVal = parseFloat(val) || 0;
+            var step = (fid === 'chatBodyFontSize' || fid === 'chatHeadingFontSize') ? '0.5' : '1';
+            var min = (fid === 'chatBodyFontSize' || fid === 'chatHeadingFontSize') ? '10' : '0';
+            var max = (fid === 'chatCardHeight' || fid === 'chatCardMaxWidth') ? '1200' : (fid === 'chatCardRadius' ? '60' : '80');
+            html += '<div><label class="block text-xs font-medium text-slate-600 mb-1">' + lbl + '</label><input type="number" data-field="' + fid + '" value="' + numVal + '" step="' + step + '" min="' + min + '" max="' + max + '" class="' + inputClass + '" /></div>';
+          } else {
+            html += '<div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-600 mb-1">' + lbl + '</label><input type="text" data-field="' + fid + '" value="' + val.replace(/"/g, '&quot;') + '" class="' + inputClass + '" /></div>';
+          }
+        }
+        html += '</div></div>';
+      }
+      return html;
+    }
+
+    function updateChatbotPreview(card) {
+      var preview = card.querySelector('#chatbot-preview');
+      if (!preview) return;
+      var v = function(fid) {
+        var el = card.querySelector('[data-field="' + fid + '"]');
+        return el ? el.value : '';
+      };
+      var bgFrom = v('chatCardBgFrom') || '#eef0f8';
+      var bgMid = v('chatCardBgMid') || '#e8e6f0';
+      var bgTo = v('chatCardBgTo') || '#e9e5f2';
+      var radius = v('chatCardRadius') || '28';
+      var accentFrom = v('chatAccentFrom') || '#6366f1';
+      var accentTo = v('chatAccentTo') || '#a855f7';
+      var heading = v('chatHeading') || 'Have tech questions?';
+      var heading2 = v('chatHeadingLine2') || 'Our AI answer engine can help.';
+      var headingSize = v('chatHeadingFontSize') || '22';
+      var bodySize = v('chatBodyFontSize') || '13.5';
+      var aiBubbleBg = v('chatAiBubbleBg') || 'rgba(255,255,255,0.8)';
+      var aiBubbleText = v('chatAiBubbleText') || '#1d1d1f';
+      var userBubbleText = v('chatUserBubbleText') || '#ffffff';
+      var placeholder = v('chatPlaceholder') || 'Ask a question…';
+      preview.style.background = 'linear-gradient(145deg, ' + bgFrom + ' 0%, ' + bgMid + ' 50%, ' + bgTo + ' 100%)';
+      preview.style.borderRadius = radius + 'px';
+      preview.innerHTML = '<div style="padding:16px 20px;text-align:center;"><div style="font-size:' + (parseFloat(headingSize) * 0.65) + 'px;font-weight:600;color:#1d1d1f;line-height:1.3;">' + heading + '<br/><span style="background:linear-gradient(to right,' + accentFrom + ',' + accentTo + ');-webkit-background-clip:text;-webkit-text-fill-color:transparent;">' + heading2 + '</span></div></div>'
+        + '<div style="flex:1;padding:0 16px;display:flex;flex-direction:column;gap:8px;overflow:hidden;">'
+        + '<div style="display:flex;gap:6px;align-items:start;"><div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,' + accentFrom + ',' + accentTo + ');flex-shrink:0;"></div><div style="background:' + aiBubbleBg + ';color:' + aiBubbleText + ';font-size:' + (parseFloat(bodySize) * 0.8) + 'px;padding:8px 10px;border-radius:12px 12px 12px 4px;">Hello! How can I help?</div></div>'
+        + '<div style="display:flex;justify-content:flex-end;"><div style="background:linear-gradient(to right,' + accentFrom + ',' + accentTo + ');color:' + userBubbleText + ';font-size:' + (parseFloat(bodySize) * 0.8) + 'px;padding:8px 10px;border-radius:12px 12px 4px 12px;">Tell me about your services</div></div></div>'
+        + '<div style="padding:10px 16px 14px;"><div style="background:#fff;border-radius:999px;border:1px solid rgba(0,0,0,0.08);padding:6px 12px;display:flex;align-items:center;gap:6px;"><span style="color:' + accentFrom + ';font-size:14px;">&#9679;</span><span style="color:#999;font-size:11px;">' + placeholder + '</span></div></div>';
+    }
+
+    function buildHeroHeadingStyleFieldHtml(fieldId, value) {
+      var v = (value != null && value !== '') ? String(value) : '';
+      var label = fieldLabel(fieldId);
+      var inputClass = 'w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400';
+      if (fieldId === 'headingFont') {
+        return '<div><label class="block text-sm font-medium text-slate-600 mb-1">' + label + '</label><select data-field="' + fieldId + '" class="' + inputClass + '">' +
+          '<option value=""' + (v === '' ? ' selected' : '') + '>Default (system)</option>' +
+          '<option value="Inter"' + (v === 'Inter' ? ' selected' : '') + '>Inter</option>' +
+          '<option value="system-ui"' + (v === 'system-ui' ? ' selected' : '') + '>System UI</option>' +
+          '<option value="Georgia, serif"' + (v === 'Georgia, serif' ? ' selected' : '') + '>Georgia</option>' +
+          '<option value="Space Grotesk"' + (v === 'Space Grotesk' ? ' selected' : '') + '>Space Grotesk</option>' +
+          '</select></div>';
+      }
+      if (fieldId === 'headingFontSize') {
+        return '<div><label class="block text-sm font-medium text-slate-600 mb-1">' + label + '</label><select data-field="' + fieldId + '" class="' + inputClass + '">' +
+          '<option value="default"' + (v === 'default' || v === '' ? ' selected' : '') + '>Default</option>' +
+          '<option value="small"' + (v === 'small' ? ' selected' : '') + '>Small</option>' +
+          '<option value="medium"' + (v === 'medium' ? ' selected' : '') + '>Medium</option>' +
+          '<option value="large"' + (v === 'large' ? ' selected' : '') + '>Large</option>' +
+          '<option value="xlarge"' + (v === 'xlarge' ? ' selected' : '') + '>Extra large</option>' +
+          '</select></div>';
+      }
+      if (fieldId === 'headingAnimation') {
+        return '<div><label class="block text-sm font-medium text-slate-600 mb-1">' + label + '</label><select data-field="' + fieldId + '" class="' + inputClass + '">' +
+          '<option value="none"' + (v === 'none' || v === '' ? ' selected' : '') + '>None</option>' +
+          '<option value="fadeIn"' + (v === 'fadeIn' ? ' selected' : '') + '>Fade in</option>' +
+          '<option value="slideUp"' + (v === 'slideUp' ? ' selected' : '') + '>Slide up</option>' +
+          '<option value="slideInLeft"' + (v === 'slideInLeft' ? ' selected' : '') + '>Slide in from left</option>' +
+          '<option value="scaleIn"' + (v === 'scaleIn' ? ' selected' : '') + '>Scale in</option>' +
+          '</select></div>';
+      }
+      if (fieldId === 'headingAnimationDuration') {
+        var num = parseFloat(v) || 0.8;
+        return '<div><label class="block text-sm font-medium text-slate-600 mb-1">' + label + '</label><input type="number" step="0.1" min="0.2" max="2" data-field="' + fieldId + '" value="' + num + '" class="' + inputClass + '" placeholder="0.8" /></div>';
+      }
+      if (fieldId === 'headingAnimationDelay') {
+        var num = parseFloat(v) || 0;
+        return '<div><label class="block text-sm font-medium text-slate-600 mb-1">' + label + '</label><input type="number" step="0.1" min="0" max="1" data-field="' + fieldId + '" value="' + num + '" class="' + inputClass + '" placeholder="0" /></div>';
+      }
+      return '';
+    }
+
+    function buildHeroHeadingEditorHtml() {
+      return '<div class="hero-heading-editor-wrap"><label class="block text-sm font-medium text-slate-600 mb-1">Heading</label><p class="text-xs text-slate-500 mb-1">Visual editor: use toolbar for bold, italic, underline, line breaks, and gray accent.</p><div class="hero-heading-editor min-h-[140px] rounded-lg border border-slate-300 bg-white" data-for-field="heading"></div><input type="hidden" data-field="heading" class="hero-heading-value" /></div>';
+    }
+
+    function initHeroHeadingEditor(card, pageId, sectionId, secData) {
+      const wrap = card.querySelector('.hero-heading-editor-wrap');
+      if (!wrap || typeof Quill === 'undefined') return;
+      const editorDiv = wrap.querySelector('.hero-heading-editor');
+      const hiddenInput = wrap.querySelector('.hero-heading-value');
+      if (!editorDiv || !hiddenInput) return;
+
+      var Inline = Quill.import('blots/inline');
+      if (!window._quillGrayRegistered) {
+        class GrayBlot extends Inline {
+          static create() {
+            var node = super.create();
+            node.setAttribute('class', 'text-[var(--apple-gray)]');
+            return node;
+          }
+        }
+        GrayBlot.blotName = 'gray';
+        GrayBlot.tagName = 'SPAN';
+        Quill.register(GrayBlot);
+        window._quillGrayRegistered = true;
+      }
+
+      // Register font attributor (inline style) with Google Fonts whitelist
+      if (!window._quillFontRegistered) {
+        var FontStyle = Quill.import('attributors/style/font');
+        FontStyle.whitelist = [
+          'Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Poppins', 'Raleway',
+          'Playfair Display', 'Merriweather', 'Georgia', 'Oswald', 'Nunito', 'Space Grotesk',
+          'DM Sans', 'Roboto Mono', 'Source Code Pro', 'Caveat', 'Pacifico',
+          'Bebas Neue', 'Anton', 'Abril Fatface', 'Crimson Text'
+        ];
+        Quill.register(FontStyle, true);
+        window._quillFontRegistered = true;
+        window._quillFontWhitelist = FontStyle.whitelist;
+      }
+
+      // Register inline font-size attributor
+      if (!window._quillSizeRegistered) {
+        var SizeStyle = Quill.import('attributors/style/size');
+        SizeStyle.whitelist = [
+          '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px',
+          '36px', '40px', '48px', '56px', '64px', '72px', '84px', '96px', '120px'
+        ];
+        Quill.register(SizeStyle, true);
+        window._quillSizeRegistered = true;
+        window._quillSizeWhitelist = SizeStyle.whitelist;
+      }
+
+      var quill = new Quill(editorDiv, {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            [{ 'font': [false].concat(window._quillFontWhitelist) }, { 'size': [false].concat(window._quillSizeWhitelist) }],
+            ['bold', 'italic', 'underline', 'gray'],
+            ['link'],
+            [{ 'header': [1, 2, false] }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }]
+          ]
+        }
+      });
+
+      // Set each font option to preview in its own font
+      var editorWrap = editorDiv.closest('.hero-heading-editor-wrap');
+      editorWrap.querySelectorAll('.ql-font .ql-picker-item, .ql-font .ql-picker-label').forEach(function(item) {
+        var fontVal = item.getAttribute('data-value');
+        if (fontVal) item.style.fontFamily = fontVal;
+      });
+      // Set each size option to preview at its own size (capped for readability)
+      editorWrap.querySelectorAll('.ql-size .ql-picker-item').forEach(function(item) {
+        var sizeVal = item.getAttribute('data-value');
+        if (sizeVal) {
+          var px = parseInt(sizeVal);
+          item.style.fontSize = Math.min(px, 24) + 'px';
+        }
+      });
+
+      var initialHtml = (secData.heading != null && secData.heading !== '') ? String(secData.heading) : '';
+      quill.root.innerHTML = initialHtml;
+      hiddenInput.value = quill.root.innerHTML;
+
+      quill.on('text-change', function() {
+        hiddenInput.value = quill.root.innerHTML;
+      });
+    }
+
+    async function loadContentSchemaAndData() {
+      try {
+        const [schemaRes, contentRes] = await Promise.all([fetch(API + '/api/content/schema', fetchOpts), fetch(API + '/api/content', fetchOpts)]);
+        if (schemaRes.status === 401 || contentRes.status === 401) { window.location.href = '/admin/login'; return; }
+        contentSchema = await schemaRes.json();
+        contentData = await contentRes.json();
+        const sel = document.getElementById('content-page-select');
+        sel.innerHTML = '<option value="">— Select page —</option>' + (contentSchema.pages || []).map((p) => `<option value="${p.id}">${p.label} (${p.path})</option>`).join('');
+        sel.addEventListener('change', onContentPageSelect);
+      } catch (e) {
+        document.getElementById('content-error').textContent = 'Could not load content schema.';
+        document.getElementById('content-error').classList.remove('hidden');
+      }
+    }
+
+    function onContentPageSelect() {
+      const pageId = document.getElementById('content-page-select').value;
+      const placeholder = document.getElementById('content-sections-placeholder');
+      const container = document.getElementById('content-sections');
+      if (!pageId || !contentSchema) {
+        if (placeholder) placeholder.classList.remove('hidden');
+        container.querySelectorAll('.content-section-card').forEach((el) => el.remove());
+        return;
+      }
+      if (placeholder) placeholder.classList.add('hidden');
+      const page = contentSchema.pages.find((p) => p.id === pageId);
+      if (!page) return;
+      const pageContent = contentData[pageId] || {};
+      container.querySelectorAll('.content-section-card').forEach((el) => el.remove());
+      for (const sec of page.sections || []) {
+        // Skip chatbot section in Content panel — it's in the Chatbot tab
+        if (pageId === 'home' && sec.id === 'chatbot') continue;
+        const secData = pageContent[sec.id] || {};
+        const card = document.createElement('div');
+        card.className = 'content-section-card bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm';
+        let fieldsHtml = '';
+        for (const fieldId of sec.fields || []) {
+          if (isHeroHeadingField(pageId, sec.id, fieldId)) {
+            fieldsHtml += buildHeroHeadingEditorHtml();
+            continue;
+          }
+          if (pageId === 'home' && sec.id === 'hero' && isHeroHeadingStyleField(fieldId)) {
+            fieldsHtml += buildHeroHeadingStyleFieldHtml(fieldId, secData[fieldId]);
+            continue;
+          }
+          if (pageId === 'home' && sec.id === 'chatbot' && isChatbotField(fieldId)) {
+            continue; // handled below as a group
+          }
+          const label = fieldLabel(fieldId);
+          if (isLongField(fieldId)) fieldsHtml += `<div><label class="block text-sm font-medium text-slate-600 mb-1">${label}</label><textarea data-field="${fieldId}" rows="4" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"></textarea></div>`;
+          else fieldsHtml += `<div><label class="block text-sm font-medium text-slate-600 mb-1">${label}</label><input type="text" data-field="${fieldId}" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400" /></div>`;
+        }
+        // For chatbot section, replace generic fields with grouped custom UI
+        if (pageId === 'home' && sec.id === 'chatbot') {
+          fieldsHtml = buildChatbotSectionHtml(secData);
+        }
+        card.innerHTML = `<div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center"><span class="text-sm font-medium text-slate-700">${sec.label}</span><button type="button" class="content-save-section px-3 py-1.5 bg-slate-800 text-white text-sm rounded-lg hover:bg-slate-700" data-page-id="${pageId}" data-section-id="${sec.id}">Save section</button></div><div class="p-4 space-y-4">${fieldsHtml}</div>`;
+        container.appendChild(card);
+        card.querySelectorAll('[data-field]').forEach((input) => {
+          if (input.classList.contains('hero-heading-value')) return;
+          if (input.type === 'color') return; // color inputs already have values set
+          input.value = (secData[input.dataset.field] != null ? String(secData[input.dataset.field]) : '');
+        });
+        // Wire up chatbot color picker <-> text mirror sync + live preview
+        if (pageId === 'home' && sec.id === 'chatbot') {
+          card.querySelectorAll('input[type="color"][data-field]').forEach(function(colorInput) {
+            var fid = colorInput.dataset.field;
+            var textMirror = card.querySelector('[data-field-text-mirror="' + fid + '"]');
+            if (textMirror) {
+              textMirror.addEventListener('input', function() { colorInput.value = textMirror.value; updateChatbotPreview(card); });
+              colorInput.addEventListener('input', function() { textMirror.value = colorInput.value; updateChatbotPreview(card); });
+            }
+            colorInput.addEventListener('input', function() { updateChatbotPreview(card); });
+          });
+          card.querySelectorAll('input[type="number"][data-field], input[type="text"][data-field]').forEach(function(inp) {
+            inp.addEventListener('input', function() { updateChatbotPreview(card); });
+          });
+          updateChatbotPreview(card);
+        }
+        if (isHeroHeadingField(pageId, sec.id, 'heading')) {
+          var headingVal = card.querySelector('.hero-heading-value');
+          if (headingVal) headingVal.value = (secData.heading != null ? String(secData.heading) : '');
+          initHeroHeadingEditor(card, pageId, sec.id, secData);
+        }
+        card.querySelector('.content-save-section').addEventListener('click', () => saveContentSection(pageId, sec.id, card));
+      }
+    }
+
+    document.getElementById('content-seed-btn').addEventListener('click', async () => {
+      const errEl = document.getElementById('content-error');
+      const okEl = document.getElementById('content-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      try {
+        const res = await fetch(API + '/api/content/seed', { method: 'POST', ...fetchOpts });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        if (!res.ok) throw new Error('Seed failed');
+        const data = await res.json();
+        contentData = await (await fetch(API + '/api/content', fetchOpts)).json();
+        okEl.textContent = data.merged ? `Loaded ${data.merged} default values.` : 'Defaults already loaded.';
+        okEl.classList.remove('hidden');
+        setTimeout(() => okEl.classList.add('hidden'), 4000);
+        onContentPageSelect();
+      } catch (e) {
+        errEl.textContent = 'Could not load defaults.';
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    async function saveContentSection(pageId, sectionId, cardEl) {
+      const data = {};
+      cardEl.querySelectorAll('[data-field]').forEach((input) => { data[input.dataset.field] = input.value || ''; });
+      const errEl = document.getElementById('content-error');
+      const okEl = document.getElementById('content-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      try {
+        const res = await fetch(API + '/api/content', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ pageId, sectionId, data }) });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        if (!res.ok) throw new Error('Save failed');
+        if (!contentData[pageId]) contentData[pageId] = {};
+        contentData[pageId][sectionId] = { ...(contentData[pageId][sectionId] || {}), ...data };
+        okEl.textContent = 'Content saved.';
+        okEl.classList.remove('hidden');
+        setTimeout(() => okEl.classList.add('hidden'), 3000);
+      } catch (e) {
+        errEl.textContent = 'Could not save content.';
+        errEl.classList.remove('hidden');
+      }
+    }
+
+    // --- Chatbot UI Customization (inside chatbot tab) ---
+    async function loadChatbotUI() {
+      const container = document.getElementById('chatbot-ui-fields');
+      if (!container) return;
+      try {
+        const res = await fetch(API + '/api/content', fetchOpts);
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        const data = await res.json();
+        const secData = (data.home && data.home.chatbot) ? data.home.chatbot : {};
+        container.innerHTML = buildChatbotSectionHtml(secData);
+        // Set text field values
+        container.querySelectorAll('[data-field]').forEach(function(inp) {
+          if (inp.type === 'color') return;
+          var val = secData[inp.dataset.field];
+          if (val != null) inp.value = String(val);
+        });
+        // Wire color picker <-> text mirror sync + live preview
+        var card = document.getElementById('chatbot-ui-card');
+        container.querySelectorAll('input[type="color"][data-field]').forEach(function(colorInput) {
+          var fid = colorInput.dataset.field;
+          var textMirror = container.querySelector('[data-field-text-mirror="' + fid + '"]');
+          if (textMirror) {
+            textMirror.addEventListener('input', function() { colorInput.value = textMirror.value; updateChatbotPreview(card); });
+            colorInput.addEventListener('input', function() { textMirror.value = colorInput.value; updateChatbotPreview(card); });
+          }
+          colorInput.addEventListener('input', function() { updateChatbotPreview(card); });
+        });
+        container.querySelectorAll('input[type="number"][data-field], input[type="text"][data-field]').forEach(function(inp) {
+          inp.addEventListener('input', function() { updateChatbotPreview(card); });
+        });
+        updateChatbotPreview(card);
+      } catch (e) {
+        container.innerHTML = '<p class="text-red-500 text-sm">Could not load chatbot UI settings.</p>';
+      }
+    }
+
+    document.getElementById('chatbot-ui-save-btn').addEventListener('click', async function() {
+      var card = document.getElementById('chatbot-ui-card');
+      var errEl = document.getElementById('chatbot-ui-error');
+      var okEl = document.getElementById('chatbot-ui-success');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      var data = {};
+      card.querySelectorAll('[data-field]').forEach(function(inp) { data[inp.dataset.field] = inp.value || ''; });
+      try {
+        var res = await fetch(API + '/api/content', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ pageId: 'home', sectionId: 'chatbot', data: data }) });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        if (!res.ok) throw new Error('Save failed');
+        okEl.textContent = 'UI settings saved.';
+        okEl.classList.remove('hidden');
+        setTimeout(function() { okEl.classList.add('hidden'); }, 3000);
+      } catch (e) {
+        errEl.textContent = 'Could not save UI settings.';
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    switchPanel('dashboard');
+    checkAuth().then(() => {
+      loadStats();
+      loadConfig();
+      loadContentSchemaAndData();
+      loadChatbotUI();
+      setInterval(loadStats, 30000);
+    });
+  </script>
+</body>
+</html>

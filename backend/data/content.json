@@ -1,0 +1,234 @@
+{
+  "home": {
+    "hero": {
+      "tagline": "",
+      "heading": "",
+      "subheading": "",
+      "stat1": "",
+      "stat2": "",
+      "stat3": ""
+    },
+    "cacheSolutions": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    },
+    "whoWeAre": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    },
+    "insights": {
+      "title": "",
+      "subtitle": "",
+      "ctaText": "",
+      "bannerText": ""
+    },
+    "partnership": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    },
+    "partners": {
+      "title": "",
+      "subtitle": ""
+    },
+    "cta": {
+      "heading": "",
+      "ctaText": "",
+      "questionHeading": "",
+      "askCtaText": ""
+    }
+  },
+  "about": {
+    "conceptOfCache": {
+      "title": "",
+      "body": ""
+    },
+    "profileOfCache": {
+      "title": "",
+      "body": ""
+    },
+    "missionVision": {
+      "title": "",
+      "body": ""
+    },
+    "team": {
+      "title": "",
+      "subtitle": ""
+    },
+    "meaningOfLogo": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "about-profile": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "about-awards": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "about-alliances": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "about-certifications": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "about-leadership": {
+    "main": {
+      "title": "",
+      "subtitle": ""
+    }
+  },
+  "cloudservices": {
+    "main": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    }
+  },
+  "cybersecurity": {
+    "main": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    }
+  },
+  "infrastructureservice": {
+    "main": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    }
+  },
+  "aianddataservice": {
+    "main": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    }
+  },
+  "manageservices": {
+    "main": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    }
+  },
+  "consultingservice": {
+    "main": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    }
+  },
+  "grc-dashboard": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "telecom": {
+    "main": {
+      "title": "",
+      "subtitle": "",
+      "body": ""
+    }
+  },
+  "insights": {
+    "leadershipVision": {
+      "title": "",
+      "body": ""
+    },
+    "blog": {
+      "title": "",
+      "subtitle": ""
+    },
+    "successStories": {
+      "title": "",
+      "subtitle": ""
+    },
+    "problemsAndDiagnostics": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "contact": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "contactus": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "community": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "developerteam": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "careers": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "campaigns": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "newsletter": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "offers": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "privacy-policy": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "terms-of-use": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  },
+  "epf-amendment-notice": {
+    "main": {
+      "title": "",
+      "body": ""
+    }
+  }
+}

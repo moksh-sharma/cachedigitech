@@ -1,0 +1,96 @@
+import { Trophy } from 'lucide-react';
+
+const AwardsSection = () => {
+  const slides = [
+    { id: 1, name: "Best Women Entrepreneur Award", image: "/awards/Best Women Enterpreneur Award 1.avif" },
+    { id: 2, name: "Brightstar Award", image: "/awards/Brightstar Award 1.avif" },
+    { id: 3, name: "Business Leader Award", image: "/awards/Business Leader Award 1.avif" },
+    { id: 4, name: "CIOs INDIA Award", image: "/awards/CIOs INDIA Award 1.avif" },
+    { id: 5, name: "CIOs INDIA Award", image: "/awards/CIOs INDIA Award 2.avif" },
+    { id: 6, name: "Dell Technologies Award", image: "/awards/Dell Technologies Award 1.avif" },
+    { id: 7, name: "IBM Akshay Shonik Award", image: "/awards/IBM Akshay Shonik Award.avif" },
+    { id: 8, name: "Jubilant Award", image: "/awards/Jubliant Award 1.avif" },
+    { id: 9, name: "Savex Award", image: "/awards/Savex Award 1.avif" },
+    { id: 10, name: "Schneider Electric Award", image: "/awards/Schneider Electric Award 1.avif" },
+    { id: 11, name: "Schneider Electric Award", image: "/awards/Schneider Electric Award 1.avif" },
+    { id: 12, name: "Excellence 2011 CRN Award", image: "/awards/Xcellence 2011 CRN Award 1.avif" },
+  ];
+
+  const slideWidth = 280;
+  const gap = 24;
+  const totalWidth = slides.length * 2 * (slideWidth + gap);
+
+  return (
+    <div className="w-full min-h-screen bg-[#fafafa]">
+      <section
+        className="relative py-20 md:py-28 overflow-hidden"
+        style={{ background: 'linear-gradient(180deg, #fafbfc 0%, #f1f5f9 50%, #fafbfc 100%)' }}
+      >
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-red-100/25 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-red-50/20 blur-[100px] pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 mb-14">
+          <header className="text-center">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-red-50 mb-4">
+              <Trophy className="h-7 w-7 text-red-600" aria-hidden />
+            </div>
+            <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-3">
+              Awards
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl mx-auto">
+              Awards & <span className="text-red-600 font-normal">Accolades</span>
+            </h2>
+            <div className="mt-4 w-12 h-0.5 bg-red-500/60 rounded-full mx-auto" aria-hidden />
+            <p className="mt-6 text-lg md:text-xl text-[var(--apple-gray)] max-w-2xl mx-auto leading-relaxed">
+              Recognizing excellence and innovation in our journey of technological advancement and client satisfaction across three decades of industry leadership.
+            </p>
+          </header>
+        </div>
+
+        {/* Infinite slider */}
+        <div className="relative w-full overflow-hidden">
+          <div
+            className="flex py-4 awards-slider"
+            style={{
+              width: totalWidth,
+              gap: `${gap}px`,
+              animation: 'awards-slide 45s linear infinite',
+            }}
+          >
+            {[...slides, ...slides].map((slide, index) => (
+              <div
+                key={`${slide.id}-${index}`}
+                className="flex-shrink-0 group text-center"
+                style={{ width: slideWidth }}
+              >
+                <div className="relative w-full h-72 overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-100/60 transition-all duration-300 group-hover:-translate-y-0.5">
+                  <img
+                    src={slide.image}
+                    alt={slide.name}
+                    className="w-full h-full object-contain p-5 transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 className="mt-4 text-sm font-semibold text-[var(--apple-black)] group-hover:text-red-600 transition-colors duration-200 leading-tight px-1">
+                  {slide.name}
+                </h3>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes awards-slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-${(slideWidth + gap) * slides.length}px); }
+          }
+          .awards-slider:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
+      </section>
+    </div>
+  );
+};
+
+export default AwardsSection;

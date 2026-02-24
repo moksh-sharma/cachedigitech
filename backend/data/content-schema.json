@@ -1,0 +1,66 @@
+{
+  "pages": [
+    {
+      "id": "home",
+      "label": "Home",
+      "path": "/",
+      "sections": [
+        { "id": "hero", "label": "Hero", "fields": ["tagline", "heading", "subheading", "stat1", "stat2", "stat3", "headingFont", "headingFontSize", "headingAnimation", "headingAnimationDuration", "headingAnimationDelay"] },
+        { "id": "cacheSolutions", "label": "Cache Solutions", "fields": ["title", "subtitle", "body"] },
+        { "id": "whoWeAre", "label": "Who We Are", "fields": ["title", "subtitle", "body"] },
+        { "id": "insights", "label": "Insights", "fields": ["title", "subtitle", "ctaText", "bannerText"] },
+        { "id": "partnership", "label": "Partnership", "fields": ["title", "subtitle", "body"] },
+        { "id": "partners", "label": "Partners", "fields": ["title", "subtitle"] },
+        { "id": "cta", "label": "CTA / Subscribe", "fields": ["heading", "ctaText", "questionHeading", "askCtaText"] },
+        { "id": "chatbot", "label": "Chatbot UI", "fields": ["chatHeading", "chatHeadingLine2", "chatPlaceholder", "chatCardBgFrom", "chatCardBgMid", "chatCardBgTo", "chatCardRadius", "chatCardHeight", "chatCardMaxWidth", "chatAccentFrom", "chatAccentTo", "chatAiBubbleBg", "chatAiBubbleText", "chatUserBubbleText", "chatHeadingFontSize", "chatBodyFontSize"] }
+      ]
+    },
+    {
+      "id": "about",
+      "label": "About",
+      "path": "/about",
+      "sections": [
+        { "id": "conceptOfCache", "label": "Concept of Cache", "fields": ["title", "body"] },
+        { "id": "profileOfCache", "label": "Profile of Cache", "fields": ["title", "body"] },
+        { "id": "missionVision", "label": "Mission & Vision", "fields": ["title", "body"] },
+        { "id": "team", "label": "Team", "fields": ["title", "subtitle"] },
+        { "id": "meaningOfLogo", "label": "Meaning of Logo", "fields": ["title", "body"] }
+      ]
+    },
+    { "id": "about-profile", "label": "About → Profile", "path": "/about/profile", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "about-awards", "label": "About → Awards", "path": "/about/awards", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "about-alliances", "label": "About → Alliances", "path": "/about/alliances", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "about-certifications", "label": "About → Certifications", "path": "/about/certifications", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "about-leadership", "label": "About → Leadership", "path": "/about/leadership", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "subtitle"] }] },
+    { "id": "cloudservices", "label": "Services → Cloud", "path": "/cloudservices", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "subtitle", "body"] }] },
+    { "id": "cybersecurity", "label": "Services → Cybersecurity", "path": "/cybersecurity", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "subtitle", "body"] }] },
+    { "id": "infrastructureservice", "label": "Services → Infrastructure", "path": "/infrastructureservice", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "subtitle", "body"] }] },
+    { "id": "aianddataservice", "label": "Services → AI & Data", "path": "/aianddataservice", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "subtitle", "body"] }] },
+    { "id": "manageservices", "label": "Services → Managed Services", "path": "/manageservices", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "subtitle", "body"] }] },
+    { "id": "consultingservice", "label": "Services → Consulting", "path": "/consultingservice", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "subtitle", "body"] }] },
+    { "id": "grc-dashboard", "label": "Services → GRC Dashboard", "path": "/grc-dashboard", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "telecom", "label": "Services → Telecom", "path": "/telecom", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "subtitle", "body"] }] },
+    {
+      "id": "insights",
+      "label": "Insights",
+      "path": "/insights",
+      "sections": [
+        { "id": "leadershipVision", "label": "Leadership Vision", "fields": ["title", "body"] },
+        { "id": "blog", "label": "Blogs", "fields": ["title", "subtitle"] },
+        { "id": "successStories", "label": "Case Studies", "fields": ["title", "subtitle"] },
+        { "id": "problemsAndDiagnostics", "label": "Problems & Diagnostics", "fields": ["title", "body"] }
+      ]
+    },
+    { "id": "contact", "label": "Contact", "path": "/contact", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "contactus", "label": "Contact Us", "path": "/contactus", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "community", "label": "Community", "path": "/community", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "developerteam", "label": "Developer Team", "path": "/developerteam", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "careers", "label": "Careers", "path": "/careers", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "campaigns", "label": "Campaigns", "path": "/campaigns", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "newsletter", "label": "Newsletter", "path": "/newsletter", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "offers", "label": "Offers", "path": "/offers", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "privacy-policy", "label": "Legal → Privacy Policy", "path": "/privacy-policy", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "terms-of-use", "label": "Legal → Terms of Use", "path": "/terms-of-use", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] },
+    { "id": "epf-amendment-notice", "label": "Legal → EPF Amendment Notice", "path": "/epf-amendment-notice", "sections": [{ "id": "main", "label": "Page content", "fields": ["title", "body"] }] }
+  ]
+}

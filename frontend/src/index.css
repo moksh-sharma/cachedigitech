@@ -1,0 +1,458 @@
+/* Google Fonts for per-word font selection in hero heading */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;700&family=Raleway:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Oswald:wght@400;700&family=Nunito:wght@400;700&family=Space+Grotesk:wght@400;700&family=DM+Sans:wght@400;700&family=Roboto+Mono:wght@400;700&family=Source+Code+Pro:wght@400;700&family=Caveat:wght@400;700&family=Pacifico&family=Bebas+Neue&family=Anton&family=Abril+Fatface&family=Crimson+Text:wght@400;700&display=swap');
+
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("/src/assets/fonts/GlacialIndifference-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Holiday";
+  src: url("/src/assets/fonts/HolidayFree.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* If you want bold later, uncomment */
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("/src/assets/fonts/GlacialIndifference-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-slide {
+  animation: slide 10s linear infinite;
+}
+
+@import "tailwindcss";
+
+/* Lenis smooth scroll — disable native smooth when Lenis is active */
+@import "lenis/dist/lenis.css";
+html.lenis {
+  scroll-behavior: auto;
+}
+
+/* Global polish */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #fafafa;
+  color: var(--apple-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: rgba(220, 38, 38, 0.2);
+  color: var(--apple-black);
+}
+
+/* Consistent section container (optional use) */
+.section-container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .section-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Hide on mobile devices (below 768px) */
+@media (max-width: 768px) {
+  .login-wrapper {
+    display: none !important;
+  }
+}
+
+/* ✅ Put theme extensions in ONE block */
+@theme {
+  --font-glacial: "Glacial Indifference", sans-serif;
+  --font-holiday: "Holiday", sans-serif;
+}
+
+/* Slide in from right for Sanchalan box */
+@keyframes slideFromRight {
+  0% {
+    transform: translateX(2rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* New Hero Section Styles + Theme */
+:root {
+  --power-red: #ff3b30;
+  --primary: #dc2626;
+  --primary-hover: #b91c1c;
+  --primary-light: #fef2f2;
+  --accent: #6366f1;
+  --accent-light: #a855f7;
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  --apple-gray: #6b7280;
+  --apple-black: #111827;
+  --apple-bg: #f5f5f7;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --user-gradient: linear-gradient(135deg, #007aff 0%, #af52de 100%);
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --radius-card: 1rem;
+}
+
+.glass-nav {
+  background: var(--glass-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid var(--glass-border);
+}
+
+.apple-hero-text {
+  letter-spacing: -0.022em;
+}
+.apple-hero-text strong,
+.apple-hero-text b {
+  font-weight: 700;
+}
+
+/* Gradient text: background shows through text shape only */
+.gradient-text-fill {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent;
+}
+
+/* Hero heading animations */
+@keyframes hero-heading-fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes hero-heading-slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-heading-slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes hero-heading-scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+.hero-heading-anim-fadeIn { animation-name: hero-heading-fadeIn; }
+.hero-heading-anim-slideUp { animation-name: hero-heading-slideUp; }
+.hero-heading-anim-slideInLeft { animation-name: hero-heading-slideInLeft; }
+.hero-heading-anim-scaleIn { animation-name: hero-heading-scaleIn; }
+
+/* Hero animated background: gradient orbs + subtle grid */
+.hero-animated-bg {
+  background: linear-gradient(180deg, #fcfcfc 0%, #f8f9fa 50%, #f5f5f7 100%);
+}
+.hero-bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(88px);
+  opacity: 0.55;
+  will-change: transform;
+}
+.hero-bg-orb-1 {
+  width: min(70vw, 520px);
+  height: min(70vw, 520px);
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.08) 0%, transparent 70%);
+  top: -15%;
+  right: -10%;
+  animation: hero-orb-float-1 18s ease-in-out infinite;
+}
+.hero-bg-orb-2 {
+  width: min(60vw, 420px);
+  height: min(60vw, 420px);
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.06) 0%, transparent 70%);
+  bottom: -10%;
+  left: -5%;
+  animation: hero-orb-float-2 22s ease-in-out infinite;
+}
+.hero-bg-orb-3 {
+  width: min(40vw, 280px);
+  height: min(40vw, 280px);
+  background: radial-gradient(circle, rgba(248, 113, 113, 0.06) 0%, transparent 70%);
+  top: 50%;
+  left: 40%;
+  animation: hero-orb-float-3 20s ease-in-out infinite;
+}
+@keyframes hero-orb-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-8%, 5%) scale(1.05); }
+  66% { transform: translate(5%, -6%) scale(0.98); }
+}
+@keyframes hero-orb-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6%, -8%) scale(1.03); }
+}
+@keyframes hero-orb-float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-5%, 4%) scale(1.02); }
+  75% { transform: translate(4%, -3%) scale(0.99); }
+}
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 15%, transparent 65%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 15%, transparent 65%);
+}
+
+.chatbot-container {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(60px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 30px 60px -12px rgba(0,0,0,0.08);
+}
+
+/* Glow around hero chatbot card only */
+.hero-chatbot-glow {
+  box-shadow:
+    0 0 30px rgba(220, 38, 38, 0.22),
+    0 0 60px rgba(220, 38, 38, 0.14),
+    0 0 100px rgba(220, 38, 38, 0.08),
+    0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+
+.user-bubble {
+  background: var(--user-gradient);
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.2);
+}
+
+.thin-icon {
+  font-variation-settings: 'wght' 250, 'opsz' 20;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.status-pulse {
+  position: relative;
+}
+
+.status-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  background: #22c55e;
+  opacity: 0.4;
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.4; }
+  50% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(0.95); opacity: 0; }
+}
+
+.action-button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* ===== Custom Cursor ===== */
+
+/* Hide default cursor globally (desktop only) */
+@media (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
+
+/* Cursor icon – follows mouse instantly, top-left tip = pointer hotspot */
+.custom-cursor-icon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+  transition: opacity 0.25s ease;
+}
+
+.custom-cursor-img {
+  width: 26.4px;
+  height: 26.4px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.18));
+  transition: transform 0.25s cubic-bezier(0.22,1,0.36,1),
+              filter 0.25s cubic-bezier(0.22,1,0.36,1),
+              width 0.25s cubic-bezier(0.22,1,0.36,1),
+              height 0.25s cubic-bezier(0.22,1,0.36,1);
+}
+
+/* Hover state – switch to hand cursor icon (28px) */
+.custom-cursor-icon.cursor-hover .custom-cursor-img {
+  width: 30.8px;
+  height: 30.8px;
+  transform: none;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+}
+
+/* Click state – icon presses down */
+.custom-cursor-icon.cursor-click .custom-cursor-img {
+  transform: scale(0.85);
+  filter: drop-shadow(0 0px 2px rgba(0,0,0,0.25));
+}
+
+/* Hidden state – when mouse leaves the window */
+.custom-cursor-icon.cursor-hidden {
+  opacity: 0;
+}
+
+/* Dropdown slide-in animation */
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating chatbot popup entrance */
+@keyframes floatChatIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Focus visible for keyboard nav and polish */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Global link hover */
+a:not(.no-underline):hover {
+  text-decoration-thickness: 1.5px;
+}
+
+/* Subtle hover lift for cards */
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Scroll progress bar (Recykal-style) */
+/* OEM Alliances - 3D card hover glow (theme red) */
+.oem-logo-card {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.oem-logo-card:hover {
+  box-shadow: 0 8px 30px rgba(220, 38, 38, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+}
+.oem-logo-card:hover img {
+  filter: grayscale(0);
+}
+
+/* Testimonials - sliding track */
+@keyframes testimonialSlide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.testimonial-track {
+  animation: testimonialSlide 40s linear infinite;
+  width: max-content;
+}
+.testimonial-track:hover {
+  animation-play-state: paused;
+}
+
+/* Testimonial card depth */
+.testimonial-card {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.testimonial-card:hover {
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Letter flip reveal (scroll-triggered, one-by-one) — animated reveal */
+.flip-reveal-wrap {
+  perspective: 600px;
+  min-height: 1.5em;
+  position: relative;
+}
+.flip-letter {
+  display: inline-block;
+  transform: rotateX(-75deg) translateY(24px) scale(0.6);
+  opacity: 0;
+  transform-origin: center bottom;
+  color: inherit;
+  -webkit-text-fill-color: inherit;
+}
+.flip-reveal-in .flip-letter {
+  animation: flip-letter-reveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.flip-reveal-line {
+  transform: scaleX(1);
+}
+@keyframes flip-letter-reveal {
+  from {
+    transform: rotateX(-75deg) translateY(24px) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: rotateX(0) translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+/* Gradient text: children must be transparent so parent gradient shows through */
+.gradient-text-fill .flip-letter {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}

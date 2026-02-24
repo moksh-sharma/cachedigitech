@@ -1,0 +1,71 @@
+{
+  "home": {
+    "hero": {
+      "tagline": "Operational Excellence",
+      "heading": "Intelligence,<br/><span class=\"text-[var(--apple-gray)]\">Perfected.</span>",
+      "subheading": "Precision engineering meets adaptive AI. Scale your cloud infrastructure with zero friction through our intelligent interface.",
+      "stat1": "99.999%",
+      "stat2": "< 1ms",
+      "stat3": "SOC2",
+      "headingFont": "",
+      "headingFontSize": "default",
+      "headingAnimation": "none",
+      "headingAnimationDuration": "0.8",
+      "headingAnimationDelay": "0"
+    },
+    "whoWeAre": {
+      "title": "Who We Are",
+      "subtitle": "Innovate. Secure. Scale. With Trust.",
+      "body": "Cache Digitech Pvt. Ltd. is not just a technology company — it's a story of courage, conviction, and compassion. Founded by Prarthana Gupta, a visionary entrepreneur who turned a modest beginning into a movement, Cache has grown into one of India's most trusted System Integration and IT Infrastructure organizations — serving leading enterprises across Telecom, BFSI, Manufacturing, Consulting, and Government sectors."
+    },
+    "insights": {
+      "title": "Featured Insights",
+      "subtitle": "Excellence with Agility, Service with Heart.",
+      "ctaText": "Get the latest Insights Delivered for free",
+      "bannerText": "Get a Free Consultation Right now"
+    },
+    "cta": {
+      "heading": "Stay ahead with our latest updates",
+      "ctaText": "Subscribe Now",
+      "questionHeading": "Still a Question specific to your use case?",
+      "askCtaText": "Ask Here"
+    },
+    "cacheSolutions": { "title": "", "subtitle": "", "body": "" },
+    "partnership": { "title": "", "subtitle": "", "body": "" },
+    "partners": { "title": "", "subtitle": "" },
+    "chatbot": {
+      "chatHeading": "Have tech questions?",
+      "chatHeadingLine2": "Our AI answer engine can help.",
+      "chatPlaceholder": "Please ask a question or initiate a search",
+      "chatCardBgFrom": "#eef0f8",
+      "chatCardBgMid": "#e8e6f0",
+      "chatCardBgTo": "#e9e5f2",
+      "chatCardRadius": "28",
+      "chatCardHeight": "580",
+      "chatCardMaxWidth": "600",
+      "chatAccentFrom": "#6366f1",
+      "chatAccentTo": "#a855f7",
+      "chatAiBubbleBg": "rgba(255,255,255,0.8)",
+      "chatAiBubbleText": "#1d1d1f",
+      "chatUserBubbleText": "#ffffff",
+      "chatHeadingFontSize": "22",
+      "chatBodyFontSize": "13.5"
+    }
+  },
+  "about": {
+    "conceptOfCache": {
+      "title": "About Cache Digitech",
+      "body": "Cache Digitech is a global system integrator that partners with leaders in business and society to tackle their most important challenges and capture their greatest opportunities."
+    },
+    "profileOfCache": {
+      "title": "About Cache",
+      "body": "Since its founding in 1991, Cache has been a pioneer in business strategy. Today, we work closely with clients to empower their organizations to grow, build sustainable competitive advantage, and drive positive societal impact."
+    },
+    "missionVision": {
+      "title": "Our Mission",
+      "body": "Cache Digitech is a global system integrator firm dedicated to unlocking the potential of the world's innovators. Our approach is guided by five fundamental principles: Innovative Solutions, Collaborative Growth, and Integrity & Leadership."
+    },
+    "team": { "title": "Leadership Team", "subtitle": "" },
+    "meaningOfLogo": { "title": "Meaning of Logo", "body": "" }
+  }
+}
