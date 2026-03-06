@@ -1,71 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Menu, ChevronLeft, ChevronRight, ChevronDown, Bell, Search, X } from "lucide-react";
+import { Menu, ChevronLeft, ChevronRight, ChevronDown, X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { navLinks } from "./navLinks";
 import { usePlacement } from "../../context/PlacementsContext";
-
-/* ── Search menu items ── */
-const searchMenuItems = {
-  "Concept of Cache": "/about#concept-of-cache",
-  "Profile of Cache": "/about#profile-of-cache",
-  "Mission Vision": "/about#mission-vision",
-  "Meaning of Logo": "/about#meaning-of-logo",
-  "Team": "/about#team",
-  "Infrastructure": "/infrastructureservice",
-  "Networking": "/service/network",
-  "Cybersecurity": "/cybersecurity",
-  "Cloud": "/cloudservices",
-  "AI & Data": "/aianddataservice",
-  "Consulting": "/consultingservice",
-  "Managed Services": "/manageservices",
-  "GRC Dashboard": "/grc-dashboard",
-  "Infrastructure – Consult": "/infrastructureservice#consult",
-  "Infrastructure – Design": "/infrastructureservice#design",
-  "Infrastructure – Build": "/infrastructureservice#build",
-  "Infrastructure – Operate & Manage": "/infrastructureservice#operate",
-  "Infrastructure – Migrate": "/infrastructureservice#migrate",
-  "Networking – Audit": "/service/network#audit",
-  "Networking – Consult": "/service/network#consult",
-  "Networking – Design": "/service/network#design",
-  "Networking – Build": "/service/network#build",
-  "Networking – Operate & Manage": "/service/network#operate",
-  "Managed Services – Audit": "/manageservices#audit",
-  "Managed Services – Manpower": "/manageservices#manpower",
-  "Managed Services – Contract": "/manageservices#contract",
-  "Managed Services – NOC/SOC": "/manageservices#noc-soc",
-  "Managed Services – Remote Infra": "/manageservices#remote-infra",
-  "Cloud – Capabilities": "/cloudservices#capabilities",
-  "Cloud – Approach": "/cloudservices#approach",
-  "Cloud – Infrastructure": "/cloudservices#infrastructure",
-  "Cybersecurity – Capabilities": "/cybersecurity#capabilities",
-  "Cybersecurity – Specialized": "/cybersecurity#specialized",
-  "Cybersecurity – Framework": "/cybersecurity#framework",
-  "Cybersecurity – Partnership": "/cybersecurity#partnership",
-  "AI & Data – Services": "/aianddataservice#services",
-  "AI & Data – Partners": "/aianddataservice#partners",
-  "AI & Data – FAQ": "/aianddataservice#faq",
-  "Industry": "/community",
-  "Partners": "/community",
-  "Clients": "/community",
-  "Insights": "/insights",
-  "Blogs": "/blogs",
-  "Case Studies": "/case-studies",
-  "Events & Social Activities": "/insights",
-  "Industries": "/case-studies",
-  "Telecom": "/case-studies?industry=Telecom",
-  "BFSI": "/case-studies?industry=BFSI",
-  "Automobile & Manufacturing": "/case-studies?industry=Automobile%20%26%20Manufacturing",
-  "Retail": "/case-studies?industry=Retail",
-  "Healthcare & Hospitality": "/case-studies?industry=Healthcare%20%26%20Hospitality",
-  "Governance": "/case-studies?industry=Governance",
-  "IT & ITES": "/case-studies?industry=IT%20%26%20ITES",
-  "Contact Us": "/contactus",
-  "Campaigns & Promotion": "/campaigns",
-};
-
-const notificationItems = [
-  { label: "Campaigns & Promotion", route: "/campaigns" },
-];
 
 /* ── Sections that are direct links (no dropdown) ── */
 const DIRECT_LINK_SECTIONS = ["Innovations", "Careers", "Contact"];
@@ -116,17 +53,6 @@ function Navbar() {
   const lastScrollY = useRef(0);
   const scrollThreshold = 100;
 
-  // Search state
-  const [searchExpanded, setSearchExpanded] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [highlightIndex, setHighlightIndex] = useState(-1);
-  const searchRef = useRef(null);
-
-  // Notification state
-  const [notifOpen, setNotifOpen] = useState(false);
-  const [hasNewNotif, setHasNewNotif] = useState(true);
-  const bellRef = useRef(null);
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -148,10 +74,6 @@ function Navbar() {
     path === "/" ? location.pathname === "/" : path === "/about" ? location.pathname === "/about" : location.pathname.startsWith(path)
   );
   const useLightNavText = isDarkHeroPage && !scrolled;
-
-  const searchResults = Object.keys(searchMenuItems).filter((item) =>
-    item.toLowerCase().includes(searchValue.toLowerCase())
-  );
 
   // Scroll listener — transparent on top, solid on scroll; hide on scroll down, show on scroll up
   useEffect(() => {
@@ -182,15 +104,9 @@ function Navbar() {
     return () => { document.body.style.overflow = "unset"; };
   }, [menuOpen]);
 
-  // Close dropdowns on outside click
+  // Close mega menu on outside click
   useEffect(() => {
     const handler = (e) => {
-      if (bellRef.current && !bellRef.current.contains(e.target)) setNotifOpen(false);
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setSearchExpanded(false);
-        setSearchValue("");
-        setHighlightIndex(-1);
-      }
       if (megaRef.current && !megaRef.current.contains(e.target)) setMegaOpen(null);
     };
     document.addEventListener("mousedown", handler);
@@ -260,13 +176,6 @@ function Navbar() {
   const isMobileDevice = () =>
     typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches;
 
-  const handleSearchSelect = (key) => {
-    navigate(searchMenuItems[key]);
-    setSearchExpanded(false);
-    setSearchValue("");
-    setHighlightIndex(-1);
-  };
-
   const handleMegaItemClick = (section, item) => {
     const navItem = submenuNavigation[item];
     if (!navItem) return;
@@ -295,7 +204,7 @@ function Navbar() {
       {/* ── Top Navbar: floating, dark translucent, white text, red logo ── */}
       <nav
         ref={megaRef}
-        className={`fixed top-4 left-4 right-4 z-1000 transition-all duration-600 ease-out bg-black/30 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl ${navbarVisible ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none"}`}
+        className={`fixed top-4 left-4 right-4 z-1000 transition-all duration-600 ease-out bg-black/25 backdrop-blur-md rounded-2xl shadow-xl ${navbarVisible ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none"}`}
       >
         <div className="max-w-[1400px] mx-auto flex items-center justify-between px-6 lg:px-10 py-4 relative">
           {/* Left: Hamburger (mobile) + Logo */}
@@ -358,90 +267,13 @@ function Navbar() {
             })}
           </div>
 
-          {/* Right: Search + Bell */}
-          <div className="flex items-center gap-4 flex-1 min-w-0 justify-end">
-            {/* Inline Search */}
-            <div className="relative flex items-center" ref={searchRef}>
-              {searchExpanded ? (
-                <div className="flex items-center bg-white/10 rounded-full px-3.5 py-2 gap-2 w-72 transition-all border border-white/20">
-                  <Search className="h-5 w-5 text-white/70 shrink-0" />
-                  <input
-                    className="w-full text-[15px] bg-transparent outline-none placeholder:text-white/50 text-white"
-                    type="text"
-                    placeholder="Search pages & services..."
-                    value={searchValue}
-                    onChange={(e) => { setSearchValue(e.target.value); setHighlightIndex(-1); }}
-                    autoFocus
-                    onKeyDown={(e) => {
-                      if (e.key === "ArrowDown") { e.preventDefault(); setHighlightIndex((p) => Math.min(p + 1, searchResults.length - 1)); }
-                      else if (e.key === "ArrowUp") { e.preventDefault(); setHighlightIndex((p) => Math.max(p - 1, 0)); }
-                      else if (e.key === "Enter") {
-                        const exact = Object.keys(searchMenuItems).find((k) => k.toLowerCase() === searchValue.trim().toLowerCase());
-                        const targetKey = exact ?? (searchResults[highlightIndex] ?? searchResults[0]);
-                        if (targetKey) handleSearchSelect(targetKey);
-                      }
-                      else if (e.key === "Escape") { setSearchExpanded(false); setSearchValue(""); setHighlightIndex(-1); }
-                    }}
-                  />
-                </div>
-              ) : (
-                <button
-                  onClick={() => setSearchExpanded(true)}
-                  className="flex items-center justify-center w-11 h-11 rounded-full transition-colors hover:bg-white/15"
-                  aria-label="Search"
-                >
-                  <Search className="h-5 w-5 text-white/95" />
-                </button>
-              )}
-              {searchExpanded && searchValue && searchResults.length > 0 && (
-                <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-1100">
-                  <div className="max-h-52 overflow-y-auto">
-                    {searchResults.map((item, idx) => (
-                      <div
-                        key={idx}
-                        className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${highlightIndex === idx ? "bg-indigo-50 text-indigo-600" : "text-gray-700 hover:bg-gray-50"}`}
-                        onMouseEnter={() => setHighlightIndex(idx)}
-                        onMouseDown={() => handleSearchSelect(item)}
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {searchExpanded && searchValue && searchResults.length === 0 && (
-                <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-200 z-1100 px-4 py-3 text-sm text-gray-400">No results found</div>
-              )}
-            </div>
-
-            {/* Bell / Notifications */}
-            <div className="relative flex items-center" ref={bellRef}>
-              {notifOpen ? (
-                <div className="flex items-center bg-white/10 border border-white/20 rounded-full px-3.5 py-2 gap-2 transition-all">
-                  <Bell className="h-5 w-5 text-white/70 shrink-0" />
-                  {notificationItems.map((item, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => { setNotifOpen(false); navigate(item.route); }}
-                      className="text-sm text-white/95 hover:text-white whitespace-nowrap transition-colors"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <button
-                  onClick={() => { setNotifOpen(true); setHasNewNotif(false); }}
-                  className="relative flex items-center justify-center w-11 h-11 rounded-full transition-colors hover:bg-white/15"
-                  aria-label="Notifications"
-                >
-                  <Bell className="h-5 w-5 text-white/95" />
-                  {hasNewNotif && (
-                    <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-400 rounded-full" />
-                  )}
-                </button>
-              )}
-            </div>
+          {/* Right: Women Owned badge — same size as Cache logo (100×40) */}
+          <div className="flex items-center flex-1 min-w-0 justify-end">
+            <img
+              src="/women_owned.png"
+              alt="Women Owned"
+              className="h-10 w-[100px] object-contain shrink-0"
+            />
           </div>
         </div>
 

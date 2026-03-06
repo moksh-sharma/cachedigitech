@@ -38,8 +38,8 @@ function buildItems(pool, seg) {
   }
 
   const normalizedImages = pool.map((image) => {
-    if (typeof image === 'string') return { src: image, alt: '' };
-    return { src: image.src || '', alt: image.alt || '' };
+    if (typeof image === 'string') return { src: image, alt: '', label: '' };
+    return { src: image.src || '', alt: image.alt || '', label: image.label || '' };
   });
 
   const usedImages = Array.from(
@@ -62,6 +62,7 @@ function buildItems(pool, seg) {
     ...c,
     src: usedImages[i].src,
     alt: usedImages[i].alt,
+    label: usedImages[i].label || '',
   }));
 }
 
@@ -513,6 +514,13 @@ export default function DomeGallery({
       img.src = rawSrc;
       img.alt = parent.dataset.alt || '';
       overlay.appendChild(img);
+      const label = parent.dataset.label || '';
+      if (label) {
+        const labelEl = document.createElement('div');
+        labelEl.className = 'enlarge-label';
+        labelEl.textContent = label;
+        overlay.appendChild(labelEl);
+      }
       viewerRef.current.appendChild(overlay);
       const tx0 = tileR.left - frameR.left;
       const ty0 = tileR.top - frameR.top;
@@ -629,6 +637,7 @@ export default function DomeGallery({
                 className="item"
                 data-src={it.src}
                 data-alt={it.alt}
+                data-label={it.label}
                 data-offset-x={it.x}
                 data-offset-y={it.y}
                 data-size-x={it.sizeX}

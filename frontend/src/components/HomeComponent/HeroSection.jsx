@@ -5,7 +5,6 @@ import { useChatFocus } from '../../context/ChatFocusContext';
 import { useChat } from '../../context/ChatContext';
 import WhoWeAre from './Whoweare';
 import DomeGallery from '../AboutPageComponent/DomeGallery';
-import CampaignPromoSection from './CampaignPromoSection';
 import { CEOSection } from '../InsightComponent/ceo-section';
 import '../AboutPageComponent/DomeGallery.css';
 
@@ -670,7 +669,6 @@ const HeroSection = () => {
 
       {/* OEM Alliances Section */}
       <OEMAlliancesSection />
-      <CampaignPromoSection />
       <LatestHighlightsSection />
       <WhoWeAre />
       <TestimonialsSection />
@@ -871,32 +869,32 @@ function SolutionsShowcaseSection() {
   );
 }
 
-/* ───────── OEM Alliances Section ───────── */
+/* ───────── OEM Alliances Section (with category for globe popup) ───────── */
 const OEM_PARTNERS = [
-  { name: 'Microsoft', logo: '/community/microsoft.jpg' },
-  { name: 'Amazon AWS', logo: '/community/awslogo.png' },
-  { name: 'Cisco', logo: '/Partners/cisco.png' },
-  { name: 'Red Hat', logo: '/community/redhat.jpg' },
-  { name: 'IBM', logo: '/community/ibmlogo.png' },
-  { name: 'Google Cloud', logo: '/community/gcp2.jpg' },
-  { name: 'Dell', logo: '/community/dell.png' },
-  { name: 'Palo Alto', logo: '/community/paloalto.jpg' },
-  { name: 'Fortinet', logo: '/community/fortinet.jpg' },
-  { name: 'Oracle', logo: '/community/oracle.png' },
-  { name: 'VMware', logo: '/Partners/vmvare.png' },
-  { name: 'SentinelOne', logo: '/Partners/sentinalone.png' },
-  { name: 'HPE', logo: '/community/hpelogo.png' },
-  { name: 'Juniper Networks', logo: '/community/junipernetwork.png' },
-  { name: 'Trellix', logo: '/Partners/trellix.png' },
-  { name: 'Tenable', logo: '/Partners/tenable.png' },
-  { name: 'CloudSek', logo: '/community/cloudsek.jpg' },
-  { name: 'Zscaler', logo: '/Partners/zscaler.png' },
-  { name: 'NetApp', logo: '/Partners/netapp.png' },
-  { name: 'Nutanix', logo: '/Partners/nutanix.png' },
-  { name: 'SAP', logo: '/community/saplogo.jpeg' },
-  { name: 'Salesforce', logo: '/community/salesforce.png' },
-  { name: 'Trend Micro', logo: '/Partners/trendmicro.png' },
-  { name: 'Veeam', logo: '/Partners/veeam.png' },
+  { name: 'Dell', logo: '/community/dell.png', level: 'Titanium' },
+  { name: 'Cisco', logo: '/Partners/cisco.png', level: 'Premier' },
+  { name: 'Microsoft', logo: '/community/microsoft.jpg', level: 'CSP' },
+  { name: 'Amazon AWS', logo: '/community/awslogo.png', level: 'Select' },
+  { name: 'Red Hat', logo: '/community/redhat.jpg', level: 'Enrolled' },
+  { name: 'IBM', logo: '/community/ibmlogo.png', level: 'Silver' },
+  { name: 'Google Cloud', logo: '/community/gcp2.jpg', level: 'Partner' },
+  { name: 'Palo Alto', logo: '/community/paloalto.jpg', level: 'Registered, Innovator' },
+  { name: 'Fortinet', logo: '/community/fortinet.jpg', level: 'Advance, MSSP' },
+  { name: 'Oracle', logo: '/community/oracle.png', level: 'OPN Member' },
+  { name: 'VMware', logo: '/Partners/vmvare.png', level: 'Partner' },
+  { name: 'SentinelOne', logo: '/Partners/sentinalone.png', level: 'Partner' },
+  { name: 'HPE', logo: '/community/hpelogo.png', level: 'Gold' },
+  { name: 'Juniper Networks', logo: '/community/junipernetwork.png', level: 'Authorised' },
+  { name: 'Trellix', logo: '/Partners/trellix.png', level: 'Gold' },
+  { name: 'Tenable', logo: '/Partners/tenable.png', level: 'Enrolled' },
+  { name: 'CloudSek', logo: '/community/cloudsek.jpg', level: 'Registered' },
+  { name: 'Zscaler', logo: '/Partners/zscaler.png', level: 'Enrolled' },
+  { name: 'NetApp', logo: '/Partners/netapp.png', level: 'Approved, Preferred' },
+  { name: 'Nutanix', logo: '/Partners/nutanix.png', level: 'Enrolled' },
+  { name: 'SAP', logo: '/community/saplogo.jpeg', level: 'Partner' },
+  { name: 'Salesforce', logo: '/community/salesforce.png', level: 'Partner' },
+  { name: 'Trend Micro', logo: '/Partners/trendmicro.png', level: 'Registered' },
+  { name: 'Veeam', logo: '/Partners/veeam.png', level: 'Registered & SP' },
 ];
 
 function OEMAlliancesSection() {
@@ -932,7 +930,7 @@ function OEMAlliancesSection() {
           {/* Right: Smaller globe */}
           <div className="order-1 lg:order-2 w-full rounded-2xl overflow-hidden bg-transparent" style={{ height: 'min(75vh, 580px)' }}>
             <DomeGallery
-              images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name }))}
+              images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name, label: p.level }))}
               fit={0.62}
               fitBasis="height"
               minRadius={320}

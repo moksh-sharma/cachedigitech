@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import CampaignPromoSection from "./CampaignPromoSection";
 
 const PILLARS = [
   {
@@ -42,53 +43,8 @@ export default function WhoWeArePage({ onNavigateToService }) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ── Mission Banner (matches ROI banner style) ── */}
-      <section
-        className="relative overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(135deg, #1d1d1f 0%, #2d2d30 40%, #1d1d1f 100%)",
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-14 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-            {/* Left: statement */}
-            <div className="flex-1 text-center lg:text-left space-y-4">
-              <p className="text-white text-lg lg:text-xl font-semibold leading-snug">
-                We don't just build technology —
-                <br />
-                <span className="bg-linear-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
-                  we give life to it.
-                </span>
-              </p>
-              <p className="text-white text-lg lg:text-xl font-semibold leading-snug">
-                We don't just deliver projects —
-                <br />
-                <span className="bg-linear-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
-                  we deliver peace of mind.
-                </span>
-              </p>
-            </div>
-
-            {/* Divider */}
-            <div className="hidden lg:block w-px h-24 bg-white/15" />
-
-            {/* Right: vision */}
-            <div className="flex-1">
-              <p className="text-gray-400 text-sm leading-relaxed text-center lg:text-left">
-                As we move toward our{" "}
-                <span className="font-bold text-red-400">Vision 2030</span>, we are writing our story —
-                brick by brick — to become one of the best organizations for our customers, OEMs, partners,
-                and employees, setting benchmarks in excellence, inclusion, and sustainability.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Ambient blurs */}
-        <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -top-16 -right-16 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-      </section>
+      {/* ── Dell / Campaign promotion ── */}
+      <CampaignPromoSection />
 
       {/* ── Core Values Grid ── */}
       <section

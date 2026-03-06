@@ -23,51 +23,84 @@ function PartnershipCards() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  const partnerLogos = [
-    { name: 'Microsoft', logo: '/community/microsoft.jpg' },
-    { name: 'Amazon AWS', logo: '/community/awslogo.png' },
-    { name: 'Cisco', logo: '/Partners/cisco.png' },
-    { name: 'Red Hat', logo: '/community/redhat.jpg' },
-    { name: 'CloudSek', logo: '/community/cloudsek.jpg' },
-    { name: 'IBM', logo: '/community/ibmlogo.png' },
-    { name: 'SentinelOne', logo: '/Partners/sentinalone.png' },
-    { name: 'Palo Alto', logo: '/community/paloalto.jpg' },
-    { name: 'Dell', logo: '/community/dell.png' },
-    { name: 'Fortinet', logo: '/community/fortinet.jpg' },
-    { name: 'Trellix', logo: '/Partners/trellix.png' },
-    { name: 'Tenable', logo: '/Partners/tenable.png' },
-    // Newly added community logos (only those not already present)
-    // { name: 'Adobe', logo: '/community/adobe.jpg' },
-    { name: 'AlgoSec', logo: '/community/algosec.png' },
-    { name: 'Google Cloud', logo: '/community/gcp2.jpg' },
-    { name: 'Gigamon', logo: '/community/gigamon.png' },
-    { name: 'HPE', logo: '/community/hpelogo.png' },
-    { name: 'Juniper Networks', logo: '/community/junipernetwork.png' },
-    { name: 'ManageEngine', logo: '/community/manageengine.png' },
-    { name: 'Netscout', logo: '/community/netscout.png' },
-    { name: 'Netskope', logo: '/community/netskope.png' },
-    { name: 'Oracle', logo: '/community/oracle.png' },
-    { name: 'Riverbed', logo: '/community/riverbed.png' },
-    { name: 'Salesforce', logo: '/community/salesforce.png' },
-    { name: 'SAP', logo: '/community/saplogo.jpeg' },
-    { name: 'VMware', logo: '/Partners/vmvare.png' },
-    { name: 'Zoho', logo: '/community/zoho.jpeg' },
-    { name: 'Trend Micro', logo: '/Partners/trendmicro.png' },
-    { name: 'Arctera', logo: '/Partners/arctera.png' },
-    { name: 'Veeam', logo: '/Partners/veeam.png' },
-    { name: 'Commvault', logo: '/Partners/commvault.png' },
-    { name: 'Zscaler', logo: '/Partners/zscaler.png' },
-    { name: 'NetApp', logo: '/Partners/netapp.png' },
-    { name: 'Forescout', logo: '/Partners/forescout.png' },
-    { name: 'Haproxy', logo: '/Partners/haproxy.png' },
-    { name: 'Arista', logo: '/Partners/arista.png' },
-    { name: 'Kaspersky', logo: '/Partners/kaspersky.png' },
-    { name: 'Nutanix', logo: '/Partners/nutanix.png' },
-    { name: 'Imperva', logo: '/Partners/imperva.png' },
-    { name: 'Everest', logo: '/Partners/everest.png' },
-    { name: 'Extreme', logo: '/Partners/extreme.png' },
-    { name: 'Beyond Trust', logo: '/Partners/beyondtrust.png' },
-    { name: 'Veritas', logo: '/Partners/veritas.png' },
+  /* OEM partnerships segregated by category (partnership tier) */
+  const OEM_BY_CATEGORY = [
+    {
+      category: 'Titanium',
+      items: [
+        { name: 'Dell', level: 'Titanium', logo: '/community/dell.png' },
+      ],
+    },
+    {
+      category: 'Premier',
+      items: [
+        { name: 'Cisco', level: 'Premier', logo: '/Partners/cisco.png' },
+      ],
+    },
+    {
+      category: 'Gold & Silver',
+      items: [
+        { name: 'HP', level: 'Gold', logo: '/community/hpelogo.png' },
+        { name: 'Trellix', level: 'Gold', logo: '/Partners/trellix.png' },
+        { name: 'IBM', level: 'Silver', logo: '/community/ibmlogo.png' },
+      ],
+    },
+    {
+      category: 'Cloud & CSP',
+      items: [
+        { name: 'Microsoft', level: 'CSP', logo: '/community/microsoft.jpg' },
+        { name: 'GCP', level: 'Partner', logo: '/community/gcp2.jpg' },
+        { name: 'AWS', level: 'Select', logo: '/community/awslogo.png' },
+        { name: 'Azure', level: 'Member', logo: '/community/microsoft.jpg' },
+        { name: 'Oracle', level: 'OPN Member', logo: '/community/oracle.png' },
+      ],
+    },
+    {
+      category: 'Advance & MSSP',
+      items: [
+        { name: 'Fortinet', level: 'Advance, MSSP', logo: '/community/fortinet.jpg' },
+      ],
+    },
+    {
+      category: 'Authorised',
+      items: [
+        { name: 'Broadcom', level: 'Authorised', logo: '/Partners/cloudsek.png' },
+        { name: 'Commscope', level: 'Netconnect', logo: '/Partners/everest.png' },
+        { name: 'Arista', level: 'Authorised', logo: '/Partners/arista.png' },
+        { name: 'Extreme', level: 'Authorised', logo: '/Partners/extreme.png' },
+      ],
+    },
+    {
+      category: 'Enrolled',
+      items: [
+        { name: 'Nutanix', level: 'Enrolled', logo: '/Partners/nutanix.png' },
+        { name: 'Red Hat', level: 'Enrolled', logo: '/community/redhat.jpg' },
+        { name: 'Beyond Trust', level: 'Enrolled', logo: '/Partners/beyondtrust.png' },
+        { name: 'Tenable', level: 'Enrolled', logo: '/Partners/tenable.png' },
+        { name: 'Tufin', level: 'Enrolled', logo: '/Partners/tenable.png' },
+        { name: 'CrowdStrike', level: 'Enrolled', logo: '/Partners/trellix.png' },
+        { name: 'Firemon', level: 'Enrolled', logo: '/Partners/forescout.png' },
+        { name: 'Zscaler', level: 'Enrolled', logo: '/Partners/zscaler.png' },
+      ],
+    },
+    {
+      category: 'Registered & Preferred',
+      items: [
+        { name: 'Imperva', level: 'Registered', logo: '/Partners/imperva.png' },
+        { name: 'Everest', level: 'Registered', logo: '/Partners/everest.png' },
+        { name: 'Cloudsek', level: 'Registered', logo: '/community/cloudsek.jpg' },
+        { name: 'Cloudera', level: 'Registered', logo: '/Partners/cloudsek.png' },
+        { name: 'Kaspersky', level: 'Registered', logo: '/Partners/kaspersky.png' },
+        { name: 'Haproxy', level: 'Registered', logo: '/Partners/haproxy.png' },
+        { name: 'Forescout', level: 'Registered', logo: '/Partners/forescout.png' },
+        { name: 'Palo Alto', level: 'Registered, Innovator', logo: '/community/paloalto.jpg' },
+        { name: 'Veeam', level: 'Registered & SP', logo: '/Partners/veeam.png' },
+        { name: 'Commvault', level: 'Registered', logo: '/Partners/commvault.png' },
+        { name: 'HPI', level: 'Registered', logo: '/Partners/hplogo.png' },
+        { name: 'IBM Apptio Cloud', level: 'Registered, SP', logo: '/community/ibmlogo.png' },
+        { name: 'NetApp', level: 'Approved, Preferred', logo: '/Partners/netapp.png' },
+      ],
+    },
   ];
 
   const partnershipBenefits = [
@@ -157,30 +190,33 @@ function PartnershipCards() {
           <header className="text-center mb-12 md:mb-14">
             <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-3">Network</p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto">
-              Industry Partners
+              OEM Partnerships
             </h2>
             <div className="mt-4 w-12 h-0.5 bg-red-500/60 rounded-full mx-auto" aria-hidden />
             <p className="mt-6 text-lg md:text-xl text-(--apple-gray) max-w-xl mx-auto leading-relaxed">
-              Trusted technology leaders we work with to deliver best-in-class solutions.
+              Trusted technology leaders we work with, by partnership category.
             </p>
           </header>
 
           <div
             className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 transition-all duration-700 ${logosVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           >
-            {partnerLogos.map((partner) => (
-              <div
-                key={partner.name}
-                className="group flex items-center justify-center rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:border-red-100 p-4 sm:p-5 transition-all duration-300 min-h-[80px] sm:min-h-[90px]"
-              >
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="max-w-full max-h-10 sm:max-h-12 w-auto h-auto object-contain"
-                  loading="lazy"
-                />
-              </div>
-            ))}
+            {OEM_BY_CATEGORY.flatMap((group) =>
+              group.items.map((partner) => (
+                <div
+                  key={`${group.category}-${partner.name}`}
+                  className="group flex flex-col items-center justify-center rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:border-red-100 p-4 sm:p-5 transition-all duration-300 min-h-[90px] sm:min-h-[100px]"
+                >
+                  <ImageWithFallback
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-w-full max-h-14 sm:max-h-16 w-auto h-auto object-contain flex-1"
+                    loading="lazy"
+                  />
+                  <p className="text-xs text-(--apple-gray) mt-2 text-center font-medium">{partner.level}</p>
+                </div>
+              ))
+            )}
           </div>
 
           <div className="text-center mt-14 md:mt-16">

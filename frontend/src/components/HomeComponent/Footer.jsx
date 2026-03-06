@@ -57,23 +57,19 @@ function Footer() {
   const footerLogoUrl = usePlacement("global", "footer", "bgImage") || "/cachefootercut.jpg";
 
   return (
-    <footer className="bg-[#0a0a0a] text-white flex flex-col min-h-screen -mt-8" style={{ minHeight: '100vh', boxShadow: '0 -4px 0 0 #0a0a0a' }} role="contentinfo">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 pb-0 flex flex-col w-full flex-1 min-h-0">
+    <footer className="bg-[#0a0a0a] text-white flex flex-col -mt-8 shrink-0" style={{ boxShadow: '0 -4px 0 0 #0a0a0a' }} role="contentinfo">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 pb-0 flex flex-col w-full">
         {/* Brand row */}
         <div className="pb-4 sm:pb-6 border-b border-white/10 shrink-0">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div className="flex flex-col gap-1.5">
               <img src={footerLogoUrl} alt="Cache Digitech" className="h-14 sm:h-16 lg:h-[72px] w-auto brightness-200 opacity-90 max-w-[180px]" />
-              <div className="max-w-md font-sans">
-                <h2 className="text-xl sm:text-2xl font-bold mb-1 mt-3 font-glacial leading-tight text-white">
-                  Growth is Guaranteed
-                </h2>
-                <p className="text-base sm:text-lg mb-1 mt-2 font-holiday text-white">
-                  That's Cache's Promise
-                </p>
-                <img className="h-3 sm:h-4 mt-1" alt="underline" src="/footerline.png" />
-              </div>
             </div>
+            <img
+              src="/women_owned.png"
+              alt="Women Owned"
+              className="h-12 w-[130px] object-contain shrink-0 self-start sm:self-end"
+            />
           </div>
         </div>
 

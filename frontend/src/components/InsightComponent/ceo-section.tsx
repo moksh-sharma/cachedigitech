@@ -44,15 +44,14 @@ export function CEOSection() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <div className="text-3xl font-bold text-red-600">34+</div>
-                  <div className="text-sm text-gray-600">Years Journey</div>
-                </div>
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <div className="text-3xl font-bold text-red-600">Global</div>
-                  <div className="text-sm text-gray-600">Technology Partner</div>
-                </div>
+              <div className="max-w-md font-sans mb-8">
+                <h3 className="text-xl sm:text-2xl font-bold font-glacial leading-tight text-black">
+                  Growth is Guaranteed
+                </h3>
+                <p className="text-base sm:text-lg mt-1 font-holiday text-gray-700">
+                  That&apos;s Cache&apos;s Promise
+                </p>
+                <img className="h-3 sm:h-4 mt-2 invert mix-blend-multiply" alt="" src="/footerline.png" aria-hidden />
               </div>
 
               <div className="mt-6 p-6 bg-linear-to-r from-red-50 to-gray-50 rounded-lg border-l-4 border-red-600">

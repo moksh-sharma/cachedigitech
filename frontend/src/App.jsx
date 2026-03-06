@@ -5,6 +5,7 @@ import { useLenis } from "./context/LenisContext";
 
 import Navbar from "./components/HomeComponent/Navbar";
 import Footer from "./components/HomeComponent/Footer";
+import CookieBanner from "./components/CookieBanner";
 import HomePage from "./Render_Pages/HomePage";
 import ServiceDetail from "./Render_Pages/service-detail";
 import Contact from "./components/ServicesComponent/contact";
@@ -117,6 +118,7 @@ function App() {
           </Routes>
         </main>
         {!isAdmin && <Footer />}
+        {!isAdmin && <CookieBanner />}
       </div>
     </>
   );
