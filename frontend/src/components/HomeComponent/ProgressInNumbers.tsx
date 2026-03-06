@@ -112,21 +112,20 @@ export function ProgressInNumbers() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-12 lg:py-16 overflow-hidden bg-gradient-to-b from-white via-gray-50/50 to-white px-6 lg:px-8"
+      className="relative py-12 lg:py-16 overflow-hidden bg-linear-to-b from-white via-gray-50/50 to-white px-6 sm:px-8 lg:px-12"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 lg:gap-10 xl:gap-12 items-center">
           {/* Left: title, subtitle, stats grid */}
           <div className="space-y-6">
             <div
-              className={`transition-all duration-700 ease-out ${
-                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              }`}
+              className={`transition-all duration-700 ease-out ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                }`}
             >
-              <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl">
+              <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl">
                 Progress in Numbers
               </h2>
-              <p className="mt-5 text-[var(--apple-gray)] text-base sm:text-lg leading-relaxed max-w-xl">
+              <p className="mt-5 text-(--apple-gray) text-base sm:text-lg leading-relaxed max-w-xl">
                 Powered by a global team, we deliver smarter, better ways for all our
                 stakeholders to benefit from technology.
               </p>
@@ -136,15 +135,14 @@ export function ProgressInNumbers() {
               {STATS.map((stat, index) => (
                 <div
                   key={index}
-                  className={`group rounded-xl border border-gray-100 bg-white/80 px-4 py-3 sm:px-4 sm:py-3.5 shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-red-100/80 hover:bg-white ${
-                    inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-                  }`}
+                  className={`group rounded-xl border border-gray-100 bg-white/80 px-4 py-3 sm:px-4 sm:py-3.5 shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-red-100/80 hover:bg-white ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                    }`}
                   style={{ transitionDelay: `${180 + index * 50}ms` }}
                 >
-                  <div className="text-xl sm:text-2xl font-bold text-red-600 tracking-tight tabular-nums group-hover:text-red-700 transition-colors duration-300">
+                  <div className="text-xl sm:text-2xl font-bold text-red-600 tracking-tight tabular-nums group-hover:text-red-700 transition-colors duration-300 ease-out">
                     {formatDisplay(index)}
                   </div>
-                  <div className="mt-1 text-xs sm:text-sm text-[var(--apple-gray)] font-medium leading-snug">
+                  <div className="mt-1 text-xs sm:text-sm text-(--apple-gray) font-medium leading-snug">
                     {stat.label}
                   </div>
                 </div>
@@ -154,9 +152,8 @@ export function ProgressInNumbers() {
 
           {/* Right: image — shifted down to align with left stats */}
           <div
-            className={`relative w-full min-h-[280px] flex justify-center pt-12 lg:pt-20 transition-all duration-700 ease-out ${
-              inView ? "opacity-100 scale-100" : "opacity-0 scale-95"
-            }`}
+            className={`relative w-full min-h-[280px] flex justify-center pt-12 lg:pt-20 transition-all duration-700 ease-out ${inView ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              }`}
             style={{ transitionDelay: "300ms" }}
           >
             <div className="w-full max-w-[480px] overflow-hidden">

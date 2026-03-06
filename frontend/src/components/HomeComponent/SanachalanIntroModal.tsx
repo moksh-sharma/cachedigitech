@@ -26,7 +26,12 @@ export default function SanachalanIntroModal({ loading = false }: { loading?: bo
     }
   }, [location.pathname, closedForSession, loading]);
 
-  // No JS animation state needed
+  // Auto-close after 6 seconds
+  useEffect(() => {
+    if (!open) return;
+    const timer = setTimeout(() => closeForSession(), 10000);
+    return () => clearTimeout(timer);
+  }, [open]);
 
   // Close on click outside and Escape
   useEffect(() => {
@@ -60,7 +65,7 @@ export default function SanachalanIntroModal({ loading = false }: { loading?: bo
   if (!open) return null;
 
   return createPortal(
-    <div className="fixed top-20 right-4 pb-[-30] md:right-0 left-4 sm:left-auto sm:right-6 z-[2500]">
+    <div className="fixed top-20 right-4 pb-[-30] md:right-0 left-4 sm:left-auto sm:right-6 z-2500">
       <div
         ref={containerRef}
         className="relative rounded-xl shadow-2xl w-full sm:w-[450px] md:h-auto animate-[slideFromRight_.4s_ease-out] box-border overflow-hidden cursor-pointer"

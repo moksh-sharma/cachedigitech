@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { HeroSection } from "../components/InsightComponent/hero-section";
-import { CEOSection } from "../components/InsightComponent/ceo-section";
-import { BlogSection } from "../components/InsightComponent/blog-section";
-import { CaseStudiesSection } from "../components/InsightComponent/case-studies-section";
 import { ProblemsSection } from "../components/InsightComponent/problems-section";
+import { CEOSection } from "../components/InsightComponent/ceo-section";
 import { EventsSection } from "../components/InsightComponent/events-section";
 
 
@@ -30,10 +28,8 @@ export default function InsightPage() {
       <main className="pt-4">
         {/* <HeroSection /> */}
         <CEOSection />
-        <ProblemsSection />
-        <BlogSection />
-        <CaseStudiesSection />
         <EventsSection />
+        <ProblemsSection />
       </main>
       {/* <Footer /> */}
     </div>

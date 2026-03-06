@@ -43,6 +43,9 @@ main.sphere-main {
   perspective-origin: 50% 50%;
   contain: layout paint size;
   background: transparent;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  box-sizing: border-box;
 }
 
 .sphere {

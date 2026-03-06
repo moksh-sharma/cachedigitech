@@ -5,18 +5,18 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "db:dump": "node scripts/dump-db.js",
+    "db:restore-local": "node scripts/restore-local.js",
+    "db:create-local": "node scripts/create-local-db.js",
+    "db:seed": "node scripts/seed-db.js"
   },
   "dependencies": {
-    "@pinecone-database/pinecone": "^7.0.0",
-    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.4",
     "express": "^4.21.0",
     "express-session": "^1.18.0",
-    "multer": "^1.4.5-lts.1",
     "openai": "^4.104.0",
-    "pdf-parse": "^2.4.5",
     "pg": "^8.18.0"
   }
 }

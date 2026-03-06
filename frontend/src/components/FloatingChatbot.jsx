@@ -12,18 +12,18 @@ const FloatingChatbot = () => {
   // Chatbot UI CMS values (same source as HeroSection)
   const chatCms = useContent('home', 'chatbot');
   const cb = {
-    heading:        chatCms.chatHeading || 'Have tech questions?',
-    heading2:       chatCms.chatHeadingLine2 || 'Our AI answer engine can help.',
-    placeholder:    chatCms.chatPlaceholder || 'Ask a question…',
-    bgFrom:         chatCms.chatCardBgFrom || '#eef0f8',
-    bgMid:          chatCms.chatCardBgMid || '#e8e6f0',
-    bgTo:           chatCms.chatCardBgTo || '#e9e5f2',
-    accentFrom:     chatCms.chatAccentFrom || '#6366f1',
-    accentTo:       chatCms.chatAccentTo || '#a855f7',
-    aiBubbleBg:     chatCms.chatAiBubbleBg || 'rgba(255,255,255,0.8)',
-    aiBubbleText:   chatCms.chatAiBubbleText || '#1d1d1f',
+    heading: chatCms.chatHeading || 'Have tech questions?',
+    heading2: chatCms.chatHeadingLine2 || 'Our AI answer engine can help.',
+    placeholder: chatCms.chatPlaceholder || 'Ask a question…',
+    bgFrom: chatCms.chatCardBgFrom || '#eef0f8',
+    bgMid: chatCms.chatCardBgMid || '#e8e6f0',
+    bgTo: chatCms.chatCardBgTo || '#e9e5f2',
+    accentFrom: chatCms.chatAccentFrom || '#6366f1',
+    accentTo: chatCms.chatAccentTo || '#a855f7',
+    aiBubbleBg: chatCms.chatAiBubbleBg || 'rgba(255,255,255,0.8)',
+    aiBubbleText: chatCms.chatAiBubbleText || '#1d1d1f',
     userBubbleText: chatCms.chatUserBubbleText || '#ffffff',
-    bodySize:       parseFloat(chatCms.chatBodyFontSize) || 13.5,
+    bodySize: parseFloat(chatCms.chatBodyFontSize) || 13.5,
   };
 
   // Show floating button only when hero chatbot is out of view
@@ -72,25 +72,26 @@ const FloatingChatbot = () => {
       {/* Popup chat window */}
       {open && (
         <div
-          className="fixed bottom-24 right-6 z-[999] w-[380px] h-[520px] rounded-[24px] overflow-hidden flex flex-col shadow-2xl animate-[floatChatIn_0.3s_ease-out]"
+          data-chat-popup
+          className="fixed bottom-24 right-6 z-999 w-[380px] h-[520px] rounded-[24px] overflow-hidden flex flex-col shadow-2xl animate-[floatChatIn_0.3s_ease-out]"
           style={{ background: `linear-gradient(145deg, ${cb.bgFrom} 0%, ${cb.bgMid} 50%, ${cb.bgTo} 100%)` }}
         >
           {/* Header */}
-          <div className="flex-shrink-0 flex items-center justify-between px-5 pt-4 pb-3">
+          <div className="shrink-0 flex items-center justify-between px-5 pt-4 pb-3">
             <div className="flex items-center gap-2.5">
               <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center">
                 <video autoPlay loop muted playsInline className="w-full h-full object-cover" src="/ai-logo-animation.webm" />
               </div>
               <div>
-                <p className="text-[14px] font-semibold text-[var(--apple-black)] leading-tight">AI Assistant</p>
-                <p className="text-[11px] text-[var(--apple-gray)]">Ask me anything</p>
+                <p className="text-[14px] font-semibold text-(--apple-black) leading-tight">AI Assistant</p>
+                <p className="text-[11px] text-(--apple-gray)">Ask me anything</p>
               </div>
             </div>
             <button
               onClick={() => setOpen(false)}
               className="w-8 h-8 rounded-full hover:bg-black/5 flex items-center justify-center transition-colors"
             >
-              <span className="material-symbols-outlined text-[var(--apple-gray)] text-[20px]">close</span>
+              <span className="material-symbols-outlined text-(--apple-gray) text-[20px]">close</span>
             </button>
           </div>
 
@@ -103,8 +104,8 @@ const FloatingChatbot = () => {
                 <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
                   <span className="material-symbols-outlined text-white text-[28px]">auto_awesome</span>
                 </div>
-                <h4 className="text-[16px] font-semibold text-[var(--apple-black)] mb-1">How can I help?</h4>
-                <p className="text-[13px] text-[var(--apple-gray)]">Ask a question to get started</p>
+                <h4 className="text-[16px] font-semibold text-(--apple-black) mb-1">How can I help?</h4>
+                <p className="text-[13px] text-(--apple-gray)">Ask a question to get started</p>
               </div>
             )}
 
@@ -113,7 +114,7 @@ const FloatingChatbot = () => {
             {messages.map((msg, i) =>
               msg.role === 'assistant' ? (
                 <div key={i} className="flex gap-2.5">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
+                  <div className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
                     <span className="material-symbols-outlined text-white text-[13px]">auto_awesome</span>
                   </div>
                   <div className="flex-1">
@@ -139,22 +140,22 @@ const FloatingChatbot = () => {
 
             {loading && (
               <div className="flex gap-2.5">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
+                <div className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
                   <span className="material-symbols-outlined text-white text-[13px]">auto_awesome</span>
                 </div>
-                <div className="text-[12px] text-[var(--apple-gray)] italic px-2 py-3">Thinking…</div>
+                <div className="text-[12px] text-(--apple-gray) italic px-2 py-3">Thinking…</div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
           {/* Input bar */}
-          <div className="flex-shrink-0 px-5 pb-5 pt-2">
-            <div className="relative flex items-center bg-white rounded-full border border-black/8 shadow-sm px-4 py-2 focus-within:shadow-md transition-all">
-              <span className="material-symbols-outlined text-[18px] mr-2.5 flex-shrink-0" style={{ color: cb.accentFrom }}>language</span>
+          <div className="shrink-0 px-5 pb-5 pt-2">
+            <div className="relative flex items-center bg-white rounded-full border border-black/8 shadow-sm px-4 py-2 focus-within:shadow-md focus-within:outline-none focus-within:ring-0 transition-all">
+              <span className="material-symbols-outlined text-[18px] mr-2.5 shrink-0" style={{ color: cb.accentFrom }}>language</span>
               <input
                 ref={popupInputRef}
-                className="w-full border-none bg-transparent focus:ring-0 focus:outline-none text-[13px] text-[var(--apple-black)] placeholder:text-[var(--apple-gray)] placeholder:font-normal"
+                className="w-full border-none bg-transparent focus:ring-0 focus:outline-none focus-visible:outline-none focus-visible:ring-0 text-[13px] text-(--apple-black) placeholder:text-(--apple-gray) placeholder:font-normal"
                 placeholder={cb.placeholder}
                 type="text"
                 value={input}
@@ -166,7 +167,7 @@ const FloatingChatbot = () => {
                 type="button"
                 onClick={() => sendMessage()}
                 disabled={loading || !input.trim()}
-                className="flex-shrink-0 ml-2 transition-colors disabled:opacity-40"
+                className="shrink-0 ml-2 transition-colors disabled:opacity-40"
                 style={{ color: cb.accentFrom }}
               >
                 <span className="material-symbols-outlined text-[18px]">search</span>
@@ -179,14 +180,14 @@ const FloatingChatbot = () => {
       {/* Floating button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-[999] w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl"
+        className="fixed bottom-6 right-6 z-999 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl"
         style={open
           ? { background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)', border: '1px solid rgba(0,0,0,0.1)' }
           : { background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }
         }
         aria-label={open ? 'Close chat' : 'Open chat'}
       >
-        <span className={`material-symbols-outlined text-[24px] transition-transform duration-300 ${open ? 'text-[var(--apple-black)]' : 'text-white'}`}>
+        <span className={`material-symbols-outlined text-[24px] transition-transform duration-300 ${open ? 'text-(--apple-black)' : 'text-white'}`}>
           {open ? 'close' : 'chat'}
         </span>
       </button>

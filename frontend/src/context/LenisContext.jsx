@@ -4,13 +4,13 @@ import Lenis from 'lenis';
 const LenisContext = createContext(null);
 
 const LENIS_OPTIONS = {
-  duration: 0.8,
+  duration: 0.85,
   easing: (t) => Math.min(1, 1.001 - 2 ** (-10 * t)),
   orientation: 'vertical',
   gestureOrientation: 'vertical',
   smoothWheel: true,
-  wheelMultiplier: 1.35,
-  touchMultiplier: 2.5,
+  wheelMultiplier: 1.05,
+  touchMultiplier: 1.8,
   anchors: true,
 };
 
@@ -38,7 +38,7 @@ export function LenisProvider({ children }) {
 
   const scrollTo = useCallback((target, options = {}) => {
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(target, { lerp: 0.18, ...options });
+      lenisRef.current.scrollTo(target, { lerp: 0.12, ...options });
     } else {
       const y = typeof target === 'number' ? target : 0;
       window.scrollTo({ top: y, left: 0, behavior: 'smooth' });

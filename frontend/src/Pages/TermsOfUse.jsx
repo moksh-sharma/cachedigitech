@@ -115,7 +115,7 @@ const TermsOfUsePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-28 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 pt-28 px-6 sm:px-8 lg:px-12">
       {/* Header */}
       <div className="max-w-3xl mx-auto text-center mb-12">
         <FileText className="mx-auto h-12 w-12 text-red-600 mb-4" />

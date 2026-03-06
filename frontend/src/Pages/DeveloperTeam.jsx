@@ -75,13 +75,13 @@ const DeveloperTeam = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-red-50 to-white py-20 px-4">
+    <div className="min-h-screen bg-linear-to-br from-white via-red-50 to-white py-20 px-6 sm:px-8 lg:px-12">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold text-red-600 mb-6 relative">
             Our Developer Team
-            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-red-600 to-red-400 rounded-full"></div>
+            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-linear-to-r from-red-600 to-red-400 rounded-full"></div>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Meet the talented individuals behind our innovative web solutions. 
@@ -104,7 +104,7 @@ const DeveloperTeam = () => {
                   alt={dev.name}
                   className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-red-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
                 {/* Social Links Overlay */}
                 <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-8 group-hover:translate-x-0">
@@ -186,7 +186,7 @@ const DeveloperTeam = () => {
 
         {/* Call to Action */}
         {/* <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-red-600 to-red-500 rounded-2xl p-8 shadow-xl">
+          <div className="bg-linear-to-r from-red-600 to-red-500 rounded-2xl p-8 shadow-xl">
             <h3 className="text-2xl font-bold text-white mb-4">
               Want to work with us?
             </h3>

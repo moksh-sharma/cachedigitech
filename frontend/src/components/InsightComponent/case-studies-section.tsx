@@ -332,18 +332,28 @@ export function CaseStudiesSection() {
   const [activeTab, setActiveTab] = useState(industries[0] || '');
   const [selectedStudy, setSelectedStudy] = useState<CaseStudy | null>(null);
   
-  // Handle URL parameters for industry or active case study
+  // Map URL industry param to exact industry names used in case studies
+  const industryParamToTab: Record<string, string> = {
+    'Banking & Financial Services': 'BFSI',
+    'IT/ITES': 'IT & ITES',
+    'Government & Public Sector': 'Governance',
+    'Telecom': 'Telecom',
+    'BFSI': 'BFSI',
+    'Automobile & Manufacturing': 'Automobile & Manufacturing',
+    'Retail': 'Retail',
+    'Healthcare & Hospitality': 'Healthcare & Hospitality',
+    'Governance': 'Governance',
+    'IT & ITES': 'IT & ITES',
+  };
+
+  // Handle URL parameters for industry or active case study — run when search changes
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     // Prefer industry param when present
     const industryParam = urlParams.get('industry');
     if (industryParam) {
-      const synonymMapping: Record<string, string> = {
-        'Banking & Financial Services': 'BFSI',
-        'IT/ITES': 'IT & ITES',
-        'Government & Public Sector': 'Governance'
-      };
-      const normalizedIndustry = synonymMapping[industryParam] || industryParam;
+      const decodedParam = decodeURIComponent(industryParam);
+      const normalizedIndustry = industryParamToTab[decodedParam] || decodedParam;
       if (normalizedIndustry && industries.includes(normalizedIndustry)) {
         setActiveTab(normalizedIndustry);
         setTimeout(() => {
@@ -353,10 +363,10 @@ export function CaseStudiesSection() {
           }
         }, 300);
       }
-      // Clear the param once handled
+      // Clear the param after applying so URL is clean; tab state keeps the filter
       const newUrl = new URL(window.location.href);
       newUrl.searchParams.delete('industry');
-      window.history.replaceState({}, '', newUrl);
+      window.history.replaceState({}, '', newUrl.pathname + (newUrl.search || ''));
     }
 
     const activeStudyParam = urlParams.get('activeStudy');
@@ -380,14 +390,11 @@ export function CaseStudiesSection() {
           }
         }, 300);
       }
-      // Only clear the param once, so user can switch tabs after
       const newUrl = new URL(window.location.href);
       newUrl.searchParams.delete('activeStudy');
-      window.history.replaceState({}, '', newUrl);
+      window.history.replaceState({}, '', newUrl.pathname + (newUrl.search || ''));
     }
-    // Only run this effect on mount
-    // eslint-disable-next-line
-  }, []);
+  }, [location.search, industries]);
   
   // Filter case studies based on active tab
   const filteredCaseStudies = caseStudies.filter(study => study.industry === activeTab);
@@ -671,7 +678,7 @@ export function CaseStudiesSection() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className="overflow-hidden h-auto hover:shadow-2xl transition-all duration-300 group bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg">
+              <Card className="overflow-hidden h-auto hover:shadow-2xl transition-all duration-300 group bg-linear-to-br from-white to-gray-50 border-0 shadow-lg">
                 <div className={`grid lg:grid-cols-2 lg:items-stretch gap-4 lg:gap-0 ${index % 2 !== 0 ? 'lg:grid-flow-col-dense' : ''}`}>
                   <div className={`relative h-56 sm:h-60 lg:h-full ${index % 2 !== 0 ? 'lg:col-start-2' : ''}`}>
                     <ImageWithFallback
@@ -679,7 +686,7 @@ export function CaseStudiesSection() {
                       alt={study.title}
                       className="w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 to-transparent"></div>
+                    <div className="absolute inset-0 bg-linear-to-r from-red-600/20 to-transparent"></div>
                     <div className="absolute top-4 left-4">
                       <Badge className="bg-red-600 text-white border-0 shadow-lg">
                         {study.industry}

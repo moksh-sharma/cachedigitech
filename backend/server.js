@@ -1,327 +1,282 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import bcrypt from 'bcryptjs';
-import multer from 'multer';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { createRequire } from 'module';
-import fs from 'fs';
+import session from 'express-session';
 import OpenAI from 'openai';
-import { Pinecone } from '@pinecone-database/pinecone';
 import pool from './db.js';
 
 const openaiApiKey = process.env.OPENAI_API_KEY;
+const BLOG_ADMIN_EMAIL = (process.env.BLOG_ADMIN_EMAIL || 'admin@cachedigitech.com').trim().toLowerCase();
+const BLOG_ADMIN_PASSWORD = (process.env.BLOG_ADMIN_PASSWORD || 'admin').trim();
+const SESSION_SECRET = process.env.SESSION_SECRET || 'blog-cms-secret-change-in-production';
 const openai = openaiApiKey ? new OpenAI({ apiKey: openaiApiKey }) : null;
 
-const pineconeApiKey = process.env.PINECONE_API_KEY;
-const pinecone = pineconeApiKey ? new Pinecone({ apiKey: pineconeApiKey }) : null;
+const CHAT_SYSTEM_PROMPT_DEFAULT = `You are the System Assistant for Cache Digitech, a company that provides operational excellence, cloud infrastructure, and intelligent interfaces. You help visitors with questions about services, deployments, and technology. Keep replies concise, professional, and helpful.`;
 
-const EMBEDDING_MODEL = 'text-embedding-3-small';
-const EMBEDDING_DIM = 1536;
-const CHUNK_SIZE = 500;
-const CHUNK_OVERLAP = 50;
+/** Hardcoded chatbot config from environment (no database). */
+function getChatbotConfig() {
+  const enabled = process.env.CHATBOT_ENABLED !== 'false';
+  const systemPrompt = (process.env.CHATBOT_SYSTEM_PROMPT || '').trim() || CHAT_SYSTEM_PROMPT_DEFAULT;
+  const model = (process.env.CHATBOT_MODEL || '').trim() || process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini';
+  const maxTokens = Math.min(4096, Math.max(100, parseInt(process.env.CHATBOT_MAX_TOKENS, 10) || 512));
+  const expandSpeed = parseFloat(process.env.CHATBOT_EXPAND_SPEED) || 1.2;
+  const textFadeSpeed = parseFloat(process.env.CHATBOT_TEXT_FADE_SPEED) || 0.8;
+  return { enabled, systemPrompt, model, maxTokens, expandSpeed, textFadeSpeed };
+}
 
-const require = createRequire(import.meta.url);
-const session = require('express-session');
-const { PDFParse } = require('pdf-parse');
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const app = express();
-const PORT = process.env.PORT || 3000;
-const DATA_DIR = path.join(__dirname, 'data');
-const UPLOADS_DIR = path.join(__dirname, 'uploads');
-const SESSION_SECRET = process.env.SESSION_SECRET || 'change-me-in-production';
-
-const contentSchemaPath = path.join(DATA_DIR, 'content-schema.json');
-const contentSeedPath = path.join(DATA_DIR, 'content-seed.json');
-const mediaPlacementsPath = path.join(DATA_DIR, 'media-placements.json');
-
-const RAG_DIR = path.join(__dirname, 'uploads', 'rag');
-if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-if (!fs.existsSync(RAG_DIR)) fs.mkdirSync(RAG_DIR, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname) || '.jpg';
-    const name = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}${ext}`;
-    cb(null, name);
-  },
-});
-const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
-
-function readJson(filePath) {
+// --------------- Database init (create tables, seed defaults only) ---------------
+async function initDb() {
+  const client = await pool.connect();
   try {
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  } catch {
-    return null;
-  }
-}
-
-// --------------- RAG: multer for PDFs ---------------
-const ragStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, RAG_DIR),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname) || '.pdf';
-    const name = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}${ext}`;
-    cb(null, name);
-  },
-});
-const ragUpload = multer({
-  storage: ragStorage,
-  limits: { fileSize: 15 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'application/pdf') cb(null, true);
-    else cb(new Error('Only PDF files are allowed'), false);
-  },
-});
-
-// --------------- RAG: helpers ---------------
-function chunkText(text, size, overlap) {
-  const s = size || CHUNK_SIZE;
-  const o = overlap || CHUNK_OVERLAP;
-  const chunks = [];
-  let start = 0;
-  while (start < text.length) {
-    const end = Math.min(start + s, text.length);
-    const chunk = text.slice(start, end).trim();
-    if (chunk.length > 0) chunks.push(chunk);
-    if (end >= text.length) break;
-    start = end - o;
-  }
-  return chunks;
-}
-
-async function embedTexts(texts) {
-  if (!openai) throw new Error('OPENAI_API_KEY is not set');
-  const res = await openai.embeddings.create({ model: EMBEDDING_MODEL, input: texts });
-  return res.data.map((d) => d.embedding);
-}
-
-function getPineconeIndex(indexName) {
-  if (!pinecone || !indexName) return null;
-  try { return pinecone.index(indexName); } catch { return null; }
-}
-
-async function upsertChunksToPinecone(index, docId, chunks, embeddings) {
-  const records = chunks.map((text, i) => ({
-    id: `${docId}_${i}`,
-    values: embeddings[i],
-    metadata: { doc_id: docId, text },
-  })).filter((v) => v.values && v.values.length > 0);
-  if (records.length === 0) throw new Error('No valid vectors to upsert.');
-  // Pinecone upsert limit is 100 vectors at a time
-  for (let i = 0; i < records.length; i += 100) {
-    await index.upsert({ records: records.slice(i, i + 100) });
-  }
-}
-
-async function queryPinecone(index, queryEmbedding, topK) {
-  const res = await index.query({ vector: queryEmbedding, topK: topK || 5, includeMetadata: true });
-  return (res.matches || []).map((m) => m.metadata?.text || '').filter(Boolean);
-}
-
-async function deleteDocFromPinecone(index, docId) {
-  try {
-    // Use prefix-based delete: all vector IDs start with docId_
-    const prefix = `${docId}_`;
-    // List then delete in batches
-    let done = false;
-    while (!done) {
-      const listed = await index.listPaginated({ prefix, limit: 100 });
-      const ids = (listed.vectors || []).map((v) => v.id);
-      if (ids.length === 0) { done = true; break; }
-      await index.deleteMany(ids);
-      if (!listed.pagination?.next) done = true;
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS blogs (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        excerpt TEXT DEFAULT '',
+        author TEXT DEFAULT '',
+        date TEXT DEFAULT '',
+        category TEXT DEFAULT '',
+        read_time TEXT DEFAULT '',
+        image TEXT DEFAULT '',
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );
+      CREATE TABLE IF NOT EXISTS highlights (
+        id SERIAL PRIMARY KEY,
+        image TEXT DEFAULT '',
+        tag TEXT DEFAULT '',
+        title TEXT DEFAULT '',
+        description TEXT DEFAULT '',
+        type TEXT DEFAULT 'Article',
+        sort_order INT DEFAULT 0,
+        link TEXT DEFAULT ''
+      );
+      CREATE TABLE IF NOT EXISTS testimonials (
+        id SERIAL PRIMARY KEY,
+        name TEXT DEFAULT '',
+        role TEXT DEFAULT '',
+        company TEXT DEFAULT '',
+        logo TEXT DEFAULT '',
+        image TEXT DEFAULT '',
+        quote TEXT DEFAULT '',
+        sort_order INT DEFAULT 0
+      );
+      CREATE TABLE IF NOT EXISTS hero_backgrounds (
+        id SERIAL PRIMARY KEY,
+        image_url TEXT NOT NULL DEFAULT '',
+        sort_order INT DEFAULT 0
+      );
+      CREATE TABLE IF NOT EXISTS contact_submissions (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL DEFAULT '',
+        email TEXT NOT NULL DEFAULT '',
+        phone TEXT DEFAULT '',
+        subject TEXT NOT NULL DEFAULT '',
+        message TEXT NOT NULL DEFAULT '',
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );
+    `);
+    // Ensure highlights has link column (for existing DBs created before link was added)
+    try {
+      await client.query("ALTER TABLE highlights ADD COLUMN link TEXT DEFAULT ''");
+    } catch (e) {
+      if (e.code !== '42701') throw e; // 42701 = duplicate_column, ignore
     }
-  } catch (e) {
-    console.error('Pinecone delete error:', e.message);
+    const testimonialCount = (await client.query('SELECT COUNT(*) FROM testimonials')).rows[0].count;
+    if (parseInt(testimonialCount, 10) === 0) {
+      const defaultTestimonials = [
+        { name: 'Rajesh Sharma', role: 'Global CTO', company: 'Leading Telecom Provider', logo: '/Partners/cisco.png', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=700&fit=crop', quote: "We've built a very strong partnership with Cache Digitech. Our plan is to take this relationship to the next level by making our Digital IT the best in class, and we appreciate Cache for all their efforts and collaboration in making that happen." },
+        { name: 'Anita Verma', role: 'VP of IT', company: 'Top BFSI Enterprise', logo: '/community/microsoft.jpg', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=700&fit=crop', quote: "The cybersecurity solutions implemented by Cache gave us peace of mind. Their proactive approach to threat detection is remarkable, and their team operates as a true extension of ours." },
+        { name: 'Suresh Mehta', role: 'Director of Operations', company: 'Manufacturing Giant', logo: '/community/awslogo.png', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=700&fit=crop', quote: "Migrating to cloud with Cache was seamless. Zero downtime, complete transparency, and a team that truly understands enterprise scale. They delivered beyond our expectations." },
+        { name: 'Priya Nair', role: 'Head of Digital', company: 'Government Agency', logo: '/community/dell.png', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=700&fit=crop', quote: "Cache's managed services freed our internal team to focus on innovation. Their NOC and SOC operate like an extension of our own team, providing 24/7 reliability we can count on." },
+        { name: 'Vikram Patel', role: 'CISO', company: 'Consulting Firm', logo: '/community/paloalto.jpg', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=700&fit=crop', quote: "Working with Cache on our security posture was transformative. They brought deep OEM expertise and a genuine commitment to our success that is rare in this industry." },
+      ];
+      for (let i = 0; i < defaultTestimonials.length; i++) {
+        const t = defaultTestimonials[i];
+        await client.query(
+          `INSERT INTO testimonials (name, role, company, logo, image, quote, sort_order) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [t.name || '', t.role || '', t.company || '', t.logo || '', t.image || '', t.quote || '', i]
+        );
+      }
+      console.log('Seeded testimonials (default data)');
+    }
+    const heroBgCount = (await client.query('SELECT COUNT(*) FROM hero_backgrounds')).rows[0].count;
+    if (parseInt(heroBgCount, 10) === 0) {
+      const defaultHeroBg = [
+        'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80',
+        'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80',
+        'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1920&q=80',
+        'https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1920&q=80',
+      ];
+      for (let i = 0; i < defaultHeroBg.length; i++) {
+        await client.query(
+          'INSERT INTO hero_backgrounds (image_url, sort_order) VALUES ($1, $2)',
+          [defaultHeroBg[i], i]
+        );
+      }
+      console.log('Seeded hero_backgrounds (default images)');
+    }
+  } finally {
+    client.release();
   }
 }
 
-// --------------- DB: Config ---------------
-async function getConfig() {
-  const r = await pool.query('SELECT data FROM config WHERE id = 1');
-  if (!r.rows[0]) return null;
-  return r.rows[0].data || {};
+// --------------- Blogs (PostgreSQL) ---------------
+async function getBlogs() {
+  const res = await pool.query('SELECT id, title, excerpt, author, date, category, read_time AS "readTime", image FROM blogs ORDER BY id');
+  return res.rows;
 }
 
-async function setConfig(data) {
-  await pool.query(
-    `INSERT INTO config (id, data, updated_at) VALUES (1, $1::jsonb, NOW())
-     ON CONFLICT (id) DO UPDATE SET data = $1::jsonb, updated_at = NOW()`,
-    [JSON.stringify(data)]
+async function getBlogById(id) {
+  const numId = parseInt(id, 10);
+  const res = await pool.query(
+    'SELECT id, title, excerpt, author, date, category, read_time AS "readTime", image FROM blogs WHERE id = $1',
+    [numId]
   );
-  return data;
+  return res.rows[0] || null;
 }
 
-// --------------- DB: Stats ---------------
-async function getStats() {
-  const r = await pool.query('SELECT total_page_views, unique_visitors, page_views_by_path, last_updated FROM stats WHERE id = 1');
-  if (!r.rows[0]) return null;
-  const row = r.rows[0];
-  return {
-    totalPageViews: Number(row.total_page_views) || 0,
-    uniqueVisitors: Number(row.unique_visitors) || 0,
-    pageViewsByPath: row.page_views_by_path || {},
-    lastUpdated: row.last_updated ? row.last_updated.toISOString() : null,
-  };
+async function createBlog(post) {
+  const res = await pool.query(
+    `INSERT INTO blogs (title, excerpt, author, date, category, read_time, image)
+     VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, title, excerpt, author, date, category, read_time AS "readTime", image`,
+    [post.title, post.excerpt, post.author, post.date, post.category, post.readTime, post.image]
+  );
+  return res.rows[0];
 }
 
-// --------------- DB: Users ---------------
-async function getUsers() {
-  const r = await pool.query('SELECT id, email, password_hash, name, role, created_at FROM users ORDER BY created_at');
-  return r.rows.map((row) => ({
-    id: row.id,
-    email: row.email,
-    passwordHash: row.password_hash,
-    name: row.name,
-    role: row.role,
-    createdAt: row.created_at ? row.created_at.toISOString() : null,
+async function updateBlog(id, post) {
+  const numId = parseInt(id, 10);
+  const res = await pool.query(
+    `UPDATE blogs SET title=$1, excerpt=$2, author=$3, date=$4, category=$5, read_time=$6, image=$7
+     WHERE id=$8 RETURNING id, title, excerpt, author, date, category, read_time AS "readTime", image`,
+    [post.title, post.excerpt, post.author, post.date, post.category, post.readTime, post.image, numId]
+  );
+  return res.rows[0] || null;
+}
+
+async function deleteBlog(id) {
+  const numId = parseInt(id, 10);
+  const res = await pool.query('DELETE FROM blogs WHERE id = $1 RETURNING id', [numId]);
+  return res.rowCount > 0;
+}
+
+// --------------- Highlights (PostgreSQL) ---------------
+async function getHighlights() {
+  const res = await pool.query('SELECT image, tag, title, description, type, link FROM highlights ORDER BY sort_order, id');
+  return res.rows.map((r) => ({
+    image: r.image || '',
+    tag: r.tag || '',
+    title: r.title || '',
+    description: r.description || '',
+    type: r.type || 'Article',
+    link: r.link || '',
   }));
 }
 
-async function getUserByEmail(email) {
-  const r = await pool.query('SELECT id, email, password_hash, name, role, created_at FROM users WHERE LOWER(email) = LOWER($1)', [email]);
-  const row = r.rows[0];
-  if (!row) return null;
-  return {
-    id: row.id,
-    email: row.email,
-    passwordHash: row.password_hash,
-    name: row.name,
-    role: row.role,
-    createdAt: row.created_at ? row.created_at.toISOString() : null,
-  };
-}
-
-async function insertUser(user) {
-  await pool.query(
-    'INSERT INTO users (id, email, password_hash, name, role) VALUES ($1, $2, $3, $4, $5)',
-    [user.id, user.email, user.passwordHash, user.name, user.role]
-  );
-}
-
-async function deleteUserById(id) {
-  const r = await pool.query('DELETE FROM users WHERE id = $1 RETURNING id', [id]);
-  return r.rowCount > 0;
-}
-
-// --------------- DB: Content ---------------
-async function getContentMap() {
-  const r = await pool.query('SELECT page_id, section_id, data FROM content');
-  const map = {};
-  for (const row of r.rows) {
-    if (!map[row.page_id]) map[row.page_id] = {};
-    map[row.page_id][row.section_id] = row.data || {};
-  }
-  return map;
-}
-
-async function upsertContentSection(pageId, sectionId, data) {
-  await pool.query(
-    `INSERT INTO content (page_id, section_id, data, updated_at)
-     VALUES ($1, $2, $3::jsonb, NOW())
-     ON CONFLICT (page_id, section_id) DO UPDATE SET
-       data = content.data || $3::jsonb,
-       updated_at = NOW()`,
-    [pageId, sectionId, JSON.stringify(data)]
-  );
-  const r = await pool.query('SELECT data FROM content WHERE page_id = $1 AND section_id = $2', [pageId, sectionId]);
-  return r.rows[0]?.data || {};
-}
-
-async function seedContentFromSeedFile() {
-  const seed = readJson(contentSeedPath) || {};
-  let merged = 0;
-  const content = await getContentMap();
-  for (const pageId of Object.keys(seed)) {
-    for (const sectionId of Object.keys(seed[pageId] || {})) {
-      const existing = content[pageId]?.[sectionId] || {};
-      const seedSection = seed[pageId][sectionId] || {};
-      const toMerge = {};
-      for (const [field, value] of Object.entries(seedSection)) {
-        const current = existing[field];
-        if (current === undefined || current === null || String(current).trim() === '') {
-          toMerge[field] = value;
-          merged++;
-        }
-      }
-      if (Object.keys(toMerge).length > 0) {
-        await upsertContentSection(pageId, sectionId, toMerge);
-      }
+async function replaceHighlights(panels) {
+  const client = await pool.connect();
+  try {
+    await client.query('DELETE FROM highlights');
+    for (let i = 0; i < panels.length; i++) {
+      const p = panels[i];
+      await client.query(
+        `INSERT INTO highlights (image, tag, title, description, type, sort_order, link) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [p.image || '', p.tag || '', p.title || '', p.description || '', p.type || 'Article', i, p.link || '']
+      );
     }
+    return panels;
+  } finally {
+    client.release();
   }
-  return merged;
 }
 
-// --------------- Bootstrap ---------------
-async function ensureBootstrap() {
-  // Ensure rag_documents table exists with all columns
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS rag_documents (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      name TEXT NOT NULL DEFAULT '',
-      file_path TEXT NOT NULL DEFAULT '',
-      chunk_count INT DEFAULT 0,
-      created_at TIMESTAMPTZ DEFAULT NOW()
-    )
-  `);
-  // Add columns if table was created by an older version
-  await pool.query(`ALTER TABLE rag_documents ADD COLUMN IF NOT EXISTS file_path TEXT NOT NULL DEFAULT ''`).catch(() => {});
-  await pool.query(`ALTER TABLE rag_documents ADD COLUMN IF NOT EXISTS chunk_count INT DEFAULT 0`).catch(() => {});
+// --------------- Testimonials (PostgreSQL) ---------------
+async function getTestimonials() {
+  const res = await pool.query('SELECT name, role, company, logo, image, quote FROM testimonials ORDER BY sort_order, id');
+  return res.rows.map((r) => ({
+    name: r.name || '',
+    role: r.role || '',
+    company: r.company || '',
+    logo: r.logo || '',
+    image: r.image || '',
+    quote: r.quote || '',
+  }));
+}
 
-  const config = await getConfig();
-  if (!config || Object.keys(config).length === 0) {
-    await setConfig({
-      siteName: 'CacheDigitech',
-      maintenanceMode: false,
-      contactEmail: '',
-      analyticsEnabled: true,
-      featuredSections: ['hero', 'services', 'insights'],
-      updatedAt: new Date().toISOString(),
-    });
-  }
-
-  const stats = await getStats();
-  if (!stats) {
-    await pool.query(
-      `INSERT INTO stats (id, total_page_views, unique_visitors, page_views_by_path, last_updated)
-       VALUES (1, 0, 0, '{}'::jsonb, NOW()) ON CONFLICT (id) DO NOTHING`
-    );
-  }
-
-  const users = await getUsers();
-  if (users.length === 0) {
-    const defaultHash = bcrypt.hashSync('admin123', 10);
-    await insertUser({
-      id: 'admin-default',
-      email: 'admin@cachedigitech.com',
-      passwordHash: defaultHash,
-      name: 'Admin',
-      role: 'admin',
-    });
-  }
-
-  const contentMap = await getContentMap();
-  const schema = readJson(contentSchemaPath);
-  if (schema?.pages && Object.keys(contentMap).length === 0) {
-    const seed = readJson(contentSeedPath) || {};
-    for (const page of schema.pages) {
-      for (const sec of page.sections || []) {
-        const seedSection = seed[page.id]?.[sec.id] || {};
-        const data = {};
-        for (const f of sec.fields || []) {
-          data[f] = seedSection[f] != null ? String(seedSection[f]) : '';
-        }
-        await upsertContentSection(page.id, sec.id, data);
-      }
+async function replaceTestimonials(items) {
+  const client = await pool.connect();
+  try {
+    await client.query('DELETE FROM testimonials');
+    for (let i = 0; i < items.length; i++) {
+      const t = items[i];
+      await client.query(
+        `INSERT INTO testimonials (name, role, company, logo, image, quote, sort_order) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [t.name || '', t.role || '', t.company || '', t.logo || '', t.image || '', t.quote || '', i]
+      );
     }
+    return items;
+  } finally {
+    client.release();
   }
 }
 
-// Session config (cookie-based)
+// --------------- Hero backgrounds (PostgreSQL) ---------------
+async function getHeroBackgrounds() {
+  const res = await pool.query('SELECT image_url FROM hero_backgrounds ORDER BY sort_order, id');
+  return res.rows.map((r) => r.image_url || '').filter(Boolean);
+}
+
+async function replaceHeroBackgrounds(urls) {
+  const client = await pool.connect();
+  try {
+    await client.query('DELETE FROM hero_backgrounds');
+    const list = Array.isArray(urls) ? urls : [];
+    for (let i = 0; i < list.length; i++) {
+      const url = typeof list[i] === 'string' ? list[i].trim() : '';
+      if (url) await client.query('INSERT INTO hero_backgrounds (image_url, sort_order) VALUES ($1, $2)', [url, i]);
+    }
+    return list.filter(Boolean);
+  } finally {
+    client.release();
+  }
+}
+
+// --------------- Contact submissions: database only (no JSON files) ---------------
+async function getContactSubmissions() {
+  const res = await pool.query(
+    'SELECT id, name, email, phone, subject, message, created_at FROM contact_submissions ORDER BY created_at DESC'
+  );
+  return res.rows.map((r) => ({
+    id: r.id,
+    name: r.name || '',
+    email: r.email || '',
+    phone: r.phone || '',
+    subject: r.subject || '',
+    message: r.message || '',
+    created_at: r.created_at,
+  }));
+}
+
+async function insertContactSubmission(body) {
+  const res = await pool.query(
+    `INSERT INTO contact_submissions (name, email, phone, subject, message)
+     VALUES ($1, $2, $3, $4, $5) RETURNING id, name, email, phone, subject, message, created_at`,
+    [
+      body.name != null ? String(body.name).trim() : '',
+      body.email != null ? String(body.email).trim() : '',
+      body.phone != null ? String(body.phone).trim() : '',
+      body.subject != null ? String(body.subject).trim() : '',
+      body.message != null ? String(body.message).trim() : '',
+    ]
+  );
+  return res.rows[0];
+}
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Trust proxy so session cookie works when frontend is behind Vite proxy (e.g. port 5178 -> 3000)
+app.set('trust proxy', 1);
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(
@@ -338,179 +293,254 @@ app.use(
   })
 );
 
-function requireAuth(req, res, next) {
-  if (req.session?.user) return next();
-  if (req.path.startsWith('/api/')) return res.status(401).json({ error: 'Unauthorized' });
-  return res.redirect('/admin/login');
+function requireBlogAuth(req, res, next) {
+  if (req.session?.blogAdmin) return next();
+  res.status(401).json({ error: 'Unauthorized' });
 }
 
-function requireAdmin(req, res, next) {
-  if (req.session?.user?.role === 'admin') return next();
-  if (req.path.startsWith('/api/')) return res.status(403).json({ error: 'Forbidden' });
-  return res.redirect('/admin');
-}
-
-// --------------- Auth API ---------------
-app.post('/api/auth/login', async (req, res) => {
-  const { email, password } = req.body || {};
-  if (!email || !password) return res.status(400).json({ error: 'Email and password required' });
-  const user = await getUserByEmail(email);
-  if (!user || !bcrypt.compareSync(password, user.passwordHash)) {
-    return res.status(401).json({ error: 'Invalid email or password' });
+// --------------- Blog auth ---------------
+app.post('/api/auth/blog-login', (req, res) => {
+  const email = typeof req.body?.email === 'string' ? req.body.email.trim().toLowerCase() : '';
+  const password = typeof req.body?.password === 'string' ? req.body.password.trim() : '';
+  const emailMatch = email && BLOG_ADMIN_EMAIL && email === BLOG_ADMIN_EMAIL;
+  const passwordMatch = password && password === BLOG_ADMIN_PASSWORD;
+  if (emailMatch && passwordMatch) {
+    req.session.blogAdmin = true;
+    req.session.save((err) => {
+      if (err) return res.status(500).json({ error: 'Session error' });
+      res.json({ ok: true });
+    });
+  } else {
+    res.status(401).json({ error: 'Invalid email or password' });
   }
-  req.session.user = { id: user.id, email: user.email, name: user.name, role: user.role };
-  req.session.save((err) => {
-    if (err) return res.status(500).json({ error: 'Session error' });
-    res.json({ user: req.session.user });
+});
+
+app.post('/api/auth/blog-logout', (req, res) => {
+  req.session.blogAdmin = false;
+  req.session.save(() => res.json({ ok: true }));
+});
+
+app.get('/api/auth/blog-me', (req, res) => {
+  if (req.session?.blogAdmin) return res.json({ loggedIn: true });
+  res.json({ loggedIn: false });
+});
+
+// --------------- Blog CRUD (public read, auth write) ---------------
+app.get('/api/blogs', async (req, res) => {
+  try {
+    const blogs = await getBlogs();
+    res.json(blogs);
+  } catch (e) {
+    console.error('GET /api/blogs:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to load blogs' });
+  }
+});
+
+app.get('/api/blogs/:id', async (req, res) => {
+  try {
+    const post = await getBlogById(req.params.id);
+    if (!post) return res.status(404).json({ error: 'Not found' });
+    res.json(post);
+  } catch (e) {
+    console.error('GET /api/blogs/:id:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to load blog' });
+  }
+});
+
+app.post('/api/blogs', requireBlogAuth, async (req, res) => {
+  try {
+    const { title, excerpt, author, date, category, readTime, image } = req.body || {};
+    if (!title || typeof title !== 'string' || !title.trim()) {
+      return res.status(400).json({ error: 'Title is required' });
+    }
+    const post = {
+      title: String(title).trim(),
+      excerpt: excerpt != null ? String(excerpt).trim() : '',
+      author: author != null ? String(author).trim() : '',
+      date: date != null ? String(date).trim() : '',
+      category: category != null ? String(category).trim() : '',
+      readTime: readTime != null ? String(readTime).trim() : '',
+      image: image != null ? String(image).trim() : '',
+    };
+    const created = await createBlog(post);
+    res.status(201).json(created);
+  } catch (e) {
+    console.error('POST /api/blogs:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to create blog' });
+  }
+});
+
+app.put('/api/blogs/:id', requireBlogAuth, async (req, res) => {
+  try {
+    const existing = await getBlogById(req.params.id);
+    if (!existing) return res.status(404).json({ error: 'Not found' });
+    const { title, excerpt, author, date, category, readTime, image } = req.body || {};
+    const post = {
+      title: title !== undefined ? String(title).trim() : existing.title,
+      excerpt: excerpt !== undefined ? String(excerpt).trim() : existing.excerpt,
+      author: author !== undefined ? String(author).trim() : existing.author,
+      date: date !== undefined ? String(date).trim() : existing.date,
+      category: category !== undefined ? String(category).trim() : existing.category,
+      readTime: readTime !== undefined ? String(readTime).trim() : existing.readTime,
+      image: image !== undefined ? String(image).trim() : existing.image,
+    };
+    if (!post.title) return res.status(400).json({ error: 'Title is required' });
+    const updated = await updateBlog(req.params.id, post);
+    res.json(updated);
+  } catch (e) {
+    console.error('PUT /api/blogs/:id:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to update blog' });
+  }
+});
+
+app.delete('/api/blogs/:id', requireBlogAuth, async (req, res) => {
+  try {
+    const deleted = await deleteBlog(req.params.id);
+    if (!deleted) return res.status(404).json({ error: 'Not found' });
+    res.json({ ok: true });
+  } catch (e) {
+    console.error('DELETE /api/blogs/:id:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to delete blog' });
+  }
+});
+
+// --------------- Latest Highlights (public read, auth write) ---------------
+app.get('/api/highlights', async (req, res) => {
+  try {
+    const panels = await getHighlights();
+    res.json(panels);
+  } catch (e) {
+    console.error('GET /api/highlights:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to load highlights' });
+  }
+});
+
+app.put('/api/highlights', requireBlogAuth, async (req, res) => {
+  try {
+    const body = req.body;
+    const panels = Array.isArray(body) ? body : [];
+    const normalized = panels.map((p) => ({
+      image: p?.image != null ? String(p.image).trim() : '',
+      tag: p?.tag != null ? String(p.tag).trim() : '',
+      title: p?.title != null ? String(p.title).trim() : '',
+      description: p?.description != null ? String(p.description).trim() : '',
+      type: p?.type != null ? String(p.type).trim() : 'Article',
+      link: p?.link != null ? String(p.link).trim() : '',
+    }));
+    await replaceHighlights(normalized);
+    res.json(normalized);
+  } catch (e) {
+    console.error('PUT /api/highlights:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to save highlights' });
+  }
+});
+
+// --------------- Testimonials (public read, auth write) ---------------
+app.get('/api/testimonials', async (req, res) => {
+  try {
+    const items = await getTestimonials();
+    res.json(items);
+  } catch (e) {
+    console.error('GET /api/testimonials:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to load testimonials' });
+  }
+});
+
+app.put('/api/testimonials', requireBlogAuth, async (req, res) => {
+  try {
+    const body = req.body;
+    const items = Array.isArray(body) ? body : [];
+    const normalized = items.map((t) => ({
+      name: t?.name != null ? String(t.name).trim() : '',
+      role: t?.role != null ? String(t.role).trim() : '',
+      company: t?.company != null ? String(t.company).trim() : '',
+      logo: t?.logo != null ? String(t.logo).trim() : '',
+      image: t?.image != null ? String(t.image).trim() : '',
+      quote: t?.quote != null ? String(t.quote).trim() : '',
+    }));
+    await replaceTestimonials(normalized);
+    res.json(normalized);
+  } catch (e) {
+    console.error('PUT /api/testimonials:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to save testimonials' });
+  }
+});
+
+// --------------- Hero backgrounds (public read, auth write) ---------------
+app.get('/api/hero-backgrounds', async (req, res) => {
+  try {
+    const urls = await getHeroBackgrounds();
+    res.json(urls);
+  } catch (e) {
+    console.error('GET /api/hero-backgrounds:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to load hero backgrounds' });
+  }
+});
+
+app.put('/api/hero-backgrounds', requireBlogAuth, async (req, res) => {
+  try {
+    const body = req.body;
+    const urls = Array.isArray(body) ? body : [];
+    const normalized = urls.map((u) => (typeof u === 'string' ? u.trim() : '')).filter(Boolean);
+    await replaceHeroBackgrounds(normalized);
+    res.json(normalized);
+  } catch (e) {
+    console.error('PUT /api/hero-backgrounds:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to save hero backgrounds' });
+  }
+});
+
+// --------------- Contact form (public submit; stored in database only) ---------------
+app.post('/api/contact', async (req, res) => {
+  try {
+    const body = req.body || {};
+    const name = body.name != null ? String(body.name).trim() : '';
+    const email = body.email != null ? String(body.email).trim() : '';
+    const subject = body.subject != null ? String(body.subject).trim() : '';
+    const message = body.message != null ? String(body.message).trim() : '';
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ error: 'Name, email, subject and message are required.' });
+    }
+    const created = await insertContactSubmission({
+      name,
+      email,
+      phone: body.phone != null ? String(body.phone).trim() : '',
+      subject,
+      message,
+    });
+    res.status(201).json(created);
+  } catch (e) {
+    console.error('POST /api/contact:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to save message.' });
+  }
+});
+
+// --------------- Contact submissions (admin read-only; fetched from database only) ---------------
+app.get('/api/contact-submissions', requireBlogAuth, async (req, res) => {
+  try {
+    const list = await getContactSubmissions();
+    res.json(list);
+  } catch (e) {
+    console.error('GET /api/contact-submissions:', e.message);
+    res.status(500).json({ error: e.message || 'Failed to load contact submissions.' });
+  }
+});
+
+// --------------- Chatbot UI config (for frontend; optional) ---------------
+app.get('/api/config/chatbot-ui', (req, res) => {
+  const c = getChatbotConfig();
+  res.json({
+    enabled: c.enabled,
+    expandSpeed: c.expandSpeed,
+    textFadeSpeed: c.textFadeSpeed,
   });
 });
 
-app.post('/api/auth/logout', (req, res) => {
-  req.session.destroy(() => res.json({ ok: true }));
-});
-
-app.get('/api/auth/me', (req, res) => {
-  if (!req.session?.user) return res.status(401).json({ error: 'Not logged in' });
-  res.json({ user: req.session.user });
-});
-
-// --------------- API: Stats ---------------
-app.get('/api/stats', requireAuth, async (req, res) => {
-  const stats = await getStats();
-  res.json(stats || { totalPageViews: 0, uniqueVisitors: 0, pageViewsByPath: {}, lastUpdated: null });
-});
-
-app.post('/api/stats/view', async (req, res) => {
-  const pathName = req.body?.path || req.query?.path || '/';
-  await pool.query(
-    `INSERT INTO stats (id, total_page_views, unique_visitors, page_views_by_path, last_updated)
-     VALUES (1, 1, 0, jsonb_build_object($1::text, 1), NOW())
-     ON CONFLICT (id) DO UPDATE SET
-       total_page_views = stats.total_page_views + 1,
-       page_views_by_path = jsonb_set(
-         COALESCE(stats.page_views_by_path, '{}'::jsonb),
-         ARRAY[$1::text],
-         to_jsonb(COALESCE((stats.page_views_by_path->$1::text)::int, 0) + 1)
-       ),
-       last_updated = NOW()`,
-    [pathName]
-  );
-  res.json({ ok: true });
-});
-
-// --------------- API: Config ---------------
-// Public: exposes only chatbot UI settings (animation speeds, enabled state)
-app.get('/api/config/chatbot-ui', async (req, res) => {
-  try {
-    const config = await getConfig();
-    const c = config?.chatbot || {};
-    res.json({
-      enabled: c.enabled !== false,
-      expandSpeed: c.expandSpeed || 1.2,
-      textFadeSpeed: c.textFadeSpeed || 0.8,
-    });
-  } catch (e) {
-    res.json({ enabled: true, expandSpeed: 1.2, textFadeSpeed: 0.8 });
-  }
-});
-
-app.get('/api/config', requireAuth, async (req, res) => {
-  const config = await getConfig();
-  res.json(config || {});
-});
-
-app.put('/api/config', requireAuth, async (req, res) => {
-  const current = await getConfig();
-  const updated = { ...(current || {}), ...req.body, updatedAt: new Date().toISOString() };
-  await setConfig(updated);
-  res.json(updated);
-});
-
-// --------------- API: Users ---------------
-app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
-  const users = await getUsers();
-  res.json(users.map(({ passwordHash, ...u }) => u));
-});
-
-app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
-  const { email, password, name, role } = req.body || {};
-  if (!email || !password) return res.status(400).json({ error: 'Email and password required' });
-  const existing = await getUserByEmail(email);
-  if (existing) return res.status(400).json({ error: 'User with this email already exists' });
-  const newUser = {
-    id: 'user-' + Date.now(),
-    email: email.trim().toLowerCase(),
-    passwordHash: bcrypt.hashSync(password, 10),
-    name: (name || email).trim(),
-    role: role === 'admin' ? 'admin' : 'user',
-  };
-  await insertUser(newUser);
-  res.status(201).json({ id: newUser.id, email: newUser.email, name: newUser.name, role: newUser.role });
-});
-
-app.delete('/api/users/:id', requireAuth, requireAdmin, async (req, res) => {
-  const deleted = await deleteUserById(req.params.id);
-  if (!deleted) return res.status(404).json({ error: 'User not found' });
-  res.json({ ok: true });
-});
-
-// --------------- API: Content ---------------
-app.get('/api/content/schema', requireAuth, (req, res) => {
-  const schema = readJson(contentSchemaPath);
-  if (!schema) return res.status(500).json({ error: 'Schema not found' });
-  res.json(schema);
-});
-
-async function getMergedContent() {
-  const content = await getContentMap();
-  const schema = readJson(contentSchemaPath);
-  if (!schema?.pages) return content;
-  const merged = {};
-  for (const page of schema.pages) {
-    merged[page.id] = merged[page.id] || {};
-    for (const sec of page.sections || []) {
-      merged[page.id][sec.id] = { ...(content[page.id]?.[sec.id] || {}) };
-      for (const f of sec.fields || []) {
-        if (merged[page.id][sec.id][f] === undefined) merged[page.id][sec.id][f] = '';
-      }
-    }
-  }
-  return merged;
-}
-
-app.get('/api/content', async (req, res) => {
-  const content = await getMergedContent();
-  res.json(content);
-});
-
-app.get('/api/content/editable', requireAuth, async (req, res) => {
-  const content = await getMergedContent();
-  res.json(content);
-});
-
-app.put('/api/content', requireAuth, async (req, res) => {
-  const { pageId, sectionId, data } = req.body || {};
-  if (!pageId || !sectionId || typeof data !== 'object') {
-    return res.status(400).json({ error: 'pageId, sectionId, and data required' });
-  }
-  const updated = { ...data, updatedAt: new Date().toISOString() };
-  const result = await upsertContentSection(pageId, sectionId, updated);
-  res.json(result);
-});
-
-app.post('/api/content/seed', requireAuth, async (req, res) => {
-  const merged = await seedContentFromSeedFile();
-  res.json({ ok: true, merged });
-});
-
-// --------------- API: Chat (hero section chatbot, uses OPENAI_API_KEY + config.chatbot) ---------------
-const CHAT_SYSTEM_PROMPT_DEFAULT = `You are the System Assistant for Cache Digitech, a company that provides operational excellence, cloud infrastructure, and intelligent interfaces. You help visitors with questions about services, deployments, and technology. Keep replies concise, professional, and helpful.`;
-
+// --------------- Chat (non-streaming) ---------------
 app.post('/api/chat', async (req, res) => {
-  const config = await getConfig();
-  const chatbot = config?.chatbot || {};
+  const chatbot = getChatbotConfig();
   if (chatbot.enabled === false) {
-    return res.status(503).json({ error: 'Chat is disabled in admin settings.' });
+    return res.status(503).json({ error: 'Chat is disabled.' });
   }
   if (!openai) {
     return res.status(503).json({ error: 'Chat is not configured. Set OPENAI_API_KEY in the server environment.' });
@@ -523,38 +553,16 @@ app.post('/api/chat', async (req, res) => {
   if (!lastMsg?.content || typeof lastMsg.content !== 'string') {
     return res.status(400).json({ error: 'Last message must have content' });
   }
-  let systemPrompt = (chatbot.systemPrompt && String(chatbot.systemPrompt).trim()) || CHAT_SYSTEM_PROMPT_DEFAULT;
-  const model = (chatbot.model && String(chatbot.model).trim()) || process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini';
-
-  // Optional RAG: retrieve knowledge base context from Pinecone
-  if (chatbot.ragEnabled === true) {
-    const indexName = (chatbot.pineconeIndex && String(chatbot.pineconeIndex).trim()) || process.env.PINECONE_INDEX;
-    const index = getPineconeIndex(indexName);
-    if (index && openai) {
-      try {
-        const topK = Number(chatbot.ragTopK) || 5;
-        const queryText = lastMsg.content;
-        const [queryEmb] = await embedTexts([queryText]);
-        const contexts = await queryPinecone(index, queryEmb, topK);
-        if (contexts.length > 0) {
-          const contextBlock = contexts.map((c, i) => `[${i + 1}] ${c}`).join('\n\n');
-          systemPrompt += `\n\nUse the following knowledge base excerpts when relevant to the user\'s question. If the excerpts are not relevant, answer from your general knowledge.\n\n${contextBlock}`;
-        }
-      } catch (ragErr) {
-        console.error('RAG retrieval error (falling back to non-RAG):', ragErr.message);
-      }
-    }
-  }
 
   try {
     const apiMessages = [
-      { role: 'system', content: systemPrompt },
+      { role: 'system', content: chatbot.systemPrompt },
       ...messages.map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: String(m.content) })),
     ];
     const completion = await openai.chat.completions.create({
-      model,
+      model: chatbot.model,
       messages: apiMessages,
-      max_tokens: Number(chatbot.maxTokens) || 512,
+      max_tokens: chatbot.maxTokens,
     });
     const reply = completion.choices?.[0]?.message?.content?.trim() || 'Sorry, I could not generate a response.';
     res.json({ reply });
@@ -565,12 +573,11 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// --------------- API: Chat Stream (SSE) ---------------
+// --------------- Chat Stream (SSE) ---------------
 app.post('/api/chat/stream', async (req, res) => {
-  const config = await getConfig();
-  const chatbot = config?.chatbot || {};
+  const chatbot = getChatbotConfig();
   if (chatbot.enabled === false) {
-    return res.status(503).json({ error: 'Chat is disabled in admin settings.' });
+    return res.status(503).json({ error: 'Chat is disabled.' });
   }
   if (!openai) {
     return res.status(503).json({ error: 'Chat is not configured. Set OPENAI_API_KEY in the server environment.' });
@@ -583,29 +590,7 @@ app.post('/api/chat/stream', async (req, res) => {
   if (!lastMsg?.content || typeof lastMsg.content !== 'string') {
     return res.status(400).json({ error: 'Last message must have content' });
   }
-  let systemPrompt = (chatbot.systemPrompt && String(chatbot.systemPrompt).trim()) || CHAT_SYSTEM_PROMPT_DEFAULT;
-  const model = (chatbot.model && String(chatbot.model).trim()) || process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini';
 
-  // Optional RAG
-  if (chatbot.ragEnabled === true) {
-    const indexName = (chatbot.pineconeIndex && String(chatbot.pineconeIndex).trim()) || process.env.PINECONE_INDEX;
-    const index = getPineconeIndex(indexName);
-    if (index && openai) {
-      try {
-        const topK = Number(chatbot.ragTopK) || 5;
-        const [queryEmb] = await embedTexts([lastMsg.content]);
-        const contexts = await queryPinecone(index, queryEmb, topK);
-        if (contexts.length > 0) {
-          const contextBlock = contexts.map((c, i) => `[${i + 1}] ${c}`).join('\n\n');
-          systemPrompt += `\n\nUse the following knowledge base excerpts when relevant to the user\'s question. If the excerpts are not relevant, answer from your general knowledge.\n\n${contextBlock}`;
-        }
-      } catch (ragErr) {
-        console.error('RAG retrieval error (falling back to non-RAG):', ragErr.message);
-      }
-    }
-  }
-
-  // Set SSE headers
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
@@ -613,13 +598,13 @@ app.post('/api/chat/stream', async (req, res) => {
 
   try {
     const apiMessages = [
-      { role: 'system', content: systemPrompt },
+      { role: 'system', content: chatbot.systemPrompt },
       ...messages.map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: String(m.content) })),
     ];
     const stream = await openai.chat.completions.create({
-      model,
+      model: chatbot.model,
       messages: apiMessages,
-      max_tokens: Number(chatbot.maxTokens) || 512,
+      max_tokens: chatbot.maxTokens,
       stream: true,
     });
 
@@ -638,238 +623,22 @@ app.post('/api/chat/stream', async (req, res) => {
   }
 });
 
-// --------------- API: RAG Documents ---------------
-app.get('/api/rag/documents', requireAuth, async (req, res) => {
+async function start() {
+  if (!process.env.DATABASE_URL) {
+    console.error('DATABASE_URL is required. Set it in backend/.env');
+    process.exit(1);
+  }
   try {
-    const { rows } = await pool.query('SELECT id, name, chunk_count, created_at FROM rag_documents ORDER BY created_at DESC');
-    res.json(rows.map((r) => ({ id: r.id, name: r.name, chunkCount: r.chunk_count || 0, createdAt: r.created_at?.toISOString() || null })));
+    await initDb();
+    console.log('Database connected.');
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    console.error('Database connection failed:', e.message);
+    process.exit(1);
   }
-});
-
-app.post('/api/rag/documents', requireAuth, ragUpload.single('file'), async (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'A PDF file is required.' });
-
-  const config = await getConfig();
-  const chatbot = config?.chatbot || {};
-  const indexName = (chatbot.pineconeIndex && String(chatbot.pineconeIndex).trim()) || process.env.PINECONE_INDEX;
-  const index = getPineconeIndex(indexName);
-  if (!index) {
-    try { fs.unlinkSync(path.join(RAG_DIR, req.file.filename)); } catch {}
-    return res.status(503).json({ error: 'Pinecone is not configured. Set PINECONE_API_KEY and a Pinecone index name (admin settings or PINECONE_INDEX env var).' });
-  }
-  if (!openai) {
-    try { fs.unlinkSync(path.join(RAG_DIR, req.file.filename)); } catch {}
-    return res.status(503).json({ error: 'OPENAI_API_KEY is required for embeddings.' });
-  }
-
-  let docId = null;
-  try {
-    // 1. Read PDF and extract text
-    const filePath = path.join(RAG_DIR, req.file.filename);
-    const parser = new PDFParse({ url: filePath });
-    const pdfData = await parser.getText();
-    // Clean: remove page separators like "-- 1 of 5 --" and collapse whitespace
-    let text = (pdfData.text || '').replace(/--\s*\d+\s+of\s+\d+\s*--/g, ' ').trim();
-    // Remove runs of whitespace
-    text = text.replace(/\s{3,}/g, '  ');
-    if (!text || text.length < 10) {
-      try { fs.unlinkSync(path.join(RAG_DIR, req.file.filename)); } catch {}
-      return res.status(400).json({ error: 'Could not extract any text from the PDF.' });
-    }
-    console.log(`RAG: extracted ${text.length} chars from "${req.file.originalname}"`);
-
-    // 2. Chunk text
-    const chunks = chunkText(text, CHUNK_SIZE, CHUNK_OVERLAP);
-    if (chunks.length === 0) {
-      try { fs.unlinkSync(path.join(RAG_DIR, req.file.filename)); } catch {}
-      return res.status(400).json({ error: 'PDF text was too short to create any chunks.' });
-    }
-    console.log(`RAG: created ${chunks.length} chunks`);
-
-    // 3. Insert metadata row into Postgres
-    const { rows } = await pool.query(
-      'INSERT INTO rag_documents (name, file_path, chunk_count) VALUES ($1, $2, $3) RETURNING id, name, chunk_count, created_at',
-      [req.file.originalname, req.file.filename, chunks.length]
-    );
-    docId = rows[0].id;
-
-    // 4. Embed chunks (batch in groups of 100 for OpenAI)
-    const allEmbeddings = [];
-    for (let i = 0; i < chunks.length; i += 100) {
-      const batch = chunks.slice(i, i + 100);
-      const embs = await embedTexts(batch);
-      allEmbeddings.push(...embs);
-    }
-
-    // 5. Upsert to Pinecone
-    await upsertChunksToPinecone(index, docId, chunks, allEmbeddings);
-
-    res.status(201).json({ id: docId, name: rows[0].name, chunkCount: rows[0].chunk_count, createdAt: rows[0].created_at?.toISOString() || null });
-  } catch (e) {
-    console.error('RAG upload error:', e.message);
-    // Cleanup on failure
-    try { fs.unlinkSync(path.join(RAG_DIR, req.file.filename)); } catch {}
-    if (docId) {
-      try { await pool.query('DELETE FROM rag_documents WHERE id = $1', [docId]); } catch {}
-      try { await deleteDocFromPinecone(index, docId); } catch {}
-    }
-    res.status(500).json({ error: e.message || 'Failed to process PDF.' });
-  }
-});
-
-app.delete('/api/rag/documents/:id', requireAuth, async (req, res) => {
-  const id = req.params.id;
-  try {
-    const { rows } = await pool.query('SELECT file_path FROM rag_documents WHERE id = $1', [id]);
-    if (rows.length === 0) return res.status(404).json({ error: 'Document not found' });
-
-    // Delete vectors from Pinecone
-    const config = await getConfig();
-    const chatbot = config?.chatbot || {};
-    const indexName = (chatbot.pineconeIndex && String(chatbot.pineconeIndex).trim()) || process.env.PINECONE_INDEX;
-    const index = getPineconeIndex(indexName);
-    if (index) await deleteDocFromPinecone(index, id);
-
-    // Delete file from disk
-    try { fs.unlinkSync(path.join(RAG_DIR, rows[0].file_path)); } catch {}
-
-    // Delete row from Postgres
-    await pool.query('DELETE FROM rag_documents WHERE id = $1', [id]);
-    res.json({ ok: true });
-  } catch (e) {
-    console.error('RAG delete error:', e.message);
-    res.status(500).json({ error: e.message });
-  }
-});
-
-// --------------- API: Media ---------------
-function readMediaPlacements() {
-  try {
-    const raw = fs.readFileSync(mediaPlacementsPath, 'utf8');
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-app.get('/api/media', requireAuth, async (req, res) => {
-  try {
-    const { rows } = await pool.query(
-      'SELECT id, filename, path, mime_type, size_bytes, created_at FROM media ORDER BY created_at DESC'
-    );
-    res.json(rows);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-app.post('/api/media', requireAuth, upload.single('file'), async (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-  try {
-    const { rows } = await pool.query(
-      `INSERT INTO media (filename, path, mime_type, size_bytes) VALUES ($1, $2, $3, $4) RETURNING id, filename, path, mime_type, size_bytes, created_at`,
-      [req.file.originalname, req.file.filename, req.file.mimetype, req.file.size]
-    );
-    const row = rows[0];
-    res.status(201).json({ id: row.id, path: row.path, url: `/media/${row.path}` });
-  } catch (e) {
-    try { fs.unlinkSync(path.join(UPLOADS_DIR, req.file.filename)); } catch {}
-    res.status(500).json({ error: e.message });
-  }
-});
-
-app.delete('/api/media/:id', requireAuth, async (req, res) => {
-  try {
-    const { rows } = await pool.query('SELECT path FROM media WHERE id = $1', [req.params.id]);
-    if (rows.length === 0) return res.status(404).json({ error: 'Media not found' });
-    const filePath = path.join(UPLOADS_DIR, rows[0].path);
-    await pool.query('DELETE FROM media WHERE id = $1', [req.params.id]);
-    try { fs.unlinkSync(filePath); } catch {}
-    res.json({ ok: true });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-app.get('/api/media/placements', async (req, res) => {
-  const definitions = readMediaPlacements();
-  const placements = {};
-  try {
-    const { rows } = await pool.query(`
-      SELECT mp.page_id, mp.section_id, mp.field_key, m.path
-      FROM media_placement mp
-      JOIN media m ON m.id = mp.media_id
-    `);
-    for (const r of rows) {
-      const key = `${r.page_id}.${r.section_id}.${r.field_key}`;
-      placements[key] = `/media/${r.path}`;
-    }
-  } catch (_) {}
-  for (const def of definitions) {
-    const key = `${def.pageId}.${def.sectionId}.${def.fieldKey}`;
-    if (!placements[key] && def.defaultUrl) placements[key] = def.defaultUrl;
-  }
-  res.json(placements);
-});
-
-app.get('/api/media/placements/editable', requireAuth, async (req, res) => {
-  const definitions = readMediaPlacements();
-  const assignments = {};
-  try {
-    const { rows } = await pool.query(`
-      SELECT mp.page_id, mp.section_id, mp.field_key, mp.media_id, m.path, m.filename
-      FROM media_placement mp
-      JOIN media m ON m.id = mp.media_id
-    `);
-    for (const r of rows) {
-      const key = `${r.page_id}.${r.section_id}.${r.field_key}`;
-      assignments[key] = { mediaId: r.media_id, path: r.path, url: `/media/${r.path}`, filename: r.filename };
-    }
-  } catch (_) {}
-  res.json({ definitions, assignments });
-});
-
-app.put('/api/media/placement', requireAuth, async (req, res) => {
-  const { pageId, sectionId, fieldKey, mediaId } = req.body || {};
-  if (!pageId || !sectionId || !fieldKey) return res.status(400).json({ error: 'pageId, sectionId, fieldKey required' });
-  try {
-    await pool.query(
-      `INSERT INTO media_placement (page_id, section_id, field_key, media_id) VALUES ($1, $2, $3, $4)
-       ON CONFLICT (page_id, section_id, field_key) DO UPDATE SET media_id = $4`,
-      [pageId, sectionId, fieldKey, mediaId || null]
-    );
-    res.json({ ok: true });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-// --------------- Admin pages ---------------
-app.get('/admin/login', (req, res) => {
-  if (req.session?.user) return res.redirect('/admin');
-  res.sendFile(path.join(__dirname, 'admin', 'login.html'));
-});
-
-app.get('/admin', (req, res) => {
-  if (!req.session?.user) return res.redirect('/admin/login');
-  res.sendFile(path.join(__dirname, 'admin', 'index.html'));
-});
-
-app.get('/admin/*', (req, res) => res.redirect('/admin'));
-app.use('/admin-assets', express.static(path.join(__dirname, 'admin', 'assets')));
-app.use('/media', express.static(UPLOADS_DIR));
-
-async function run() {
-  await ensureBootstrap();
   app.listen(PORT, () => {
     console.log(`Backend running at http://localhost:${PORT}`);
-    console.log(`Admin portal: http://localhost:${PORT}/admin (login: admin@cachedigitech.com / admin123)`);
+    if (!openai) console.log('Chat disabled: set OPENAI_API_KEY to enable.');
   });
 }
 
-run().catch((err) => {
-  console.error('Startup error:', err);
-  process.exit(1);
-});
+start();

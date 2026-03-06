@@ -150,7 +150,7 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-[#fafafa]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[var(--apple-black)] min-h-screen flex items-center">
+      <section className="relative overflow-hidden bg-(--apple-black) min-h-screen flex items-center">
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
             src="/videos/aboutpage.mp4"
@@ -160,9 +160,9 @@ export default function Profile() {
             playsInline
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
+          <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/70" />
         </div>
-        <div className="absolute inset-0 overflow-hidden z-[1] pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden z-1 pointer-events-none">
           <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-red-600/10 blur-[100px]" />
           <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] rounded-full bg-red-500/5 blur-[120px]" />
         </div>
@@ -179,21 +179,21 @@ export default function Profile() {
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <span className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-sm text-white border border-white/20 hover:bg-red-600 hover:border-red-500 transition-all duration-300 text-sm font-medium">
-              <Globe className="h-4 w-4 mr-2 flex-shrink-0" />
+              <Globe className="h-4 w-4 mr-2 shrink-0" />
               Global Presence
             </span>
             <span className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-sm text-white border border-white/20 hover:bg-red-600 hover:border-red-500 transition-all duration-300 text-sm font-medium">
-              <Users className="h-4 w-4 mr-2 flex-shrink-0" />
+              <Users className="h-4 w-4 mr-2 shrink-0" />
               34+ Years Experience
             </span>
             <span className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-sm text-white border border-white/20 hover:bg-red-600 hover:border-red-500 transition-all duration-300 text-sm font-medium">
-              <Shield className="h-4 w-4 mr-2 flex-shrink-0" />
+              <Shield className="h-4 w-4 mr-2 shrink-0" />
               24×7 Support
             </span>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 z-10 h-24 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 z-10 h-24 bg-linear-to-t from-black/40 to-transparent pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-4 z-10 pointer-events-none">
           <div className="w-12 h-0.5 bg-white/40 rounded-full" />
         </div>
@@ -206,18 +206,18 @@ export default function Profile() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-14">
             <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-3">About us</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto">
               About Cache Digitech
             </h2>
           </div>
 
           <div className={`grid md:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-700 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="space-y-6">
-              <p className="text-xl leading-relaxed text-[var(--apple-gray)]">
+              <p className="text-xl leading-relaxed text-(--apple-gray)">
                 Cache Digitech is a leading System Integration, Consulting and IT Infrastructure partner with over three decades of experience. From New Delhi, Mumbai, and Dubai we help organizations innovate, secure, and scale with 24×7 support and solutions built on engineering excellence and trust. We serve enterprises across telecom, BFSI, manufacturing, and the public sector with a global partner ecosystem and a focus on digital transformation.
               </p>
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-xl border border-red-500/20 relative aspect-[4/3] min-h-[320px]">
+            <div className="rounded-2xl overflow-hidden shadow-xl border border-red-500/20 relative aspect-4/3 min-h-[320px]">
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
                 alt="Our Commitment — teamwork and partnership"
@@ -234,10 +234,10 @@ export default function Profile() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-14">
             <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-3">What we do</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl mx-auto mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto mb-4">
               Our Core Offerings
             </h2>
-            <p className="text-xl text-[var(--apple-gray)] max-w-2xl mx-auto">
+            <p className="text-xl text-(--apple-gray) max-w-2xl mx-auto">
               Comprehensive technology solutions designed to transform and elevate your business
             </p>
           </div>
@@ -272,8 +272,8 @@ export default function Profile() {
                     <div className="mb-5 w-14 h-14 shrink-0 rounded-xl bg-red-50 flex items-center justify-center text-red-600 group-hover:bg-red-100 transition-colors [&>svg]:h-8 [&>svg]:w-8">
                       {offering.icon}
                     </div>
-                    <h3 className="text-lg font-bold text-[var(--apple-black)] mb-3 leading-tight shrink-0">{offering.title}</h3>
-                    <p className="text-[var(--apple-gray)] text-[15px] leading-relaxed">{offering.description}</p>
+                    <h3 className="text-lg font-bold text-(--apple-black) mb-3 leading-tight shrink-0">{offering.title}</h3>
+                    <p className="text-(--apple-gray) text-[15px] leading-relaxed">{offering.description}</p>
                   </div>
                 );
               })}
@@ -282,7 +282,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={goPrev}
-                className="w-12 h-12 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center text-[var(--apple-black)] hover:bg-gray-50 hover:border-gray-300 transition-colors"
+                className="w-12 h-12 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center text-(--apple-black) hover:bg-gray-50 hover:border-gray-300 transition-colors"
                 aria-label="Previous offering"
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -291,7 +291,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={goNext}
-                className="w-12 h-12 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center text-[var(--apple-black)] hover:bg-gray-50 hover:border-gray-300 transition-colors"
+                className="w-12 h-12 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center text-(--apple-black) hover:bg-gray-50 hover:border-gray-300 transition-colors"
                 aria-label="Next offering"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -308,20 +308,20 @@ export default function Profile() {
           <div className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-700 ${whyVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
             <div>
               <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-3">Why us</p>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-[var(--apple-black)] tracking-tight leading-[1.08] mb-8">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-(--apple-black) tracking-tight leading-[1.08] mb-8">
                 Why Cache Digitech
               </h2>
-              <p className="text-lg leading-relaxed text-[var(--apple-gray)] mb-6">
+              <p className="text-lg leading-relaxed text-(--apple-gray) mb-6">
                 What makes Cache Digitech different is our agility, flexibility, and customer-first mindset.
               </p>
-              <p className="text-lg leading-relaxed text-[var(--apple-gray)] mb-6">
+              <p className="text-lg leading-relaxed text-(--apple-gray) mb-6">
                 We combine deep technical expertise with human understanding, offering accessible global support, world-class infrastructure, and a skilled team that delivers excellence with speed and empathy.
               </p>
-              <p className="text-lg leading-relaxed text-[var(--apple-gray)]">
+              <p className="text-lg leading-relaxed text-(--apple-gray)">
                 Every engagement reflects our commitment to quality, innovation, and enduring partnerships.
               </p>
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-100 relative aspect-[4/3] min-h-[320px] bg-gray-100">
+            <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-100 relative aspect-4/3 min-h-[320px] bg-gray-100">
               <img
                 src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
                 alt="Our Philosophy — excellence with agility, service with heart"
@@ -366,17 +366,17 @@ export default function Profile() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-14">
             <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-3">Clients</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl mx-auto mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto mb-4">
               Trusted By
             </h2>
-            <p className="text-lg text-[var(--apple-gray)] max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-(--apple-gray) max-w-2xl mx-auto leading-relaxed">
               Driven by trust, strengthened by results. Our clients are the proof of our commitment to quality.
             </p>
           </div>
           <div className="logo-marquee overflow-hidden py-4">
             <div className="logo-marquee__track">
               {[...customerLogos, ...customerLogos].map((logo, idx) => (
-                <div key={idx} className="logo-marquee__item flex-shrink-0 min-w-[140px] h-[80px] rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100/80 shadow-sm flex items-center justify-center px-5">
+                <div key={idx} className="logo-marquee__item shrink-0 min-w-[140px] h-[80px] rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100/80 shadow-sm flex items-center justify-center px-5">
                   <img src={logo.img} alt={logo.name} className="max-h-10 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity" loading="lazy" />
                 </div>
               ))}

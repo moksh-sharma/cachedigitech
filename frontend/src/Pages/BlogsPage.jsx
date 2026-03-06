@@ -1,0 +1,107 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { Card, CardContent, CardHeader } from "../components/ui/card";
+import { Calendar, User } from "lucide-react";
+
+const API_BASE = import.meta.env.VITE_API_BASE || "";
+
+export default function BlogsPage() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(API_BASE + "/api/blogs")
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error("Failed to load"))))
+      .then((data) => {
+        if (!cancelled) setPosts(Array.isArray(data) ? data : []);
+      })
+      .catch((e) => {
+        if (!cancelled) {
+          setError(e.message);
+          setPosts([]);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <section className="pt-16 lg:pt-24 pb-12 lg:pb-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
+              <span className="text-red-600">Blogs</span>
+            </h1>
+            <div className="w-24 h-1 bg-red-600 mx-auto mb-6" />
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Stay updated with the latest trends, insights, and best practices in system integration and digital transformation.
+            </p>
+          </div>
+
+          {loading && (
+            <div className="text-center py-16 text-gray-500">Loading blogs...</div>
+          )}
+          {error && !loading && (
+            <div className="text-center py-16 text-gray-600">
+              Unable to load blogs. They may be managed from the Blog CMS.
+            </div>
+          )}
+          {!loading && !error && posts.length === 0 && (
+            <div className="text-center py-16 text-gray-500">No blog posts yet.</div>
+          )}
+          {!loading && posts.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {posts.map((post) => (
+                <Card
+                  key={post.id}
+                  className="h-full transition-all duration-300 group cursor-pointer border-0 shadow-md hover:shadow-lg"
+                  onClick={() => navigate(`/blog/${post.id}`)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      navigate(`/blog/${post.id}`);
+                    }
+                  }}
+                >
+                  <CardHeader className="p-0">
+                    <div className="relative overflow-hidden rounded-t-lg">
+                      <ImageWithFallback
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-64 sm:h-72 object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-4 flex flex-col h-full">
+                    <div className="flex items-center text-xs text-gray-500 mb-2">
+                      <Calendar className="w-3.5 h-3.5 mr-1.5 shrink-0" />
+                      <span>{post.date}</span>
+                      <span className="mx-1.5">•</span>
+                      <span>{post.readTime}</span>
+                    </div>
+                    <h2 className="text-base font-bold text-black mb-2 group-hover:text-red-600 transition-colors line-clamp-2">
+                      {post.title}
+                    </h2>
+                    <div className="flex items-center text-xs text-gray-500 min-w-0 mt-auto">
+                      <User className="w-3.5 h-3.5 mr-1.5 shrink-0" />
+                      <span className="truncate">{post.author}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}

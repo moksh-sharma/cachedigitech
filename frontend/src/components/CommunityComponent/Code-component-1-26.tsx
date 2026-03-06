@@ -14,7 +14,7 @@ export function Hero() {
   ];
 
   return (
-    <section id="home" className="relative min-h-screen pt-16 bg-gradient-to-br from-gray-50 via-white to-red-50">
+    <section id="home" className="relative min-h-screen pt-16 bg-linear-to-br from-gray-50 via-white to-red-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-12">
           {/* Content */}
@@ -70,7 +70,7 @@ export function Hero() {
                   transition={{ delay: 0.6 + index * 0.1 }}
                   className="flex items-center space-x-2"
                 >
-                  <CheckCircle className="text-red-600 flex-shrink-0" size={20} />
+                  <CheckCircle className="text-red-600 shrink-0" size={20} />
                   <span className="text-gray-700 text-sm">{achievement}</span>
                 </motion.div>
               ))}

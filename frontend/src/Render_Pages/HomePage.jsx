@@ -1,14 +1,9 @@
-import HeroSection, { LatestHighlightsSection } from '../components/HomeComponent/HeroSection'
-import FreeVapt from '../components/HomeComponent/FreeVapt'
+import HeroSection from '../components/HomeComponent/HeroSection'
 import CacheSolutionsSection from '../components/HomeComponent/CacheSolutionsSection'
-// import CacheSolutionsSection from '../components/HomeComponent/CacheSolutions'
-import ServicesSection from '../components/HomeComponent/services-section'
-import GlobalPartnersSection from '../components/HomeComponent/Globalpartners'
-import PartnershipSection from '../components/HomeComponent/PartnershipSection'
 import { ProgressInNumbers } from '../components/HomeComponent/ProgressInNumbers'
 import CTASection from '../components/HomeComponent/Subscribe'
-// removed Chatbot imports
-import PartnershipCards from '../components/AboutPageComponent/Cards'
+import { BlogSection } from '../components/InsightComponent/blog-section'
+import CareersSection from '../components/HomeComponent/CareersSection'
 import { useEffect } from 'react'
 
 
@@ -20,20 +15,11 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      {/* <FreeVapt /> */}
-      {/* <ChatBot  /> */}
-
-      {/* <CacheSolutionsSection /> */}
       <CacheSolutionsSection />
-      {/* <CacheSolutionsSection /> */}
-
-      {/* <ServicesSection /> */}
-      <LatestHighlightsSection />
-      {/* <GlobalPartnersSection /> */}
-      <PartnershipSection />
-      {/* <PartnershipCards /> */}
       <ProgressInNumbers />
-      <CTASection />  
+      <BlogSection />
+      <CareersSection />
+      <CTASection />
 
       {/* Chatbot components removed */}
 

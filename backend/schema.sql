@@ -1,71 +1,44 @@
--- CacheDigitech backend: initial schema for PostgreSQL
--- Run once on your database (e.g. psql or pgAdmin) on the cachewebsite database.
+-- Cache Digitech: tables for admin panel (blogs + latest highlights)
+-- Run once: psql $DATABASE_URL -f schema.sql
 
--- Config: single row
-CREATE TABLE IF NOT EXISTS config (
-  id INT PRIMARY KEY DEFAULT 1,
-  data JSONB NOT NULL DEFAULT '{}',
-  updated_at TIMESTAMPTZ DEFAULT NOW(),
-  CONSTRAINT single_config CHECK (id = 1)
-);
-
--- Stats: single row
-CREATE TABLE IF NOT EXISTS stats (
-  id INT PRIMARY KEY DEFAULT 1,
-  total_page_views BIGINT DEFAULT 0,
-  unique_visitors BIGINT DEFAULT 0,
-  page_views_by_path JSONB DEFAULT '{}',
-  last_updated TIMESTAMPTZ,
-  CONSTRAINT single_stats CHECK (id = 1)
-);
-
--- Users
-CREATE TABLE IF NOT EXISTS users (
-  id TEXT PRIMARY KEY,
-  email TEXT UNIQUE NOT NULL,
-  password_hash TEXT NOT NULL,
-  name TEXT NOT NULL,
-  role TEXT NOT NULL DEFAULT 'user',
+CREATE TABLE IF NOT EXISTS blogs (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  excerpt TEXT DEFAULT '',
+  author TEXT DEFAULT '',
+  date TEXT DEFAULT '',
+  category TEXT DEFAULT '',
+  read_time TEXT DEFAULT '',
+  image TEXT DEFAULT '',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Content: one row per (page_id, section_id)
-CREATE TABLE IF NOT EXISTS content (
-  page_id TEXT NOT NULL,
-  section_id TEXT NOT NULL,
-  data JSONB NOT NULL DEFAULT '{}',
-  updated_at TIMESTAMPTZ DEFAULT NOW(),
-  PRIMARY KEY (page_id, section_id)
+CREATE TABLE IF NOT EXISTS highlights (
+  id SERIAL PRIMARY KEY,
+  image TEXT DEFAULT '',
+  tag TEXT DEFAULT '',
+  title TEXT DEFAULT '',
+  description TEXT DEFAULT '',
+  type TEXT DEFAULT 'Article',
+  sort_order INT DEFAULT 0,
+  link TEXT DEFAULT ''
 );
 
--- Index for user lookup by email (case-insensitive)
-CREATE INDEX IF NOT EXISTS idx_users_email ON users (LOWER(email));
+CREATE INDEX IF NOT EXISTS idx_highlights_sort ON highlights(sort_order);
 
--- Media library and placements
-CREATE TABLE IF NOT EXISTS media (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  filename TEXT NOT NULL,
-  path TEXT NOT NULL UNIQUE,
-  mime_type TEXT,
-  size_bytes BIGINT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+CREATE TABLE IF NOT EXISTS testimonials (
+  id SERIAL PRIMARY KEY,
+  name TEXT DEFAULT '',
+  role TEXT DEFAULT '',
+  company TEXT DEFAULT '',
+  logo TEXT DEFAULT '',
+  image TEXT DEFAULT '',
+  quote TEXT DEFAULT '',
+  sort_order INT DEFAULT 0
 );
 
-CREATE TABLE IF NOT EXISTS media_placement (
-  page_id TEXT NOT NULL,
-  section_id TEXT NOT NULL,
-  field_key TEXT NOT NULL,
-  media_id UUID REFERENCES media(id) ON DELETE SET NULL,
-  PRIMARY KEY (page_id, section_id, field_key)
-);
-
-CREATE INDEX IF NOT EXISTS idx_media_placement_media_id ON media_placement(media_id);
-
--- RAG knowledge base documents (metadata only; vectors live in Pinecone)
-CREATE TABLE IF NOT EXISTS rag_documents (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL,
-  file_path TEXT NOT NULL,
-  chunk_count INT DEFAULT 0,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+CREATE TABLE IF NOT EXISTS hero_backgrounds (
+  id SERIAL PRIMARY KEY,
+  image_url TEXT NOT NULL DEFAULT '',
+  sort_order INT DEFAULT 0
 );

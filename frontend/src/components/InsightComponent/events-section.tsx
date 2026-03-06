@@ -62,7 +62,7 @@ const socialActivities = [
 export function EventsSection() {
   const eventsImageUrl = usePlacement('insights', 'events', 'image') || '/blog/insightsection.jpg';
   return (
-    <section className="py-16 lg:py-24 bg-gray-50 scroll-mt-20" id="events">
+    <section className="pt-0 pb-16 lg:pb-24 bg-gray-50 scroll-mt-20" id="events">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* <motion.div
           initial={{ opacity: 0, y: 50 }}

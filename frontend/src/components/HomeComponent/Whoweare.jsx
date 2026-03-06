@@ -50,21 +50,21 @@ export default function WhoWeArePage({ onNavigateToService }) {
             "linear-gradient(135deg, #1d1d1f 0%, #2d2d30 40%, #1d1d1f 100%)",
         }}
       >
-        <div className="max-w-[1100px] mx-auto px-8 py-12 lg:py-14 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-14 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
             {/* Left: statement */}
             <div className="flex-1 text-center lg:text-left space-y-4">
               <p className="text-white text-lg lg:text-xl font-semibold leading-snug">
                 We don't just build technology —
                 <br />
-                <span className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
                   we give life to it.
                 </span>
               </p>
               <p className="text-white text-lg lg:text-xl font-semibold leading-snug">
                 We don't just deliver projects —
                 <br />
-                <span className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
                   we deliver peace of mind.
                 </span>
               </p>
@@ -93,9 +93,9 @@ export default function WhoWeArePage({ onNavigateToService }) {
       {/* ── Core Values Grid ── */}
       <section
         ref={foundationSectionRef}
-        className="py-14 lg:py-20 px-6 bg-gradient-to-b from-white to-gray-50/80 overflow-hidden"
+        className="py-14 lg:py-20 px-6 sm:px-8 lg:px-12 bg-linear-to-b from-white to-gray-50/80 overflow-hidden"
       >
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Header: scroll-triggered fade + slide up */}
           <div
             className={`text-center mb-12 lg:mb-14 transition-all duration-700 ease-out ${
@@ -106,7 +106,7 @@ export default function WhoWeArePage({ onNavigateToService }) {
             <p className="text-lg md:text-xl font-extrabold tracking-[0.3em] uppercase text-red-500 mb-3">
               Our Foundation
             </p>
-            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto">
               Core Values
             </h2>
             <div
@@ -129,13 +129,13 @@ export default function WhoWeArePage({ onNavigateToService }) {
                   transitionDelay: `${200 + idx * 80}ms`,
                 }}
               >
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-red-500 mb-5 group-hover:bg-red-100 group-hover:scale-105 transition-all duration-300">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-red-500 mb-5 group-hover:bg-red-100 group-hover:scale-105 transition-all duration-300 ease-out">
                   <span className="material-symbols-outlined text-2xl">{pillar.icon}</span>
                 </div>
-                <h4 className="text-[var(--apple-black)] font-semibold text-base mb-2 group-hover:text-red-600 transition-colors duration-300">
+                <h4 className="text-(--apple-black) font-semibold text-base mb-2 group-hover:text-red-600 transition-colors duration-300 ease-out">
                   {pillar.title}
                 </h4>
-                <p className="text-[var(--apple-gray)] text-sm leading-relaxed">
+                <p className="text-(--apple-gray) text-sm leading-relaxed">
                   {pillar.description}
                 </p>
               </div>

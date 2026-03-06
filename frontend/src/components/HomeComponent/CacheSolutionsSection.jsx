@@ -340,7 +340,7 @@ export default function CacheSolutionsSection() {
                       </h2>
                     </div>
                     <button 
-                      className="text-gray-500 hover:text-black transition-colors duration-200 p-2"
+                      className="text-gray-500 hover:text-black transition-colors duration-200 ease-out p-2"
                       onClick={closeDefinition}
                       data-testid="button-close-definition"
                     >
@@ -360,7 +360,7 @@ export default function CacheSolutionsSection() {
                           <ul className="space-y-2 text-gray-700">
                             {selectedItem.benefits.map((benefit, index) => (
                               <li key={index} className="flex items-start gap-2" data-testid={`text-benefit-${index}`}>
-                                <Check className="h-4 w-4 text-green-600 mt-1 flex-shrink-0" />
+                                <Check className="h-4 w-4 text-green-600 mt-1 shrink-0" />
                                 <span>{benefit}</span>
                               </li>
                             ))}
@@ -372,7 +372,7 @@ export default function CacheSolutionsSection() {
                           <ul className="space-y-2 text-gray-700">
                             {selectedItem.approach.map((step, index) => (
                               <li key={index} className="flex items-start gap-2" data-testid={`text-approach-${index}`}>
-                                <Settings className="h-4 w-4 text-blue-600 mt-1 flex-shrink-0" />
+                                <Settings className="h-4 w-4 text-blue-600 mt-1 shrink-0" />
                                 <span>{step}</span>
                               </li>
                             ))}
@@ -408,7 +408,7 @@ export default function CacheSolutionsSection() {
             >
               <button
                 onClick={closeExplanation}
-                className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 ease-out"
               >
                 <X className="w-6 h-6 text-gray-600" />
               </button>

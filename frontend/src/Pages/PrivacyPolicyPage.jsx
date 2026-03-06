@@ -234,7 +234,7 @@ const PrivacyPolicyPage = () => {
   ];
 
   return (
-    <div className="bg-gray-50 px-6 py-8 sm:px-8 overflow-visible">
+    <div className="bg-gray-50 px-6 sm:px-8 lg:px-12 py-8 overflow-visible">
       {/* Header */}
       <div className="max-w-3xl mx-auto text-center mb-6">
         <Shield className="mx-auto h-10 w-10 text-red-600 mb-3" />

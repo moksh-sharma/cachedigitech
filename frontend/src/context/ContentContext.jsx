@@ -1,35 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 
-const ContentContext = createContext({ content: null, loading: true, error: null });
+const ContentContext = createContext({ content: null, loading: false, error: null });
 
-const API_BASE = import.meta.env.VITE_API_BASE || ''; // same origin in dev (proxy); set VITE_API_BASE in production if API is elsewhere
-
+/** Content is fetched from API/Postgres; no hardcoded fallback so UI reflects live data only. */
 export function ContentProvider({ children }) {
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(API_BASE + '/api/content')
-      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Failed to load content'))))
-      .then((data) => {
-        if (!cancelled) setContent(data);
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          setError(err);
-          setContent({});
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, []);
-
   return (
-    <ContentContext.Provider value={{ content, loading, error }}>
+    <ContentContext.Provider value={{ content: null, loading: false, error: null }}>
       {children}
     </ContentContext.Provider>
   );

@@ -5,7 +5,7 @@ export function CEOSection() {
   const ceoImageUrl = usePlacement('about', 'leadership', 'ceoImage') || '/team/prarthna.jpg';
   return (
     <section className="py-16 lg:py-24 bg-white scroll-mt-20" id="LeadershipVision" aria-labelledby="ceo-heading">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="text-center mb-16">
           <h2 id="ceo-heading" className="text-4xl md:text-5xl font-bold text-black mb-4">
             Founder's<span className="text-red-600"> Message</span>
@@ -29,9 +29,9 @@ export function CEOSection() {
           {/* Block 1: Basic Info and Quote */}
           <div className="space-y-6">
             <div>
-              <h3 className="text-4xl font-bold bg-gradient-to-r from-gray-900 via-red-600 to-gray-900 bg-clip-text text-transparent mb-2 tracking-wide">
+              <h1 className="text-5xl font-bold text-black mb-2 tracking-wide">
                 Prarthana Gupta
-              </h3>
+              </h1>
               <div className="space-y-1 mb-6">
                 <p className="text-red-600">Founder & Chairperson, Cache Digitech Pvt. Ltd.</p>
                 <p className="text-red-600">Managing Director, Calipers Consulting Pvt. Ltd.</p>
@@ -55,7 +55,7 @@ export function CEOSection() {
                 </div>
               </div>
 
-              <div className="mt-6 p-6 bg-gradient-to-r from-red-50 to-gray-50 rounded-lg border-l-4 border-red-600">
+              <div className="mt-6 p-6 bg-linear-to-r from-red-50 to-gray-50 rounded-lg border-l-4 border-red-600">
                 <p className="text-center italic text-gray-800">
                   "Rooted in values and driven by innovation where technology built on trust transforms lives with purpose and empathy."
                 </p>
@@ -64,30 +64,20 @@ export function CEOSection() {
           </div>
         </div>
 
-        {/* Bottom Section: Block 2 and Block 3 */}
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Block 2: Journey and Foundation */}
-          <div className="space-y-4">
-            <div className="p-6 shadow-lg rounded-lg bg-white">
-              <h4 className="text-xl font-bold text-red-600 mb-4 border-b border-gray-200 pb-2">The Beginning</h4>
-              <div className="space-y-4 text-gray-700">
-                <p>
-                  When I began this journey more than three decades ago, I didn't have a large team or endless resources just a deep conviction to create something meaningful, built on values, hard work, and trust. That conviction gave birth to Cache Digitech Pvt. Ltd., which has today evolved into a trusted global technology partner empowering organizations across the world.
-                </p>
-
-                <p>
-                  From day one, our attitude has been simple yet unwavering always put the customer first. Every milestone we've achieved is the result of relentless effort, sleepless nights, and a firm belief that trust must be earned, not claimed.
-                </p>
-
-                <p>
-                  Today, as we see that trust growing with customers placing their confidence in us year after year it fills me with both pride and gratitude. It reaffirms that when you lead with honesty, consistency, and care, success becomes a shared journey.
-                </p>
-              </div>
-            </div>
+        {/* Bottom Section: Image and Vision & Purpose — image height matches right div (right sets height) */}
+        <div className="relative grid lg:grid-cols-2 lg:gap-12">
+          {/* Image: absolute so row height comes from right column only; image matches that height */}
+          <div className="rounded-lg overflow-hidden w-full lg:absolute lg:left-0 lg:top-0 lg:bottom-0 lg:w-[calc(50%-1.5rem)]">
+            <img
+              src="/leadership-booth.png"
+              alt="Cache Digitech team at exhibition booth with CACHE Endeavouring Perfection and DELL Technologies branding, Women Owned"
+              className="block w-full h-full min-h-full object-cover"
+              loading="lazy"
+            />
           </div>
 
-          {/* Block 3: Vision and Mission */}
-          <div className="space-y-4">
+          {/* Block 3: Vision and Mission — in flow in column 2 so it sets row height; image matches this */}
+          <div className="space-y-4 lg:col-start-2">
             <div className="p-6 shadow-lg rounded-lg bg-white">
               <h4 className="text-xl font-bold text-red-600 mb-4 border-b border-gray-200 pb-2">Vision & Purpose</h4>
               <div className="space-y-4 text-gray-700">

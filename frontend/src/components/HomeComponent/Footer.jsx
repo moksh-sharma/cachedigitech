@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { usePlacement } from "../../context/PlacementsContext";
+import { navLinks } from "./navLinks";
 import PrivacyPolicyPage from "../../Pages/PrivacyPolicyPage";
 import TermsOfUsePage from "../../Pages/TermsOfUse";
+
+/* ── Footer nav: same headings as navbar ── */
+const FOOTER_NAV = [
+  { heading: "About Us", items: ["Profile of Cache", "Leadership Team", "Our Alliances", "Awards & Certifications", "Innovations", "Leadership Vision", "Blogs"] },
+  { heading: "Products", items: ["Cloud", "Cybersecurity", "Data Analytics & AI", "Infra & Networking"] },
+  { heading: "Services", items: ["Consulting & Auditing", "Managed Services", "GRC"] },
+  { heading: "Industries", items: ["Telecom", "BFSI", "Automobile & Manufacturing", "Retail", "Healthcare & Hospitality", "Governance", "IT & ITES"] },
+  { heading: "Contact", items: ["Contact Us"] },
+];
+
+function getHref(label) {
+  const link = navLinks.find((l) => l.label === label);
+  if (!link) return "#";
+  return link.sectionId ? `${link.route}#${link.sectionId}` : link.route;
+}
 
 /* ── Legal Modals ── */
 function LegalModal({ onClose, children }) {
@@ -15,7 +31,7 @@ function LegalModal({ onClose, children }) {
       <div className="bg-gray-900/95 backdrop-blur-lg rounded-2xl shadow-2xl w-full max-w-2xl mx-auto p-0 relative max-h-[85vh] flex flex-col border border-white/5" onClick={(e) => e.stopPropagation()}>
         <div className="flex-1 overflow-y-auto">{children}</div>
         <div className="flex justify-end p-4">
-          <button className="bg-white text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-red-600 hover:text-white transition-colors" onClick={onClose}>
+          <button type="button" className="bg-white text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-red-600 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors duration-200" onClick={onClose}>
             OK
           </button>
         </div>
@@ -41,82 +57,136 @@ function Footer() {
   const footerLogoUrl = usePlacement("global", "footer", "bgImage") || "/cachefootercut.jpg";
 
   return (
-    <footer className="bg-[#0a0a0a] text-white">
-      {/* ── Top row: tagline + nav + contact ── */}
-      <div className="max-w-[1100px] mx-auto px-6 pt-12 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6">
-
-          {/* Col 1 – Brand tagline */}
-          <div className="md:col-span-4 space-y-3">
-            <img src={footerLogoUrl} alt="Cache Digitech" className="h-16 w-auto brightness-200 opacity-80" />
-            <p className="text-[13px] text-gray-400 leading-relaxed max-w-[260px]">
-              Growth is Guaranteed — That's Cache's Promise.
-            </p>
+    <footer className="bg-[#0a0a0a] text-white flex flex-col min-h-screen -mt-8" style={{ minHeight: '100vh', boxShadow: '0 -4px 0 0 #0a0a0a' }} role="contentinfo">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 pb-0 flex flex-col w-full flex-1 min-h-0">
+        {/* Brand row */}
+        <div className="pb-4 sm:pb-6 border-b border-white/10 shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+            <div className="flex flex-col gap-1.5">
+              <img src={footerLogoUrl} alt="Cache Digitech" className="h-14 sm:h-16 lg:h-[72px] w-auto brightness-200 opacity-90 max-w-[180px]" />
+              <div className="max-w-md font-sans">
+                <h2 className="text-xl sm:text-2xl font-bold mb-1 mt-3 font-glacial leading-tight text-white">
+                  Growth is Guaranteed
+                </h2>
+                <p className="text-base sm:text-lg mb-1 mt-2 font-holiday text-white">
+                  That's Cache's Promise
+                </p>
+                <img className="h-3 sm:h-4 mt-1" alt="underline" src="/footerline.png" />
+              </div>
+            </div>
           </div>
+        </div>
 
-          {/* Col 2 – Quick links */}
-          <div className="md:col-span-2">
-            <h4 className="text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-3">Company</h4>
-            <ul className="space-y-2">
-              {[
-                { label: "About", to: "/about" },
-                { label: "Careers", to: "/careers" },
-                { label: "EPF Notice", to: "/epf-amendment-notice" },
-              ].map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} className="text-[13px] text-gray-300 hover:text-white transition-colors duration-200">
-                    {l.label}
-                  </Link>
+        {/* Footer first region — row of link columns (BT-style) */}
+        <section className="row region region-footer-first py-5 sm:py-6 lg:py-8 shrink-0" aria-label="Footer navigation">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-x-5 gap-y-4 sm:gap-x-6 md:gap-x-8 lg:gap-x-10">
+            {/* About Us */}
+            <div className="col-span-1">
+              <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-2">About Us</h3>
+              <ul className="space-y-1.5" role="list">
+                {FOOTER_NAV[0].items.map((label) => (
+                  <li key={label}>
+                    <Link to={getHref(label)} className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Products */}
+            <div className="col-span-1">
+              <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Products</h3>
+              <ul className="space-y-2" role="list">
+                {FOOTER_NAV[1].items.map((label) => (
+                  <li key={label}>
+                    <Link to={getHref(label)} className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div className="col-span-1">
+              <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Services</h3>
+              <ul className="space-y-2" role="list">
+                {FOOTER_NAV[2].items.map((label) => (
+                  <li key={label}>
+                    <Link to={getHref(label)} className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Industries */}
+            <div className="col-span-1">
+              <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Industries</h3>
+              <ul className="space-y-2" role="list">
+                {FOOTER_NAV[3].items.map((label) => (
+                  <li key={label}>
+                    <Link to={getHref(label)} className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company & Legal — one column each */}
+            <div className="col-span-1">
+              <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Company</h3>
+              <ul className="space-y-2" role="list">
+                <li><Link to="/about" className="text-[13px] text-gray-500 hover:text-white transition-colors">About</Link></li>
+                <li><Link to="/careers" className="text-[13px] text-gray-500 hover:text-white transition-colors">Careers</Link></li>
+                <li><Link to="/epf-amendment-notice" className="text-[13px] text-gray-500 hover:text-white transition-colors">EPF Notice</Link></li>
+              </ul>
+            </div>
+            <div className="col-span-1">
+              <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Legal</h3>
+              <ul className="space-y-2" role="list">
+                <li>
+                  <button type="button" onClick={() => setShowPrivacy(true)} className="text-left text-[13px] text-gray-500 hover:text-white transition-colors">
+                    Privacy Policy
+                  </button>
                 </li>
-              ))}
-            </ul>
+                <li>
+                  <button type="button" onClick={() => setShowTerms(true)} className="text-left text-[13px] text-gray-500 hover:text-white transition-colors">
+                    Terms of Use
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
+        </section>
 
-          {/* Col 3 – Legal links */}
-          <div className="md:col-span-2">
-            <h4 className="text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-3">Legal</h4>
-            <ul className="space-y-2">
-              <li>
-                <button onClick={() => setShowPrivacy(true)} className="text-left text-[13px] text-gray-300 hover:text-white transition-colors duration-200">
-                  Privacy Policy
-                </button>
-              </li>
-              <li>
-                <button onClick={() => setShowTerms(true)} className="text-left text-[13px] text-gray-300 hover:text-white transition-colors duration-200">
-                  Terms of Use
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 4 – Contact CTA */}
-          <div className="md:col-span-4 flex flex-col items-start md:items-end justify-between gap-4">
-            <p className="text-[13px] text-gray-400 leading-relaxed md:text-right max-w-[280px]">
-              Have a question? Our team of experienced professionals is ready to assist you.
+        {/* Contact CTA row */}
+        <div className="py-4 sm:py-5 border-b border-white/10 shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p className="text-sm text-gray-500 max-w-md">
+              Have a question? Our team is ready to assist you.
             </p>
             <button
               onClick={() => navigate("/contactus")}
-              className="inline-flex items-center gap-2 bg-red-600 text-white text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-red-700 transition-colors duration-200"
+              className="inline-flex items-center gap-2 bg-red-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 transition-colors duration-200 w-fit"
             >
-              Contact Us
-              <span className="text-sm">&rarr;</span>
+              Contact Us <span aria-hidden="true">&rarr;</span>
             </button>
           </div>
-
         </div>
       </div>
 
-      {/* ── Bottom bar ── */}
-      <div className="border-t border-white/10">
-        <div className="max-w-[1100px] mx-auto px-6 py-7 flex flex-col items-center gap-4">
-          {/* Copyright */}
+      {/* Bottom bar — copyright & social */}
+      <div className="border-t border-white/10 shrink-0">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} Cache Digitech Pvt. Ltd.
           </p>
-
-          {/* Social icons */}
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-500 mr-1">Follow us</span>
+            <span className="text-sm text-gray-500">Follow us</span>
             {SOCIALS.map((s) => (
               <a
                 key={s.label}
@@ -124,10 +194,10 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/15 hover:scale-105 transition-all duration-200"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 transition-colors duration-200"
                 style={{ color: s.color }}
               >
-                <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d={s.d} />
                 </svg>
               </a>

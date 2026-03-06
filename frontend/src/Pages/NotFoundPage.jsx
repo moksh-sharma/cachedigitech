@@ -37,9 +37,9 @@ export default function NotFound() {
       </p>
 
       {/* Simple Link */}
-      <a 
-        href="/" 
-        className="text-lg text-blue-600 hover:text-blue-800 underline"
+      <a
+        href="/"
+        className="inline-flex items-center gap-2 rounded-full bg-red-600 px-6 py-3 text-lg font-semibold text-white transition-colors duration-200 hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
       >
         Go back to home
       </a>

@@ -1,11 +1,9 @@
 // src/App.jsx
 import React, { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useLenis } from "./context/LenisContext";
 
 import Navbar from "./components/HomeComponent/Navbar";
-// LoginButton merged into Navbar
-import SearchBar from "./components/HomeComponent/Search";
 import Footer from "./components/HomeComponent/Footer";
 import HomePage from "./Render_Pages/HomePage";
 import ServiceDetail from "./Render_Pages/service-detail";
@@ -15,10 +13,10 @@ import CommunityPage from "./Pages/CommunitPage";
 import DeveloperTeam from "./Pages/DeveloperTeam";
 import ContactUsPage from "./Pages/ContactUsPage";
 import AboutCache from "./Pages/AboutPage";
+import InnovationsPage from "./Pages/InnovationsPage";
 import Profile from "./components/AboutPageComponent/profile";
-import AwardsSection from "./components/AboutPageComponent/ImageSlider";
+import AwardsAndCertificationsPage from "./Pages/AwardsAndCertificationsPage";
 import PartnershipCards from "./components/AboutPageComponent/Cards";
-import Certifications from "./components/AboutPageComponent/Certifications";
 import TeamSection from "./components/AboutPageComponent/Team";
 import PrivacyPolicyPage from "./Pages/PrivacyPolicyPage";
 import TermsOfUsePage from "./Pages/TermsOfUse";
@@ -37,14 +35,15 @@ import NetworkingConsultingPage from "./Pages/consultingservicePage";
 import ManagedServicesPage from "./Pages/ManagedServices";
 import GRC from "./Pages/GRCDashbaord";
 import NotFoundPage from "./Pages/NotFoundPage";
+import BlogCmsPage from "./Pages/BlogCmsPage";
+import BlogDetailPage from "./Pages/BlogDetailPage";
+import BlogsPage from "./Pages/BlogsPage";
+import CaseStudiesPage from "./Pages/CaseStudiesPage";
 // Notification pages
 import CampaignsPage from "./Pages/CampaignsPage";
 import NewsletterPage from "./Pages/NewsletterPage";
 import OffersPage from "./Pages/OffersPage";
 // removed Chatbot import
-import SanachalanIntroModal from "./components/HomeComponent/SanachalanIntroModal";
-import CustomCursor from "./components/CustomCursor";
-import FloatingChatbot from "./components/FloatingChatbot";
 function App() {
   const location = useLocation();
   const { scrollTo } = useLenis();
@@ -58,61 +57,67 @@ function App() {
     }
   }, [location.pathname, scrollTo]);
 
+  const isAdmin = location.pathname === '/admin';
+
   return (
     <>
-      <CustomCursor />
-      <SanachalanIntroModal loading={false} />
-      <Navbar />
-      {/* <SearchBar /> */}
-      {/* Page routes */}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/service/infra" element={<InfrastructureServicesPage />} />
-        <Route path="/service/network" element={<NetworkingServicesPage />} />
-        <Route path="/service/cloud-solutions" element={<CloudServicesPage />} />
-        {/* <Route path="/service/cybersecurity" element={<CybersecurityServicesPage />} />
+      <div className={!isAdmin ? "min-h-screen flex flex-col" : ""}>
+        {!isAdmin && <Navbar />}
+        {/* Page routes — flex-1 so content fills space and footer sticks to bottom */}
+        <main className={!isAdmin ? "flex-1 min-h-0" : ""}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/service/infra" element={<InfrastructureServicesPage />} />
+            <Route path="/service/network" element={<NetworkingServicesPage />} />
+            <Route path="/service/cloud-solutions" element={<CloudServicesPage />} />
+            {/* <Route path="/service/cybersecurity" element={<CybersecurityServicesPage />} />
         <Route path="/service/AI" element={<AIDataServicesPage />} />
         <Route path="/consultingservice" element={<NetworkingConsultingPage />} */}
 
 
-        <Route path="/cloudservices" element={<CloudServicesPage />} />
-        <Route path="/cybersecurity" element={<CybersecurityServicesPage />} /> 
-        <Route path="/infrastructureservice" element={<InfrastructureServicesPage />} />
-        <Route path="/aianddataservice" element={<AIDataServicesPage />} />
-        <Route path="/manageservices" element={<ManagedServicesPage />} />
-        <Route path="/consultingservice" element={<NetworkingConsultingPage />} />
-        <Route path="/grc-dashboard" element={<GRC />} />
-        <Route path="/telecom" element={<TelecomPage />} />
+            <Route path="/cloudservices" element={<CloudServicesPage />} />
+            <Route path="/cybersecurity" element={<CybersecurityServicesPage />} />
+            <Route path="/infrastructureservice" element={<InfrastructureServicesPage />} />
+            <Route path="/aianddataservice" element={<AIDataServicesPage />} />
+            <Route path="/manageservices" element={<ManagedServicesPage />} />
+            <Route path="/consultingservice" element={<NetworkingConsultingPage />} />
+            <Route path="/grc-dashboard" element={<GRC />} />
+            <Route path="/telecom" element={<TelecomPage />} />
 
 
 
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/insights" element={<InsightPage />} />
-        <Route path="/community" element={<CommunityPage />} />
-        <Route path="/developerteam" element={<DeveloperTeam />} />
-        <Route path="/contactus" element={<ContactUsPage />} />
-        <Route path="/about" element={<AboutCache />} />
-        <Route path="/about/profile" element={<Profile />} />
-        <Route path="/about/awards" element={<AwardsSection />} />
-        <Route path="/about/alliances" element={<PartnershipCards />} />
-        <Route path="/about/certifications" element={<Certifications />} />
-        <Route path="/about/leadership" element={<TeamSection />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms-of-use" element={<TermsOfUsePage />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/epf-amendment-notice" element={<EPFAmendmentNotice />} />
-        
-        {/* Notification pages */}
-        <Route path="/campaigns" element={<CampaignsPage />} />
-        <Route path="/newsletter" element={<NewsletterPage />} />
-        <Route path="/offers" element={<OffersPage />} />
-        
-        <Route path="*" element={<NotFoundPage />} />
-        
-      </Routes>
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/insights" element={<InsightPage />} />
+            <Route path="/blogs" element={<BlogsPage />} />
+            <Route path="/case-studies" element={<CaseStudiesPage />} />
+            <Route path="/blog/:id" element={<BlogDetailPage />} />
+            <Route path="/admin" element={<BlogCmsPage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/developerteam" element={<DeveloperTeam />} />
+            <Route path="/contactus" element={<ContactUsPage />} />
+            <Route path="/about" element={<AboutCache />} />
+            <Route path="/innovations" element={<InnovationsPage />} />
+            <Route path="/about/profile" element={<Profile />} />
+            <Route path="/about/awards" element={<AwardsAndCertificationsPage />} />
+            <Route path="/about/certifications" element={<Navigate to="/about/awards" replace />} />
+            <Route path="/about/alliances" element={<PartnershipCards />} />
+            <Route path="/about/leadership" element={<TeamSection />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-of-use" element={<TermsOfUsePage />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/epf-amendment-notice" element={<EPFAmendmentNotice />} />
 
-      <Footer />
-      <FloatingChatbot />
+            {/* Notification pages */}
+            <Route path="/campaigns" element={<CampaignsPage />} />
+            <Route path="/newsletter" element={<NewsletterPage />} />
+            <Route path="/offers" element={<OffersPage />} />
+
+            <Route path="*" element={<NotFoundPage />} />
+
+          </Routes>
+        </main>
+        {!isAdmin && <Footer />}
+      </div>
     </>
   );
 }

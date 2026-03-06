@@ -10,12 +10,8 @@ export default defineConfig({
     host: true,
     port: 5178,
     strictPort: false,
-    // Proxy admin and API to backend so admin panel is at http://localhost:5178/admin
+    // Proxy API to backend (chat)
     proxy: {
-      '/admin': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,

@@ -1,31 +1,13 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 
-const PlacementsContext = createContext({ placements: null, loading: true });
+const PlacementsContext = createContext({ placements: null, loading: false });
 
 const API_BASE = import.meta.env.VITE_API_BASE || '';
 
+/** Placements are from API/Postgres; no hardcoded fallback so images reflect live data only. */
 export function PlacementsProvider({ children }) {
-  const [placements, setPlacements] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(API_BASE + '/api/media/placements')
-      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Failed to load placements'))))
-      .then((data) => {
-        if (!cancelled) setPlacements(data || {});
-      })
-      .catch(() => {
-        if (!cancelled) setPlacements({});
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, []);
-
   return (
-    <PlacementsContext.Provider value={{ placements, loading }}>
+    <PlacementsContext.Provider value={{ placements: {}, loading: false }}>
       {children}
     </PlacementsContext.Provider>
   );

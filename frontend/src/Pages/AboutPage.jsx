@@ -70,7 +70,7 @@ function AboutCache() {
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
         {/* ✅ TEXT OVER VIDEO */}
-        <div className="absolute inset-0 flex flex-col justify-center items-start px-8 md:px-20 text-white z-20">
+        <div className="absolute inset-0 flex flex-col justify-center items-start px-6 sm:px-8 lg:px-12 text-white z-20">
           <h1 className="text-5xl font-bold mb-6">{concept.title || DEFAULT_ABOUT.conceptOfCache.title}</h1>
           <p className="max-w-2xl text-lg mb-6">
             {concept.body || DEFAULT_ABOUT.conceptOfCache.body}
@@ -85,7 +85,7 @@ function AboutCache() {
       </div>
 
       {/* ===== Company Stats Section ===== */}
-      <div id="profile-of-cache" className="w-full bg-white py-16 px-6 md:px-20 text-center relative ">
+      <div id="profile-of-cache" className="w-full bg-white py-16 px-6 sm:px-8 lg:px-12 text-center relative ">
         {/* Top Heading */}
         <h2 className="text-4xl font-bold text-red-600 mb-4">{profile.title || DEFAULT_ABOUT.profileOfCache.title}</h2>
         <p className="max-w-4xl mx-auto text-lg md:text-xl text-gray-800 leading-relaxed mb-16">
@@ -130,8 +130,8 @@ function AboutCache() {
       </div>
 
       {/* ===== Our Mission Section ===== */}
-      <div id="mission-vision" className="w-full bg-gray-50 py-16 px-6 md:px-20">
-        <div className="max-w-7xl mx-auto">
+      <div id="mission-vision" className="w-full bg-gray-50 py-16 px-6 sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* Left Content */}
             <div>
@@ -144,7 +144,7 @@ function AboutCache() {
               <div className="space-y-6">
                 {principles.map((principle, index) => (
                   <div key={index} className="flex gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                    <div className="shrink-0 w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
                       <principle.icon className="w-6 h-6 text-red-600" />
                     </div>
                     <div>
@@ -164,7 +164,7 @@ function AboutCache() {
                 {/* Interconnected Hexagon Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   {/* Top Row */}
-                  <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div className="bg-linear-to-br from-red-50 to-red-100 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="text-red-600 mb-2">
                       <Lightbulb className="w-10 h-10" />
                     </div>
@@ -172,7 +172,7 @@ function AboutCache() {
                     <p className="text-gray-600 text-xs">Cutting-edge solutions</p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-red-100 to-red-200 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 mt-8">
+                  <div className="bg-linear-to-br from-red-100 to-red-200 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 mt-8">
                     <div className="text-red-600 mb-2">
                       <Target className="w-10 h-10" />
                     </div>
@@ -181,7 +181,7 @@ function AboutCache() {
                   </div>
 
                   {/* Bottom Row */}
-                  <div className="bg-gradient-to-br from-red-200 to-red-300 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div className="bg-linear-to-br from-red-200 to-red-300 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="text-red-700 mb-2">
                       <Users className="w-10 h-10" />
                     </div>
@@ -189,7 +189,7 @@ function AboutCache() {
                     <p className="text-gray-600 text-xs">Collaborative growth</p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-red-300 to-red-400 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 mt-8">
+                  <div className="bg-linear-to-br from-red-300 to-red-400 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 mt-8">
                     <div className="text-red-700 mb-2">
                       <Shield className="w-10 h-10" />
                     </div>

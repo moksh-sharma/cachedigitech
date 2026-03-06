@@ -1,94 +1,56 @@
 # CacheDigitech Backend
 
-Backend for the CacheDigitech website. Serves the **admin portal** at `/admin` with **login** and a dashboard for stats, configuration, and user management.
+Backend for the CacheDigitech website. Provides **chat API**, **blog CMS**, and **Latest Highlights** (file-based JSON storage). No database required.
 
 ## Run locally
 
-1. Set **`.env`** in the backend folder with:
+1. Copy **`.env.example`** to **`.env`** in the backend folder and set:
    ```env
-   DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/cachewebsite
-   SESSION_SECRET=change-me-in-production
-
-   # Hero section chatbot (optional)
+   DATABASE_URL=postgresql://user:password@host:5432/dbname
    OPENAI_API_KEY=sk-your-openai-api-key
-   # OPENAI_CHAT_MODEL=gpt-4o-mini
    ```
-   If `OPENAI_API_KEY` is not set, the hero chatbot will return "Chat is not configured".
+   **`DATABASE_URL`** is required for the admin panel (blogs + latest highlights). Tables are created automatically on startup. Optionally run `psql $DATABASE_URL -f schema.sql` once to ensure schema exists.
+   If **`OPENAI_API_KEY`** is not set, the chatbot will return "Chat is not configured".
 
-2. If the database doesn't exist yet:
-   ```bash
-   cd backend
-   node scripts/init-db.js    # creates the database
-   node scripts/run-schema.js # creates tables
-   ```
-
-3. Start the server:
+2. Install dependencies and start the server:
    ```bash
    npm install
    npm run dev
    ```
 
-- Backend: http://localhost:3000  
-- Admin portal: http://localhost:3000/admin  
-- **Login page:** http://localhost:3000/admin (redirects to `/admin/login` if not logged in)
+- Backend: http://localhost:3000
 
-## Default login
+## Optional env (chat defaults)
 
-On first run, a default admin user is created:
+| Variable | Default | Description |
+|---------|---------|-------------|
+| `CHATBOT_ENABLED` | `true` | Set to `false` to disable chat |
+| `CHATBOT_SYSTEM_PROMPT` | (Cache Digitech default) | Override system prompt |
+| `CHATBOT_MODEL` | `gpt-4o-mini` | OpenAI model |
+| `CHATBOT_MAX_TOKENS` | `512` | Max tokens per reply |
+| `CHATBOT_EXPAND_SPEED` | `1.2` | UI expand animation (seconds) |
+| `CHATBOT_TEXT_FADE_SPEED` | `0.8` | UI text fade (seconds) |
 
-- **Email:** `admin@cachedigitech.com`  
-- **Password:** `admin123`  
+## Routes
 
-Change this password in production (add a new admin user, then remove the default one via Admin → Manage users if desired).
+| Route | Description |
+|-------|-------------|
+| `GET /api/config/chatbot-ui` | Chatbot UI settings |
+| `POST /api/chat` | Chat (body: `{ messages: [{ role, content }] }`) |
+| `POST /api/chat/stream` | Chat streaming (SSE) |
+| `GET/POST/PUT/DELETE /api/blogs` | Blog posts (auth for write) |
+| `GET/PUT /api/highlights` | Latest Highlights cards (auth for write) |
+| `POST /api/auth/blog-login` | Admin login (email + password) |
 
-## Admin portal
+## Use a new pgAdmin server
 
-- **Admins and users** can sign in at `/admin/login` to manage the website.
-- **Admins** can view stats, change configuration, and **manage users** (add/remove).
-- **Users** (non-admin) can view stats and change configuration only.
+If you created a **new server** (and database) in pgAdmin and want the project to use it, see **[docs/USE-NEW-PGADMIN-SERVER.md](docs/USE-NEW-PGADMIN-SERVER.md)**.
+
+## Migrate DB to localhost
+
+To move the database from a network server to PostgreSQL on your laptop, see **[docs/MIGRATE-DB-TO-LOCALHOST.md](docs/MIGRATE-DB-TO-LOCALHOST.md)**.
 
 ## Scripts
 
 - `npm run dev` – start with auto-reload (`--watch`)
 - `npm start` – start production server
-
-## Routes
-
-| Route | Description | Auth |
-|-------|-------------|------|
-| `GET /admin` | Admin dashboard (redirects to login if not authenticated) | — |
-| `GET /admin/login` | Login page | Public |
-| `POST /api/auth/login` | Sign in (body: `{ email, password }`) | Public |
-| `POST /api/auth/logout` | Sign out | Public |
-| `GET /api/auth/me` | Current user | Session |
-| `GET /api/stats` | Website stats | Logged in |
-| `POST /api/stats/view` | Record a page view | Public |
-| `GET /api/config` | Get configuration | Logged in |
-| `PUT /api/config` | Update configuration | Logged in |
-| `GET /api/users` | List users | Admin only |
-| `POST /api/users` | Add user (body: `email`, `password`, `name?`, `role?`) | Admin only |
-| `DELETE /api/users/:id` | Remove user | Admin only |
-| `POST /api/chat` | Hero chatbot (body: `{ messages: [{ role, content }] }`) | Public (uses `OPENAI_API_KEY`) |
-
-## Data (PostgreSQL)
-
-Config, stats, users, and CMS content are stored in PostgreSQL. Tables: `config`, `stats`, `users`, `content`. Schema is in **`schema.sql`** (run once via `node scripts/run-schema.js` or psql/pgAdmin).
-
-- **data/content-schema.json** – CMS section definitions (read at runtime)  
-- **data/content-seed.json** – default content for “Load website defaults” in admin  
-
-Set `SESSION_SECRET` and `DATABASE_URL` in production.
-
-## Deploying so "website(url)/admin" works
-
-1. Deploy the backend (Node on your host or a separate service).
-2. Configure your web server so `/admin` and `/api` are proxied to the backend.
-
-Example (Nginx):
-
-```nginx
-location /admin { proxy_pass http://localhost:3000; }
-location /api/   { proxy_pass http://localhost:3000; }
-```
-
-Then **yourdomain.com/admin** shows the login page, and **yourdomain.com/admin** (after login) is the dashboard.

@@ -88,7 +88,7 @@ function PartnershipCards() {
             {/* Partnership Benefits */}
             <div className={`space-y-5 transition-all duration-700 ${benefitsVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
               <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-2">Why partner with us</p>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-[var(--apple-black)] tracking-tight leading-[1.08] mb-10">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-(--apple-black) tracking-tight leading-[1.08] mb-10">
                 Partnership Benefits
               </h2>
               {partnershipBenefits.map((benefit, index) => {
@@ -99,14 +99,14 @@ function PartnershipCards() {
                     className={`flex items-start gap-4 p-5 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-100 hover:border-red-100 hover:shadow-lg transition-all duration-300 group ${benefitsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                     style={{ transitionDelay: benefitsVisible ? `${index * 80}ms` : '0ms' }}
                   >
-                    <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 group-hover:bg-red-100 transition-colors duration-300">
+                    <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center shrink-0 group-hover:bg-red-100 transition-colors duration-300">
                       <IconComponent className="h-6 w-6 text-red-600" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-[var(--apple-black)] mb-1.5 group-hover:text-red-600 transition-colors">
+                      <h3 className="font-bold text-(--apple-black) mb-1.5 group-hover:text-red-600 transition-colors">
                         {benefit.title}
                       </h3>
-                      <p className="text-[var(--apple-gray)] text-[15px] leading-relaxed">
+                      <p className="text-(--apple-gray) text-[15px] leading-relaxed">
                         {benefit.description}
                       </p>
                     </div>
@@ -156,11 +156,11 @@ function PartnershipCards() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <header className="text-center mb-12 md:mb-14">
             <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-3">Network</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto">
               Industry Partners
             </h2>
             <div className="mt-4 w-12 h-0.5 bg-red-500/60 rounded-full mx-auto" aria-hidden />
-            <p className="mt-6 text-lg md:text-xl text-[var(--apple-gray)] max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-lg md:text-xl text-(--apple-gray) max-w-xl mx-auto leading-relaxed">
               Trusted technology leaders we work with to deliver best-in-class solutions.
             </p>
           </header>
@@ -186,7 +186,7 @@ function PartnershipCards() {
           <div className="text-center mt-14 md:mt-16">
             <Link
               to="/about/leadership"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--apple-black)] bg-white border border-gray-200 hover:border-red-200 hover:bg-red-50 hover:text-red-700 px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-(--apple-black) bg-white border border-gray-200 hover:border-red-200 hover:bg-red-50 hover:text-red-700 px-5 py-2.5 rounded-full transition-all duration-200 shadow-sm"
             >
               Meet our leadership team
               <span className="text-base" aria-hidden>&rarr;</span>

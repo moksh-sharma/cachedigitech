@@ -1,17 +1,8 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Shield, Eye, Target, CheckCircle, Settings, Sparkles, Network, Lock, Server, Globe, Database, Mail, Search, UserCheck, Zap, RefreshCw, ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { usePlacement } from "../context/PlacementsContext";
-
-const navItems = [
-  { id: "hero", label: "Overview" },
-  { id: "capabilities", label: "Capabilities" },
-  { id: "specialized", label: "Specialized Services" },
-  { id: "value", label: "Value Proposition" },
-  { id: "framework", label: "Engagement Framework" },
-  { id: "partnership", label: "Why Partner" },
-];
 
 const capabilities = [
   {
@@ -184,21 +175,7 @@ const benefits = [
 ];
 
 export default function CybersecurityPage() {
-  const [activeSection, setActiveSection] = useState("");
   const heroImageUrl = usePlacement('cybersecurity', 'main', 'heroImage') || '/images/cyberimg.webp';
-
-  // Tabs should only activate on user click; disable auto-activation on scroll
-  useEffect(() => {
-    // No scroll-based activation
-  }, []);
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      setActiveSection(sectionId);
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -209,7 +186,7 @@ export default function CybersecurityPage() {
           style={{ backgroundImage: `url('${heroImageUrl}')` }}
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative max-w-7xl mx-auto h-full flex flex-col items-center justify-center px-4 sm:px-6 pt-24 text-center">
+        <div className="relative max-w-7xl mx-auto h-full flex flex-col items-center justify-center px-6 sm:px-8 lg:px-12 pt-24 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white tracking-tight">
             Cybersecurity
           </h1>
@@ -219,65 +196,14 @@ export default function CybersecurityPage() {
         </div>
       </section>
 
-      {/* Tabs Navigation (below hero, sticky on scroll) */}
-      <nav aria-label="Page sections" className="bg-white border-b border-red-100 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="hidden md:flex items-center justify-center py-4 gap-1">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.id;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => scrollToSection(item.id)}
-                  aria-current={isActive ? "true" : undefined}
-                  aria-label={`Go to ${item.label}`}
-                  className={`px-4 py-2 rounded-full border transition-all text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 ${
-                    isActive
-                      ? "text-red-600 bg-red-50 border-red-200 shadow-sm"
-                      : "text-gray-700 hover:text-red-600 hover:bg-red-50 border-transparent hover:border-red-100"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="md:hidden flex items-center justify-center py-3">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 -mx-2 px-2">
-              {navItems.map((item) => {
-                const isActive = activeSection === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => scrollToSection(item.id)}
-                    aria-current={isActive ? "true" : undefined}
-                    aria-label={`Go to ${item.label}`}
-                    className={`px-3 py-2 rounded-full border text-xs font-medium whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 ${
-                      isActive
-                        ? "text-red-600 bg-red-50 border-red-200"
-                        : "text-gray-700 hover:text-red-600 hover:bg-red-50 border-transparent hover:border-red-100"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </nav>
-
       {/* Overview Section */}
-      <section id="overview-content" className="relative min-h-screen bg-gradient-to-br from-white via-red-50/30 to-white overflow-hidden pt-20 scroll-mt-20">
+      <section id="overview-content" className="relative min-h-screen bg-linear-to-br from-white via-red-50/30 to-white overflow-hidden pt-20 scroll-mt-20">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(220,38,38,0.05),transparent)] pointer-events-none"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl"></div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 lg:py-24">
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="space-y-6 lg:space-y-8">
               {/* Badge */}
@@ -311,7 +237,7 @@ export default function CybersecurityPage() {
             {/* Hero Image */}
             <div className="relative order-first lg:order-last">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 to-transparent rounded-3xl"></div>
+                <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-3xl"></div>
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1614064642261-3ccbfafa481b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWJlcnNlY3VyaXR5JTIwbmV0d29yayUyMHByb3RlY3Rpb258ZW58MXx8fHwxNzU5NzM4Mzk4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Cybersecurity Network Protection"
@@ -324,7 +250,7 @@ export default function CybersecurityPage() {
       </section>
 
       {/* Capabilities Section */}
-      <section id="capabilities" className="py-16 lg:py-24 px-4 sm:px-6 bg-gray-50 scroll-mt-20">
+      <section id="capabilities" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-gray-50 scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-20">
@@ -347,7 +273,7 @@ export default function CybersecurityPage() {
                   className="group relative bg-white rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100"
                 >
                   {/* Icon Container */}
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 bg-linear-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Icon className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                   </div>
                   
@@ -362,7 +288,7 @@ export default function CybersecurityPage() {
                   </div>
                   
                   {/* Gradient Overlay on Hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-5 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-linear-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-5 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none"></div>
                 </div>
               );
             })}
@@ -371,7 +297,7 @@ export default function CybersecurityPage() {
       </section>
 
       {/* Specialized Services Section */}
-      <section id="specialized" className="py-16 lg:py-24 px-4 sm:px-6 bg-white scroll-mt-20">
+      <section id="specialized" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Content Side */}
@@ -396,7 +322,7 @@ export default function CybersecurityPage() {
                     key={index} 
                     className="group flex items-start gap-4 p-6 lg:p-8 bg-gray-50 hover:bg-white rounded-xl lg:rounded-2xl border border-gray-100 hover:border-red-200 hover:shadow-lg transition-all duration-300"
                   >
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-lg lg:rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-lg lg:rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                       {index === 0 ? (
                         <Target className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                       ) : (
@@ -425,7 +351,7 @@ export default function CybersecurityPage() {
                   alt="Security Operations Center Monitoring"
                   className="w-full h-64 sm:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-2xl lg:rounded-3xl shadow-2xl"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/10 to-transparent rounded-2xl lg:rounded-3xl"></div>
+                <div className="absolute inset-0 bg-linear-to-tr from-red-600/10 to-transparent rounded-2xl lg:rounded-3xl"></div>
               </div>
               
               {/* Background Decoration */}
@@ -436,7 +362,7 @@ export default function CybersecurityPage() {
       </section>
 
       {/* Value Proposition Section */}
-      <section id="value" className="py-16 lg:py-24 px-4 sm:px-6 bg-gradient-to-br from-red-50/50 via-white to-red-50/30 scroll-mt-20">
+      <section id="value" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-linear-to-br from-red-50/50 via-white to-red-50/30 scroll-mt-20">
         <div className="max-w-4xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
@@ -460,7 +386,7 @@ export default function CybersecurityPage() {
                   key={index} 
                   className="group flex items-start gap-4 lg:gap-6 p-6 lg:p-8 bg-white rounded-xl lg:rounded-2xl shadow-lg hover:shadow-xl border border-gray-100 hover:border-red-200 transition-all duration-300"
                 >
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 bg-linear-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                     <Icon className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                   </div>
                   <div className="flex-1 pt-2 lg:pt-4">
@@ -476,7 +402,7 @@ export default function CybersecurityPage() {
       </section>
 
       {/* Engagement Framework Section */}
-      <section id="framework" className="py-16 lg:py-24 px-4 sm:px-6 bg-gray-50 scroll-mt-20">
+      <section id="framework" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-gray-50 scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-20">
@@ -521,7 +447,7 @@ export default function CybersecurityPage() {
                   </div>
                   
                   {/* Icon Container */}
-                  <div className={`w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-br ${phase.color} rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-12 h-12 lg:w-16 lg:h-16 bg-linear-to-br ${phase.color} rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <Icon className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                   </div>
                   
@@ -549,7 +475,7 @@ export default function CybersecurityPage() {
                   </div>
                   
                   {/* Gradient Overlay on Hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${phase.color} opacity-0 group-hover:opacity-5 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none`}></div>
+                  <div className={`absolute inset-0 bg-linear-to-br ${phase.color} opacity-0 group-hover:opacity-5 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none`}></div>
                 </div>
               );
             })}
@@ -558,7 +484,7 @@ export default function CybersecurityPage() {
       </section>
 
       {/* Why Partner Section */}
-      <section id="partnership" className="py-16 lg:py-24 px-4 sm:px-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden scroll-mt-20">
+      <section id="partnership" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden scroll-mt-20">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.1),transparent)] pointer-events-none"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(220,38,38,0.05),transparent)] pointer-events-none"></div>
@@ -586,7 +512,7 @@ export default function CybersecurityPage() {
                   const Icon = benefit.icon;
                   return (
                     <div key={index} className="group flex items-start gap-4">
-                      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                         <Icon className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                       </div>
                       <div className="flex-1">
@@ -624,7 +550,7 @@ export default function CybersecurityPage() {
             <div className="relative order-first lg:order-last">
               {/* Main Image Container */}
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 to-transparent rounded-2xl lg:rounded-3xl"></div>
+                <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-2xl lg:rounded-3xl"></div>
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1639503547276-90230c4a4198?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwc2VjdXJpdHklMjBzaGllbGQlMjB0ZWNobm9sb2d5fGVufDF8fHx8MTc1OTczODQwNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Digital Security Shield Technology"

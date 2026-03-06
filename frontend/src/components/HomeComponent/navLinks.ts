@@ -10,8 +10,12 @@ export const navLinks: NavLink[] = [
   { label: "Profile of Cache", route: "/about/profile" },
   { label: "Leadership Team", route: "/about/leadership" },
   { label: "Our Alliances", route: "/about/alliances" },
+  { label: "Awards & Certifications", route: "/about/awards" },
+  { label: "Innovations", route: "/innovations" },
+
+  // Search aliases (same page)
   { label: "Awards and Accolades", route: "/about/awards" },
-  { label: "Certifications", route: "/about/certifications" },
+  { label: "Certifications", route: "/about/awards" },
 
   // Products & Services
   { label: "Cybersecurity", route: "/cybersecurity" },
@@ -27,11 +31,23 @@ export const navLinks: NavLink[] = [
 
   // Insights
   { label: "Leadership Vision", route: "/insights", sectionId: "LeadershipVision" },
-  { label: "Blogs", route: "/insights", sectionId: "blog" },
-  { label: "Case Studies", route: "/insights", sectionId: "success-stories" },
+  { label: "Blogs", route: "/blogs" },
+  { label: "Case Studies", route: "/case-studies" },
   { label: "Problems & Diagnostics", route: "/insights", sectionId: "problems_and_diagnostics" },
   // { label: "Events & Social Activities", route: "/insights", sectionId: "events" },
 
+  // Industries (case studies by industry)
+  { label: "Telecom", route: "/case-studies?industry=Telecom" },
+  { label: "BFSI", route: "/case-studies?industry=BFSI" },
+  { label: "Automobile & Manufacturing", route: "/case-studies?industry=Automobile%20%26%20Manufacturing" },
+  { label: "Retail", route: "/case-studies?industry=Retail" },
+  { label: "Healthcare & Hospitality", route: "/case-studies?industry=Healthcare%20%26%20Hospitality" },
+  { label: "Governance", route: "/case-studies?industry=Governance" },
+  { label: "IT & ITES", route: "/case-studies?industry=IT%20%26%20ITES" },
+
   // Contact
   { label: "Contact Us", route: "/contactus" },
+
+  // Company
+  { label: "Careers", route: "/careers" },
 ];

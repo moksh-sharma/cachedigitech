@@ -24,7 +24,7 @@ function OffersPage() {
   return (
     // <div className="w-full">
     //   {/* ===== Hero Section ===== */}
-    //   <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-orange-900 via-red-900 to-pink-900">
+    //   <div className="relative w-full h-screen overflow-hidden bg-linear-to-br from-orange-900 via-red-900 to-pink-900">
     //     {/* Dark Overlay */}
     //     <div className="absolute inset-0 bg-black/30"></div>
         
@@ -44,7 +44,7 @@ function OffersPage() {
           
     //       <div className="grid lg:grid-cols-2 gap-12 mb-16">
     //         {/* Featured Offer 1 */}
-    //         <div className="bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl p-8 text-white relative overflow-hidden">
+    //         <div className="bg-linear-to-br from-red-500 to-pink-600 rounded-2xl p-8 text-white relative overflow-hidden">
     //           <div className="absolute top-4 right-4 bg-yellow-400 text-red-600 px-3 py-1 rounded-full text-sm font-bold">
     //             LIMITED TIME
     //           </div>
@@ -63,7 +63,7 @@ function OffersPage() {
     //         </div>
 
     //         {/* Featured Offer 2 */}
-    //         <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white relative overflow-hidden">
+    //         <div className="bg-linear-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white relative overflow-hidden">
     //           <div className="absolute top-4 right-4 bg-green-400 text-blue-600 px-3 py-1 rounded-full text-sm font-bold">
     //             NEW CLIENT
     //           </div>
@@ -157,7 +157,7 @@ function OffersPage() {
     //     <div className="max-w-6xl mx-auto">
     //       <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">Limited Time Deals</h2>
           
-    //       <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white text-center">
+    //       <div className="bg-linear-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white text-center">
     //         <div className="mb-6">
     //           <span className="bg-yellow-400 text-purple-600 px-4 py-2 rounded-full text-sm font-bold uppercase">
     //             Flash Sale - Ends Soon!
@@ -201,7 +201,7 @@ function OffersPage() {
     //   </div>
 
     //   {/* ===== CTA Section ===== */}
-    //   {/* <div className="py-20 px-8 md:px-20 bg-gradient-to-r from-orange-600 to-red-600">
+    //   {/* <div className="py-20 px-8 md:px-20 bg-linear-to-r from-orange-600 to-red-600">
     //     <div className="max-w-4xl mx-auto text-center text-white">
     //       <h2 className="text-4xl font-bold mb-6">Ready to Save Big?</h2>
     //       <p className="text-xl mb-8">
@@ -218,7 +218,7 @@ function OffersPage() {
     //     </div>
     //   </div> */}
     // </div>
-    <div className="min-h-screen bg-gradient-to-br bg-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-br bg-white flex items-center justify-center px-4">
       {/* Mystery Box */}
       <div 
         onClick={() => setIsOpen(!isOpen)}

@@ -149,7 +149,7 @@ export default function GRCDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-red-50">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-red-50">
       {/* Hero Section */}
       <section
         id="hero"
@@ -159,7 +159,7 @@ export default function GRCDashboard() {
         }}
       >
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white px-4 sm:px-6 max-w-4xl">
+          <div className="text-center text-white px-6 sm:px-8 lg:px-12 max-w-4xl mx-auto">
             <div className="mb-6">
               <Server className="w-16 h-16 mx-auto mb-4" aria-hidden />
             </div>
@@ -175,7 +175,7 @@ export default function GRCDashboard() {
 
       {/* Tabs (below hero, sticky on scroll) */}
       <nav aria-label="Page sections" className="bg-white border-b border-red-100 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4">
           <div className="flex flex-wrap justify-center gap-2">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
@@ -200,7 +200,7 @@ export default function GRCDashboard() {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 lg:py-24">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-24">
         {/* Sections */}
         <div className="space-y-8">
           {sections.map((section, index) => {
@@ -212,7 +212,7 @@ export default function GRCDashboard() {
                 key={index}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden border border-red-100 hover:shadow-xl transition-shadow duration-300 scroll-mt-20"
               >
-                <div className="bg-gradient-to-r from-red-700 to-red-600 text-white px-6 py-4 flex items-center gap-3">
+                <div className="bg-linear-to-r from-red-700 to-red-600 text-white px-6 py-4 flex items-center gap-3">
                   <IconComponent className="w-7 h-7" />
                   <h2 className="text-2xl font-semibold">{section.title}</h2>
                 </div>
@@ -222,7 +222,7 @@ export default function GRCDashboard() {
                       <div key={itemIndex} className="space-y-3">
                         {item.column.map((text, textIndex) => (
                           <div key={textIndex} className="flex items-start gap-3 group">
-                            <div className="mt-1 flex-shrink-0">
+                            <div className="mt-1 shrink-0">
                               <CheckCircle className="w-5 h-5 text-red-600 group-hover:text-red-700 transition-colors" />
                             </div>
                             <p className="text-gray-700 leading-relaxed group-hover:text-gray-900 transition-colors">

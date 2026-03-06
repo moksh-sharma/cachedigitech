@@ -130,7 +130,7 @@ export default function CompliancePage() {
         style={{ backgroundImage: `url('${heroImageUrl}')` }}
       >
         <div className="absolute inset-0 bg-black/60" aria-hidden />
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 h-full flex items-center justify-center text-center">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 h-full flex items-center justify-center text-center">
           <div className="space-y-6 lg:space-y-8">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight tracking-tight">
               <span className="text-red-500">Consulting & Auditing</span>
@@ -144,7 +144,7 @@ export default function CompliancePage() {
 
       {/* Tabs Navigation (below hero, sticky on scroll) */}
       <nav aria-label="Page sections" className="bg-white border-b border-red-100 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="hidden md:flex items-center justify-center py-4 gap-1">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
@@ -194,7 +194,7 @@ export default function CompliancePage() {
       </nav>
 
       {/* Overview Section */}
-      <section id="overview" className="py-16 lg:py-24 px-4 sm:px-6 bg-white scroll-mt-20">
+      <section id="overview" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Overview</h2>
           <p className="text-lg text-gray-700 leading-relaxed max-w-4xl">
@@ -204,7 +204,7 @@ export default function CompliancePage() {
       </section>
 
       {/* Capabilities Section */}
-      <section id="capabilities" className="py-16 lg:py-24 px-4 sm:px-6 bg-gray-50 scroll-mt-20">
+      <section id="capabilities" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-gray-50 scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-20">
@@ -227,7 +227,7 @@ export default function CompliancePage() {
                   className="group relative bg-white rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100"
                 >
                   {/* Icon Container */}
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 bg-linear-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Icon className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                   </div>
                   
@@ -242,7 +242,7 @@ export default function CompliancePage() {
                   </div>
                   
                   {/* Gradient Overlay on Hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-5 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-linear-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-5 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none"></div>
                 </div>
               );
             })}
@@ -251,7 +251,7 @@ export default function CompliancePage() {
       </section>
 
       {/* Strategic Approach Section */}
-      <section id="approach" className="py-16 lg:py-24 px-4 sm:px-6 bg-white scroll-mt-20">
+      <section id="approach" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Content Side */}
@@ -278,7 +278,7 @@ export default function CompliancePage() {
                       key={index} 
                       className="group flex items-start gap-4 p-6 lg:p-8 bg-gray-50 hover:bg-white rounded-xl lg:rounded-2xl border border-gray-100 hover:border-red-200 hover:shadow-lg transition-all duration-300"
                     >
-                      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-lg lg:rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-lg lg:rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                         <Icon className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                       </div>
                       <div className="flex-1">
@@ -304,7 +304,7 @@ export default function CompliancePage() {
                   alt="Regulatory Compliance Dashboard"
                   className="w-full h-64 sm:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-2xl lg:rounded-3xl shadow-2xl"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/10 to-transparent rounded-2xl lg:rounded-3xl"></div>
+                <div className="absolute inset-0 bg-linear-to-tr from-red-600/10 to-transparent rounded-2xl lg:rounded-3xl"></div>
               </div>
               
               {/* Background Decoration */}
@@ -315,7 +315,7 @@ export default function CompliancePage() {
       </section>
 
       {/* Industry Coverage Section */}
-      <section id="industries" className="py-16 lg:py-24 px-4 sm:px-6 bg-gray-50 scroll-mt-20">
+      <section id="industries" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-gray-50 scroll-mt-20">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-20">
@@ -343,7 +343,7 @@ export default function CompliancePage() {
                   className="group relative bg-white rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 h-full flex flex-col"
                 >
                   {/* Icon Container */}
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 flex-shrink-0 bg-gradient-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 shrink-0 bg-linear-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Icon className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                   </div>
                   
@@ -358,7 +358,7 @@ export default function CompliancePage() {
                   </div>
                   
                   {/* Gradient Overlay on Hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-5 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-linear-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-5 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none"></div>
                 </div>
               );
             })}
@@ -367,7 +367,7 @@ export default function CompliancePage() {
       </section>
 
       {/* Competitive Advantage Section */}
-      <section id="advantage" className="py-16 lg:py-24 px-4 sm:px-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden scroll-mt-20">
+      <section id="advantage" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden scroll-mt-20">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.1),transparent)] pointer-events-none"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(220,38,38,0.05),transparent)] pointer-events-none"></div>
@@ -398,7 +398,7 @@ export default function CompliancePage() {
                 {/* Key Features */}
                 <div className="space-y-4 lg:space-y-6">
                   <div className="group flex items-start gap-4">
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <Bot className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                     </div>
                     <div className="flex-1">
@@ -412,7 +412,7 @@ export default function CompliancePage() {
                   </div>
                   
                   <div className="group flex items-start gap-4">
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <BarChart3 className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                     </div>
                     <div className="flex-1">
@@ -446,7 +446,7 @@ export default function CompliancePage() {
             <div className="relative order-first lg:order-last">
               {/* Main Image Container */}
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 to-transparent rounded-2xl lg:rounded-3xl"></div>
+                <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-2xl lg:rounded-3xl"></div>
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1591492835122-79ae33cd19f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbnRlcnByaXNlJTIwZ292ZXJuYW5jZSUyMHJpc2t8ZW58MXx8fHwxNzU5NzM5MTc5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Enterprise Governance Risk"

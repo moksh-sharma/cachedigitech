@@ -146,7 +146,7 @@ const ManagedServicesPage = () => {
                 style={{ backgroundImage: `url('${heroImageUrl}')` }}
             >
                 <div className="absolute inset-0 bg-black/60" aria-hidden />
-                <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 text-center flex flex-col justify-center h-full">
+                <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 text-center flex flex-col justify-center h-full">
                     <div className="mb-8">
                         <Settings className="w-20 h-20 mx-auto mb-6 text-white" aria-hidden />
                     </div>
@@ -166,7 +166,7 @@ const ManagedServicesPage = () => {
 
             {/* Sticky Navigation */}
             <nav aria-label="Service sections" className="bg-white border-b border-red-100 shadow-sm sticky top-0 z-50">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+                <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-4">
                     <div className="flex flex-wrap justify-center gap-2">
                         {services.map((service) => {
                             const IconComponent = service.icon;
@@ -196,7 +196,7 @@ const ManagedServicesPage = () => {
             {/* Service Sections */}
             <div className="py-16">
                 {services.map((service, index) => (
-                    <section key={service.id} id={service.id} className="py-16 lg:py-24 px-4 sm:px-6 scroll-mt-20">
+                    <section key={service.id} id={service.id} className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 scroll-mt-20">
                         <div className="max-w-6xl mx-auto">
                             {/* Service Header */}
                             <div className="text-center mb-16">
@@ -240,7 +240,7 @@ const ManagedServicesPage = () => {
             </div>
 
             {/* Call to Action */}
-            <section className="py-16 lg:py-24 px-4 sm:px-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+            <section className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                         Ready to Transform Your Operations?

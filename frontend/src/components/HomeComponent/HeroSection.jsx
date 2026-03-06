@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect, useMemo, useContext, useCallback } from 'react';
 import ContentContext, { useContent } from '../../context/ContentContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useChatFocus } from '../../context/ChatFocusContext';
 import { useChat } from '../../context/ChatContext';
 import WhoWeAre from './Whoweare';
 import DomeGallery from '../AboutPageComponent/DomeGallery';
+import CampaignPromoSection from './CampaignPromoSection';
+import { CEOSection } from '../InsightComponent/ceo-section';
 import '../AboutPageComponent/DomeGallery.css';
 
 
@@ -124,14 +126,23 @@ const TYPEWRITER_WORDS = [
   'Evolve', 'Succeed', 'Perform', 'Transform', 'Prosper',
 ];
 
+// Lenis-style lerp (same as Lenis scrollTo) for smooth typewriter
+const LENIS_LERP = 0.12;
+
 function TypewriterWords({ className = '', style = {} }) {
   const [wordIndex, setWordIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [displayCharCount, setDisplayCharCount] = useState(0);
+  const smoothCharRef = useRef(0);
+  const targetCharRef = useRef(0);
+  const lastRoundedRef = useRef(0);
+  const rafRef = useRef(null);
 
   const word = TYPEWRITER_WORDS[wordIndex];
-  const displayText = word.slice(0, charIndex);
+  targetCharRef.current = charIndex;
 
+  // Target advances on a timer (unchanged logic)
   useEffect(() => {
     const typeMs = 80;
     const deleteMs = 50;
@@ -159,10 +170,39 @@ function TypewriterWords({ className = '', style = {} }) {
     return () => clearTimeout(t);
   }, [wordIndex, charIndex, isDeleting, word.length]);
 
+  // Reset smooth display when word changes
+  useEffect(() => {
+    smoothCharRef.current = 0;
+    lastRoundedRef.current = 0;
+    setDisplayCharCount(0);
+  }, [wordIndex]);
+
+  // Lenis-style smooth animation: single RAF loop, lerp display toward target each frame
+  useEffect(() => {
+    const tick = () => {
+      const current = smoothCharRef.current;
+      const target = targetCharRef.current;
+      const next = current + (target - current) * LENIS_LERP;
+      smoothCharRef.current = next;
+      const rounded = Math.round(next);
+      if (rounded !== lastRoundedRef.current) {
+        lastRoundedRef.current = rounded;
+        setDisplayCharCount(rounded);
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const displayText = word.slice(0, Math.min(displayCharCount, word.length));
+
   return (
     <span className={className} style={style}>
       {displayText.toUpperCase()}
-      <span className="animate-pulse" style={{ opacity: 0.7 }}></span>
+      <span className="animate-pulse" style={{ opacity: 0.7 }} aria-hidden></span>
     </span>
   );
 }
@@ -188,10 +228,10 @@ const HeroSection = () => {
   const headingSizeClass = {
     small: 'text-5xl lg:text-6xl',
     medium: 'text-6xl lg:text-7xl',
-    large: 'text-6xl lg:text-[84px]',
-    xlarge: 'text-7xl lg:text-8xl',
-    default: 'text-6xl lg:text-[84px]',
-  }[headingFontSize] || 'text-6xl lg:text-[84px]';
+    large: 'text-6xl lg:text-[72px]',
+    xlarge: 'text-7xl lg:text-[84px]',
+    default: 'text-6xl lg:text-[72px]',
+  }[headingFontSize] || 'text-6xl lg:text-[72px]';
 
   const isWordByWordFade = headingAnimation === 'fadeIn';
   const normalizedHeading = useMemo(() => normalizeHeadingForDisplay(heading), [heading]);
@@ -233,6 +273,31 @@ const HeroSection = () => {
   const { setChatFocused } = useChatFocus();
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
+
+  // Hero background image carousel — from database only
+  const [heroBgImages, setHeroBgImages] = useState([]);
+  const [heroBgIndex, setHeroBgIndex] = useState(0);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(API_BASE + '/api/hero-backgrounds', { credentials: 'include' })
+      .then((res) => (res.ok ? res.json() : []))
+      .then((urls) => {
+        if (cancelled) return;
+        setHeroBgImages(Array.isArray(urls) ? urls : []);
+      })
+      .catch(() => {
+        if (!cancelled) setHeroBgImages([]);
+      });
+    return () => { cancelled = true; };
+  }, []);
+  useEffect(() => {
+    const total = heroBgImages.length;
+    if (total === 0) return;
+    const id = setInterval(() => {
+      setHeroBgIndex((i) => (i + 1) % total);
+    }, 4000);
+    return () => clearInterval(id);
+  }, [heroBgImages.length]);
 
   // Hero entrance: left text + right card slide in, then card tilts and gains color
   const [chatCardReveal, setChatCardReveal] = useState('entering'); // 'entering' | 'placed' | 'tilted'
@@ -307,7 +372,25 @@ const HeroSection = () => {
 
   return (
     <>
-      <main className="hero-section relative min-h-screen w-full pt-31 pb-10 px-6 overflow-x-hidden overflow-y-visible flex items-center bg-[#fafafa]">
+      <main className="hero-section relative min-h-screen w-full overflow-x-hidden overflow-y-visible">
+
+        {/* Background image carousel — crossfade every 4s */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
+          {heroBgImages.map((src, i) => (
+            <img
+              key={src}
+              src={src}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover object-center select-none"
+              style={{
+                opacity: i === heroBgIndex ? 1 : 0,
+                zIndex: i === heroBgIndex ? 1 : 0,
+                transition: 'opacity 1.2s ease-in-out',
+              }}
+            />
+          ))}
+          <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/50 to-black/60 z-2" aria-hidden />
+        </div>
 
         {/* Animated background — gradient orbs + subtle grid */}
         <div className="hero-animated-bg absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
@@ -317,204 +400,55 @@ const HeroSection = () => {
           <div className="hero-bg-grid" />
         </div>
 
-        {/* Hero content */}
-        <div className="relative z-10 grid lg:grid-cols-12 gap-16 items-start mx-auto w-full max-w-100% px-20 lg:px-36">
-          {/* Hero text — entrance from left (in sync with right card) */}
-          <div
-            className="hero-text lg:col-span-7 space-y-8"
-            style={{
-              transform: heroTextReveal === 'entering' ? 'translateX(calc(-100% - 24vw))' : 'translateX(0)',
-              opacity: heroTextReveal === 'entering' ? 0.94 : 1,
-              transition: 'transform 1.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease-out',
-            }}
-          >
-            {/* Fixed-height slot so subheading/buttons never shift (exact height, not min-height) */}
-            <div className="h-[7rem] lg:h-[10.5rem] shrink-0">
-              {isWordByWordFade && headingSegments.length > 0 ? (
-                <h1
-                  className={`apple-hero-text ${headingSizeClass} font-normal leading-[1] tracking-tighter text-[var(--apple-black)]`}
-                  style={headingStyle}
-                >
-                  {headingSegments.map((seg, i) => {
-                    if (seg.type === 'br') return <br key={`br-${i}`} />;
-                    const wordIndex = headingSegments.slice(0, i).filter((s) => s.type === 'word').length;
-                    const delayS = (headingAnimationDelay * 1000 + wordIndex * STAGGER_PER_WORD_MS) / 1000;
-                    const plainText = seg.html.replace(/<[^>]+>/g, '').trim();
-                    const isThriveWord = plainText === 'THRIVE';
-                    if (plainText === '.') return <React.Fragment key={`w-${i}`} />;
-
-                    return (
-                      <React.Fragment key={`w-${i}`}>
-                        <span
-                          className="hero-heading-anim-fadeIn inline"
-                          style={{
-                            animationDelay: `${delayS}s`,
-                            animationDuration: `${WORD_FADE_DURATION_S}s`,
-                            animationFillMode: 'both',
-                            animationTimingFunction: 'ease-out',
-                          }}
-                        >
-                          {isThriveWord ? (
-                            <strong className="inline-block min-w-[9ch]" style={{ fontFamily: '"Source Code Pro"' }}>
-                              <TypewriterWords />
-                            </strong>
-                          ) : (
-                            <span dangerouslySetInnerHTML={{ __html: seg.html }} />
-                          )}
-                        </span>
-                        {i < headingSegments.length - 1 && headingSegments[i + 1].type === 'word' ? ' ' : null}
-                      </React.Fragment>
-                    );
-                  })}
-                </h1>
-              ) : (
-                <h1
-                  className={`apple-hero-text ${headingSizeClass} font-normal leading-[1] tracking-tighter text-[var(--apple-black)] ${headingAnimClass}`.trim()}
-                  style={headingStyle}
-                  dangerouslySetInnerHTML={{ __html: normalizedHeading }}
-                />
-              )}
-            </div>
-            <p className="text-xl lg:text-2xl text-[var(--apple-gray)] font-light max-w-lg leading-relaxed mt-[180px]">
-              {subheading}
-            </p>
-            {/* CTA Buttons */}
-            <div className="flex items-center gap-4 pt-2">
-              <button
-                onClick={() => navigate('/contactus')}
-                className="inline-flex items-center gap-2 bg-[var(--apple-black)] text-white text-[14px] font-semibold px-6 py-3 rounded-full hover:bg-[var(--apple-black)]/90 transition-all"
-              >
-                Get Started
-                <span className="text-[16px]">&rarr;</span>
-              </button>
-              <button
-                onClick={() => navigate('/about')}
-                className="inline-flex items-center gap-2 bg-white border border-black/20 text-[var(--apple-black)] text-[14px] font-semibold px-6 py-3 rounded-full transition-all hover:border-transparent hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 hover:text-white"
-              >
-                Learn More
-              </button>
-            </div>
-          </div>
-
-          {/* Chatbot card — 3D tilt: right side coming out of screen */}
-          <div
-            className={`hero-chatbot lg:col-span-5 relative flex justify-center lg:justify-end transition-all duration-500 overflow-visible min-w-0 ${hasAsked ? 'z-[50]' : ''}`}
-            style={{ perspective: '1200px', perspectiveOrigin: 'center center' }}
-          >
+        {/* Hero content — centered in viewport, below fixed navbar */}
+        <div className="absolute top-[72px] left-0 right-0 bottom-0 z-10 flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex flex-col items-center justify-center text-center w-full max-w-4xl">
             <div
-              className="relative w-full flex justify-center lg:justify-end overflow-visible cursor-pointer"
-              style={{ maxWidth: cb.maxWidth, transformStyle: 'preserve-3d' }}
-              onClickCapture={() => chatInputRef.current?.focus()}
+              className="hero-text space-y-6 lg:space-y-8"
+              style={{
+                transform: heroTextReveal === 'entering' ? 'translateY(12px)' : 'translateY(0)',
+                opacity: heroTextReveal === 'entering' ? 0.94 : 1,
+                transition: 'transform 1.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease-out',
+              }}
             >
-              <div
-                className="ai-chat-card w-full overflow-hidden flex flex-col relative z-10"
-                style={{
-                  maxWidth: `${cb.maxWidth}px`,
-                  height: `${cb.height}px`,
-                  borderRadius: `${cb.radius}px`,
-                  background: `linear-gradient(145deg, ${cb.bgFrom} 0%, ${cb.bgMid} 50%, ${cb.bgTo} 100%)`,
-                  transform: chatCardReveal === 'entering'
-                    ? 'translateX(calc(100% + 24vw)) rotateY(0deg)'
-                    : chatCardReveal === 'placed'
-                      ? 'translateX(0) rotateY(0deg)'
-                      : 'translateX(0) rotateY(-12deg)',
-                  transformStyle: 'preserve-3d',
-                  backfaceVisibility: 'hidden',
-                  // Slide: smooth deceleration (match hero text); tilt+color: same ease for cohesion
-                  transition: chatCardReveal === 'tilted'
-                    ? 'transform 0.9s cubic-bezier(0.33, 1, 0.68, 1), filter 0.9s cubic-bezier(0.33, 1, 0.68, 1)'
-                    : 'transform 1.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s ease-out, filter 0.5s ease-out',
-                  opacity: chatCardReveal === 'entering' ? 0.97 : 1,
-                  filter: chatCardReveal === 'tilted' ? 'none' : 'grayscale(1)',
-                }}
-              >
-                {/* Heading area */}
-                <div className={`flex-shrink-0 flex flex-col items-center justify-center text-center px-8 transition-all duration-300 ${hasAsked ? 'pt-6 pb-4' : 'pt-12 pb-6'}`}>
-                  <h3
-                    className="font-semibold text-[var(--apple-black)] leading-snug transition-all duration-300"
-                    style={{ fontSize: hasAsked ? '18px' : `${cb.headingSize}px` }}
-                  >
-                    {cb.heading}
-                    <br />
-                    <span style={{ background: `linear-gradient(to right, ${cb.accentFrom}, ${cb.accentTo})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                      {cb.heading2}
-                    </span>
-                  </h3>
-                </div>
-
-                {/* Middle area: animation when idle, messages when chatting */}
-                <div className="flex-1 min-h-0 flex flex-col">
-                  {!hasAsked ? (
-                    <div className="flex-1 flex items-center justify-center px-6">
-                      <video autoPlay loop muted playsInline className="w-40 h-40 object-contain" src="/ai-logo-animation.webm" />
-                    </div>
-                  ) : (
-                    <div className="flex-1 min-h-0 overflow-y-auto px-6 pb-2 space-y-4 scrollbar-hide">
-                      {chatError && <div className="text-[13px] text-red-600 bg-red-50/80 p-3 rounded-2xl">{chatError}</div>}
-                      {messages.map((msg, i) =>
-                        msg.role === 'assistant' ? (
-                          <div key={i} className="flex gap-3">
-                            <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
-                              <span className="material-symbols-outlined text-white text-[14px]">auto_awesome</span>
-                            </div>
-                            <div className="flex-1">
-                              <div
-                                className="leading-relaxed p-4 rounded-2xl rounded-tl-md shadow-sm whitespace-pre-wrap"
-                                style={{ fontSize: `${cb.bodySize}px`, background: cb.aiBubbleBg, color: cb.aiBubbleText }}
-                              >
-                                {msg.content}
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          <div key={i} className="flex justify-end">
-                            <div
-                              className="leading-relaxed p-4 rounded-2xl rounded-tr-md max-w-[85%] shadow-sm"
-                              style={{ fontSize: `${cb.bodySize}px`, color: cb.userBubbleText, background: `linear-gradient(to right, ${cb.accentFrom}, ${cb.accentTo})` }}
-                            >
-                              {msg.content}
-                            </div>
-                          </div>
-                        )
-                      )}
-                      {loading && (
-                        <div className="flex gap-3">
-                          <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
-                            <span className="material-symbols-outlined text-white text-[14px]">auto_awesome</span>
-                          </div>
-                          <div className="text-[13px] text-[var(--apple-gray)] italic px-2 py-3">Thinking…</div>
-                        </div>
-                      )}
-                      <div ref={messagesEndRef} />
-                    </div>
-                  )}
-                </div>
-
-                {/* Search-style input — always pinned to bottom */}
-                <div className="flex-shrink-0 px-6 pb-6 pt-2">
-                  <div className="relative flex items-center bg-white rounded-full border border-black/8 shadow-sm px-4 py-2.5 focus-within:shadow-md transition-all" style={{ '--tw-ring-color': cb.accentFrom }}>
-                    <span className="material-symbols-outlined text-[20px] mr-3 flex-shrink-0" style={{ color: cb.accentFrom }}>language</span>
-                    <input
-                      ref={chatInputRef}
-                      className="w-full border-none bg-transparent focus:ring-0 focus:outline-none text-[14px] text-[var(--apple-black)] placeholder:text-[var(--apple-gray)] placeholder:font-normal"
-                      placeholder={cb.placeholder}
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      disabled={loading}
-                    />
-                    <button
-                      type="button"
-                      onClick={sendMessage}
-                      disabled={loading || !input.trim()}
-                      className="flex-shrink-0 ml-2 transition-colors disabled:opacity-40"
-                      style={{ color: cb.accentFrom }}
-                    >
-                      <span className="material-symbols-outlined text-[20px]">search</span>
-                    </button>
-                  </div>
-                </div>
+              <div className="min-h-48 lg:min-h-64 flex flex-col justify-center">
+                <h1
+                  className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.05] tracking-tight text-white`}
+                  style={{ ...headingStyle, textShadow: '0 2px 20px rgba(0,0,0,0.5), 0 0 40px rgba(0,0,0,0.3)' }}
+                >
+                  <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.1s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                    We <strong>BUILD</strong>
+                  </span>
+                  <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.18s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                    Industries
+                  </span>
+                  <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.26s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                    that
+                  </span>
+                  <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.34s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                    <strong className="inline-block min-w-[9ch]">
+                      <TypewriterWords />
+                    </strong>
+                  </span>
+                </h1>
+              </div>
+              <p className="text-base sm:text-lg lg:text-xl text-white/95 font-light max-w-2xl mx-auto leading-relaxed" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}>
+                {subheading}
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2">
+                <button
+                  onClick={() => navigate('/contactus')}
+                  className="inline-flex items-center gap-2 bg-white text-(--apple-black) text-[14px] font-semibold px-6 py-3 rounded-full hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
+                >
+                  Get Started
+                  <span className="text-[16px]">&rarr;</span>
+                </button>
+                <button
+                  onClick={() => navigate('/about')}
+                  className="inline-flex items-center gap-2 bg-white/10 border-2 border-white/80 text-white text-[14px] font-semibold px-6 py-3 rounded-full transition-all hover:bg-white/20 hover:border-white shadow-lg hover:shadow-xl"
+                >
+                  Learn More
+                </button>
               </div>
             </div>
           </div>
@@ -523,50 +457,124 @@ const HeroSection = () => {
 
       {/* AI ROI Stats Banner */}
       <section className="ai-roi-banner relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #3b5fe0 0%, #5b7cf7 30%, #6e8dfa 50%, #5b7cf7 70%, #3b5fe0 100%)' }}>
-        {/* Wavy overlay for depth */}
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'1440\' height=\'120\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 60 Q360 0 720 60 T1440 60 V120 H0Z\' fill=\'%23ffffff\'/%3E%3C/svg%3E")', backgroundSize: '100% 100%' }} />
 
-        <div className="max-w-[1300px] mx-auto px-8 py-8 flex flex-col lg:flex-row items-start lg:items-center gap-8">
-          {/* Title + CTA */}
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-8 flex-shrink-0">
-            <h3 className="text-white text-xl font-bold leading-tight whitespace-nowrap">AI that delivers ROI</h3>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6 flex flex-col lg:flex-row items-start lg:items-center gap-5 lg:gap-6">
+          {/* Title block */}
+          <div className="flex flex-col gap-2 lg:gap-3 shrink-0">
+            <span className="inline-flex w-fit items-center rounded-full bg-white/15 backdrop-blur-sm px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white/95">
+              Impact in numbers
+            </span>
+            <h3 className="text-white text-lg sm:text-xl font-bold leading-tight max-w-sm">
+              AI that drives real outcomes
+            </h3>
+            <a
+              href="/about"
+              className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white text-[#1e3a8a] text-xs font-semibold px-4 py-2 shadow-md hover:bg-white/95 hover:shadow-lg transition-all duration-200"
+            >
+              Learn how we deliver
+              <span className="text-sm leading-none" aria-hidden>→</span>
+            </a>
           </div>
 
-          {/* Stats grid */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            <div className="border-l-2 border-white/30 pl-5">
-              <span className="text-white text-2xl font-extrabold">45%</span>
-              <p className="text-white/85 text-[13px] leading-snug mt-1">reduction in app dev effort enabled by AI for a Financial services major</p>
+          {/* Stats grid — card style */}
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
+              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">45%</p>
+              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster application delivery with AI-augmented development</p>
             </div>
-            <div className="border-l-2 border-white/30 pl-5">
-              <span className="text-white text-2xl font-extrabold">20%</span>
-              <p className="text-white/85 text-[13px] leading-snug mt-1">IT Ops MTTR reduction enabled by AI Ops for a Tools manufacturer</p>
+            <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
+              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">20%</p>
+              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster incident resolution with intelligent IT operations</p>
             </div>
-            <div className="border-l-2 border-white/30 pl-5">
-              <span className="text-white text-2xl font-extrabold">~$100M</span>
-              <p className="text-white/85 text-[13px] leading-snug mt-1">ops costs reduction expected through AI-powered Clinical Advisor for a Healthcare major</p>
+            <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
+              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">~$100M</p>
+              <p className="text-white/90 text-[12px] leading-snug mt-1.5">in savings potential with AI-powered clinical and operational insights</p>
             </div>
-            <div className="border-l-2 border-white/30 pl-5">
-              <span className="text-white text-2xl font-extrabold">87%</span>
-              <p className="text-white/85 text-[13px] leading-snug mt-1">investigation time reduction through AI-powered trade surveillance for a Financial Services major</p>
+            <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
+              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">87%</p>
+              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster compliance and surveillance investigations with intelligent automation</p>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* CTA button */}
-          <a href="/about" className="flex-shrink-0 inline-flex items-center gap-2 text-[13px] font-semibold text-[var(--apple-black)] bg-white hover:bg-white/90 px-5 py-2.5 rounded-full transition-colors whitespace-nowrap shadow-sm">
-            Find out more
-            <span className="text-[16px]">&rarr;</span>
-          </a>
+      {/* AI search intro — heading + input, then answers below */}
+      <section className="relative overflow-hidden bg-[#fafafa]">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 lg:py-8 relative flex flex-col items-center">
+          <div className={`main-search-intro flex flex-col items-center justify-center gap-5 w-full max-w-2xl mx-auto ${hasAsked ? 'main-search-intro-hide-search' : ''}`}>
+            <p className="text-xl lg:text-2xl font-bold text-center text-purple-700">
+              {cb.heading} {cb.heading2}
+            </p>
+
+            {/* Answers between heading and chat box when user has asked */}
+            {hasAsked && (
+              <div className="w-full space-y-4 max-h-[320px] overflow-y-auto scrollbar-hide">
+                {chatError && <div className="text-[13px] text-red-600 bg-red-50/80 p-3 rounded-xl">{chatError}</div>}
+                {messages.map((msg, i) =>
+                  msg.role === 'assistant' ? (
+                    <div key={i} className="flex gap-3">
+                      <div className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
+                        <span className="material-symbols-outlined text-white text-[14px]">auto_awesome</span>
+                      </div>
+                      <div className="flex-1 p-4 rounded-xl shadow-sm whitespace-pre-wrap text-[14px] bg-white/90 border border-slate-100" style={{ color: cb.aiBubbleText }}>
+                        {msg.content}
+                      </div>
+                    </div>
+                  ) : (
+                    <div key={i} className="flex justify-end">
+                      <div className="max-w-[85%] p-4 rounded-xl shadow-sm text-[14px] text-white" style={{ background: `linear-gradient(to right, ${cb.accentFrom}, ${cb.accentTo})` }}>
+                        {msg.content}
+                      </div>
+                    </div>
+                  )
+                )}
+                {loading && (
+                  <div className="flex gap-3">
+                    <div className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5" style={{ background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }}>
+                      <span className="material-symbols-outlined text-white text-[14px]">auto_awesome</span>
+                    </div>
+                    <div className="text-[13px] text-slate-500 italic py-2">Thinking…</div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
+
+            <div className="w-full flex flex-col sm:flex-row gap-3 sm:items-center">
+              <div className="relative flex items-center flex-1 bg-white rounded-lg border border-slate-200 shadow-sm px-4 py-3 focus-within:outline-none focus-within:ring-0">
+                <span className="material-symbols-outlined text-[20px] mr-2 shrink-0 text-slate-400" style={{ color: cb.accentFrom }}>search</span>
+                <input
+                  ref={chatInputRef}
+                  className="w-full border-none bg-transparent focus:ring-0 focus:outline-none focus-visible:outline-none focus-visible:ring-0 text-[14px] text-(--apple-black) placeholder:text-slate-400"
+                  placeholder={cb.placeholder}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  disabled={loading}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={sendMessage}
+                disabled={loading || !input.trim()}
+                className="shrink-0 px-5 py-3 rounded-lg font-semibold text-[14px] text-white bg-purple-700 hover:bg-purple-800 transition-colors disabled:opacity-50"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Choose Your Interest */}
-      <section className="bg-gradient-to-b from-white to-gray-50/80 py-14 px-8 overflow-visible relative">
+      <section className="bg-linear-to-b from-white to-gray-50/80 py-14 px-6 sm:px-8 lg:px-12 overflow-visible relative">
         <div className="max-w-[900px] mx-auto" ref={dropdownAreaRef}>
           {/* Section header */}
           <div className="text-center mb-8">
             <p className="text-4xl font-extrabold tracking-[0.25em] uppercase text-red-500 mb-2">Explore</p>
-            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto">
               Choose your interest
             </h2>
           </div>
@@ -578,7 +586,7 @@ const HeroSection = () => {
             <div className="relative">
               <button
                 onClick={() => { setCapOpen(!capOpen); setExpandedCap(null); setCsOpen(false); }}
-                className={`group flex items-center justify-between w-full bg-white rounded-2xl px-6 py-5 text-[var(--apple-black)] font-semibold shadow-sm border transition-all duration-200 text-left ${capOpen ? 'border-red-400 shadow-md ring-1 ring-red-100' : 'border-gray-200 hover:border-gray-300 hover:shadow-md'}`}
+                className={`group flex items-center justify-between w-full bg-white rounded-2xl px-6 py-5 text-(--apple-black) font-semibold shadow-sm border transition-all duration-200 ease-out text-left ${capOpen ? 'border-red-400 shadow-md ring-1 ring-red-100' : 'border-gray-200 hover:border-gray-300 hover:shadow-md'}`}
               >
                 <span className="flex items-center gap-3">
                   <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-red-50 text-red-500">
@@ -586,7 +594,7 @@ const HeroSection = () => {
                   </span>
                   <span>Capabilities</span>
                 </span>
-                <span className={`material-symbols-outlined text-gray-400 text-xl transition-transform duration-300 ${capOpen ? 'rotate-180' : 'group-hover:translate-y-0.5'}`}>expand_more</span>
+                <span className={`material-symbols-outlined text-gray-400 text-xl transition-transform duration-300 ease-out ${capOpen ? 'rotate-180' : 'group-hover:translate-y-0.5'}`}>expand_more</span>
               </button>
               {capOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden animate-[fadeSlideDown_0.2s_ease-out]">
@@ -598,9 +606,9 @@ const HeroSection = () => {
                       >
                         <span className="flex items-center gap-3">
                           <span className="text-base">{cap.icon}</span>
-                          <span className="font-medium text-sm text-[var(--apple-black)]">{cap.name}</span>
+                          <span className="font-medium text-sm text-(--apple-black)">{cap.name}</span>
                         </span>
-                        <span className={`material-symbols-outlined text-gray-400 text-base transition-transform duration-200 ${expandedCap === cap.name ? 'rotate-180' : ''}`}>expand_more</span>
+                        <span className={`material-symbols-outlined text-gray-400 text-base transition-transform duration-200 ease-out ${expandedCap === cap.name ? 'rotate-180' : ''}`}>expand_more</span>
                       </button>
                       {expandedCap === cap.name && (
                         <div className="bg-gray-50/70">
@@ -625,7 +633,7 @@ const HeroSection = () => {
             <div className="relative">
               <button
                 onClick={() => { setCsOpen(!csOpen); setCapOpen(false); }}
-                className={`group flex items-center justify-between w-full bg-white rounded-2xl px-6 py-5 text-[var(--apple-black)] font-semibold shadow-sm border transition-all duration-200 text-left ${csOpen ? 'border-red-400 shadow-md ring-1 ring-red-100' : 'border-gray-200 hover:border-gray-300 hover:shadow-md'}`}
+                className={`group flex items-center justify-between w-full bg-white rounded-2xl px-6 py-5 text-(--apple-black) font-semibold shadow-sm border transition-all duration-200 ease-out text-left ${csOpen ? 'border-red-400 shadow-md ring-1 ring-red-100' : 'border-gray-200 hover:border-gray-300 hover:shadow-md'}`}
               >
                 <span className="flex items-center gap-3">
                   <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-blue-50 text-blue-500">
@@ -633,7 +641,7 @@ const HeroSection = () => {
                   </span>
                   <span>Case Studies</span>
                 </span>
-                <span className={`material-symbols-outlined text-gray-400 text-xl transition-transform duration-300 ${csOpen ? 'rotate-180' : 'group-hover:translate-y-0.5'}`}>expand_more</span>
+                <span className={`material-symbols-outlined text-gray-400 text-xl transition-transform duration-300 ease-out ${csOpen ? 'rotate-180' : 'group-hover:translate-y-0.5'}`}>expand_more</span>
               </button>
               {csOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden animate-[fadeSlideDown_0.2s_ease-out]">
@@ -641,7 +649,7 @@ const HeroSection = () => {
                     <button
                       key={study}
                       onClick={() => handleCsSelect(study)}
-                      className={`w-full text-left px-5 py-3.5 text-[var(--apple-black)] text-sm font-medium hover:bg-red-500 hover:text-white transition-colors ${idx !== CASE_STUDIES.length - 1 ? 'border-b border-gray-100' : ''}`}
+                      className={`w-full text-left px-5 py-3.5 text-(--apple-black) text-sm font-medium hover:bg-red-500 hover:text-white transition-colors ${idx !== CASE_STUDIES.length - 1 ? 'border-b border-gray-100' : ''}`}
                     >
                       {study}
                     </button>
@@ -657,38 +665,94 @@ const HeroSection = () => {
       {/* Solutions Showcase */}
       <SolutionsShowcaseSection />
 
+      {/* Leadership Vision / Founder's Message */}
+      <CEOSection />
+
       {/* OEM Alliances Section */}
       <OEMAlliancesSection />
+      <CampaignPromoSection />
+      <LatestHighlightsSection />
       <WhoWeAre />
       <TestimonialsSection />
+      <InnovationsSection />
     </>
   );
 };
+
+/* ───────── Innovations (home strip) ───────── */
+const INNOVATIONS_HERO_IMAGE = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80';
+
+function InnovationsSection() {
+  return (
+    <section
+      id="innovations"
+      className="relative overflow-hidden py-16 lg:py-24"
+      style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}
+    >
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-red-100/20 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-red-50/20 blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left: Image */}
+          <div className="order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+            <img
+              src={INNOVATIONS_HERO_IMAGE}
+              alt="Innovation at Cache Digitech"
+              className="w-full h-full object-cover aspect-4/3"
+              loading="lazy"
+            />
+          </div>
+
+          {/* Right: Content */}
+          <div className="order-1 lg:order-2 text-center lg:text-left">
+            <p className="text-lg md:text-xl font-extrabold tracking-[0.3em] uppercase text-red-500 mb-3">
+              Innovation at Cache
+            </p>
+            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mb-6">
+              Where ideas meet impact
+            </h2>
+            <p className="text-(--apple-gray) text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
+              From research and emerging tech to accelerators and partnerships—we help you turn vision into outcomes. Explore how we innovate.
+            </p>
+            <Link
+              to="/innovations"
+              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3.5 rounded-full transition-colors duration-300 ease-out shadow-md hover:shadow-lg group"
+            >
+              Explore Innovations
+              <span className="material-symbols-outlined text-[20px] transition-transform duration-300 ease-out group-hover:translate-x-0.5">arrow_forward</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ───────── Solutions Showcase Section ───────── */
 const SOLUTIONS_CARDS = [
   {
     icon: 'psychology',
-    title: 'AI',
-    description: 'Helping you identify and seize opportunities to leverage AI/GenAI to automate and accelerate business processes.',
+    title: 'Data & AI',
+    description: 'Unlock value with AI and GenAI—automate processes, gain insights, and accelerate outcomes across your business.',
     path: '/aianddataservice',
   },
   {
     icon: 'cloud',
     title: 'Cloud',
-    description: 'Our CloudSMART offerings drive enterprise cloud optimization through accelerated innovation and agility at scale.',
+    description: 'Cloud solutions that optimize cost, performance, and scale so you can innovate faster and operate with confidence.',
     path: '/cloudservices',
   },
   {
     icon: 'engineering',
-    title: 'Engineering',
-    description: 'Services designed to accelerate product development, streamline time-to-profit and maximize return on innovation.',
+    title: 'Infrastructure & Engineering',
+    description: 'Product development and engineering services that shorten time-to-market and maximize return on innovation.',
     path: '/infrastructureservice',
   },
   {
     icon: 'shield',
-    title: 'Cyber Security',
-    description: 'End-to-end security solutions to protect your digital assets, ensure compliance and build resilience against evolving threats.',
+    title: 'Cybersecurity',
+    description: 'Protect your digital assets with security and compliance solutions built for today’s threat landscape.',
     path: '/cybersecurity',
   },
 ];
@@ -737,20 +801,20 @@ function SolutionsShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative pt-24 lg:pt-32 pb-16 lg:pb-20 px-6 overflow-hidden"
+      className="relative pt-24 lg:pt-32 pb-16 lg:pb-20 px-6 sm:px-8 lg:px-12 overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}
     >
       {/* Ambient blurs */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-red-100/25 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-red-50/20 blur-[100px] pointer-events-none" />
 
-      <div className="max-w-[1200px] mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
 
           {/* ── Left: Heading + paragraph ── */}
-          <div className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-bold text-[var(--apple-black)] tracking-tight leading-[1.08] mb-6">
-              Driving Your Growth:{' '}
+          <div className={`transition-all duration-700 ease-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-bold text-(--apple-black) tracking-tight leading-[1.08] mb-6">
+              Scale with confidence:{' '}
               <span
                 ref={headingRef}
                 className="gradient-text-fill inline-block cursor-default transition-[background] duration-150 select-none bg-clip-text text-transparent"
@@ -760,11 +824,11 @@ function SolutionsShowcaseSection() {
                     : 'linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%)',
                 }}
               >
-                Technology is Our Engine, Innovation Our Fuel
+                Built on partnership & proven technology
               </span>
             </h2>
-            <p className="text-[var(--apple-gray)] text-lg leading-relaxed max-w-lg">
-              Whether you're building smarter products, scaling with cloud, reimagining the customer experience or unlocking AI-led efficiencies, our solutions are built to meet you where you are and take you further, faster.
+            <p className="text-(--apple-gray) text-lg leading-relaxed max-w-lg">
+              From cloud and cybersecurity to data and AI, we deliver solutions that fit your goals. We work alongside you to modernize, secure, and accelerate—so you can focus on what matters most.
             </p>
           </div>
 
@@ -774,27 +838,27 @@ function SolutionsShowcaseSection() {
               <div
                 key={card.title}
                 onClick={() => navigate(card.path)}
-                className={`group flex items-center gap-5 bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-5 border border-white/60 shadow-sm hover:shadow-lg hover:bg-white hover:border-red-100 transition-all duration-300 cursor-pointer ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}
+                className={`group flex items-center gap-5 bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-5 border border-white/60 shadow-sm hover:shadow-lg hover:bg-white hover:border-red-100 transition-all duration-300 ease-out cursor-pointer ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}
                 style={{ transitionDelay: `${150 + i * 120}ms` }}
               >
                 {/* Icon */}
-                <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 text-red-600">
+                <div className="shrink-0 w-14 h-14 rounded-2xl bg-linear-to-br from-red-50 to-red-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ease-out text-red-600">
                   <span className="material-symbols-outlined text-[28px]" aria-hidden>{card.icon}</span>
                 </div>
 
                 {/* Text */}
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-[var(--apple-black)] text-[15px] font-bold mb-1 group-hover:text-red-600 transition-colors duration-200">
+                  <h4 className="text-(--apple-black) text-[15px] font-bold mb-1 group-hover:text-red-600 transition-colors duration-200">
                     {card.title}
                   </h4>
-                  <p className="text-[var(--apple-gray)] text-[13px] leading-relaxed line-clamp-2">
+                  <p className="text-(--apple-gray) text-[13px] leading-relaxed line-clamp-2">
                     {card.description}
                   </p>
                 </div>
 
                 {/* Arrow */}
-                <span className="flex-shrink-0 w-9 h-9 rounded-full bg-gray-100 group-hover:bg-red-500 flex items-center justify-center transition-all duration-300">
-                  <span className="material-symbols-outlined text-[18px] text-gray-400 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300">
+                <span className="shrink-0 w-9 h-9 rounded-full bg-gray-100 group-hover:bg-red-500 flex items-center justify-center transition-all duration-300 ease-out">
+                  <span className="material-symbols-outlined text-[18px] text-gray-400 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300 ease-out">
                     arrow_forward
                   </span>
                 </span>
@@ -839,7 +903,7 @@ function OEMAlliancesSection() {
   return (
     <section
       id="partners"
-      className="relative overflow-hidden pt-12 md:pt-16 pb-20 md:pb-28 px-4 sm:px-6 lg:px-8"
+      className="relative overflow-hidden pt-12 md:pt-16 pb-6 md:pb-8 px-6 sm:px-8 lg:px-12"
       style={{ background: 'linear-gradient(180deg, #fafbfc 0%, #f1f5f9 50%, #fafbfc 100%)' }}
     >
       {/* Ambient decoration */}
@@ -851,7 +915,7 @@ function OEMAlliancesSection() {
           {/* Left: Header + link */}
           <div className="order-2 lg:order-1 text-center lg:text-left">
             <p className="text-4xl font-extrabold tracking-[0.25em] uppercase text-red-500 mb-3">Our Alliances & Partners</p>
-            <p className="mt-3 text-[var(--apple-gray)] text-base max-w-xl lg:max-w-none mx-auto">
+            <p className="mt-3 text-(--apple-gray) text-base max-w-xl lg:max-w-none mx-auto">
               We partner with the world's most innovative technology companies to deliver best-in-class solutions.
             </p>
             <div className="mt-8 lg:mt-10">
@@ -866,7 +930,7 @@ function OEMAlliancesSection() {
           </div>
 
           {/* Right: Smaller globe */}
-          <div className="order-1 lg:order-2 w-full rounded-2xl overflow-hidden bg-transparent" style={{ height: 'min(65vh, 520px)' }}>
+          <div className="order-1 lg:order-2 w-full rounded-2xl overflow-hidden bg-transparent" style={{ height: 'min(75vh, 580px)' }}>
             <DomeGallery
               images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name }))}
               fit={0.62}
@@ -891,101 +955,37 @@ function OEMAlliancesSection() {
   );
 }
 
-/* ───────── Client Testimonials Section ───────── */
-const TESTIMONIALS = [
-  {
-    name: 'Rajesh Sharma',
-    role: 'Global CTO',
-    company: 'Leading Telecom Provider',
-    logo: '/Partners/cisco.png',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=700&fit=crop',
-    quote: "We've built a very strong partnership with Cache Digitech. Our plan is to take this relationship to the next level by making our Digital IT the best in class, and we appreciate Cache for all their efforts and collaboration in making that happen.",
-  },
-  {
-    name: 'Anita Verma',
-    role: 'VP of IT',
-    company: 'Top BFSI Enterprise',
-    logo: '/community/microsoft.jpg',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=700&fit=crop',
-    quote: "The cybersecurity solutions implemented by Cache gave us peace of mind. Their proactive approach to threat detection is remarkable, and their team operates as a true extension of ours.",
-  },
-  {
-    name: 'Suresh Mehta',
-    role: 'Director of Operations',
-    company: 'Manufacturing Giant',
-    logo: '/community/awslogo.png',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=700&fit=crop',
-    quote: "Migrating to cloud with Cache was seamless. Zero downtime, complete transparency, and a team that truly understands enterprise scale. They delivered beyond our expectations.",
-  },
-  {
-    name: 'Priya Nair',
-    role: 'Head of Digital',
-    company: 'Government Agency',
-    logo: '/community/dell.png',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=700&fit=crop',
-    quote: "Cache's managed services freed our internal team to focus on innovation. Their NOC and SOC operate like an extension of our own team, providing 24/7 reliability we can count on.",
-  },
-  {
-    name: 'Vikram Patel',
-    role: 'CISO',
-    company: 'Consulting Firm',
-    logo: '/community/paloalto.jpg',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=700&fit=crop',
-    quote: "Working with Cache on our security posture was transformative. They brought deep OEM expertise and a genuine commitment to our success that is rare in this industry.",
-  },
-];
-
-/* ───────── Latest Highlights: large rectangular cards, scroll-driven gallery ───────── */
-const HIGHLIGHTS_PANELS = [
-  {
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&q=80',
-    tag: 'AI and GenAI',
-    title: 'Unlocking business value with AI',
-    description: 'Decoding differentiated positioning and capabilities in the AI market.',
-    type: 'Article',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&q=80',
-    tag: 'AI',
-    title: 'AI for inclusive growth: Leadership lessons from Davos',
-    type: 'Article',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1200&q=80',
-    tag: 'Cloud',
-    title: 'Advancing education with AI: Preparing the workforce of tomorrow',
-    type: 'Article',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
-    tag: 'Strategy',
-    title: 'Building a trust-led wealth management platform',
-    type: 'Article',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=80',
-    tag: 'Technology',
-    title: 'Transforming enterprise IT operations for leading brands',
-    type: 'Article',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80',
-    tag: 'Partnerships',
-    title: 'Accelerating AI-led tech modernisation with Guardian',
-    type: 'Article',
-  },
-];
+/* ───────── Latest Highlights: data from database only ───────── */
+const API_BASE = typeof import.meta !== 'undefined' && import.meta.env ? (import.meta.env.VITE_API_BASE || '') : '';
 
 function LatestHighlightsSection() {
   const sectionRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [viewWidth, setViewWidth] = useState(1200);
+  const [viewHeight, setViewHeight] = useState(800);
+  const [panels, setPanels] = useState([]);
 
   useEffect(() => {
-    const updateWidth = () => setViewWidth(window.innerWidth);
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
+    let cancelled = false;
+    fetch(API_BASE + '/api/highlights', { credentials: 'include' })
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (!cancelled) setPanels(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setPanels([]);
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    const updateSize = () => {
+      setViewWidth(window.innerWidth);
+      setViewHeight(window.innerHeight);
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
   }, []);
 
   useEffect(() => {
@@ -1007,30 +1007,37 @@ function LatestHighlightsSection() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const paddingX = 40;
   const gap = 24;
   // Large rectangular cards: ~52% viewport width, aspect 1.5:1 (wider than tall)
   const cardWidth = Math.min(680, Math.max(320, viewWidth * 0.52));
   const cardHeight = cardWidth / 1.5;
-  const trackWidth = HIGHLIGHTS_PANELS.length * cardWidth + (HIGHLIGHTS_PANELS.length - 1) * gap;
-  const contentWidth = Math.max(320, viewWidth - paddingX * 2);
-  const maxTranslate = Math.max(0, trackWidth - contentWidth);
-  const translateX = -scrollProgress * maxTranslate;
+  const trackWidth = panels.length * cardWidth + (panels.length - 1) * gap;
+  const contentWidth = Math.max(320, viewWidth);
+  // Start: first card on the right (its right edge at viewport right)
+  const startTranslate = contentWidth - cardWidth;
+  // End: last card on the left (its left edge at viewport left) — then page scrolls down
+  const lastCardLeft = (panels.length - 1) * (cardWidth + gap);
+  const endTranslate = -lastCardLeft;
+  // Scroll progress 0 → 1: first card moves from right to left, ending with last card on left
+  const translateX = startTranslate + scrollProgress * (endTranslate - startTranslate);
+  // Section height = viewport height + horizontal travel so 1px scroll = 1px card movement (same speed)
+  const totalHorizontalTravel = startTranslate - endTranslate;
+  const sectionHeightPx = viewHeight + Math.max(0, totalHorizontalTravel);
 
   return (
     <section
       ref={sectionRef}
       id="gallery-section"
       className="relative bg-white"
-      style={{ height: '280vh' }}
+      style={{ height: `${sectionHeightPx}px` }}
     >
-      <div className="sticky top-0 h-screen flex flex-col overflow-hidden py-12 px-4 sm:px-8">
+      <div className="sticky top-0 h-screen flex flex-col overflow-hidden py-12 px-0">
         {/* Section header */}
-        <div className="flex-shrink-0 flex flex-col items-center text-center mb-8">
+        <div className="shrink-0 flex flex-col items-center text-center mb-8">
           <p className="text-4xl font-extrabold tracking-[0.25em] uppercase text-red-500 mb-2">
             Insights
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-[var(--apple-black)] tracking-tight leading-[1.08] max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto">
             Latest Highlights
           </h2>
         </div>
@@ -1046,35 +1053,55 @@ function LatestHighlightsSection() {
               transition: 'transform 0.2s ease-out',
             }}
           >
-            {HIGHLIGHTS_PANELS.map((panel, i) => (
-              <article
-                key={i}
-                className="group relative flex-shrink-0 overflow-hidden rounded-lg shadow-lg"
-                style={{ width: cardWidth, height: cardHeight }}
-              >
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                  style={{ backgroundImage: `url('${panel.image}')` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
-                <div className="absolute inset-0 flex flex-col justify-end text-left p-6 sm:p-8 text-white">
-                  <span className="text-xs font-semibold text-red-400 uppercase tracking-wider">
-                    {panel.tag}
-                  </span>
-                  <h3 className="mt-2 text-xl sm:text-2xl font-semibold leading-tight line-clamp-2">
-                    {panel.title}
-                  </h3>
-                  {panel.description && (
-                    <p className="mt-2 text-sm text-white/90 line-clamp-2 max-w-md">
-                      {panel.description}
+            {panels.map((panel, i) => {
+              const cardContent = (
+                <>
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
+                    style={{ backgroundImage: `url('${panel.image}')` }}
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-transparent" />
+                  <div className="absolute inset-0 flex flex-col justify-end text-left p-6 sm:p-8 text-white">
+                    <span className="text-xs font-semibold text-red-400 uppercase tracking-wider">
+                      {panel.tag}
+                    </span>
+                    <h3 className="mt-2 text-xl sm:text-2xl font-semibold leading-tight line-clamp-2">
+                      {panel.title}
+                    </h3>
+                    {panel.description && (
+                      <p className="mt-2 text-sm text-white/90 line-clamp-2 max-w-md">
+                        {panel.description}
+                      </p>
+                    )}
+                    <p className="mt-3 text-xs text-white/70 uppercase tracking-wider">
+                      {panel.type}
                     </p>
-                  )}
-                  <p className="mt-3 text-xs text-white/70 uppercase tracking-wider">
-                    {panel.type}
-                  </p>
-                </div>
-              </article>
-            ))}
+                  </div>
+                </>
+              );
+              const cardClass = 'group relative shrink-0 overflow-hidden rounded-lg shadow-lg';
+              const cardStyle = { width: cardWidth, height: cardHeight };
+              const link = (panel.link || '').trim();
+              if (link) {
+                return (
+                  <a
+                    key={i}
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${cardClass} block cursor-pointer`}
+                    style={cardStyle}
+                  >
+                    {cardContent}
+                  </a>
+                );
+              }
+              return (
+                <article key={i} className={cardClass} style={cardStyle}>
+                  {cardContent}
+                </article>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -1083,11 +1110,28 @@ function LatestHighlightsSection() {
 }
 
 function TestimonialsSection() {
+  const [testimonialsList, setTestimonialsList] = useState([]);
   const [active, setActive] = useState(0);
   const [leaving, setLeaving] = useState(null); // index of card being swept away
   const [leaveDir, setLeaveDir] = useState('next');
   const [textVisible, setTextVisible] = useState(true);
-  const total = TESTIMONIALS.length;
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(API_BASE + '/api/testimonials', { credentials: 'include' })
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (cancelled) return;
+        setTestimonialsList(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setTestimonialsList([]);
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  const total = testimonialsList.length;
+  const t = total > 0 ? testimonialsList[active] : null;
 
   const go = useCallback((dir) => {
     if (leaving !== null) return;
@@ -1109,8 +1153,6 @@ function TestimonialsSection() {
     if (i === active || leaving !== null) return;
     go(i > active ? 'next' : 'prev');
   }, [active, leaving, go]);
-
-  const t = TESTIMONIALS[active]; // current testimonial for text
 
   /* Build a visible stack: show up to 3 cards behind the active one.
      The stack order from back to front: active+3, active+2, active+1, active.
@@ -1161,15 +1203,17 @@ function TestimonialsSection() {
       : 'opacity 0.25s ease, transform 0.25s ease, filter 0.25s ease',
   };
 
+  if (total === 0) return null;
+
   return (
     <section className="relative pt-12 pb-20 lg:pt-16 lg:pb-24 overflow-hidden" style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}>
       {/* Ambient blurs */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-red-100/20 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full bg-red-50/20 blur-[100px] pointer-events-none" />
 
-      <div className="max-w-[1200px] mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         {/* Heading */}
-        <h2 className="text-4xl md:text-5xl lg:text-[52px] font-bold text-[var(--apple-black)] tracking-tight leading-tight mb-10">
+        <h2 className="text-4xl md:text-5xl lg:text-[52px] font-bold text-(--apple-black) tracking-tight leading-tight mb-10">
           Hear from Our Clients
         </h2>
 
@@ -1186,30 +1230,34 @@ function TestimonialsSection() {
             </div>
 
             {/* Quote text */}
-            <p className="text-[var(--apple-black)] text-xl lg:text-2xl leading-relaxed font-light mb-10 max-w-lg">
-              {t.quote}
+            <p className="text-(--apple-black) text-xl lg:text-2xl leading-relaxed font-light mb-10 max-w-lg">
+              {t ? t.quote : ''}
             </p>
 
             {/* Author row */}
             <div className="flex items-center gap-4">
-              <img
-                src={t.logo}
-                alt={t.company}
-                className="w-14 h-14 rounded-xl object-contain bg-white p-1.5 shadow-sm border border-gray-100"
-              />
-              <div>
-                <p className="text-[var(--apple-black)] text-base font-bold leading-tight">{t.name}</p>
-                <p className="text-[var(--apple-gray)] text-sm">{t.role}</p>
-              </div>
+              {t && (
+                <>
+                  <img
+                    src={t.logo}
+                    alt={t.company}
+                    className="w-14 h-14 rounded-xl object-contain bg-white p-1.5 shadow-sm border border-gray-100"
+                  />
+                  <div>
+                    <p className="text-(--apple-black) text-base font-bold leading-tight">{t.name}</p>
+                    <p className="text-(--apple-gray) text-sm">{t.role}</p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
           {/* ── Right: Stacked card deck ── */}
           <div className="relative flex justify-center lg:justify-end" style={{ perspective: '1200px' }}>
             {/* Card stack container */}
-            <div className="relative w-full max-w-[440px] aspect-[4/5]">
+            <div className="relative w-full max-w-[440px] aspect-square">
               {stackIndices.map((idx, stackPos) => {
-                const testimonial = TESTIMONIALS[idx];
+                const testimonial = testimonialsList[idx];
                 const style = getCardStyle(idx, stackPos);
                 return (
                   <div
@@ -1228,7 +1276,7 @@ function TestimonialsSection() {
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
                   </div>
                 );
               })}
@@ -1244,11 +1292,11 @@ function TestimonialsSection() {
                   }}
                 >
                   <img
-                    src={TESTIMONIALS[leaving].image}
-                    alt={TESTIMONIALS[leaving].name}
+                    src={testimonialsList[leaving].image}
+                    alt={testimonialsList[leaving].name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
                 </div>
               )}
             </div>
@@ -1257,27 +1305,27 @@ function TestimonialsSection() {
             <div className="absolute bottom-4 right-4 flex items-center gap-2 z-30">
               <button
                 onClick={() => go('prev')}
-                className="w-10 h-10 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:shadow-md transition-all duration-200 group"
+                className="w-10 h-10 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:shadow-md transition-all duration-200 ease-out group"
                 aria-label="Previous testimonial"
               >
-                <span className="material-symbols-outlined text-[18px] text-[var(--apple-gray)] group-hover:text-[var(--apple-black)] transition-colors">chevron_left</span>
+                <span className="material-symbols-outlined text-[18px] text-(--apple-gray) group-hover:text-(--apple-black) transition-colors">chevron_left</span>
               </button>
               <button
                 onClick={() => go('next')}
-                className="w-10 h-10 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:shadow-md transition-all duration-200 group"
+                className="w-10 h-10 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:shadow-md transition-all duration-200 ease-out group"
                 aria-label="Next testimonial"
               >
-                <span className="material-symbols-outlined text-[18px] text-[var(--apple-gray)] group-hover:text-[var(--apple-black)] transition-colors">chevron_right</span>
+                <span className="material-symbols-outlined text-[18px] text-(--apple-gray) group-hover:text-(--apple-black) transition-colors">chevron_right</span>
               </button>
             </div>
 
             {/* Dots indicator */}
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30">
-              {TESTIMONIALS.map((_, i) => (
+              {testimonialsList.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => handleDot(i)}
-                  className={`rounded-full transition-all duration-300 ${i === active ? 'w-6 h-2 bg-red-500' : 'w-2 h-2 bg-gray-300 hover:bg-gray-400'}`}
+                  className={`rounded-full transition-all duration-300 ease-out ${i === active ? 'w-6 h-2 bg-red-500' : 'w-2 h-2 bg-gray-300 hover:bg-gray-400'}`}
                   aria-label={`Go to testimonial ${i + 1}`}
                 />
               ))}

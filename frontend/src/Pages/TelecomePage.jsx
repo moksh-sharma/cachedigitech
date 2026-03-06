@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Radio, Network, Shield, Cloud, Settings, TrendingUp, CheckCircle, Sparkles, Server, Cpu, Globe, Zap, Eye, Lock, Users, ArrowRight, Rocket } from "lucide-react";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { usePlacement } from "../context/PlacementsContext";
 
 const navItems = [
@@ -208,13 +208,13 @@ export default function TelecomPage() {
 
 
             {/* Hero Section */}
-            <section id="hero" className="relative min-h-screen bg-gradient-to-br from-white via-red-50/30 to-white overflow-hidden pt-5">
+            <section id="hero" className="relative min-h-screen bg-linear-to-br from-white via-red-50/30 to-white overflow-hidden pt-5">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(220,38,38,0.05),transparent)] pointer-events-none"></div>
                 <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl"></div>
                 <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl"></div>
 
-                <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24">
+                <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-24">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                         <div className="space-y-6 lg:space-y-8">
                             {/* Badge */}
@@ -254,15 +254,15 @@ export default function TelecomPage() {
 
                             {/* Stats Grid */}
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 lg:gap-6">
-                                <div className="bg-gradient-to-br from-red-600 to-red-700 rounded-xl lg:rounded-2xl p-4 lg:p-6 text-white shadow-lg">
+                                <div className="bg-linear-to-br from-red-600 to-red-700 rounded-xl lg:rounded-2xl p-4 lg:p-6 text-white shadow-lg">
                                     <div className="text-2xl lg:text-3xl font-bold mb-1">32+</div>
                                     <div className="text-sm lg:text-base opacity-90">Years Experience</div>
                                 </div>
-                                <div className="bg-gradient-to-br from-red-600 to-red-700 rounded-xl lg:rounded-2xl p-4 lg:p-6 text-white shadow-lg">
+                                <div className="bg-linear-to-br from-red-600 to-red-700 rounded-xl lg:rounded-2xl p-4 lg:p-6 text-white shadow-lg">
                                     <div className="text-2xl lg:text-3xl font-bold mb-1">500+</div>
                                     <div className="text-sm lg:text-base opacity-90">Certified Experts</div>
                                 </div>
-                                <div className="bg-gradient-to-br from-red-600 to-red-700 rounded-xl lg:rounded-2xl p-4 lg:p-6 text-white shadow-lg col-span-2 sm:col-span-1">
+                                <div className="bg-linear-to-br from-red-600 to-red-700 rounded-xl lg:rounded-2xl p-4 lg:p-6 text-white shadow-lg col-span-2 sm:col-span-1">
                                     <div className="text-2xl lg:text-3xl font-bold mb-1">75K+</div>
                                     <div className="text-sm lg:text-base opacity-90">Devices Managed</div>
                                 </div>
@@ -279,7 +279,7 @@ export default function TelecomPage() {
                         {/* Hero Image */}
                         <div className="relative order-first lg:order-last">
                             <div className="relative">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 to-transparent rounded-3xl"></div>
+                                <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-3xl"></div>
                                 <ImageWithFallback
                                     src={heroImage1Url}
                                     alt="5G Telecom Network Tower"
@@ -292,7 +292,7 @@ export default function TelecomPage() {
             </section>
 
             {/* Capabilities Section */}
-            <section id="capabilities" className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6 bg-gray-50">
+            <section id="capabilities" className="py-12 sm:py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-gray-50">
                 <div className="max-w-7xl mx-auto">
                     {/* Section Header */}
                     <div className="text-center mb-10 sm:mb-12 lg:mb-20">
@@ -317,10 +317,10 @@ export default function TelecomPage() {
                                     <div className="flex flex-col lg:flex-row lg:items-start lg:gap-8">
 
                                         {/* Icon + Title */}
-                                        <div className="flex items-start gap-4 sm:gap-5 lg:gap-6 w-full lg:w-1/3 flex-shrink-0">
+                                        <div className="flex items-start gap-4 sm:gap-5 lg:gap-6 w-full lg:w-1/3 shrink-0">
                                             {/* ✅ Fixed size container */}
                                             <div
-                                                className={`min-w-[48px] min-h-[48px] sm:min-w-[56px] sm:min-h-[56px] lg:min-w-[64px] lg:min-h-[64px] bg-gradient-to-br ${capability.gradient} rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}
+                                                className={`min-w-[48px] min-h-[48px] sm:min-w-[56px] sm:min-h-[56px] lg:min-w-[64px] lg:min-h-[64px] bg-linear-to-br ${capability.gradient} rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}
                                             >
                                                 <Icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" />
                                             </div>
@@ -335,7 +335,7 @@ export default function TelecomPage() {
                                         <div className="mt-4 lg:mt-0 flex-1 space-y-2.5 sm:space-y-3 lg:space-y-4">
                                             {capability.points.map((point, pointIndex) => (
                                                 <div key={pointIndex} className="flex items-start gap-2 sm:gap-3">
-                                                    <div className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
+                                                    <div className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></div>
                                                     <p className="text-gray-600 leading-relaxed text-sm sm:text-base flex-1">
                                                         {point}
                                                     </p>
@@ -346,7 +346,7 @@ export default function TelecomPage() {
 
                                     {/* Gradient Overlay */}
                                     <div
-                                        className={`absolute inset-0 bg-gradient-to-br ${capability.gradient} opacity-0 group-hover:opacity-5 rounded-2xl sm:rounded-3xl transition-opacity duration-300 pointer-events-none`}
+                                        className={`absolute inset-0 bg-linear-to-br ${capability.gradient} opacity-0 group-hover:opacity-5 rounded-2xl sm:rounded-3xl transition-opacity duration-300 pointer-events-none`}
                                     ></div>
                                 </div>
                             );
@@ -356,7 +356,7 @@ export default function TelecomPage() {
             </section>
 
             {/* Value Delivered Section */}
-            <section id="value" className="py-16 lg:py-24 px-6 bg-white">
+            <section id="value" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-white">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                         {/* Content Side */}
@@ -383,7 +383,7 @@ export default function TelecomPage() {
                                             key={index}
                                             className="group flex items-start gap-4 p-4 lg:p-6 bg-gray-50 hover:bg-white rounded-xl lg:rounded-2xl border border-gray-100 hover:border-red-200 hover:shadow-lg transition-all duration-300"
                                         >
-                                            <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-lg lg:rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                            <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-600 rounded-lg lg:rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                                                 <Icon className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                                             </div>
                                             <div className="flex-1">
@@ -409,7 +409,7 @@ export default function TelecomPage() {
                                     alt="Telecom Network Infrastructure"
                                     className="w-full h-64 sm:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-2xl lg:rounded-3xl shadow-2xl"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/10 to-transparent rounded-2xl lg:rounded-3xl"></div>
+                                <div className="absolute inset-0 bg-linear-to-tr from-red-600/10 to-transparent rounded-2xl lg:rounded-3xl"></div>
                             </div>
 
                             {/* Background Decoration */}
@@ -420,7 +420,7 @@ export default function TelecomPage() {
             </section>
 
             {/* Future Vision Section */}
-            <section id="future" className="py-16 lg:py-24 px-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+            <section id="future" className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.1),transparent)] pointer-events-none"></div>
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(220,38,38,0.05),transparent)] pointer-events-none"></div>
@@ -453,7 +453,7 @@ export default function TelecomPage() {
                                     className="group relative bg-white/5 backdrop-blur-sm rounded-2xl lg:rounded-3xl p-6 lg:p-8 border border-white/10 hover:border-red-400/30 hover:bg-white/10 transition-all duration-500 transform hover:-translate-y-2"
                                 >
                                     {/* Icon Container */}
-                                    <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <div className="w-12 h-12 lg:w-16 lg:h-16 bg-linear-to-br from-red-500 to-red-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
                                         <Icon className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                                     </div>
 
@@ -468,7 +468,7 @@ export default function TelecomPage() {
                                     </div>
 
                                     {/* Gradient Overlay on Hover */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-10 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none"></div>
+                                    <div className="absolute inset-0 bg-linear-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-10 rounded-2xl lg:rounded-3xl transition-opacity duration-300 pointer-events-none"></div>
                                 </div>
                             );
                         })}

@@ -410,7 +410,7 @@ const NetworkingServicesPage = () => {
                 <ul className="space-y-2">
                   {currentTab.content.prosAndCons.pros.map((pro, index) => (
                     <li key={index} className="text-green-700 flex items-start gap-2">
-                      <Star className="w-4 h-4 mt-1 flex-shrink-0" />
+                      <Star className="w-4 h-4 mt-1 shrink-0" />
                       <span>{pro}</span>
                     </li>
                   ))}
@@ -425,7 +425,7 @@ const NetworkingServicesPage = () => {
                 <ul className="space-y-2">
                   {currentTab.content.prosAndCons.cons.map((con, index) => (
                     <li key={index} className="text-amber-700 flex items-start gap-2">
-                      <XCircle className="w-4 h-4 mt-1 flex-shrink-0" />
+                      <XCircle className="w-4 h-4 mt-1 shrink-0" />
                       <span>{con}</span>
                     </li>
                   ))}
@@ -473,7 +473,7 @@ const NetworkingServicesPage = () => {
           </div> */}
 
           {/* Call to Action */}
-          <div className="text-center bg-gradient-to-r from-red-600 to-red-700 text-white p-12 rounded-lg">
+          <div className="text-center bg-linear-to-r from-red-600 to-red-700 text-white p-12 rounded-lg">
             <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-xl mb-8 opacity-90">
               Transform your business with our expert {currentTab.label.toLowerCase()} services

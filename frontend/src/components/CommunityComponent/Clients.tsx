@@ -69,31 +69,31 @@ export function Clients() {
       category: 'Enterprise Clients',
       description: 'Fortune 500 companies across various industries',
       count: '150+',
-      color: 'bg-gradient-to-r from-red-500 to-red-600'
+      color: 'bg-linear-to-r from-red-500 to-red-600'
     },
     {
       category: 'Mid-Market Companies',
       description: 'Growing businesses seeking digital transformation',
       count: '250+',
-      color: 'bg-gradient-to-r from-blue-500 to-blue-600'
+      color: 'bg-linear-to-r from-blue-500 to-blue-600'
     },
     {
       category: 'Government Agencies',
       description: 'Public sector digital modernization projects',
       count: '75+',
-      color: 'bg-gradient-to-r from-green-500 to-green-600'
+      color: 'bg-linear-to-r from-green-500 to-green-600'
     },
     {
       category: 'Startups & SMEs',
       description: 'Innovative companies building scalable solutions',
       count: '125+',
-      color: 'bg-gradient-to-r from-purple-500 to-purple-600'
+      color: 'bg-linear-to-r from-purple-500 to-purple-600'
     }
   ];
 
   return (
     <section id="clients" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -134,7 +134,7 @@ export function Clients() {
                 <motion.div
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
-                  className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${stat.color} flex items-center justify-center shadow-lg`}
+                  className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-linear-to-r ${stat.color} flex items-center justify-center shadow-lg`}
                 >
                   <IconComponent className="text-white" size={28} />
                 </motion.div>
@@ -239,7 +239,7 @@ export function Clients() {
                 
                 {/* Client Info */}
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 bg-linear-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-lg">
                     <span className="text-white font-bold text-sm">
                       {testimonial.avatar}
                     </span>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Mail, Phone, MapPin, Instagram, Linkedin, Twitter, Facebook, Send, CheckCircle } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_BASE || '';
+// Form submissions are sent to the backend and stored in the database only (no local JSON).
 const initialFormState = { name: '', email: '', phone: '', subject: '', message: '' };
 
 const ContactUsPage = () => {
@@ -9,20 +11,36 @@ const ContactUsPage = () => {
   const [form, setForm] = useState(initialFormState);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    if (submitError) setSubmitError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    // Simulate submit delay; replace with your API call when backend is ready
-    await new Promise((r) => setTimeout(r, 800));
-    setForm(initialFormState);
-    setSubmitted(true);
-    setSubmitting(false);
+    setSubmitError('');
+    try {
+      const res = await fetch(API_BASE + '/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setSubmitError(data.error || 'Failed to send message. Please try again.');
+        return;
+      }
+      setForm(initialFormState);
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError('Network error. Please check your connection and try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -220,6 +238,11 @@ const ContactUsPage = () => {
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors resize-y min-h-[120px]"
                     />
                   </div>
+                  {submitError && (
+                    <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2" role="alert">
+                      {submitError}
+                    </p>
+                  )}
                   <button
                     type="submit"
                     disabled={submitting}

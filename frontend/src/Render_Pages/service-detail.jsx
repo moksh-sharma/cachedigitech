@@ -474,7 +474,7 @@ export default function ServiceDetail() {
         style={{ backgroundImage: `url(${service.backgroundImage})` }}
       >
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-full flex flex-col justify-center">
           <Button 
             variant="ghost" 
             className="self-start text-white hover:text-yellow-300 mb-6 transition-colors duration-300"
@@ -493,12 +493,12 @@ export default function ServiceDetail() {
       </div>
       
       {/* Service Details Points */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
         <h2 className="text-3xl font-bold text-center mb-10" data-testid="service-details-title">What We Offer</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {service.servicePoints.map((point, index) => (
             <div key={index} className="flex items-start space-x-3 p-4 rounded-lg bg-card hover:shadow-md transition-shadow duration-300" data-testid={`service-point-${index}`}>
-              <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-0.5" />
+              <CheckCircle className="h-6 w-6 text-primary shrink-0 mt-0.5" />
               <span className="text-foreground">{point}</span>
             </div>
           ))}
@@ -601,7 +601,7 @@ export default function ServiceDetail() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {service.features.map((feature, index) => (
               <div key={index} className="flex items-start space-x-3 p-4 bg-card rounded-lg shadow-sm" data-testid={`feature-${index}`}>
-                <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <span className="text-foreground">{feature}</span>
               </div>
             ))}

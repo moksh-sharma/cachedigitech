@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Award, Globe, Handshake, Target } from 'lucide-react';
-import { ImageWithFallback } from '../figma/ImageWithFallback'; // Assuming this component exists
+import { ImageWithFallback } from '../figma/ImageWithFallback';
 
 export function Partners() {
   const partnerLogos = [
@@ -93,7 +93,7 @@ export function Partners() {
                   <motion.div
                     whileHover={{ rotate: 360, scale: 1.1 }}
                     transition={{ duration: 0.6 }}
-                    className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${benefit.color} flex items-center justify-center flex-shrink-0 shadow-lg`}
+                    className={`w-14 h-14 rounded-2xl bg-linear-to-r ${benefit.color} flex items-center justify-center shrink-0 shadow-lg`}
                   >
                     <IconComponent className="text-white" size={24} />
                   </motion.div>

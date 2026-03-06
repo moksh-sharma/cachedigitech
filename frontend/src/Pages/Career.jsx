@@ -53,7 +53,7 @@ export default function Careers() {
 
     return (
         <div className="min-h-screen bg-white font-black w-full ">
-            <section className="py-16 px-4 max-w-4xl mx-auto">
+            <section className="py-16 px-6 sm:px-8 lg:px-12 max-w-4xl mx-auto">
 
                 <div className="max-w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full relative top-8 mb-4">
                     {/* Left: Text Content */}

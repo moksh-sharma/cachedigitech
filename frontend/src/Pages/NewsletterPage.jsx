@@ -35,7 +35,7 @@ function NewsletterPage() {
   return (
     // <div className="w-full">
     //   {/* ===== Hero Section ===== */}
-    //   <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900">
+    //   <div className="relative w-full h-screen overflow-hidden bg-linear-to-br from-emerald-900 via-teal-900 to-cyan-900">
     //     {/* Dark Overlay */}
     //     <div className="absolute inset-0 bg-black/30"></div>
         
@@ -188,7 +188,7 @@ function NewsletterPage() {
     //   </div>
 
     //   {/* ===== CTA Section ===== */}
-    //   {/* <div className="py-20 px-8 md:px-20 bg-gradient-to-r from-teal-600 to-cyan-600">
+    //   {/* <div className="py-20 px-8 md:px-20 bg-linear-to-r from-teal-600 to-cyan-600">
     //     <div className="max-w-4xl mx-auto text-center text-white">
     //       <h2 className="text-4xl font-bold mb-6">Stay Connected</h2>
     //       <p className="text-xl mb-8">
@@ -205,7 +205,7 @@ function NewsletterPage() {
     //     </div>
     //   </div> */}
     // </div>
-     <div className="min-h-screen bg-gradient-to-br bg-white flex items-center justify-center px-4">
+     <div className="min-h-screen bg-linear-to-br bg-white flex items-center justify-center px-6 sm:px-8 lg:px-12">
       {/* Mystery Box */}
       <div 
         onClick={() => setIsOpen(!isOpen)}
