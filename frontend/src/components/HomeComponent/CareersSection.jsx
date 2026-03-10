@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CAREERS_HERO_IMAGE = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80";
+const CAREERS_HERO_IMAGE = "/images/careers-meeting.png";
 
 export default function CareersSection() {
   return (

@@ -656,503 +656,503 @@ export default function BlogCmsPage() {
           {tab === 'contact' && (
             <span className="text-sm text-slate-500">Read-only — stored in database</span>
           )}
-      </header>
+        </header>
 
         <main className="flex-1 p-4 md:p-6 max-w-4xl w-full mx-auto">
-        {(tab === 'blogs' ? error : tab === 'highlights' ? highlightsError : tab === 'testimonials' ? testimonialsError : tab === 'hero-backgrounds' ? heroBackgroundsError : contactSubmissionsError) && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-            {tab === 'blogs' ? error : tab === 'highlights' ? highlightsError : tab === 'testimonials' ? testimonialsError : tab === 'hero-backgrounds' ? heroBackgroundsError : contactSubmissionsError}
-          </div>
-        )}
-
-        {tab === 'highlights' && editingHighlightIndex !== null && (
-          <div className="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-slate-800 mb-4">
-              {editingHighlightIndex === 'new' ? 'Add highlight card' : 'Edit highlight card'}
-            </h2>
-            <form onSubmit={handleHighlightSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Image URL *</label>
-                <input
-                  type="text"
-                  value={highlightForm.image}
-                  onChange={(e) => setHighlightForm((f) => ({ ...f, image: e.target.value }))}
-                  placeholder="https://..."
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Tag</label>
-                <input
-                  type="text"
-                  value={highlightForm.tag}
-                  onChange={(e) => setHighlightForm((f) => ({ ...f, tag: e.target.value }))}
-                  placeholder="e.g. AI and GenAI"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Title *</label>
-                <input
-                  type="text"
-                  value={highlightForm.title}
-                  onChange={(e) => setHighlightForm((f) => ({ ...f, title: e.target.value }))}
-                  placeholder="Card title"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Description</label>
-                <textarea
-                  value={highlightForm.description}
-                  onChange={(e) => setHighlightForm((f) => ({ ...f, description: e.target.value }))}
-                  rows={2}
-                  placeholder="Optional subtitle"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Type</label>
-                <input
-                  type="text"
-                  value={highlightForm.type}
-                  onChange={(e) => setHighlightForm((f) => ({ ...f, type: e.target.value }))}
-                  placeholder="e.g. Article"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Link (YouTube, LinkedIn, etc.)</label>
-                <input
-                  type="url"
-                  value={highlightForm.link}
-                  onChange={(e) => setHighlightForm((f) => ({ ...f, link: e.target.value }))}
-                  placeholder="https://youtube.com/... or https://linkedin.com/..."
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-                <p className="mt-1 text-xs text-slate-500">Card will open this URL when clicked. Leave empty for no link.</p>
-              </div>
-              <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
-                  {editingHighlightIndex === 'new' ? 'Add' : 'Save'}
-                </button>
-                <button type="button" onClick={closeHighlightForm} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {tab === 'highlights' && (
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
-              Latest Highlights ({highlights.length}) — from database
+          {(tab === 'blogs' ? error : tab === 'highlights' ? highlightsError : tab === 'testimonials' ? testimonialsError : tab === 'hero-backgrounds' ? heroBackgroundsError : contactSubmissionsError) && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+              {tab === 'blogs' ? error : tab === 'highlights' ? highlightsError : tab === 'testimonials' ? testimonialsError : tab === 'hero-backgrounds' ? heroBackgroundsError : contactSubmissionsError}
             </div>
-            {highlightsLoading ? (
-              <div className="p-8 text-center text-slate-500">Loading...</div>
-            ) : highlights.length === 0 ? (
-              <div className="p-8 text-center">
-                <p className="text-slate-500 mb-1">No highlight cards yet. They appear in the scroll gallery on the home page.</p>
-                <p className="text-xs text-slate-400 mb-4">Stored in database. Changes appear on the site immediately.</p>
-                <button type="button" onClick={openNewHighlight} className="px-5 py-2.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
-                  Add first card
-                </button>
-              </div>
-            ) : (
-              <ul className="divide-y divide-slate-100">
-                {highlights.map((panel, index) => (
-                  <li key={index} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-slate-800 truncate">{panel.title || 'Untitled'}</p>
-                      <p className="text-sm text-slate-500">{panel.tag && `${panel.tag} · `}{panel.type}</p>
-                    </div>
-                    <div className="flex gap-2 ml-4 shrink-0">
-                      <button type="button" onClick={() => openEditHighlight(panel, index)} className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100">
-                        Edit
-                      </button>
-                      <button type="button" onClick={() => handleHighlightDelete(index)} className="text-sm px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50">
-                        Delete
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        )}
-
-        {tab === 'testimonials' && editingTestimonialIndex !== null && (
-          <div className="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-slate-800 mb-4">
-              {editingTestimonialIndex === 'new' ? 'Add testimonial' : 'Edit testimonial'}
-            </h2>
-            <form onSubmit={handleTestimonialSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Name *</label>
-                <input
-                  type="text"
-                  value={testimonialForm.name}
-                  onChange={(e) => setTestimonialForm((f) => ({ ...f, name: e.target.value }))}
-                  placeholder="e.g. Rajesh Sharma"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Role</label>
-                <input
-                  type="text"
-                  value={testimonialForm.role}
-                  onChange={(e) => setTestimonialForm((f) => ({ ...f, role: e.target.value }))}
-                  placeholder="e.g. Global CTO"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Company</label>
-                <input
-                  type="text"
-                  value={testimonialForm.company}
-                  onChange={(e) => setTestimonialForm((f) => ({ ...f, company: e.target.value }))}
-                  placeholder="e.g. Leading Telecom Provider"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Logo URL</label>
-                <input
-                  type="text"
-                  value={testimonialForm.logo}
-                  onChange={(e) => setTestimonialForm((f) => ({ ...f, logo: e.target.value }))}
-                  placeholder="/Partners/cisco.png or full URL"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Image URL</label>
-                <input
-                  type="text"
-                  value={testimonialForm.image}
-                  onChange={(e) => setTestimonialForm((f) => ({ ...f, image: e.target.value }))}
-                  placeholder="https://..."
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Quote *</label>
-                <textarea
-                  value={testimonialForm.quote}
-                  onChange={(e) => setTestimonialForm((f) => ({ ...f, quote: e.target.value }))}
-                  rows={4}
-                  placeholder="Client quote"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
-                  {editingTestimonialIndex === 'new' ? 'Add' : 'Save'}
-                </button>
-                <button type="button" onClick={closeTestimonialForm} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {tab === 'testimonials' && (
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
-              Testimonials ({testimonials.length}) — from database
-            </div>
-            {testimonialsLoading ? (
-              <div className="p-8 text-center text-slate-500">Loading...</div>
-            ) : testimonials.length === 0 ? (
-              <div className="p-8 text-center">
-                <p className="text-slate-500 mb-1">No testimonials yet. They appear in the &quot;Hear from Our Clients&quot; section on the home page.</p>
-                <p className="text-xs text-slate-400 mb-4">Stored in database. Changes appear on the site immediately.</p>
-                <button type="button" onClick={openNewTestimonial} className="px-5 py-2.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
-                  Add first testimonial
-                </button>
-              </div>
-            ) : (
-              <ul className="divide-y divide-slate-100">
-                {testimonials.map((item, index) => (
-                  <li key={index} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-slate-800 truncate">{item.name || 'Unnamed'}</p>
-                      <p className="text-sm text-slate-500">{item.role && `${item.role} · `}{item.company || '—'}</p>
-                    </div>
-                    <div className="flex gap-2 ml-4 shrink-0">
-                      <button type="button" onClick={() => openEditTestimonial(item, index)} className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100">
-                        Edit
-                      </button>
-                      <button type="button" onClick={() => handleTestimonialDelete(index)} className="text-sm px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50">
-                        Delete
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        )}
-
-        {tab === 'hero-backgrounds' && editingHeroBgIndex !== null && (
-          <div className="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-slate-800 mb-4">
-              {editingHeroBgIndex === 'new' ? 'Add hero background image' : 'Edit image URL'}
-            </h2>
-            <form onSubmit={handleHeroBgSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Image URL *</label>
-                <input
-                  type="url"
-                  value={heroBgForm.image_url}
-                  onChange={(e) => setHeroBgForm((f) => ({ ...f, image_url: e.target.value }))}
-                  placeholder="https://..."
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                  required
-                />
-                <p className="text-xs text-slate-500 mt-1">Used in the hero section carousel on the home page. Order is by list position.</p>
-              </div>
-              <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
-                  {editingHeroBgIndex === 'new' ? 'Add' : 'Save'}
-                </button>
-                <button type="button" onClick={closeHeroBgForm} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {tab === 'hero-backgrounds' && (
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
-              Hero background images ({heroBackgrounds.length}) — from database
-            </div>
-            {heroBackgroundsLoading ? (
-              <div className="p-8 text-center text-slate-500">Loading...</div>
-            ) : heroBackgrounds.length === 0 ? (
-              <div className="p-8 text-center">
-                <p className="text-slate-500 mb-1">No images yet. They appear as the rotating carousel behind the hero on the home page.</p>
-                <p className="text-xs text-slate-400 mb-4">Stored in database. Changes appear on the site immediately.</p>
-                <button type="button" onClick={openNewHeroBg} className="px-5 py-2.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
-                  Add first image
-                </button>
-              </div>
-            ) : (
-              <ul className="divide-y divide-slate-100">
-                {heroBackgrounds.map((url, index) => (
-                  <li key={index} className="flex items-center gap-4 px-4 py-3 hover:bg-slate-50">
-                    <div className="w-20 h-12 rounded-lg bg-slate-200 shrink-0 overflow-hidden">
-                      <img src={url} alt="" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm text-slate-700 truncate" title={url}>{url}</p>
-                      <p className="text-xs text-slate-500">Order: {index + 1}</p>
-                    </div>
-                    <div className="flex gap-2 shrink-0">
-                      <button type="button" onClick={() => openEditHeroBg(url, index)} className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100">
-                        Edit
-                      </button>
-                      <button type="button" onClick={() => handleHeroBgDelete(index)} className="text-sm px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50">
-                        Delete
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        )}
-
-        {tab === 'contact' && (
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
-              Contact form submissions ({contactSubmissions.length}) — from database, read-only
-            </div>
-            {contactSubmissionsLoading ? (
-              <div className="p-8 text-center text-slate-500">Loading from database...</div>
-            ) : contactSubmissions.length === 0 ? (
-              <div className="p-8 text-center">
-                <p className="text-slate-500">No contact submissions yet. Submissions from the contact page are stored in the database and will appear here.</p>
-              </div>
-            ) : (
-              <ul className="divide-y divide-slate-100">
-                {contactSubmissions.map((sub) => (
-                  <li key={sub.id} className="px-4 py-4 hover:bg-slate-50/50">
-                    <div className="flex flex-wrap items-baseline gap-2 mb-2">
-                      <span className="font-semibold text-slate-800">{sub.name}</span>
-                      <span className="text-sm text-slate-500">
-                        {sub.created_at ? new Date(sub.created_at).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) : '—'}
-                      </span>
-                    </div>
-                    <p className="text-sm text-slate-600 mb-1">
-                      <span className="text-slate-500">Email:</span> {sub.email}
-                      {sub.phone ? <span className="ml-3 text-slate-500">Phone:</span> : ''}
-                      {sub.phone ? <span className="ml-1">{sub.phone}</span> : ''}
-                    </p>
-                    <p className="text-sm font-medium text-slate-700 mt-2">Subject: {sub.subject}</p>
-                    <p className="text-sm text-slate-600 mt-1 whitespace-pre-wrap">{sub.message}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        )}
-
-        {tab === 'blogs' && editingId && (
-          <div className="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-slate-800 mb-4">
-              {editingId === 'new' ? 'Create new blog' : 'Edit blog post'}
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Title *</label>
-                <input
-                  type="text"
-                  value={form.title}
-                  onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                  required
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Excerpt</label>
-                <textarea
-                  value={form.excerpt}
-                  onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
-                  rows={3}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-1">Author</label>
-                  <input
-                    type="text"
-                    value={form.author}
-                    onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-1">Date</label>
-                  <input
-                    type="text"
-                    value={form.date}
-                    onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-                    placeholder="e.g. March 15, 2025"
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-1">Category</label>
-                  <input
-                    type="text"
-                    value={form.category}
-                    onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-1">Read time</label>
-                  <input
-                    type="text"
-                    value={form.readTime}
-                    onChange={(e) => setForm((f) => ({ ...f, readTime: e.target.value }))}
-                    placeholder="e.g. 5 min read"
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Image URL</label>
-                <input
-                  type="text"
-                  value={form.image}
-                  onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
-                  placeholder="/blog/image.jpg or full URL"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
-                />
-              </div>
-              <div className="flex gap-2">
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700"
-                >
-                  {editingId === 'new' ? 'Create' : 'Save'}
-                </button>
-                <button
-                  type="button"
-                  onClick={closeForm}
-                  className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {tab === 'blogs' && (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
-            Blog posts ({blogs.length}) — from database
-          </div>
-          {loading ? (
-            <div className="p-8 text-center text-slate-500">Loading...</div>
-          ) : blogs.length === 0 ? (
-            <div className="p-8 text-center">
-              <p className="text-slate-500 mb-1">No blog posts yet.</p>
-              <p className="text-xs text-slate-400 mb-4">Stored in database. Changes appear on the site immediately.</p>
-              <button
-                type="button"
-                onClick={openNew}
-                className="px-5 py-2.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700"
-              >
-                Create new blog
-              </button>
-            </div>
-          ) : (
-            <ul className="divide-y divide-slate-100">
-              {blogs.map((post) => (
-                <li key={post.id} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
-                  <div className="min-w-0 flex-1">
-                    <p className="font-medium text-slate-800 truncate">{post.title}</p>
-                    <p className="text-sm text-slate-500">
-                      {post.author && `${post.author} · `}
-                      {post.date}
-                    </p>
-                  </div>
-                  <div className="flex gap-2 ml-4 shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => openEdit(post)}
-                      className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(post.id)}
-                      className="text-sm px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
           )}
-        </div>
-        )}
-      </main>
+
+          {tab === 'highlights' && editingHighlightIndex !== null && (
+            <div className="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                {editingHighlightIndex === 'new' ? 'Add highlight card' : 'Edit highlight card'}
+              </h2>
+              <form onSubmit={handleHighlightSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Image URL *</label>
+                  <input
+                    type="text"
+                    value={highlightForm.image}
+                    onChange={(e) => setHighlightForm((f) => ({ ...f, image: e.target.value }))}
+                    placeholder="https://..."
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Tag</label>
+                  <input
+                    type="text"
+                    value={highlightForm.tag}
+                    onChange={(e) => setHighlightForm((f) => ({ ...f, tag: e.target.value }))}
+                    placeholder="e.g. AI and GenAI"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Title *</label>
+                  <input
+                    type="text"
+                    value={highlightForm.title}
+                    onChange={(e) => setHighlightForm((f) => ({ ...f, title: e.target.value }))}
+                    placeholder="Card title"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Description</label>
+                  <textarea
+                    value={highlightForm.description}
+                    onChange={(e) => setHighlightForm((f) => ({ ...f, description: e.target.value }))}
+                    rows={2}
+                    placeholder="Optional subtitle"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Type</label>
+                  <input
+                    type="text"
+                    value={highlightForm.type}
+                    onChange={(e) => setHighlightForm((f) => ({ ...f, type: e.target.value }))}
+                    placeholder="e.g. Article"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Link (YouTube, LinkedIn, etc.)</label>
+                  <input
+                    type="url"
+                    value={highlightForm.link}
+                    onChange={(e) => setHighlightForm((f) => ({ ...f, link: e.target.value }))}
+                    placeholder="https://youtube.com/... or https://linkedin.com/..."
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                  <p className="mt-1 text-xs text-slate-500">Card will open this URL when clicked. Leave empty for no link.</p>
+                </div>
+                <div className="flex gap-2">
+                  <button type="submit" className="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
+                    {editingHighlightIndex === 'new' ? 'Add' : 'Save'}
+                  </button>
+                  <button type="button" onClick={closeHighlightForm} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {tab === 'highlights' && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
+                Latest Highlights ({highlights.length}) — from database
+              </div>
+              {highlightsLoading ? (
+                <div className="p-8 text-center text-slate-500">Loading...</div>
+              ) : highlights.length === 0 ? (
+                <div className="p-8 text-center">
+                  <p className="text-slate-500 mb-1">No highlight cards yet. They appear in the scroll gallery on the home page.</p>
+                  <p className="text-xs text-slate-400 mb-4">Stored in database. Changes appear on the site immediately.</p>
+                  <button type="button" onClick={openNewHighlight} className="px-5 py-2.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
+                    Add first card
+                  </button>
+                </div>
+              ) : (
+                <ul className="divide-y divide-slate-100">
+                  {highlights.map((panel, index) => (
+                    <li key={index} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-slate-800 truncate">{panel.title || 'Untitled'}</p>
+                        <p className="text-sm text-slate-500">{panel.tag && `${panel.tag} · `}{panel.type}</p>
+                      </div>
+                      <div className="flex gap-2 ml-4 shrink-0">
+                        <button type="button" onClick={() => openEditHighlight(panel, index)} className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100">
+                          Edit
+                        </button>
+                        <button type="button" onClick={() => handleHighlightDelete(index)} className="text-sm px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50">
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {tab === 'testimonials' && editingTestimonialIndex !== null && (
+            <div className="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                {editingTestimonialIndex === 'new' ? 'Add testimonial' : 'Edit testimonial'}
+              </h2>
+              <form onSubmit={handleTestimonialSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Name *</label>
+                  <input
+                    type="text"
+                    value={testimonialForm.name}
+                    onChange={(e) => setTestimonialForm((f) => ({ ...f, name: e.target.value }))}
+                    placeholder="e.g. Rajesh Sharma"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Role</label>
+                  <input
+                    type="text"
+                    value={testimonialForm.role}
+                    onChange={(e) => setTestimonialForm((f) => ({ ...f, role: e.target.value }))}
+                    placeholder="e.g. Global CTO"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Company</label>
+                  <input
+                    type="text"
+                    value={testimonialForm.company}
+                    onChange={(e) => setTestimonialForm((f) => ({ ...f, company: e.target.value }))}
+                    placeholder="e.g. Leading Telecom Provider"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Logo URL</label>
+                  <input
+                    type="text"
+                    value={testimonialForm.logo}
+                    onChange={(e) => setTestimonialForm((f) => ({ ...f, logo: e.target.value }))}
+                    placeholder="/Partners/cisco.png or full URL"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Image URL</label>
+                  <input
+                    type="text"
+                    value={testimonialForm.image}
+                    onChange={(e) => setTestimonialForm((f) => ({ ...f, image: e.target.value }))}
+                    placeholder="https://..."
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Quote *</label>
+                  <textarea
+                    value={testimonialForm.quote}
+                    onChange={(e) => setTestimonialForm((f) => ({ ...f, quote: e.target.value }))}
+                    rows={4}
+                    placeholder="Client quote"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <button type="submit" className="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
+                    {editingTestimonialIndex === 'new' ? 'Add' : 'Save'}
+                  </button>
+                  <button type="button" onClick={closeTestimonialForm} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {tab === 'testimonials' && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
+                Testimonials ({testimonials.length}) — from database
+              </div>
+              {testimonialsLoading ? (
+                <div className="p-8 text-center text-slate-500">Loading...</div>
+              ) : testimonials.length === 0 ? (
+                <div className="p-8 text-center">
+                  <p className="text-slate-500 mb-1">No testimonials yet. They appear in the &quot;Hear from Our Clients&quot; section on the home page.</p>
+                  <p className="text-xs text-slate-400 mb-4">Stored in database. Changes appear on the site immediately.</p>
+                  <button type="button" onClick={openNewTestimonial} className="px-5 py-2.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
+                    Add first testimonial
+                  </button>
+                </div>
+              ) : (
+                <ul className="divide-y divide-slate-100">
+                  {testimonials.map((item, index) => (
+                    <li key={index} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-slate-800 truncate">{item.name || 'Unnamed'}</p>
+                        <p className="text-sm text-slate-500">{item.role && `${item.role} · `}{item.company || '—'}</p>
+                      </div>
+                      <div className="flex gap-2 ml-4 shrink-0">
+                        <button type="button" onClick={() => openEditTestimonial(item, index)} className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100">
+                          Edit
+                        </button>
+                        <button type="button" onClick={() => handleTestimonialDelete(index)} className="text-sm px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50">
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {tab === 'hero-backgrounds' && editingHeroBgIndex !== null && (
+            <div className="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                {editingHeroBgIndex === 'new' ? 'Add hero background image' : 'Edit image URL'}
+              </h2>
+              <form onSubmit={handleHeroBgSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Image URL *</label>
+                  <input
+                    type="url"
+                    value={heroBgForm.image_url}
+                    onChange={(e) => setHeroBgForm((f) => ({ ...f, image_url: e.target.value }))}
+                    placeholder="https://..."
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                    required
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Used in the hero section carousel on the home page. Order is by list position.</p>
+                </div>
+                <div className="flex gap-2">
+                  <button type="submit" className="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
+                    {editingHeroBgIndex === 'new' ? 'Add' : 'Save'}
+                  </button>
+                  <button type="button" onClick={closeHeroBgForm} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {tab === 'hero-backgrounds' && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
+                Hero background images ({heroBackgrounds.length}) — from database
+              </div>
+              {heroBackgroundsLoading ? (
+                <div className="p-8 text-center text-slate-500">Loading...</div>
+              ) : heroBackgrounds.length === 0 ? (
+                <div className="p-8 text-center">
+                  <p className="text-slate-500 mb-1">No images yet. They appear as the rotating carousel behind the hero on the home page.</p>
+                  <p className="text-xs text-slate-400 mb-4">Stored in database. Changes appear on the site immediately.</p>
+                  <button type="button" onClick={openNewHeroBg} className="px-5 py-2.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700">
+                    Add first image
+                  </button>
+                </div>
+              ) : (
+                <ul className="divide-y divide-slate-100">
+                  {heroBackgrounds.map((url, index) => (
+                    <li key={index} className="flex items-center gap-4 px-4 py-3 hover:bg-slate-50">
+                      <div className="w-20 h-12 rounded-lg bg-slate-200 shrink-0 overflow-hidden">
+                        <img src={url} alt="" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm text-slate-700 truncate" title={url}>{url}</p>
+                        <p className="text-xs text-slate-500">Order: {index + 1}</p>
+                      </div>
+                      <div className="flex gap-2 shrink-0">
+                        <button type="button" onClick={() => openEditHeroBg(url, index)} className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100">
+                          Edit
+                        </button>
+                        <button type="button" onClick={() => handleHeroBgDelete(index)} className="text-sm px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50">
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {tab === 'contact' && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
+                Contact form submissions ({contactSubmissions.length}) — from database, read-only
+              </div>
+              {contactSubmissionsLoading ? (
+                <div className="p-8 text-center text-slate-500">Loading from database...</div>
+              ) : contactSubmissions.length === 0 ? (
+                <div className="p-8 text-center">
+                  <p className="text-slate-500">No contact submissions yet. Submissions from the contact page are stored in the database and will appear here.</p>
+                </div>
+              ) : (
+                <ul className="divide-y divide-slate-100">
+                  {contactSubmissions.map((sub) => (
+                    <li key={sub.id} className="px-4 py-4 hover:bg-slate-50/50">
+                      <div className="flex flex-wrap items-baseline gap-2 mb-2">
+                        <span className="font-semibold text-slate-800">{sub.name}</span>
+                        <span className="text-sm text-slate-500">
+                          {sub.created_at ? new Date(sub.created_at).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) : '—'}
+                        </span>
+                      </div>
+                      <p className="text-sm text-slate-600 mb-1">
+                        <span className="text-slate-500">Email:</span> {sub.email}
+                        {sub.phone ? <span className="ml-3 text-slate-500">Phone:</span> : ''}
+                        {sub.phone ? <span className="ml-1">{sub.phone}</span> : ''}
+                      </p>
+                      <p className="text-sm font-medium text-slate-700 mt-2">Subject: {sub.subject}</p>
+                      <p className="text-sm text-slate-600 mt-1 whitespace-pre-wrap">{sub.message}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {tab === 'blogs' && editingId && (
+            <div className="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                {editingId === 'new' ? 'Create new blog' : 'Edit blog post'}
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Title *</label>
+                  <input
+                    type="text"
+                    value={form.title}
+                    onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+                    required
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Excerpt</label>
+                  <textarea
+                    value={form.excerpt}
+                    onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
+                    rows={3}
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">Author</label>
+                    <input
+                      type="text"
+                      value={form.author}
+                      onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
+                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">Date</label>
+                    <input
+                      type="text"
+                      value={form.date}
+                      onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
+                      placeholder="e.g. March 15, 2025"
+                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">Category</label>
+                    <input
+                      type="text"
+                      value={form.category}
+                      onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">Read time</label>
+                    <input
+                      type="text"
+                      value={form.readTime}
+                      onChange={(e) => setForm((f) => ({ ...f, readTime: e.target.value }))}
+                      placeholder="e.g. 5 min read"
+                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Image URL</label>
+                  <input
+                    type="text"
+                    value={form.image}
+                    onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
+                    placeholder="/blog/image.jpg or full URL"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-400"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700"
+                  >
+                    {editingId === 'new' ? 'Create' : 'Save'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={closeForm}
+                    className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {tab === 'blogs' && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-100 font-medium text-slate-700">
+                Blog posts ({blogs.length}) — from database
+              </div>
+              {loading ? (
+                <div className="p-8 text-center text-slate-500">Loading...</div>
+              ) : blogs.length === 0 ? (
+                <div className="p-8 text-center">
+                  <p className="text-slate-500 mb-1">No blog posts yet.</p>
+                  <p className="text-xs text-slate-400 mb-4">Stored in database. Changes appear on the site immediately.</p>
+                  <button
+                    type="button"
+                    onClick={openNew}
+                    className="px-5 py-2.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700"
+                  >
+                    Create new blog
+                  </button>
+                </div>
+              ) : (
+                <ul className="divide-y divide-slate-100">
+                  {blogs.map((post) => (
+                    <li key={post.id} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-slate-800 truncate">{post.title}</p>
+                        <p className="text-sm text-slate-500">
+                          {post.author && `${post.author} · `}
+                          {post.date}
+                        </p>
+                      </div>
+                      <div className="flex gap-2 ml-4 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => openEdit(post)}
+                          className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(post.id)}
+                          className="text-sm px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );

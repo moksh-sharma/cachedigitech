@@ -103,6 +103,17 @@ function PartnershipCards() {
     },
   ];
 
+  /* Flatten all partners and deduplicate by logo so the same image is not shown twice */
+  const allPartners = OEM_BY_CATEGORY.flatMap((group) =>
+    group.items.map((partner) => ({ ...partner, category: group.category }))
+  );
+  const seenLogos = new Set();
+  const uniquePartners = allPartners.filter((p) => {
+    if (seenLogos.has(p.logo)) return false;
+    seenLogos.add(p.logo);
+    return true;
+  });
+
   const partnershipBenefits = [
     { icon: Award, title: 'Certified Excellence', description: 'Gold and platinum partnerships with leading technology vendors' },
     { icon: Globe, title: 'Global Reach', description: 'Access to worldwide resources and latest technology innovations' },
@@ -201,22 +212,19 @@ function PartnershipCards() {
           <div
             className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 transition-all duration-700 ${logosVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           >
-            {OEM_BY_CATEGORY.flatMap((group) =>
-              group.items.map((partner) => (
-                <div
-                  key={`${group.category}-${partner.name}`}
-                  className="group flex flex-col items-center justify-center rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:border-red-100 p-4 sm:p-5 transition-all duration-300 min-h-[90px] sm:min-h-[100px]"
-                >
-                  <ImageWithFallback
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="max-w-full max-h-14 sm:max-h-16 w-auto h-auto object-contain flex-1"
-                    loading="lazy"
-                  />
-                  <p className="text-xs text-(--apple-gray) mt-2 text-center font-medium">{partner.level}</p>
-                </div>
-              ))
-            )}
+            {uniquePartners.map((partner) => (
+              <div
+                key={`${partner.category}-${partner.name}`}
+                className="group flex flex-col items-center justify-center rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:border-red-100 p-4 sm:p-5 transition-all duration-300 min-h-[90px] sm:min-h-[100px]"
+              >
+                <ImageWithFallback
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="max-w-full max-h-14 sm:max-h-16 w-auto h-auto object-contain flex-1"
+                  loading="lazy"
+                />
+              </div>
+            ))}
           </div>
 
           <div className="text-center mt-14 md:mt-16">

@@ -6,6 +6,8 @@ import { useChat } from '../../context/ChatContext';
 import WhoWeAre from './Whoweare';
 import DomeGallery from '../AboutPageComponent/DomeGallery';
 import { CEOSection } from '../InsightComponent/ceo-section';
+import AwardsSection from '../AboutPageComponent/ImageSlider';
+import Certifications from '../AboutPageComponent/Certifications';
 import '../AboutPageComponent/DomeGallery.css';
 
 
@@ -273,31 +275,6 @@ const HeroSection = () => {
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
 
-  // Hero background image carousel — from database only
-  const [heroBgImages, setHeroBgImages] = useState([]);
-  const [heroBgIndex, setHeroBgIndex] = useState(0);
-  useEffect(() => {
-    let cancelled = false;
-    fetch(API_BASE + '/api/hero-backgrounds', { credentials: 'include' })
-      .then((res) => (res.ok ? res.json() : []))
-      .then((urls) => {
-        if (cancelled) return;
-        setHeroBgImages(Array.isArray(urls) ? urls : []);
-      })
-      .catch(() => {
-        if (!cancelled) setHeroBgImages([]);
-      });
-    return () => { cancelled = true; };
-  }, []);
-  useEffect(() => {
-    const total = heroBgImages.length;
-    if (total === 0) return;
-    const id = setInterval(() => {
-      setHeroBgIndex((i) => (i + 1) % total);
-    }, 4000);
-    return () => clearInterval(id);
-  }, [heroBgImages.length]);
-
   // Hero entrance: left text + right card slide in, then card tilts and gains color
   const [chatCardReveal, setChatCardReveal] = useState('entering'); // 'entering' | 'placed' | 'tilted'
   const [heroTextReveal, setHeroTextReveal] = useState('entering');  // 'entering' | 'placed'
@@ -373,30 +350,21 @@ const HeroSection = () => {
     <>
       <main className="hero-section relative min-h-screen w-full overflow-x-hidden overflow-y-visible">
 
-        {/* Background image carousel — crossfade every 4s */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
-          {heroBgImages.map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover object-center select-none"
-              style={{
-                opacity: i === heroBgIndex ? 1 : 0,
-                zIndex: i === heroBgIndex ? 1 : 0,
-                transition: 'opacity 1.2s ease-in-out',
-              }}
-            />
-          ))}
-          <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/50 to-black/60 z-2" aria-hidden />
+        {/* Background — same as Profile hero: video + overlay + red orbs */}
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <video
+            src="/videos/aboutpage.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/70" />
         </div>
-
-        {/* Animated background — gradient orbs + subtle grid */}
-        <div className="hero-animated-bg absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
-          <div className="hero-bg-orb hero-bg-orb-1" />
-          <div className="hero-bg-orb hero-bg-orb-2" />
-          <div className="hero-bg-orb hero-bg-orb-3" />
-          <div className="hero-bg-grid" />
+        <div className="absolute inset-0 overflow-hidden z-1 pointer-events-none" aria-hidden>
+          <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-red-600/10 blur-[100px]" />
+          <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] rounded-full bg-red-500/5 blur-[120px]" />
         </div>
 
         {/* Hero content — centered in viewport, below fixed navbar */}
@@ -455,7 +423,13 @@ const HeroSection = () => {
       </main>
 
       {/* AI ROI Stats Banner */}
-      <section className="ai-roi-banner relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #3b5fe0 0%, #5b7cf7 30%, #6e8dfa 50%, #5b7cf7 70%, #3b5fe0 100%)' }}>
+      <section
+        className="ai-roi-banner relative overflow-hidden"
+        style={{
+          background:
+            'linear-gradient(180deg, #020617 0%, #0b1220 18%, #1d2a5b 40%, #3b5fe0 65%, #1e3a8a 100%)',
+        }}
+      >
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'1440\' height=\'120\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 60 Q360 0 720 60 T1440 60 V120 H0Z\' fill=\'%23ffffff\'/%3E%3C/svg%3E")', backgroundSize: '100% 100%' }} />
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6 flex flex-col lg:flex-row items-start lg:items-center gap-5 lg:gap-6">
@@ -477,7 +451,7 @@ const HeroSection = () => {
           </div>
 
           {/* Stats grid — card style */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
               <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">45%</p>
               <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster application delivery with AI-augmented development</p>
@@ -556,7 +530,7 @@ const HeroSection = () => {
               </div>
               <button
                 type="button"
-                onClick={sendMessage}
+                onClick={() => sendMessage()}
                 disabled={loading || !input.trim()}
                 className="shrink-0 px-5 py-3 rounded-lg font-semibold text-[14px] text-white bg-purple-700 hover:bg-purple-800 transition-colors disabled:opacity-50"
               >
@@ -669,16 +643,19 @@ const HeroSection = () => {
 
       {/* OEM Alliances Section */}
       <OEMAlliancesSection />
+      {/* Premium Partners */}
+      <PremiumPartnersSection />
       <LatestHighlightsSection />
       <WhoWeAre />
-      <TestimonialsSection />
       <InnovationsSection />
+      <AwardsSection />
+      <Certifications sectionOnly />
     </>
   );
 };
 
 /* ───────── Innovations (home strip) ───────── */
-const INNOVATIONS_HERO_IMAGE = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80';
+const INNOVATIONS_HERO_IMAGE = '/images/innovations-meeting.png';
 
 function InnovationsSection() {
   return (
@@ -830,26 +807,26 @@ function SolutionsShowcaseSection() {
             </p>
           </div>
 
-          {/* ── Right: Solution cards ── */}
-          <div className="flex flex-col gap-4">
+          {/* ── Right: Solution cards (2 per row on mobile, 1 col on lg) ── */}
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4">
             {SOLUTIONS_CARDS.map((card, i) => (
               <div
                 key={card.title}
                 onClick={() => navigate(card.path)}
-                className={`group flex items-center gap-5 bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-5 border border-white/60 shadow-sm hover:shadow-lg hover:bg-white hover:border-red-100 transition-all duration-300 ease-out cursor-pointer ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}
+                className={`group flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 bg-white/70 backdrop-blur-sm rounded-2xl px-4 py-4 sm:px-6 sm:py-5 border border-white/60 shadow-sm hover:shadow-lg hover:bg-white hover:border-red-100 transition-all duration-300 ease-out cursor-pointer ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}
                 style={{ transitionDelay: `${150 + i * 120}ms` }}
               >
                 {/* Icon */}
-                <div className="shrink-0 w-14 h-14 rounded-2xl bg-linear-to-br from-red-50 to-red-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ease-out text-red-600">
-                  <span className="material-symbols-outlined text-[28px]" aria-hidden>{card.icon}</span>
+                <div className="shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-linear-to-br from-red-50 to-red-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ease-out text-red-600 mb-1 sm:mb-0">
+                  <span className="material-symbols-outlined text-[24px] sm:text-[28px]" aria-hidden>{card.icon}</span>
                 </div>
 
                 {/* Text */}
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-(--apple-black) text-[15px] font-bold mb-1 group-hover:text-red-600 transition-colors duration-200">
+                  <h4 className="text-(--apple-black) text-[13px] sm:text-[15px] font-bold mb-1 group-hover:text-red-600 transition-colors duration-200 leading-snug line-clamp-2">
                     {card.title}
                   </h4>
-                  <p className="text-(--apple-gray) text-[13px] leading-relaxed line-clamp-2">
+                  <p className="text-(--apple-gray) text-[12px] sm:text-[13px] leading-relaxed line-clamp-3 sm:line-clamp-2">
                     {card.description}
                   </p>
                 </div>
@@ -897,7 +874,13 @@ const OEM_PARTNERS = [
   { name: 'Veeam', logo: '/Partners/veeam.png', level: 'Registered & SP' },
 ];
 
+const PARTNER_CARD_WIDTH = 96;   // w-24
+const PARTNER_GAP = 16;          // gap-4
+
 function OEMAlliancesSection() {
+  const partnerSetWidth = OEM_PARTNERS.length * PARTNER_CARD_WIDTH + (OEM_PARTNERS.length - 1) * PARTNER_GAP;
+  const partnerTrackWidth = partnerSetWidth * 2;
+
   return (
     <section
       id="partners"
@@ -910,8 +893,8 @@ function OEMAlliancesSection() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
-          {/* Left: Header + link */}
-          <div className="order-2 lg:order-1 text-center lg:text-left">
+          {/* Left: Header + link (above dome on mobile) */}
+          <div className="order-1 lg:order-1 text-center lg:text-left">
             <p className="text-4xl font-extrabold tracking-[0.25em] uppercase text-red-500 mb-3">Our Alliances & Partners</p>
             <p className="mt-3 text-(--apple-gray) text-base max-w-xl lg:max-w-none mx-auto">
               We partner with the world's most innovative technology companies to deliver best-in-class solutions.
@@ -927,25 +910,51 @@ function OEMAlliancesSection() {
             </div>
           </div>
 
-          {/* Right: Smaller globe */}
-          <div className="order-1 lg:order-2 w-full rounded-2xl overflow-hidden bg-transparent" style={{ height: 'min(75vh, 580px)' }}>
-            <DomeGallery
-              images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name, label: p.level }))}
-              fit={0.62}
-              fitBasis="height"
-              minRadius={320}
-              maxRadius={440}
-              maxVerticalRotationDeg={0}
-              segments={18}
-              dragDampening={2}
-              grayscale={false}
-              overlayBlurColor="#f1f5f9"
-              imageBorderRadius="12px"
-              openedImageBorderRadius="24px"
-              openedImageWidth="280px"
-              openedImageHeight="200px"
-              tileInset={7}
-            />
+          {/* Right: Mobile = continuous R→L marquee (seamless like Insights); Desktop = dome gallery */}
+          <div className="order-2 lg:order-2 w-full">
+            {/* Mobile: one set width in px, animate by -setWidth for seamless loop */}
+            <div className="lg:hidden overflow-hidden py-1">
+              <style>{`
+                @keyframes partners-marquee {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-${partnerSetWidth}px); }
+                }
+              `}</style>
+              <div
+                className="flex items-center will-change-transform"
+                style={{
+                  width: partnerTrackWidth,
+                  gap: PARTNER_GAP,
+                  animation: `partners-marquee 28s linear infinite`,
+                }}
+              >
+                {[...OEM_PARTNERS, ...OEM_PARTNERS].map((p, i) => (
+                  <div key={`${p.name}-${i}`} className="shrink-0 w-24 h-16 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 p-2">
+                    <img src={p.logo} alt={p.name} className="w-full h-full object-contain" loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Desktop: dome gallery */}
+            <div className="hidden lg:block rounded-2xl overflow-hidden bg-transparent" style={{ height: 'min(75vh, 580px)' }}>
+              <DomeGallery
+                images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name, label: p.level }))}
+                fit={0.62}
+                fitBasis="height"
+                minRadius={320}
+                maxRadius={440}
+                maxVerticalRotationDeg={0}
+                segments={18}
+                dragDampening={2}
+                grayscale={false}
+                overlayBlurColor="#f1f5f9"
+                imageBorderRadius="12px"
+                openedImageBorderRadius="24px"
+                openedImageWidth="280px"
+                openedImageHeight="200px"
+                tileInset={7}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -953,14 +962,65 @@ function OEMAlliancesSection() {
   );
 }
 
-/* ───────── Latest Highlights: data from database only ───────── */
+/* ───────── Premium Partners (logo + tier) ───────── */
+const PREMIUM_PARTNERS = [
+  { name: 'Dell', tier: 'Titanium', logo: '/community/dell.png' },
+  { name: 'Cisco', tier: 'Premier', logo: '/Partners/cisco.png' },
+  { name: 'Microsoft', tier: 'CSP', logo: '/community/microsoft.jpg' },
+  { name: 'HP', tier: 'Gold', logo: '/community/hpelogo.png' },
+  { name: 'IBM', tier: 'Silver', logo: '/community/ibmlogo.png' },
+  { name: 'Trellix', tier: 'Gold', logo: '/Partners/trellix.png' },
+  { name: 'GCP', tier: 'Service Partner', logo: '/community/gcp2.jpg' },
+  { name: 'AWS', tier: 'Select', logo: '/community/awslogo.png' },
+];
+
+function PremiumPartnersSection() {
+  return (
+    <section
+      className="relative overflow-hidden py-12 md:py-16 px-6 sm:px-8 lg:px-12"
+      style={{ background: 'linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 30%, #f1f5f9 100%)' }}
+    >
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-red-100/20 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-red-50/15 blur-[80px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <header className="text-center mb-10 md:mb-12">
+          <p className="text-2xl sm:text-3xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-2">Partnership</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-(--apple-black) tracking-tight">
+            Our Premium Partners
+          </h2>
+          <div className="mt-3 w-12 h-0.5 bg-red-500/60 rounded-full mx-auto" aria-hidden />
+        </header>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto">
+          {PREMIUM_PARTNERS.map((partner) => (
+            <div
+              key={partner.name}
+              className="group flex flex-col items-center justify-center rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:border-red-100/60 p-5 sm:p-6 transition-all duration-300"
+            >
+              <div className="w-full aspect-square max-w-[100px] max-h-[100px] flex items-center justify-center mb-3">
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <p className="text-(--apple-black) font-semibold text-sm sm:text-base">{partner.name}</p>
+              <p className="text-xs sm:text-sm text-red-600 font-medium mt-1">{partner.tier}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────── Latest Highlights: data from database only — auto-scroll right to left ───────── */
 const API_BASE = typeof import.meta !== 'undefined' && import.meta.env ? (import.meta.env.VITE_API_BASE || '') : '';
 
 function LatestHighlightsSection() {
-  const sectionRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [viewWidth, setViewWidth] = useState(1200);
-  const [viewHeight, setViewHeight] = useState(800);
   const [panels, setPanels] = useState([]);
 
   useEffect(() => {
@@ -977,59 +1037,54 @@ function LatestHighlightsSection() {
   }, []);
 
   useEffect(() => {
-    const updateSize = () => {
-      setViewWidth(window.innerWidth);
-      setViewHeight(window.innerHeight);
-    };
+    const updateSize = () => setViewWidth(window.innerWidth);
     updateSize();
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const handleScroll = () => {
-      const rect = section.getBoundingClientRect();
-      const viewH = window.innerHeight;
-      const sectionH = section.offsetHeight;
-      if (rect.top > viewH || rect.bottom < 0) return;
-      const scrollable = sectionH - viewH;
-      const progress = scrollable <= 0 ? 1 : Math.min(1, Math.max(0, -rect.top / scrollable));
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const gap = 24;
-  // Large rectangular cards: ~52% viewport width, aspect 1.5:1 (wider than tall)
-  const cardWidth = Math.min(680, Math.max(320, viewWidth * 0.52));
+  const gap = 20;
+  const cardWidth = Math.min(520, Math.max(260, viewWidth * 0.38));
   const cardHeight = cardWidth / 1.5;
-  const trackWidth = panels.length * cardWidth + (panels.length - 1) * gap;
-  const contentWidth = Math.max(320, viewWidth);
-  // Start: first card on the right (its right edge at viewport right)
-  const startTranslate = contentWidth - cardWidth;
-  // End: last card on the left (its left edge at viewport left) — then page scrolls down
-  const lastCardLeft = (panels.length - 1) * (cardWidth + gap);
-  const endTranslate = -lastCardLeft;
-  // Scroll progress 0 → 1: first card moves from right to left, ending with last card on left
-  const translateX = startTranslate + scrollProgress * (endTranslate - startTranslate);
-  // Section height = viewport height + horizontal travel so 1px scroll = 1px card movement (same speed)
-  const totalHorizontalTravel = startTranslate - endTranslate;
-  const sectionHeightPx = viewHeight + Math.max(0, totalHorizontalTravel);
+  const setWidth = panels.length * cardWidth + (panels.length - 1) * gap;
+  const trackWidth = setWidth * 2;
+  const doublePanels = panels.length > 0 ? [...panels, ...panels] : [];
+
+  const renderCardContent = (panel, isMobile) => (
+    <>
+      <div
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
+        style={{ backgroundImage: `url('${panel.image}')` }}
+      />
+      <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-transparent" />
+      <div className={`absolute inset-0 flex flex-col justify-end text-left text-white ${isMobile ? 'p-4' : 'p-6 sm:p-8'}`}>
+        <span className="text-[10px] sm:text-xs font-semibold text-red-400 uppercase tracking-wider">
+          {panel.tag}
+        </span>
+        <h3 className={`mt-1.5 sm:mt-2 font-semibold leading-tight line-clamp-2 ${isMobile ? 'text-base' : 'text-xl sm:text-2xl'}`}>
+          {panel.title}
+        </h3>
+        {panel.description && (
+          <p className={`mt-1.5 sm:mt-2 text-white/90 line-clamp-2 ${isMobile ? 'text-xs max-w-full' : 'text-sm max-w-md'}`}>
+            {panel.description}
+          </p>
+        )}
+        <p className={`mt-2 sm:mt-3 text-white/70 uppercase tracking-wider ${isMobile ? 'text-[10px]' : 'text-xs'}`}>
+          {panel.type}
+        </p>
+      </div>
+    </>
+  );
 
   return (
-    <section
-      ref={sectionRef}
-      id="gallery-section"
-      className="relative bg-white"
-      style={{ height: `${sectionHeightPx}px` }}
-    >
-      <div className="sticky top-0 h-screen flex flex-col overflow-hidden py-12 px-0">
+    <section id="gallery-section" className="relative bg-white py-16 overflow-hidden">
+      <style>{`
+        @keyframes highlights-marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-${setWidth}px); }
+        }
+      `}</style>
+      <div className="flex flex-col overflow-hidden">
         {/* Section header */}
         <div className="shrink-0 flex flex-col items-center text-center mb-8">
           <p className="text-4xl font-extrabold tracking-[0.25em] uppercase text-red-500 mb-2">
@@ -1040,294 +1095,53 @@ function LatestHighlightsSection() {
           </h2>
         </div>
 
-        {/* Large rectangular cards — scroll-driven horizontal */}
-        <div className="flex-1 min-h-0 flex items-center overflow-hidden">
+        {/* Mobile: vertical stack of cards */}
+        <div className="md:hidden flex flex-col gap-4 px-2 sm:px-0">
+          {panels.map((panel, i) => {
+            const cardClass = 'group relative w-full overflow-hidden rounded-xl shadow-lg aspect-[3/2]';
+            const link = (panel.link || '').trim();
+            if (link) {
+              return (
+                <a key={i} href={link} target="_blank" rel="noopener noreferrer" className={`${cardClass} block cursor-pointer`}>
+                  {renderCardContent(panel, true)}
+                </a>
+              );
+            }
+            return (
+              <article key={i} className={cardClass}>
+                {renderCardContent(panel, true)}
+              </article>
+            );
+          })}
+        </div>
+
+        {/* Desktop: auto-scrolling cards right to left */}
+        <div className="hidden md:flex items-center overflow-hidden min-h-[200px]">
           <div
             className="flex items-center will-change-transform"
             style={{
               width: trackWidth,
               gap,
-              transform: `translateX(${translateX}px)`,
-              transition: 'transform 0.2s ease-out',
+              animation: doublePanels.length > 0 ? `highlights-marquee ${22 + panels.length * 2}s linear infinite` : 'none',
             }}
           >
-            {panels.map((panel, i) => {
-              const cardContent = (
-                <>
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
-                    style={{ backgroundImage: `url('${panel.image}')` }}
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-transparent" />
-                  <div className="absolute inset-0 flex flex-col justify-end text-left p-6 sm:p-8 text-white">
-                    <span className="text-xs font-semibold text-red-400 uppercase tracking-wider">
-                      {panel.tag}
-                    </span>
-                    <h3 className="mt-2 text-xl sm:text-2xl font-semibold leading-tight line-clamp-2">
-                      {panel.title}
-                    </h3>
-                    {panel.description && (
-                      <p className="mt-2 text-sm text-white/90 line-clamp-2 max-w-md">
-                        {panel.description}
-                      </p>
-                    )}
-                    <p className="mt-3 text-xs text-white/70 uppercase tracking-wider">
-                      {panel.type}
-                    </p>
-                  </div>
-                </>
-              );
+            {doublePanels.map((panel, i) => {
               const cardClass = 'group relative shrink-0 overflow-hidden rounded-lg shadow-lg';
               const cardStyle = { width: cardWidth, height: cardHeight };
               const link = (panel.link || '').trim();
               if (link) {
                 return (
-                  <a
-                    key={i}
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`${cardClass} block cursor-pointer`}
-                    style={cardStyle}
-                  >
-                    {cardContent}
+                  <a key={i} href={link} target="_blank" rel="noopener noreferrer" className={`${cardClass} block cursor-pointer`} style={cardStyle}>
+                    {renderCardContent(panel, false)}
                   </a>
                 );
               }
               return (
                 <article key={i} className={cardClass} style={cardStyle}>
-                  {cardContent}
+                  {renderCardContent(panel, false)}
                 </article>
               );
             })}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TestimonialsSection() {
-  const [testimonialsList, setTestimonialsList] = useState([]);
-  const [active, setActive] = useState(0);
-  const [leaving, setLeaving] = useState(null); // index of card being swept away
-  const [leaveDir, setLeaveDir] = useState('next');
-  const [textVisible, setTextVisible] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(API_BASE + '/api/testimonials', { credentials: 'include' })
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => {
-        if (cancelled) return;
-        setTestimonialsList(Array.isArray(data) ? data : []);
-      })
-      .catch(() => {
-        if (!cancelled) setTestimonialsList([]);
-      });
-    return () => { cancelled = true; };
-  }, []);
-
-  const total = testimonialsList.length;
-  const t = total > 0 ? testimonialsList[active] : null;
-
-  const go = useCallback((dir) => {
-    if (leaving !== null) return;
-    const cur = active;
-    const next = dir === 'next' ? (cur + 1) % total : (cur - 1 + total) % total;
-    setLeaveDir(dir);
-    setLeaving(cur);
-    setTextVisible(false);
-    // After the front card flies off, promote the next card
-    setTimeout(() => {
-      setActive(next);
-      setLeaving(null);
-      // Small delay then fade text in
-      setTimeout(() => setTextVisible(true), 60);
-    }, 500);
-  }, [leaving, active, total]);
-
-  const handleDot = useCallback((i) => {
-    if (i === active || leaving !== null) return;
-    go(i > active ? 'next' : 'prev');
-  }, [active, leaving, go]);
-
-  /* Build a visible stack: show up to 3 cards behind the active one.
-     The stack order from back to front: active+3, active+2, active+1, active.
-     The "leaving" card sits on top of everything and animates off. */
-  const stackIndices = useMemo(() => {
-    const indices = [];
-    for (let offset = 3; offset >= 0; offset--) {
-      indices.push((active + offset) % total);
-    }
-    return indices; // [back ... front=active]
-  }, [active, total]);
-
-  const getCardStyle = (idx, stackPos) => {
-    // stackPos: 0=backmost … 3=front (active)
-    const isLeaving = idx === leaving;
-
-    if (isLeaving) {
-      const isNext = leaveDir === 'next';
-      return {
-        zIndex: 20,
-        transform: `perspective(1200px) translateX(${isNext ? '120%' : '-120%'}) rotateY(${isNext ? -25 : 25}deg) scale(0.9)`,
-        filter: 'blur(4px)',
-        opacity: 0,
-        transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s ease, opacity 0.45s ease',
-      };
-    }
-
-    // Stack positioning: cards behind are offset to the right, smaller, blurred, lower z
-    const offset = 3 - stackPos; // 0=front, 1,2,3=behind
-    const translateX = offset * 28; // stack from the right
-    const blurPx = offset === 0 ? 0 : 2 + offset * 3; // blurred stack behind
-    return {
-      zIndex: 10 - offset,
-      transform: `perspective(1200px) translateX(${translateX}px) translateY(${offset * 8}px) scale(${1 - offset * 0.06})`,
-      filter: `blur(${blurPx}px)`,
-      opacity: offset > 2 ? 0 : (offset === 0 ? 1 : 1 - offset * 0.12),
-      transition: 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease, opacity 0.35s ease',
-    };
-  };
-
-  /* Text animation */
-  const textStyle = {
-    opacity: textVisible ? 1 : 0,
-    transform: textVisible ? 'translateY(0)' : 'translateY(16px)',
-    filter: textVisible ? 'blur(0px)' : 'blur(3px)',
-    transition: textVisible
-      ? 'opacity 0.4s ease 0.08s, transform 0.4s ease 0.08s, filter 0.4s ease 0.08s'
-      : 'opacity 0.25s ease, transform 0.25s ease, filter 0.25s ease',
-  };
-
-  if (total === 0) return null;
-
-  return (
-    <section className="relative pt-12 pb-20 lg:pt-16 lg:pb-24 overflow-hidden" style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}>
-      {/* Ambient blurs */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-red-100/20 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full bg-red-50/20 blur-[100px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-        {/* Heading */}
-        <h2 className="text-4xl md:text-5xl lg:text-[52px] font-bold text-(--apple-black) tracking-tight leading-tight mb-10">
-          Hear from Our Clients
-        </h2>
-
-        {/* Main testimonial area */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-
-          {/* ── Left: Quote + Author ── */}
-          <div style={textStyle}>
-            {/* Quote mark */}
-            <div className="mb-6">
-              <svg width="48" height="36" viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 36V20.4C0 16.4 0.8 12.7 2.4 9.3C4.1 5.8 6.9 2.8 10.8 0.3L15.3 4.8C12.6 6.6 10.6 8.7 9.3 11.1C8 13.4 7.3 16 7.2 18.9H13.5V36H0ZM25.5 36V20.4C25.5 16.4 26.3 12.7 27.9 9.3C29.6 5.8 32.4 2.8 36.3 0.3L40.8 4.8C38.1 6.6 36.1 8.7 34.8 11.1C33.5 13.4 32.8 16 32.7 18.9H39V36H25.5Z" fill="#dc2626" fillOpacity="0.2" />
-              </svg>
-            </div>
-
-            {/* Quote text */}
-            <p className="text-(--apple-black) text-xl lg:text-2xl leading-relaxed font-light mb-10 max-w-lg">
-              {t ? t.quote : ''}
-            </p>
-
-            {/* Author row */}
-            <div className="flex items-center gap-4">
-              {t && (
-                <>
-                  <img
-                    src={t.logo}
-                    alt={t.company}
-                    className="w-14 h-14 rounded-xl object-contain bg-white p-1.5 shadow-sm border border-gray-100"
-                  />
-                  <div>
-                    <p className="text-(--apple-black) text-base font-bold leading-tight">{t.name}</p>
-                    <p className="text-(--apple-gray) text-sm">{t.role}</p>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* ── Right: Stacked card deck ── */}
-          <div className="relative flex justify-center lg:justify-end" style={{ perspective: '1200px' }}>
-            {/* Card stack container */}
-            <div className="relative w-full max-w-[440px] aspect-square">
-              {stackIndices.map((idx, stackPos) => {
-                const testimonial = testimonialsList[idx];
-                const style = getCardStyle(idx, stackPos);
-                return (
-                  <div
-                    key={`card-${idx}`}
-                    className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
-                    style={{
-                      ...style,
-                      transformStyle: 'preserve-3d',
-                      backfaceVisibility: 'hidden',
-                      willChange: 'transform, opacity, filter',
-                    }}
-                  >
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
-                  </div>
-                );
-              })}
-              {/* Render the leaving card on top if it exists */}
-              {leaving !== null && !stackIndices.includes(leaving) && (
-                <div
-                  className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
-                  style={{
-                    ...getCardStyle(leaving, -1),
-                    transformStyle: 'preserve-3d',
-                    backfaceVisibility: 'hidden',
-                    willChange: 'transform, opacity, filter',
-                  }}
-                >
-                  <img
-                    src={testimonialsList[leaving].image}
-                    alt={testimonialsList[leaving].name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
-                </div>
-              )}
-            </div>
-
-            {/* Navigation arrows */}
-            <div className="absolute bottom-4 right-4 flex items-center gap-2 z-30">
-              <button
-                onClick={() => go('prev')}
-                className="w-10 h-10 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:shadow-md transition-all duration-200 ease-out group"
-                aria-label="Previous testimonial"
-              >
-                <span className="material-symbols-outlined text-[18px] text-(--apple-gray) group-hover:text-(--apple-black) transition-colors">chevron_left</span>
-              </button>
-              <button
-                onClick={() => go('next')}
-                className="w-10 h-10 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:shadow-md transition-all duration-200 ease-out group"
-                aria-label="Next testimonial"
-              >
-                <span className="material-symbols-outlined text-[18px] text-(--apple-gray) group-hover:text-(--apple-black) transition-colors">chevron_right</span>
-              </button>
-            </div>
-
-            {/* Dots indicator */}
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30">
-              {testimonialsList.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => handleDot(i)}
-                  className={`rounded-full transition-all duration-300 ease-out ${i === active ? 'w-6 h-2 bg-red-500' : 'w-2 h-2 bg-gray-300 hover:bg-gray-400'}`}
-                  aria-label={`Go to testimonial ${i + 1}`}
-                />
-              ))}
-            </div>
           </div>
         </div>
       </div>

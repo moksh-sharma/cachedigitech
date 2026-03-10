@@ -140,8 +140,8 @@ export function BlogSection() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="-left-2 sm:-left-8 md:-left-12 h-10 w-10 border-2 border-gray-200 bg-white hover:bg-gray-50 text-gray-700 disabled:opacity-40 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 transition-colors duration-200 ease-out" />
-              <CarouselNext className="-right-2 sm:-right-8 md:-right-12 h-10 w-10 border-2 border-gray-200 bg-white hover:bg-gray-50 text-gray-700 disabled:opacity-40 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 transition-colors duration-200 ease-out" />
+              <CarouselPrevious className="left-2 sm:-left-8 md:-left-12 h-10 w-10 border-2 border-gray-200 bg-white hover:bg-gray-50 text-gray-700 disabled:opacity-40 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 transition-colors duration-200 ease-out z-10" />
+              <CarouselNext className="right-2 sm:-right-8 md:-right-12 h-10 w-10 border-2 border-gray-200 bg-white hover:bg-gray-50 text-gray-700 disabled:opacity-40 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 transition-colors duration-200 ease-out z-10" />
             </Carousel>
           </motion.div>
         )}

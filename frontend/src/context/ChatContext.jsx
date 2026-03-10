@@ -12,7 +12,8 @@ export function ChatProvider({ children }) {
   const hasAsked = messages.length > 0;
 
   const sendMessage = useCallback(async (overrideInput) => {
-    const text = (overrideInput ?? input).trim();
+    const raw = overrideInput != null && typeof overrideInput === 'string' ? overrideInput : input;
+    const text = String(raw).trim();
     if (!text || loading) return;
     setInput('');
     const userMessage = { role: 'user', content: text };

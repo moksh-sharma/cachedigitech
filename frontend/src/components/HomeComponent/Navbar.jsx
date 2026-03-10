@@ -204,10 +204,10 @@ function Navbar() {
       {/* ── Top Navbar: floating, dark translucent, white text, red logo ── */}
       <nav
         ref={megaRef}
-        className={`fixed top-4 left-4 right-4 z-1000 transition-all duration-600 ease-out bg-black/25 backdrop-blur-md rounded-2xl shadow-xl ${navbarVisible ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none"}`}
+        className={`fixed top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 z-1000 transition-all duration-600 ease-out bg-black/25 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-xl ${navbarVisible ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none"}`}
       >
         <div className="max-w-[1400px] mx-auto flex items-center justify-between px-6 lg:px-10 py-4 relative">
-          {/* Left: Hamburger (mobile) + Logo */}
+          {/* Left: Hamburger (mobile) + Logo (desktop) */}
           <div className="flex items-center gap-7 flex-1 min-w-0 justify-start">
             <button
               className="md:hidden group flex items-center justify-center rounded-xl bg-white/15 p-2.5 transition-all duration-300 hover:bg-white/25 hover:scale-105"
@@ -215,7 +215,7 @@ function Navbar() {
             >
               <Menu className="h-5 w-5 text-white" />
             </button>
-            <div onClick={() => navigate("/")} className="cursor-pointer shrink-0">
+            <div onClick={() => navigate("/")} className="cursor-pointer shrink-0 hidden md:block">
               <img
                 src={logoUrl}
                 alt="CacheDigiTech Logo"
@@ -267,12 +267,29 @@ function Navbar() {
             })}
           </div>
 
-          {/* Right: Women Owned badge — same size as Cache logo (100×40) */}
-          <div className="flex items-center flex-1 min-w-0 justify-end">
+          {/* Right: Mobile = both logos + divider; Desktop = Women Owned only */}
+          <div className="flex items-center flex-1 min-w-0 justify-end overflow-hidden">
+            {/* Mobile: Cache logo + vertical line + Women Owned (constrained to fit) */}
+            <div className="flex md:hidden items-center gap-2 min-w-0 max-w-full shrink-0">
+              <div onClick={() => navigate("/")} className="cursor-pointer shrink-0 flex-shrink-0">
+                <img
+                  src={logoUrl}
+                  alt="CacheDigiTech Logo"
+                  className="h-8 w-auto max-h-8 transition-all duration-300 filter-[brightness(0)_saturate(100%)_invert(25%)_sepia(98%)_saturate(2692%)_hue-rotate(346deg)]"
+                />
+              </div>
+              <div className="h-6 w-px bg-white/50 shrink-0 flex-shrink-0" aria-hidden />
+              <img
+                src="/women_owned.png"
+                alt="Women Owned"
+                className="h-7 w-14 max-w-[3.5rem] object-contain object-left shrink-0 flex-shrink-0"
+              />
+            </div>
+            {/* Desktop: Women Owned only */}
             <img
               src="/women_owned.png"
               alt="Women Owned"
-              className="h-10 w-[100px] object-contain shrink-0"
+              className="h-10 w-[100px] object-contain shrink-0 hidden md:block"
             />
           </div>
         </div>

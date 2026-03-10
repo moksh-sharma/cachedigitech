@@ -18,7 +18,7 @@ import InnovationsPage from "./Pages/InnovationsPage";
 import Profile from "./components/AboutPageComponent/profile";
 import AwardsAndCertificationsPage from "./Pages/AwardsAndCertificationsPage";
 import PartnershipCards from "./components/AboutPageComponent/Cards";
-import TeamSection from "./components/AboutPageComponent/Team";
+import { CEOSection } from "./components/InsightComponent/ceo-section";
 import PrivacyPolicyPage from "./Pages/PrivacyPolicyPage";
 import TermsOfUsePage from "./Pages/TermsOfUse";
 import Careers from "./Pages/Career";
@@ -102,7 +102,7 @@ function App() {
             <Route path="/about/awards" element={<AwardsAndCertificationsPage />} />
             <Route path="/about/certifications" element={<Navigate to="/about/awards" replace />} />
             <Route path="/about/alliances" element={<PartnershipCards />} />
-            <Route path="/about/leadership" element={<TeamSection />} />
+            <Route path="/about/leadership" element={<CEOSection />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-use" element={<TermsOfUsePage />} />
             <Route path="/careers" element={<Careers />} />

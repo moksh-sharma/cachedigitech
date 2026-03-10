@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  Server, HardDrive, Cpu, Monitor, Network, Users, 
+import {
+  Server, HardDrive, Cpu, Monitor, Network, Users,
   CheckCircle, TrendingUp, ArrowRight, Target, Database,
   FileText, Shield, Settings, Zap,
-  Globe
+  Globe, Clock
 } from 'lucide-react';
 
 const InfrastructureServicesPage = () => {
@@ -37,7 +37,7 @@ const InfrastructureServicesPage = () => {
   useEffect(() => {
     const currentText = heroTexts[textIndex];
     let charIndex = 0;
-    
+
     const typeWriter = setInterval(() => {
       if (charIndex < currentText.length) {
         setAnimatedText(currentText.slice(0, charIndex + 1));
@@ -138,7 +138,7 @@ const InfrastructureServicesPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section 
+      <section
         id="hero"
         className="relative h-[80vh] bg-cover bg-center scroll-mt-0"
         style={{
@@ -146,18 +146,18 @@ const InfrastructureServicesPage = () => {
         }}
       >
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white px-6 sm:px-8 lg:px-12 max-w-4xl mx-auto">
-            <div className="mb-6">
-              <Server className="w-16 h-16 mx-auto mb-4" aria-hidden />
+          <div className="text-center text-white px-4 sm:px-6 lg:px-12 max-w-4xl mx-auto pt-20 sm:pt-24 pb-12">
+            <div className="mb-4 sm:mb-6">
+              <Server className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto mb-3 sm:mb-4" aria-hidden />
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold mb-4 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 sm:mb-4 tracking-tight">
               Infra & Networking
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl mb-8 leading-relaxed text-white/95">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 leading-relaxed text-white/95">
               Building robust, scalable, and high-performance IT infrastructure solutions
             </p>
-            <div className="h-8" aria-live="polite">
-              <p className="text-lg">
+            <div className="h-6 sm:h-8 min-h-6" aria-live="polite">
+              <p className="text-sm sm:text-base lg:text-lg">
                 {animatedText}<span className="animate-pulse" aria-hidden>|</span>
               </p>
             </div>
@@ -167,8 +167,8 @@ const InfrastructureServicesPage = () => {
 
       {/* Navigation (below hero, sticky on scroll) */}
       <nav aria-label="Service sections" className="bg-white border-b border-red-100 shadow-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-4">
-          <div className="flex flex-wrap justify-center gap-2">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-3 sm:py-4">
+          <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
             {services.map((service) => {
               const IconComponent = service.icon;
               const isActive = activeSection === service.id;
@@ -179,14 +179,13 @@ const InfrastructureServicesPage = () => {
                   onClick={() => scrollToSection(service.id)}
                   aria-current={isActive ? 'true' : undefined}
                   aria-label={`Go to ${service.label}`}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 ${
-                    isActive
+                  className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full border text-xs sm:text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 ${isActive
                       ? 'text-red-600 bg-red-50 border-red-200 shadow-sm'
                       : 'text-gray-600 hover:text-red-600 hover:bg-red-50 border-transparent hover:border-red-100'
-                  }`}
+                    }`}
                 >
-                  <IconComponent className="w-4 h-4" aria-hidden />
-                  <span>{service.label}</span>
+                  <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" aria-hidden />
+                  <span className="truncate">{service.label}</span>
                 </button>
               );
             })}
@@ -196,29 +195,29 @@ const InfrastructureServicesPage = () => {
 
       {/* Services Sections */}
       {services.map((service, index) => (
-        <section key={service.id} id={service.id} className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 scroll-mt-20">
+        <section key={service.id} id={service.id} className="py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-12 scroll-mt-20">
           <div className="max-w-6xl mx-auto">
             {/* Section Header */}
-            <div className="text-center mb-16">
-              <div className="mb-6">
-                {React.createElement(service.icon, { className: "w-16 h-16 text-red-600 mx-auto mb-4" })}
+            <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+              <div className="mb-4 sm:mb-6">
+                {React.createElement(service.icon, { className: "w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-red-600 mx-auto mb-3 sm:mb-4" })}
               </div>
-              <h2 className="text-4xl font-bold text-gray-800 mb-4">{service.title}</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">{service.subtitle}</p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">{service.title}</h2>
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">{service.subtitle}</p>
             </div>
 
             {/* Content Section */}
-            <div className="mb-16">
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed max-w-4xl mx-auto text-center">
+            <div className="mb-10 sm:mb-16">
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed max-w-4xl mx-auto text-center px-2">
                 {service.description}
               </p>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {service.keyFeatures.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="text-center p-6 bg-gray-50 rounded-lg">
-                    {React.createElement(feature.icon, { className: "w-12 h-12 text-red-600 mx-auto mb-4" })}
-                    <h4 className="font-semibold text-gray-800 mb-2">{feature.title}</h4>
-                    <p className="text-sm text-gray-600">{feature.desc}</p>
+                  <div key={featureIndex} className="text-center p-4 sm:p-6 bg-gray-50 rounded-lg">
+                    {React.createElement(feature.icon, { className: "w-10 h-10 sm:w-12 sm:h-12 text-red-600 mx-auto mb-3 sm:mb-4" })}
+                    <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">{feature.title}</h4>
+                    <p className="text-xs sm:text-sm text-gray-600">{feature.desc}</p>
                   </div>
                 ))}
               </div>
@@ -226,24 +225,24 @@ const InfrastructureServicesPage = () => {
 
             {/* Divider */}
             {index < services.length - 1 && (
-              <div className="border-t border-gray-200 my-16"></div>
+              <div className="border-t border-gray-200 my-10 sm:my-16"></div>
             )}
           </div>
         </section>
       ))}
 
       {/* Call to Action */}
-      <section className="py-16 lg:py-24 px-6 sm:px-8 lg:px-12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      <section className="py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
             Ready to Transform Your Infrastructure?
           </h2>
-          <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-300 mb-6 sm:mb-8 leading-relaxed px-2">
             Partner with Cache for end-to-end infrastructure consulting, design, build, and managed operations. Let's build a foundation that scales with your business.
           </p>
           <Link
             to="/contactus"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800"
+            className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-red-600 hover:bg-red-500 text-white text-sm sm:text-base font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800"
           >
             Get in touch
             <ArrowRight className="w-4 h-4" aria-hidden />

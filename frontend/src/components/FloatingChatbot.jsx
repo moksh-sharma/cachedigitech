@@ -73,7 +73,7 @@ const FloatingChatbot = () => {
       {open && (
         <div
           data-chat-popup
-          className="fixed bottom-24 right-6 z-999 w-[380px] h-[520px] rounded-[24px] overflow-hidden flex flex-col shadow-2xl animate-[floatChatIn_0.3s_ease-out]"
+          className="fixed bottom-20 right-3 sm:right-6 sm:bottom-24 z-999 w-[calc(100vw-1.5rem)] max-w-[380px] h-[min(85vh,520px)] min-h-[420px] sm:w-[380px] sm:h-[520px] rounded-2xl sm:rounded-[24px] overflow-hidden flex flex-col shadow-2xl animate-[floatChatIn_0.3s_ease-out]"
           style={{ background: `linear-gradient(145deg, ${cb.bgFrom} 0%, ${cb.bgMid} 50%, ${cb.bgTo} 100%)` }}
         >
           {/* Header */}
@@ -180,7 +180,7 @@ const FloatingChatbot = () => {
       {/* Floating button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-999 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-999 w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl"
         style={open
           ? { background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)', border: '1px solid rgba(0,0,0,0.1)' }
           : { background: `linear-gradient(135deg, ${cb.accentFrom}, ${cb.accentTo})` }

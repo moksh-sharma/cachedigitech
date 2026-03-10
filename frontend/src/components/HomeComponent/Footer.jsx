@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import { usePlacement } from "../../context/PlacementsContext";
 import { navLinks } from "./navLinks";
 import PrivacyPolicyPage from "../../Pages/PrivacyPolicyPage";
@@ -18,6 +19,31 @@ function getHref(label) {
   const link = navLinks.find((l) => l.label === label);
   if (!link) return "#";
   return link.sectionId ? `${link.route}#${link.sectionId}` : link.route;
+}
+
+/* ── Mobile accordion sections (same content as desktop) ── */
+function getMobileSections(setShowPrivacy, setShowTerms) {
+  return [
+    { heading: "About Us", items: FOOTER_NAV[0].items.map((label) => ({ label, href: getHref(label) })) },
+    { heading: "Products", items: FOOTER_NAV[1].items.map((label) => ({ label, href: getHref(label) })) },
+    { heading: "Services", items: FOOTER_NAV[2].items.map((label) => ({ label, href: getHref(label) })) },
+    { heading: "Industries", items: FOOTER_NAV[3].items.map((label) => ({ label, href: getHref(label) })) },
+    {
+      heading: "Company",
+      items: [
+        { label: "About", href: "/about" },
+        { label: "Careers", href: "/careers" },
+        { label: "EPF Notice", href: "/epf-amendment-notice" },
+      ],
+    },
+    {
+      heading: "Legal",
+      items: [
+        { label: "Privacy Policy", href: null, onClick: () => setShowPrivacy(true) },
+        { label: "Terms of Use", href: null, onClick: () => setShowTerms(true) },
+      ],
+    },
+  ];
 }
 
 /* ── Legal Modals ── */
@@ -54,10 +80,103 @@ function Footer() {
   const navigate = useNavigate();
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
+  const [mobileOpenSection, setMobileOpenSection] = useState(null);
   const footerLogoUrl = usePlacement("global", "footer", "bgImage") || "/cachefootercut.jpg";
+  const mobileSections = getMobileSections(setShowPrivacy, setShowTerms);
+
+  /* ── Mobile footer (accordion style, light gradient) ── */
+  const mobileFooter = (
+    <footer className="md:hidden flex flex-col -mt-8 shrink-0 bg-[#0a0a0a] text-white border-t border-white/10" role="contentinfo">
+      <div className="px-4 py-6 flex flex-col w-full">
+        {/* Accordion navigation */}
+        <nav className="flex flex-col divide-y divide-white/10" aria-label="Footer navigation">
+          {mobileSections.map((section) => {
+            const isOpen = mobileOpenSection === section.heading;
+            return (
+              <div key={section.heading}>
+                <button
+                  type="button"
+                  onClick={() => setMobileOpenSection(isOpen ? null : section.heading)}
+                  className="w-full flex items-center justify-between py-4 text-left font-semibold text-white hover:text-gray-200 transition-colors"
+                  aria-expanded={isOpen}
+                >
+                  <span>{section.heading}</span>
+                  <ChevronDown className={`w-5 h-5 text-gray-400 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+                </button>
+                <div className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}>
+                  <ul className="pb-4 pl-0 space-y-2" role="list">
+                    {section.items.map((item) => (
+                      <li key={item.label}>
+                        {item.href != null ? (
+                          <Link to={item.href} className="text-sm text-gray-400 hover:text-white block py-0.5" onClick={() => setMobileOpenSection(null)}>
+                            {item.label}
+                          </Link>
+                        ) : (
+                          <button type="button" onClick={() => { item.onClick?.(); setMobileOpenSection(null); }} className="text-left text-sm text-gray-400 hover:text-white block py-0.5 w-full">
+                            {item.label}
+                          </button>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
+        </nav>
+
+        {/* Social icons — circular outline, centered */}
+        <div className="flex items-center justify-center gap-3 py-8">
+          {SOCIALS.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              className="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d={s.d} />
+              </svg>
+            </a>
+          ))}
+        </div>
+
+        {/* Contact Us button */}
+        <div className="flex justify-center pb-6">
+          <button
+            type="button"
+            onClick={() => navigate("/contactus")}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition-colors"
+            aria-label="Contact Us"
+          >
+            Contact Us
+          </button>
+        </div>
+
+        {/* Cookie policy */}
+        <p className="text-center text-sm text-gray-500 pb-4">
+          We use cookies on our site. Please read more about{" "}
+          <button type="button" onClick={() => setShowPrivacy(true)} className="text-red-400 hover:text-red-300 hover:underline font-medium">
+            cookies policy
+          </button>{" "}
+          here.
+        </p>
+
+        {/* Copyright */}
+        <p className="text-center text-xs text-gray-500 pt-2 border-t border-white/10">
+          &copy; {new Date().getFullYear()} Cache Digitech Pvt. Ltd.
+        </p>
+      </div>
+    </footer>
+  );
 
   return (
-    <footer className="bg-[#0a0a0a] text-white flex flex-col -mt-8 shrink-0" style={{ boxShadow: '0 -4px 0 0 #0a0a0a' }} role="contentinfo">
+    <>
+      {mobileFooter}
+
+      <footer className="hidden md:flex bg-[#0a0a0a] text-white flex-col -mt-8 shrink-0" style={{ boxShadow: '0 -4px 0 0 #0a0a0a' }} role="contentinfo">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 pb-0 flex flex-col w-full">
         {/* Brand row */}
         <div className="pb-4 sm:pb-6 border-b border-white/10 shrink-0">
@@ -202,10 +321,12 @@ function Footer() {
         </div>
       </div>
 
-      {/* ── Modals ── */}
+      </footer>
+
+      {/* Shared modals (mobile + desktop) */}
       {showPrivacy && <LegalModal onClose={() => setShowPrivacy(false)}><PrivacyPolicyPage /></LegalModal>}
       {showTerms && <LegalModal onClose={() => setShowTerms(false)}><TermsOfUsePage /></LegalModal>}
-    </footer>
+    </>
   );
 }
 

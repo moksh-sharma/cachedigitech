@@ -3,7 +3,10 @@ import { useLocation } from "react-router-dom";
 import { Target, Users, Lightbulb, Shield, TrendingUp } from 'lucide-react';
 import GrowthSection from "../components/AboutPageComponent/GrowthComponent";
 import CacheSolutionsSection from "../components/HomeComponent/CacheSolutionsSection";
-import TeamSection from "../components/AboutPageComponent/Team";
+import { CEOSection } from "../components/InsightComponent/ceo-section";
+import AwardsSection from "../components/AboutPageComponent/ImageSlider";
+import Certifications from "../components/AboutPageComponent/Certifications";
+import CoreOfferingsSection from "../components/AboutPageComponent/CoreOfferingsSection";
 import { useContent } from "../context/ContentContext";
 
 const DEFAULT_ABOUT = {
@@ -71,8 +74,8 @@ function AboutCache() {
         <div className="absolute inset-0 bg-black/40"></div>
         {/* ✅ TEXT OVER VIDEO */}
         <div className="absolute inset-0 flex flex-col justify-center items-start px-6 sm:px-8 lg:px-12 text-white z-20">
-          <h1 className="text-5xl font-bold mb-6">{concept.title || DEFAULT_ABOUT.conceptOfCache.title}</h1>
-          <p className="max-w-2xl text-lg mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">{concept.title || DEFAULT_ABOUT.conceptOfCache.title}</h1>
+          <p className="max-w-2xl text-base sm:text-lg mb-4 sm:mb-6">
             {concept.body || DEFAULT_ABOUT.conceptOfCache.body}
           </p>
           {/* <button className="flex items-center space-x-3 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-medium shadow-lg transition">
@@ -87,12 +90,12 @@ function AboutCache() {
       {/* ===== Company Stats Section ===== */}
       <div id="profile-of-cache" className="w-full bg-white py-16 px-6 sm:px-8 lg:px-12 text-center relative ">
         {/* Top Heading */}
-        <h2 className="text-4xl font-bold text-red-600 mb-4">{profile.title || DEFAULT_ABOUT.profileOfCache.title}</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-600 mb-4">{profile.title || DEFAULT_ABOUT.profileOfCache.title}</h2>
         <p className="max-w-4xl mx-auto text-lg md:text-xl text-gray-800 leading-relaxed mb-16">
           {profile.body || DEFAULT_ABOUT.profileOfCache.body}
         </p>
         {/* Stats Grid */}
-       <div className="grid grid-cols-3 gap-4 sm:gap-10 md:gap-12 mb-12 text-center">
+       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10 md:gap-12 mb-12 text-center">
   {/* Founded */}
   <div>
     <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2">1991</h2>
@@ -162,7 +165,7 @@ function AboutCache() {
             <div className="flex items-center justify-center lg:justify-end">
               <div className="relative w-full max-w-md">
                 {/* Interconnected Hexagon Grid */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Top Row */}
                   <div className="bg-linear-to-br from-red-50 to-red-100 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="text-red-600 mb-2">
@@ -211,11 +214,15 @@ function AboutCache() {
       </div>
 
       <div id="team">
-        <TeamSection />
+        <CEOSection />
       </div>
 
-      {/* ===== Our Vision Section ===== */}
+      {/* Awards & Certifications */}
+      <AwardsSection />
+      <Certifications sectionOnly />
 
+      {/* Core Offerings (What We Do) */}
+      <CoreOfferingsSection />
 
       {/* Cache Solutions Section */}
       <div id="meaning-of-logo">

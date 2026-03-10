@@ -42,7 +42,7 @@ export default function WhoWeArePage({ onNavigateToService }) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       {/* ── Dell / Campaign promotion ── */}
       <CampaignPromoSection />
 
@@ -74,24 +74,24 @@ export default function WhoWeArePage({ onNavigateToService }) {
           </div>
 
           {/* Cards: staggered entrance when section in view */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-8">
             {PILLARS.map((pillar, idx) => (
               <div
                 key={idx}
-                className={`group bg-white rounded-2xl border border-gray-200/90 p-6 lg:p-7 shadow-sm hover:shadow-xl hover:border-red-100 transition-all duration-500 ease-out ${
+                className={`group bg-white rounded-xl lg:rounded-2xl border border-gray-200/90 p-3 sm:p-4 lg:p-7 shadow-sm hover:shadow-xl hover:border-red-100 transition-all duration-500 ease-out ${
                   foundationInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
                 style={{
                   transitionDelay: `${200 + idx * 80}ms`,
                 }}
               >
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-red-500 mb-5 group-hover:bg-red-100 group-hover:scale-105 transition-all duration-300 ease-out">
-                  <span className="material-symbols-outlined text-2xl">{pillar.icon}</span>
+                <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl bg-red-50 text-red-500 mb-2 sm:mb-3 lg:mb-5 group-hover:bg-red-100 group-hover:scale-105 transition-all duration-300 ease-out">
+                  <span className="material-symbols-outlined text-lg sm:text-xl lg:text-2xl">{pillar.icon}</span>
                 </div>
-                <h4 className="text-(--apple-black) font-semibold text-base mb-2 group-hover:text-red-600 transition-colors duration-300 ease-out">
+                <h4 className="text-(--apple-black) font-semibold text-xs sm:text-sm lg:text-base mb-1 sm:mb-2 group-hover:text-red-600 transition-colors duration-300 ease-out line-clamp-2">
                   {pillar.title}
                 </h4>
-                <p className="text-(--apple-gray) text-sm leading-relaxed">
+                <p className="text-(--apple-gray) text-[11px] sm:text-xs lg:text-sm leading-relaxed line-clamp-3 sm:line-clamp-none">
                   {pillar.description}
                 </p>
               </div>

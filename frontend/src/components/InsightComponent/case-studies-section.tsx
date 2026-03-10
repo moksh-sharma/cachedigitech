@@ -720,7 +720,7 @@ export function CaseStudiesSection() {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-3 gap-3 mt-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-6">
                       <div className="text-center p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-red-100">
                         <TrendingUp className="w-5 h-5 text-red-600 mx-auto mb-2" />
                         <div className="font-bold text-black text-sm leading-tight">{study.results.efficiency}</div>

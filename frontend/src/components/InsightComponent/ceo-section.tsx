@@ -33,9 +33,9 @@ export function CEOSection() {
                 Prarthana Gupta
               </h1>
               <div className="space-y-1 mb-6">
-                <p className="text-red-600">Founder & Chairperson, Cache Digitech Pvt. Ltd.</p>
-                <p className="text-red-600">Managing Director, Calipers Consulting Pvt. Ltd.</p>
-                <p className="text-red-600">Founder, CIO Digital Foundation (CIDIF)</p>
+                <p className="text-red-600 text-sm">Founder & Chairperson, Cache Digitech Pvt. Ltd.</p>
+                <p className="text-red-600 text-sm">Managing Director, Calipers Consulting Pvt. Ltd.</p>
+                <p className="text-red-600 text-sm">Founder, CIO Digital Foundation (CIDIF)</p>
               </div>
 
               <div className="border-l-4 border-red-600 pl-6 mb-8">
