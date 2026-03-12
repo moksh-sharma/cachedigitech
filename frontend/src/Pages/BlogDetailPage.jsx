@@ -1,53 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import React from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Calendar, User, Clock, Tag, ArrowLeft } from 'lucide-react';
-
-const API_BASE = import.meta.env.VITE_API_BASE || '';
+import { HARDCODED_BLOGS } from '../data/blogsAndHighlights';
 
 export default function BlogDetailPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const post = HARDCODED_BLOGS.find((b) => String(b.id) === String(id)) ?? null;
 
-  useEffect(() => {
-    if (!id) {
-      setLoading(false);
-      setError('Invalid post');
-      return;
-    }
-    let cancelled = false;
-    fetch(API_BASE + '/api/blogs/' + encodeURIComponent(id))
-      .then((res) => {
-        if (!res.ok) throw new Error('Post not found');
-        return res.json();
-      })
-      .then((data) => {
-        if (!cancelled) setPost(data);
-      })
-      .catch((e) => {
-        if (!cancelled) {
-          setError(e.message);
-          setPost(null);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Loading...</p>
-      </div>
-    );
-  }
-
-  if (error || !post) {
+  if (!post) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-6 sm:px-8 lg:px-12">
         <p className="text-gray-600 mb-4">Blog post not found.</p>

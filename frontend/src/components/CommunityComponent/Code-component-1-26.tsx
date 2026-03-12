@@ -9,7 +9,7 @@ export function Hero() {
   const achievements = [
     'Leading System Integrator',
     '500+ Successful Projects',
-    '24/7 Technical Support',
+    'Technical Support',
     'ISO Certified Solutions'
   ];
 

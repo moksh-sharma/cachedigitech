@@ -13,7 +13,7 @@ const events = [
     date: "April 15-16, 2025",
     location: "Mumbai Convention Center",
     description: "Join industry leaders for two days of insights on the future of digital integration and emerging technologies.",
-    image: "https://images.unsplash.com/photo-1742996111692-2d924f12a058?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHRlYW0lMjBtZWV0aW5nJTIwY29uZmVyZW5jZXxlbnwxfHx8fDE3NTczMjg5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "/images/careers-meeting.png",
     attendees: "500+ Expected"
   },
   {
@@ -23,7 +23,7 @@ const events = [
     date: "Every Month",
     location: "Cache Digitech HQ",
     description: "Monthly hands-on workshops covering latest integration technologies, cloud platforms, and best practices.",
-    image: "https://images.unsplash.com/photo-1516263497941-cfa23ccbf9bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwYmxvZyUyMHdyaXRpbmd8ZW58MXx8fHwxNzU3MzA3ODcyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "/blog/insight.jpg",
     attendees: "50 per session"
   },
   {
@@ -33,7 +33,7 @@ const events = [
     date: "June 20-22, 2025",
     location: "Bangalore Tech Park",
     description: "48-hour hackathon focused on solving real-world system integration challenges with innovative solutions.",
-    image: "https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzeXN0ZW0lMjBpbnRlZ3JhdGlvbiUyMHRlY2hub2xvZ3klMjBzZXJ2ZXJzfGVufDF8fHx8MTc1NzMyODkwM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "/blog/global.jpg",
     attendees: "200+ Participants"
   }
 ];

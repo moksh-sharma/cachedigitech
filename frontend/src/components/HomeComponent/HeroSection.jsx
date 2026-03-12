@@ -8,6 +8,7 @@ import DomeGallery from '../AboutPageComponent/DomeGallery';
 import { CEOSection } from '../InsightComponent/ceo-section';
 import AwardsSection from '../AboutPageComponent/ImageSlider';
 import Certifications from '../AboutPageComponent/Certifications';
+import { HARDCODED_HIGHLIGHTS } from '../../data/blogsAndHighlights';
 import '../AboutPageComponent/DomeGallery.css';
 
 
@@ -36,6 +37,17 @@ const CASE_STUDIES = [
   'IT & ITES',
 ];
 
+/** Map display label to industry query param used by /case-studies */
+const CASE_STUDY_INDUSTRY_PARAM = {
+  'Telecom': 'Telecom',
+  'BFSI': 'BFSI',
+  'Automobile & Manufacturing': 'Automobile & Manufacturing',
+  'Retail': 'Retail',
+  'Healthcare & Hospitality': 'Healthcare & Hospitality',
+  'Government & Public Sector': 'Governance',
+  'IT & ITES': 'IT & ITES',
+};
+
 const DEFAULT_HERO = {
   tagline: 'Operational Excellence',
   heading: '',
@@ -44,6 +56,23 @@ const DEFAULT_HERO = {
   stat2: '< 1ms',
   stat3: 'SOC2',
 };
+
+// Hero grid images — 4 columns × 3 images = 12 (online Unsplash; themed: cloud, cyber, AI, infra, data, team)
+const HERO_GRID_IMAGES = [
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80&fm=jpg&fit=crop',
+  'https://plus.unsplash.com/premium_photo-1678566111481-8e275550b700?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80&fm=jpg&fit=crop',
+];
+
 
 
 
@@ -327,7 +356,8 @@ const HeroSection = () => {
 
   const handleCsSelect = (study) => {
     setCsOpen(false);
-    navigate(`/insights?activeStudy=${encodeURIComponent(study)}#success-stories`);
+    const industryParam = CASE_STUDY_INDUSTRY_PARAM[study] ?? study;
+    navigate(`/case-studies?industry=${encodeURIComponent(industryParam)}`);
   };
 
   const scrollToBottom = () => {
@@ -348,79 +378,149 @@ const HeroSection = () => {
 
   return (
     <>
-      <main className="hero-section relative min-h-screen w-full overflow-x-hidden overflow-y-visible">
-
-        {/* Background — same as Profile hero: video + overlay + red orbs */}
-        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
-          <video
-            src="/videos/aboutpage.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
+      {/* Hero — mobile: centered text + background only; desktop: left text + card grid */}
+      <section
+        className="relative min-h-screen min-h-[100dvh] bg-[#0a0a0b] flex flex-col lg:flex-row overflow-hidden"
+        aria-label="Hero"
+      >
+        {/* Full-screen background image + gradient (responsive) */}
+        <div className="absolute inset-0 z-0">
+          <div
+            className="absolute inset-0 bg-no-repeat bg-center"
+            style={{
+              backgroundImage: 'url(/girl-hand.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           />
-          <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/70" />
-        </div>
-        <div className="absolute inset-0 overflow-hidden z-1 pointer-events-none" aria-hidden>
-          <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-red-600/10 blur-[100px]" />
-          <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] rounded-full bg-red-500/5 blur-[120px]" />
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-[#0a0a0b] via-[#0a0a0b]/92 to-[#0a0a0b]/60"
+            aria-hidden
+          />
         </div>
 
-        {/* Hero content — centered in viewport, below fixed navbar */}
-        <div className="absolute top-[72px] left-0 right-0 bottom-0 z-10 flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-12">
-          <div className="flex flex-col items-center justify-center text-center w-full max-w-4xl">
-            <div
-              className="hero-text space-y-6 lg:space-y-8"
-              style={{
-                transform: heroTextReveal === 'entering' ? 'translateY(12px)' : 'translateY(0)',
-                opacity: heroTextReveal === 'entering' ? 0.94 : 1,
-                transition: 'transform 1.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease-out',
-              }}
-            >
-              <div className="min-h-48 lg:min-h-64 flex flex-col justify-center">
-                <h1
-                  className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.05] tracking-tight text-white`}
-                  style={{ ...headingStyle, textShadow: '0 2px 20px rgba(0,0,0,0.5), 0 0 40px rgba(0,0,0,0.3)' }}
-                >
-                  <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.1s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                    We <strong>BUILD</strong>
-                  </span>
-                  <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.18s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                    Industries
-                  </span>
-                  <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.26s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                    that
-                  </span>
-                  <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.34s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                    <strong className="inline-block min-w-[9ch]">
-                      <TypewriterWords />
-                    </strong>
-                  </span>
-                </h1>
-              </div>
-              <p className="text-base sm:text-lg lg:text-xl text-white/95 font-light max-w-2xl mx-auto leading-relaxed" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}>
-                {subheading}
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2">
-                <button
-                  onClick={() => navigate('/contactus')}
-                  className="inline-flex items-center gap-2 bg-white text-(--apple-black) text-[14px] font-semibold px-6 py-3 rounded-full hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
-                >
-                  Get Started
-                  <span className="text-[16px]">&rarr;</span>
-                </button>
-                <button
-                  onClick={() => navigate('/about')}
-                  className="inline-flex items-center gap-2 bg-white/10 border-2 border-white/80 text-white text-[14px] font-semibold px-6 py-3 rounded-full transition-all hover:bg-white/20 hover:border-white shadow-lg hover:shadow-xl"
-                >
-                  Learn More
-                </button>
-              </div>
+        {/* Text + CTAs: centered on mobile, left-aligned on desktop */}
+        <div className="relative z-20 flex-1 flex items-center justify-center lg:justify-start px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
+          <div className="w-full max-w-xl mx-auto lg:mx-0 text-center lg:text-left space-y-6 sm:space-y-7 lg:space-y-9">
+            <div className="min-h-48 lg:min-h-64 flex flex-col justify-center items-center lg:items-stretch">
+              <h1
+                className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-white text-center lg:text-left w-full`}
+                style={{ ...headingStyle, textShadow: '0 2px 24px rgba(0,0,0,0.6), 0 4px 32px rgba(0,0,0,0.4), 0 0 60px rgba(0,0,0,0.2)' }}
+              >
+                <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.1s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  We <strong>BUILD</strong>
+                </span>
+                <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.18s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  Industries
+                </span>
+                <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.26s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  that
+                </span>
+                <span className="hero-heading-anim-fadeIn block min-h-[1.15em] w-full flex justify-center lg:justify-start" style={{ animationDelay: '0.34s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  <strong className="inline-block min-w-[11ch]">
+                    <TypewriterWords />
+                  </strong>
+                </span>
+              </h1>
+            </div>
+            <p className="hero-text-fadein text-base sm:text-lg lg:text-xl text-white/95 font-light max-w-2xl leading-[1.6] sm:leading-[1.65]" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.4)' }}>
+              {subheading}
+            </p>
+            <div className="hero-text-fadein-delay flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1">
+              <button
+                type="button"
+                onClick={() => navigate('/contactus')}
+                className="inline-flex items-center gap-2 bg-white text-[#0a0a0b] text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-white/95 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b]"
+              >
+                Get Started
+                <span className="text-[17px] leading-none" aria-hidden>&rarr;</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/about')}
+                className="inline-flex items-center gap-2 bg-white/10 border border-white/40 text-white text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-white/15 hover:border-white/60 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b]"
+              >
+                Learn More
+              </button>
             </div>
           </div>
         </div>
-      </main>
+
+        {/* Card grid: hidden on mobile; visible from lg up */}
+        <div className="absolute inset-0 z-10 hidden lg:flex overflow-hidden pointer-events-none">
+          <style>{`
+            @keyframes hero-col-scroll-down {
+              0% { transform: translate3d(0, 0, 0); }
+              100% { transform: translate3d(0, -50%, 0); }
+            }
+            @keyframes hero-col-scroll-up {
+              0% { transform: translate3d(0, -50%, 0); }
+              100% { transform: translate3d(0, 0, 0); }
+            }
+            @keyframes hero-cols-fadein {
+              0% { opacity: 0; }
+              100% { opacity: 1; }
+            }
+            .hero-col-down {
+              animation: hero-col-scroll-down 22s linear infinite;
+              will-change: transform;
+              backface-visibility: hidden;
+            }
+            .hero-col-up {
+              animation: hero-col-scroll-up 22s linear infinite;
+              will-change: transform;
+              backface-visibility: hidden;
+            }
+            .hero-cols-enter { animation: hero-cols-fadein 1.2s ease-out forwards; }
+            @keyframes hero-text-fadein {
+              0% { opacity: 0; transform: translateY(8px); }
+              100% { opacity: 1; transform: translateY(0); }
+            }
+            .hero-text-fadein { animation: hero-text-fadein 0.7s ease-out 0.5s both; }
+            .hero-text-fadein-delay { animation: hero-text-fadein 0.7s ease-out 0.7s both; }
+            .hero-cols-fade-left-to-right {
+              mask-image: linear-gradient(to right, transparent 0%, transparent 25%, rgba(0,0,0,0.2) 38%, rgba(0,0,0,0.5) 48%, rgba(0,0,0,0.8) 55%, black 62%, black 100%);
+              -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 25%, rgba(0,0,0,0.2) 38%, rgba(0,0,0,0.5) 48%, rgba(0,0,0,0.8) 55%, black 62%, black 100%);
+              mask-size: 100% 100%;
+              -webkit-mask-size: 100% 100%;
+            }
+          `}</style>
+          <div className="flex gap-2 sm:gap-3 lg:gap-4 w-full h-full hero-cols-enter hero-cols-fade-left-to-right">
+            {[0, 1, 2, 3].map((colIndex) => {
+              const start = colIndex * 3;
+              const colImages = HERO_GRID_IMAGES.slice(start, start + 3);
+              const isDown = colIndex % 2 === 0;
+              return (
+                <div
+                  key={colIndex}
+                  className="flex-1 flex flex-col overflow-hidden min-w-0 h-full"
+                >
+                  <div className={`flex flex-col gap-2 sm:gap-3 lg:gap-4 shrink-0 ${isDown ? 'hero-col-down' : 'hero-col-up'}`}>
+                    {[...colImages, ...colImages].map((src, i) => (
+                      <div
+                        key={`${colIndex}-${i}`}
+                        className="relative rounded-xl sm:rounded-2xl overflow-hidden border border-white/[0.08] bg-gray-900/40 shrink-0 w-full aspect-3/4 min-h-[120px] shadow-lg"
+                      >
+                        <img
+                          src={src}
+                          alt=""
+                          className="w-full h-full object-cover"
+                          loading="eager"
+                          decoding="async"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800"><rect fill="%231f2937" width="600" height="800"/></svg>');
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       {/* AI ROI Stats Banner */}
       <section
@@ -472,8 +572,8 @@ const HeroSection = () => {
         </div>
       </section>
 
-      {/* AI search intro — heading + input, then answers below */}
-      <section className="relative overflow-hidden bg-[#fafafa]">
+      {/* AI search intro — heading + input, then answers below (hidden, not removed) */}
+      <section className="relative overflow-hidden bg-[#fafafa] hidden" aria-hidden="true">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 lg:py-8 relative flex flex-col items-center">
           <div className={`main-search-intro flex flex-col items-center justify-center gap-5 w-full max-w-2xl mx-auto ${hasAsked ? 'main-search-intro-hide-search' : ''}`}>
             <p className="text-xl lg:text-2xl font-bold text-center text-purple-700">
@@ -542,7 +642,7 @@ const HeroSection = () => {
       </section>
 
       {/* Choose Your Interest */}
-      <section className="bg-linear-to-b from-white to-gray-50/80 py-14 px-6 sm:px-8 lg:px-12 overflow-visible relative">
+      <section className="bg-linear-to-b from-white to-gray-50/80 pt-6 pb-14 px-6 sm:px-8 lg:px-12 overflow-visible relative">
         <div className="max-w-[900px] mx-auto" ref={dropdownAreaRef}>
           {/* Section header */}
           <div className="text-center mb-8">
@@ -609,7 +709,7 @@ const HeroSection = () => {
                 className={`group flex items-center justify-between w-full bg-white rounded-2xl px-6 py-5 text-(--apple-black) font-semibold shadow-sm border transition-all duration-200 ease-out text-left ${csOpen ? 'border-red-400 shadow-md ring-1 ring-red-100' : 'border-gray-200 hover:border-gray-300 hover:shadow-md'}`}
               >
                 <span className="flex items-center gap-3">
-                  <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-blue-50 text-blue-500">
+                  <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-red-50 text-red-500">
                     <span className="material-symbols-outlined text-[20px]">description</span>
                   </span>
                   <span>Case Studies</span>
@@ -661,7 +761,7 @@ function InnovationsSection() {
   return (
     <section
       id="innovations"
-      className="relative overflow-hidden py-16 lg:py-24"
+      className="relative overflow-hidden pt-16 lg:pt-24 pb-8 lg:pb-10"
       style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}
     >
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-red-100/20 blur-[120px] pointer-events-none" />
@@ -776,7 +876,7 @@ function SolutionsShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative pt-24 lg:pt-32 pb-16 lg:pb-20 px-6 sm:px-8 lg:px-12 overflow-hidden"
+      className="relative pt-24 lg:pt-32 pb-8 lg:pb-10 px-6 sm:px-8 lg:px-12 overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}
     >
       {/* Ambient blurs */}
@@ -992,13 +1092,13 @@ function PremiumPartnersSection() {
           <div className="mt-3 w-12 h-0.5 bg-red-500/60 rounded-full mx-auto" aria-hidden />
         </header>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
           {PREMIUM_PARTNERS.map((partner) => (
             <div
               key={partner.name}
-              className="group flex flex-col items-center justify-center rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:border-red-100/60 p-5 sm:p-6 transition-all duration-300"
+              className="group flex flex-col items-center justify-center rounded-xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-red-100/60 p-3 sm:p-4 transition-all duration-300"
             >
-              <div className="w-full aspect-square max-w-[100px] max-h-[100px] flex items-center justify-center mb-3">
+              <div className="w-full aspect-square max-w-[64px] max-h-[64px] flex items-center justify-center mb-2">
                 <img
                   src={partner.logo}
                   alt={partner.name}
@@ -1006,8 +1106,8 @@ function PremiumPartnersSection() {
                   loading="lazy"
                 />
               </div>
-              <p className="text-(--apple-black) font-semibold text-sm sm:text-base">{partner.name}</p>
-              <p className="text-xs sm:text-sm text-red-600 font-medium mt-1">{partner.tier}</p>
+              <p className="text-(--apple-black) font-semibold text-xs sm:text-sm">{partner.name}</p>
+              <p className="text-[10px] sm:text-xs text-red-600 font-medium mt-0.5">{partner.tier}</p>
             </div>
           ))}
         </div>
@@ -1016,25 +1116,11 @@ function PremiumPartnersSection() {
   );
 }
 
-/* ───────── Latest Highlights: data from database only — auto-scroll right to left ───────── */
-const API_BASE = typeof import.meta !== 'undefined' && import.meta.env ? (import.meta.env.VITE_API_BASE || '') : '';
-
+/* ───────── Latest Highlights: hardcoded data — auto-scroll right to left ───────── */
 function LatestHighlightsSection() {
   const [viewWidth, setViewWidth] = useState(1200);
-  const [panels, setPanels] = useState([]);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(API_BASE + '/api/highlights', { credentials: 'include' })
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => {
-        if (!cancelled) setPanels(Array.isArray(data) ? data : []);
-      })
-      .catch(() => {
-        if (!cancelled) setPanels([]);
-      });
-    return () => { cancelled = true; };
-  }, []);
+  const [cardHovered, setCardHovered] = useState(false);
+  const panels = HARDCODED_HIGHLIGHTS;
 
   useEffect(() => {
     const updateSize = () => setViewWidth(window.innerWidth);
@@ -1083,6 +1169,7 @@ function LatestHighlightsSection() {
           0% { transform: translateX(0); }
           100% { transform: translateX(-${setWidth}px); }
         }
+        .highlights-marquee-paused { animation-play-state: paused !important; }
       `}</style>
       <div className="flex flex-col overflow-hidden">
         {/* Section header */}
@@ -1101,10 +1188,19 @@ function LatestHighlightsSection() {
             const cardClass = 'group relative w-full overflow-hidden rounded-xl shadow-lg aspect-[3/2]';
             const link = (panel.link || '').trim();
             if (link) {
+              const isExternal = link.startsWith('http');
+              const cardContent = renderCardContent(panel, true);
+              if (isExternal) {
+                return (
+                  <a key={i} href={link} target="_blank" rel="noopener noreferrer" className={`${cardClass} block cursor-pointer`}>
+                    {cardContent}
+                  </a>
+                );
+              }
               return (
-                <a key={i} href={link} target="_blank" rel="noopener noreferrer" className={`${cardClass} block cursor-pointer`}>
-                  {renderCardContent(panel, true)}
-                </a>
+                <Link key={i} to={link} className={`${cardClass} block cursor-pointer`}>
+                  {cardContent}
+                </Link>
               );
             }
             return (
@@ -1115,25 +1211,36 @@ function LatestHighlightsSection() {
           })}
         </div>
 
-        {/* Desktop: auto-scrolling cards right to left */}
+        {/* Desktop: auto-scrolling cards right to left — pause when any card is hovered */}
         <div className="hidden md:flex items-center overflow-hidden min-h-[200px]">
           <div
-            className="flex items-center will-change-transform"
+            className={`flex items-center will-change-transform ${cardHovered ? 'highlights-marquee-paused' : ''}`}
             style={{
               width: trackWidth,
               gap,
               animation: doublePanels.length > 0 ? `highlights-marquee ${22 + panels.length * 2}s linear infinite` : 'none',
             }}
+            onMouseEnter={() => setCardHovered(true)}
+            onMouseLeave={() => setCardHovered(false)}
           >
             {doublePanels.map((panel, i) => {
               const cardClass = 'group relative shrink-0 overflow-hidden rounded-lg shadow-lg';
               const cardStyle = { width: cardWidth, height: cardHeight };
               const link = (panel.link || '').trim();
               if (link) {
+                const isExternal = link.startsWith('http');
+                const cardContent = renderCardContent(panel, false);
+                if (isExternal) {
+                  return (
+                    <a key={i} href={link} target="_blank" rel="noopener noreferrer" className={`${cardClass} block cursor-pointer`} style={cardStyle}>
+                      {cardContent}
+                    </a>
+                  );
+                }
                 return (
-                  <a key={i} href={link} target="_blank" rel="noopener noreferrer" className={`${cardClass} block cursor-pointer`} style={cardStyle}>
-                    {renderCardContent(panel, false)}
-                  </a>
+                  <Link key={i} to={link} className={`${cardClass} block cursor-pointer`} style={cardStyle}>
+                    {cardContent}
+                  </Link>
                 );
               }
               return (

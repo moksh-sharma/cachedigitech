@@ -2,9 +2,7 @@ import React, { createContext, useContext } from 'react';
 
 const PlacementsContext = createContext({ placements: null, loading: false });
 
-const API_BASE = import.meta.env.VITE_API_BASE || '';
-
-/** Placements are from API/Postgres; no hardcoded fallback so images reflect live data only. */
+/** No backend: placements empty; components use their own fallback URLs. */
 export function PlacementsProvider({ children }) {
   return (
     <PlacementsContext.Provider value={{ placements: {}, loading: false }}>
@@ -14,7 +12,7 @@ export function PlacementsProvider({ children }) {
 }
 
 /**
- * Get image URL for a placement. Returns the CMS-assigned URL or undefined (use fallback in component).
+ * Get image URL for a placement. No backend: placements are empty, so always return undefined (components use fallbacks).
  * Usage: const url = usePlacement('global', 'branding', 'logo'); <img src={url || '/logo1.jpg'} />
  */
 export function usePlacement(pageId, sectionId, fieldKey) {
@@ -22,7 +20,7 @@ export function usePlacement(pageId, sectionId, fieldKey) {
   if (!placements || !pageId || !sectionId || !fieldKey) return undefined;
   const key = `${pageId}.${sectionId}.${fieldKey}`;
   const url = placements[key];
-  return url && typeof url === 'string' ? (url.startsWith('http') ? url : API_BASE + url) : undefined;
+  return url && typeof url === 'string' ? url : undefined;
 }
 
 export default PlacementsContext;

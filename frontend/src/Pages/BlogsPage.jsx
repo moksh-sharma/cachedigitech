@@ -1,35 +1,12 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Card, CardContent, CardHeader } from "../components/ui/card";
 import { Calendar, User } from "lucide-react";
-
-const API_BASE = import.meta.env.VITE_API_BASE || "";
+import { HARDCODED_BLOGS } from "../data/blogsAndHighlights";
 
 export default function BlogsPage() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const posts = HARDCODED_BLOGS;
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(API_BASE + "/api/blogs")
-      .then((res) => (res.ok ? res.json() : Promise.reject(new Error("Failed to load"))))
-      .then((data) => {
-        if (!cancelled) setPosts(Array.isArray(data) ? data : []);
-      })
-      .catch((e) => {
-        if (!cancelled) {
-          setError(e.message);
-          setPosts([]);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -45,18 +22,10 @@ export default function BlogsPage() {
             </p>
           </div>
 
-          {loading && (
-            <div className="text-center py-16 text-gray-500">Loading blogs...</div>
-          )}
-          {error && !loading && (
-            <div className="text-center py-16 text-gray-600">
-              Unable to load blogs. They may be managed from the Blog CMS.
-            </div>
-          )}
-          {!loading && !error && posts.length === 0 && (
+          {posts.length === 0 && (
             <div className="text-center py-16 text-gray-500">No blog posts yet.</div>
           )}
-          {!loading && posts.length > 0 && (
+          {posts.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post) => (
                 <Card

@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState, useRef, useCallback } from 'react';
-
-const API_BASE = import.meta.env.VITE_API_BASE || '';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 const ChatContext = createContext(null);
+
+// No backend: chat is disabled; show a friendly message instead of calling API.
+const CHAT_UNAVAILABLE_MSG = 'Chat is not available. All content is managed in the frontend.';
 
 export function ChatProvider({ children }) {
   const [messages, setMessages] = useState([]);
@@ -11,74 +12,21 @@ export function ChatProvider({ children }) {
   const [chatError, setChatError] = useState(null);
   const hasAsked = messages.length > 0;
 
-  const sendMessage = useCallback(async (overrideInput) => {
+  const sendMessage = useCallback((overrideInput) => {
     const raw = overrideInput != null && typeof overrideInput === 'string' ? overrideInput : input;
     const text = String(raw).trim();
     if (!text || loading) return;
     setInput('');
     const userMessage = { role: 'user', content: text };
-    const allMessages = [...messages, userMessage];
-    setMessages(allMessages);
+    setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
     setChatError(null);
-
-    try {
-      const res = await fetch(API_BASE + '/api/chat/stream', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: allMessages }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setChatError(data.error || 'Failed to get response');
-        setMessages((prev) => prev.slice(0, -1));
-        setLoading(false);
-        return;
-      }
-
-      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed.startsWith('data: ')) continue;
-          const payload = trimmed.slice(6);
-          if (payload === '[DONE]') break;
-          try {
-            const parsed = JSON.parse(payload);
-            if (parsed.error) { setChatError(parsed.error); break; }
-            if (parsed.token) {
-              setMessages((prev) => {
-                const updated = [...prev];
-                const last = updated[updated.length - 1];
-                if (last && last.role === 'assistant') {
-                  updated[updated.length - 1] = { ...last, content: last.content + parsed.token };
-                }
-                return updated;
-              });
-            }
-          } catch (_) {}
-        }
-      }
-    } catch (e) {
-      setChatError('Network error');
-      setMessages((prev) => prev.slice(0, -1));
-    } finally {
+    // No backend: add assistant message with unavailable notice
+    setTimeout(() => {
+      setMessages((prev) => [...prev, { role: 'assistant', content: CHAT_UNAVAILABLE_MSG }]);
       setLoading(false);
-    }
-  }, [input, loading, messages]);
+    }, 300);
+  }, [input, loading]);
 
   return (
     <ChatContext.Provider value={{ messages, setMessages, input, setInput, loading, chatError, setChatError, hasAsked, sendMessage }}>

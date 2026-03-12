@@ -82,21 +82,21 @@ const caseStudyData = {
   'Healthcare & Hospitality': {
     name: 'Healthcare & Hospitality Innovation',
     description: 'Delivered comprehensive digital solutions for healthcare providers and hospitality chains, including patient management systems, telemedicine platforms, and guest experience optimization that improved service quality by 55%.',
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300',
+    image: '/blog/healthcare.jpg',
     benefits: ['55% improvement in service quality', 'Enhanced patient care delivery', 'Streamlined guest experiences', 'HIPAA compliance achieved'],
     approach: ['Service design optimization', 'Digital platform integration', 'Compliance framework implementation']
   },
   'Government & Public Sector': {
     name: 'Government Digital Services',
     description: 'Transformed government operations with citizen service portals, digital identity systems, and automated workflows that reduced processing time by 70% and enhanced transparency in public services.',
-    image: 'https://images.unsplash.com/photo-1529148482759-b35b25c5f217?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300',
+    image: '/industryvertical/government.svg',
     benefits: ['70% reduction in processing time', 'Enhanced citizen satisfaction', 'Improved service transparency', 'Digital identity implementation'],
     approach: ['Digital governance framework', 'Citizen-centric design', 'Security and privacy compliance']
   },
   'IT & ITES': {
     name: 'IT Services & Technology Solutions',
     description: 'Modernized IT infrastructure and services for technology companies, implementing cloud-native architectures, DevOps practices, and automation frameworks that increased operational efficiency by 65%.',
-    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300',
+    image: '/images/itimg.webp',
     benefits: ['65% increase in operational efficiency', 'Cloud-native architecture', 'DevOps automation', 'Scalable infrastructure solutions'],
     approach: ['Infrastructure modernization', 'Cloud migration strategy', 'Automation implementation']
   }

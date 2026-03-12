@@ -1,50 +1,54 @@
 // src/App.jsx
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useLenis } from "./context/LenisContext";
 
 import Navbar from "./components/HomeComponent/Navbar";
 import Footer from "./components/HomeComponent/Footer";
 import CookieBanner from "./components/CookieBanner";
-import HomePage from "./Render_Pages/HomePage";
-import ServiceDetail from "./Render_Pages/service-detail";
-import Contact from "./components/ServicesComponent/contact";
-import InsightPage from "./Pages/InsightPage";
-import CommunityPage from "./Pages/CommunitPage";
-import DeveloperTeam from "./Pages/DeveloperTeam";
-import ContactUsPage from "./Pages/ContactUsPage";
-import AboutCache from "./Pages/AboutPage";
-import InnovationsPage from "./Pages/InnovationsPage";
-import Profile from "./components/AboutPageComponent/profile";
-import AwardsAndCertificationsPage from "./Pages/AwardsAndCertificationsPage";
-import PartnershipCards from "./components/AboutPageComponent/Cards";
-import { CEOSection } from "./components/InsightComponent/ceo-section";
-import PrivacyPolicyPage from "./Pages/PrivacyPolicyPage";
-import TermsOfUsePage from "./Pages/TermsOfUse";
-import Careers from "./Pages/Career";
-import EPFAmendmentNotice from "./Pages/EPFAmendmentNotice";
-// import CloudServicesPage from "./Pages/coudpage";
-import CloudServicesPage from "./Pages/coudpage";
-import CybersecurityServicesPage from "./Pages/cybersecurity";
-import InfrastructureServicesPage from "./Pages/infrastructureservicepage";
-import NetworkingServicesPage from "./Pages/NetworkingServicepage";
-import AIDataServicesPage from "./Pages/aianddataservicepage";
-import TelecomPage from "./Pages/TelecomePage";
-// import ConsultingServicesPage from "./Pages/consultingservicePage";
-// import InfrastructureServicesPage from "./Pages/NetworkingServicepage";
-import NetworkingConsultingPage from "./Pages/consultingservicePage";
-import ManagedServicesPage from "./Pages/ManagedServices";
-import GRC from "./Pages/GRCDashbaord";
-import NotFoundPage from "./Pages/NotFoundPage";
-import BlogCmsPage from "./Pages/BlogCmsPage";
-import BlogDetailPage from "./Pages/BlogDetailPage";
-import BlogsPage from "./Pages/BlogsPage";
-import CaseStudiesPage from "./Pages/CaseStudiesPage";
-// Notification pages
-import CampaignsPage from "./Pages/CampaignsPage";
-import NewsletterPage from "./Pages/NewsletterPage";
-import OffersPage from "./Pages/OffersPage";
-// removed Chatbot import
+
+// Route-based code splitting: load pages only when their route is visited
+const HomePage = lazy(() => import("./Render_Pages/HomePage"));
+const ServiceDetail = lazy(() => import("./Render_Pages/service-detail"));
+const Contact = lazy(() => import("./components/ServicesComponent/contact"));
+const InsightPage = lazy(() => import("./Pages/InsightPage"));
+const CommunityPage = lazy(() => import("./Pages/CommunitPage"));
+const DeveloperTeam = lazy(() => import("./Pages/DeveloperTeam"));
+const ContactUsPage = lazy(() => import("./Pages/ContactUsPage"));
+const AboutCache = lazy(() => import("./Pages/AboutPage"));
+const InnovationsPage = lazy(() => import("./Pages/InnovationsPage"));
+const Profile = lazy(() => import("./components/AboutPageComponent/profile"));
+const AwardsAndCertificationsPage = lazy(() => import("./Pages/AwardsAndCertificationsPage"));
+const PartnershipCards = lazy(() => import("./components/AboutPageComponent/Cards"));
+const TeamSection = lazy(() => import("./components/AboutPageComponent/Team"));
+const PrivacyPolicyPage = lazy(() => import("./Pages/PrivacyPolicyPage"));
+const TermsOfUsePage = lazy(() => import("./Pages/TermsOfUse"));
+const Careers = lazy(() => import("./Pages/Career"));
+const EPFAmendmentNotice = lazy(() => import("./Pages/EPFAmendmentNotice"));
+const CloudServicesPage = lazy(() => import("./Pages/coudpage"));
+const CybersecurityServicesPage = lazy(() => import("./Pages/cybersecurity"));
+const InfrastructureServicesPage = lazy(() => import("./Pages/infrastructureservicepage"));
+const NetworkingServicesPage = lazy(() => import("./Pages/NetworkingServicepage"));
+const AIDataServicesPage = lazy(() => import("./Pages/aianddataservicepage"));
+const TelecomPage = lazy(() => import("./Pages/TelecomePage"));
+const NetworkingConsultingPage = lazy(() => import("./Pages/consultingservicePage"));
+const ManagedServicesPage = lazy(() => import("./Pages/ManagedServices"));
+const GRC = lazy(() => import("./Pages/GRCDashbaord"));
+const NotFoundPage = lazy(() => import("./Pages/NotFoundPage"));
+const BlogDetailPage = lazy(() => import("./Pages/BlogDetailPage"));
+const BlogsPage = lazy(() => import("./Pages/BlogsPage"));
+const CaseStudiesPage = lazy(() => import("./Pages/CaseStudiesPage"));
+const CampaignsPage = lazy(() => import("./Pages/CampaignsPage"));
+const NewsletterPage = lazy(() => import("./Pages/NewsletterPage"));
+const OffersPage = lazy(() => import("./Pages/OffersPage"));
+
+function PageLoader() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center bg-gray-50">
+      <div className="animate-pulse text-gray-400 text-sm">Loading…</div>
+    </div>
+  );
+}
 function App() {
   const location = useLocation();
   const { scrollTo } = useLenis();
@@ -58,7 +62,7 @@ function App() {
     }
   }, [location.pathname, scrollTo]);
 
-  const isAdmin = location.pathname === '/admin';
+  const isAdmin = false; // Backend removed; no admin panel
 
   return (
     <>
@@ -66,7 +70,8 @@ function App() {
         {!isAdmin && <Navbar />}
         {/* Page routes — flex-1 so content fills space and footer sticks to bottom */}
         <main className={!isAdmin ? "flex-1 min-h-0" : ""}>
-          <Routes>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/service/infra" element={<InfrastructureServicesPage />} />
             <Route path="/service/network" element={<NetworkingServicesPage />} />
@@ -92,7 +97,7 @@ function App() {
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/case-studies" element={<CaseStudiesPage />} />
             <Route path="/blog/:id" element={<BlogDetailPage />} />
-            <Route path="/admin" element={<BlogCmsPage />} />
+            <Route path="/admin" element={<Navigate to="/" replace />} />
             <Route path="/community" element={<CommunityPage />} />
             <Route path="/developerteam" element={<DeveloperTeam />} />
             <Route path="/contactus" element={<ContactUsPage />} />
@@ -102,7 +107,7 @@ function App() {
             <Route path="/about/awards" element={<AwardsAndCertificationsPage />} />
             <Route path="/about/certifications" element={<Navigate to="/about/awards" replace />} />
             <Route path="/about/alliances" element={<PartnershipCards />} />
-            <Route path="/about/leadership" element={<CEOSection />} />
+            <Route path="/about/leadership" element={<TeamSection />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-use" element={<TermsOfUsePage />} />
             <Route path="/careers" element={<Careers />} />
@@ -115,7 +120,8 @@ function App() {
 
             <Route path="*" element={<NotFoundPage />} />
 
-          </Routes>
+            </Routes>
+          </Suspense>
         </main>
         {!isAdmin && <Footer />}
         {!isAdmin && <CookieBanner />}

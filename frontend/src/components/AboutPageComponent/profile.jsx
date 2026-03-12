@@ -30,7 +30,7 @@ export default function Profile() {
   const industries = [
     "Telecom",
     "Retail",
-    "Banking & Financial Services", 
+    "Banking & Financial Services",
     "Automobile & Manufacturing",
     "IT/ITES",
     "Healthcare & Hospitality",
@@ -99,7 +99,7 @@ export default function Profile() {
             </span>
             <span className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-sm text-white border border-white/20 hover:bg-red-600 hover:border-red-500 transition-all duration-300 text-sm font-medium">
               <Shield className="h-4 w-4 mr-2 shrink-0" />
-              24×7 Support
+              Support
             </span>
           </div>
         </div>
@@ -125,12 +125,12 @@ export default function Profile() {
           <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center transition-all duration-700 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="space-y-4 sm:space-y-6 order-2 md:order-1">
               <p className="text-base sm:text-lg md:text-xl leading-relaxed text-(--apple-gray)">
-                Cache Digitech is a leading System Integration, Consulting and IT Infrastructure partner with over three decades of experience. From New Delhi, Mumbai, and Dubai we help organizations innovate, secure, and scale with 24×7 support and solutions built on engineering excellence and trust. We serve enterprises across telecom, BFSI, manufacturing, and the public sector with a global partner ecosystem and a focus on digital transformation.
+                Cache Digitech is a leading System Integration, Consulting and IT Infrastructure partner with over three decades of experience. From New Delhi, Mumbai, and Dubai we help organizations innovate, secure, and scale with support and solutions built on engineering excellence and trust. We serve enterprises across telecom, BFSI, manufacturing, and the public sector with a global partner ecosystem and a focus on digital transformation.
               </p>
             </div>
             <div className="rounded-2xl overflow-hidden shadow-xl border border-red-500/20 relative aspect-4/3 min-h-[240px] sm:min-h-[320px] order-1 md:order-2">
               <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
+                src="/leadership-booth.png"
                 alt="Our Commitment — teamwork and partnership"
                 className="w-full h-full object-cover"
               />
@@ -164,7 +164,7 @@ export default function Profile() {
             </div>
             <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl border border-gray-100 relative aspect-[4/3] w-full max-w-md mx-auto sm:max-w-none sm:mx-0 min-h-[200px] sm:min-h-[320px] bg-gray-100 order-1 lg:order-2">
               <img
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
+                src="/mission.jpg"
                 alt="Our Philosophy — excellence with agility, service with heart"
                 className="w-full h-full object-cover"
               />
@@ -245,7 +245,7 @@ export default function Profile() {
                 <h3 className="text-xl sm:text-2xl font-bold">Our Vision</h3>
               </div>
               <p className="text-base sm:text-lg leading-relaxed text-white/90">
-                To become the most trusted technology partner and the best company for our customers, OEMs, and employees—powered by a global presence, best-in-class service infrastructure, 24×7 NOC, and secure, compliant SOC.
+                To become the most trusted technology partner and the best company for our customers, OEMs, and employees—powered by a global presence, best-in-class service infrastructure, NOC, and secure, compliant SOC.
               </p>
               <p className="text-base sm:text-lg leading-relaxed text-white/80 mt-4">
                 We aim to continuously earn trust and confidence through operational excellence, accessibility, and unwavering commitment to quality.

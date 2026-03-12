@@ -4,30 +4,12 @@ import { Shield, FileCheck, AlertTriangle, Lock, CheckCircle, Globe, Server, Arr
 import { usePlacement } from '../context/PlacementsContext';
 
 export default function GRCDashboard() {
-  const [activeSection, setActiveSection] = useState('');
   const heroImageUrl = usePlacement('grc-dashboard', 'main', 'heroImage') || '/servicesimages/GRC.jpg';
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const navItems = [
-    { id: 'hero', label: 'Overview' },
-    { id: 'compliance', label: 'Compliance' },
-    { id: 'audit', label: 'Audit' },
-    { id: 'risk', label: 'IT Risk' },
-    { id: 'privacy', label: 'Privacy' }
-  ];
-
-  const scrollToSection = (sectionId) => {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      setActiveSection(sectionId);
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
-  
   const sections = [
     {
       title: "Compliance Management",
@@ -172,33 +154,6 @@ export default function GRCDashboard() {
           </div>
         </div>
       </section>
-
-      {/* Tabs (below hero, sticky on scroll) */}
-      <nav aria-label="Page sections" className="bg-white border-b border-red-100 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4">
-          <div className="flex flex-wrap justify-center gap-2">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.id;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => scrollToSection(item.id)}
-                  aria-current={isActive ? 'true' : undefined}
-                  aria-label={`Go to ${item.label}`}
-                  className={`px-4 py-2.5 rounded-full border text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 ${
-                    isActive
-                      ? 'text-red-600 bg-red-50 border-red-200 shadow-sm'
-                      : 'text-gray-700 hover:text-red-600 hover:bg-red-50 border-transparent hover:border-red-100'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </nav>
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-24">
         {/* Sections */}

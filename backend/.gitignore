@@ -1,7 +1,0 @@
-node_modules
-*.log
-.env
-uploads
-backend-dump.sql
-backend-dump.dump
-backend-dump.json

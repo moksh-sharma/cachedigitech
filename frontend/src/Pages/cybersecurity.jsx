@@ -140,7 +140,7 @@ const phases = [
   {
     icon: Settings,
     title: "Operate & Manage",
-    focus: "24/7 threat monitoring, continuous improvement, and rapid response.",
+    focus: "Threat monitoring, continuous improvement, and rapid response.",
     outcomes: "Proactive threat detection, reduced response time, and ongoing optimization.",
     color: "from-red-500 to-red-600"
   },
@@ -237,7 +237,7 @@ export default function CybersecurityPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-2xl sm:rounded-3xl"></div>
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1614064642261-3ccbfafa481b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWJlcnNlY3VyaXR5JTIwbmV0d29yayUyMHByb3RlY3Rpb258ZW58MXx8fHwxNzU5NzM4Mzk4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/images/cybersec.png"
                   alt="Cybersecurity Network Protection"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[500px] xl:h-[600px] object-cover rounded-2xl sm:rounded-3xl shadow-2xl"
                 />
@@ -345,7 +345,7 @@ export default function CybersecurityPage() {
               {/* Main Image */}
               <div className="relative">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1708807472445-d33589e6b090?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWN1cml0eSUyMG9wZXJhdGlvbnMlMjBjZW50ZXIlMjBtb25pdG9yaW5nfGVufDF8fHx8MTc1OTczODQwMXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/images/audits.png"
                   alt="Security Operations Center Monitoring"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />
@@ -550,7 +550,7 @@ export default function CybersecurityPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-xl sm:rounded-2xl lg:rounded-3xl"></div>
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1639503547276-90230c4a4198?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwc2VjdXJpdHklMjBzaGllbGQlMjB0ZWNobm9sb2d5fGVufDF8fHx8MTc1OTczODQwNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/images/grc.png"
                   alt="Digital Security Shield Technology"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />

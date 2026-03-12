@@ -188,7 +188,7 @@ export default function DataAIPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-2xl sm:rounded-3xl"></div>
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1695902173528-0b15104c4554?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBSSUyMG1hY2hpbmUlMjBsZWFybmluZyUyMHZpc3VhbGl6YXRpb258ZW58MXx8fHwxNzU5NzI5NTI5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/images/dataai.png"
                   alt="AI and Machine Learning Visualization"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[500px] xl:h-[600px] object-cover rounded-2xl sm:rounded-3xl shadow-2xl"
                 />
@@ -322,7 +322,7 @@ export default function DataAIPage() {
               {/* Main Image */}
               <div className="relative">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1664526937033-fe2c11f1be25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwcGFydG5lcnNoaXAlMjBuZXR3b3JrfGVufDF8fHx8MTc1OTczNzA2MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/techimage.jpg"
                   alt="Technology Partnership Network"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />

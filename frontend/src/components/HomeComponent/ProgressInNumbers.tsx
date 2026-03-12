@@ -112,7 +112,7 @@ export function ProgressInNumbers() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-12 lg:py-16 overflow-hidden bg-linear-to-b from-white via-gray-50/50 to-white px-6 sm:px-8 lg:px-12"
+      className="relative pt-6 lg:pt-8 pb-6 lg:pb-8 overflow-hidden bg-linear-to-b from-white via-gray-50/50 to-white px-6 sm:px-8 lg:px-12"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 lg:gap-10 xl:gap-12 items-center">

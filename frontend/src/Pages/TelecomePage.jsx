@@ -28,7 +28,7 @@ const capabilities = [
         points: [
             "Deployment of SIEM, SOAR, UEBA, NGAV & Zero Trust frameworks for network and enterprise security.",
             "Firewall policy orchestration (Tufin), event management (SolarWinds), endpoint protection (VMware Carbon Black), and network visibility (Riverbed).",
-            "24×7 Managed SOC with real-time threat detection, response, and compliance reporting (PCI-DSS, GDPR, SOX).",
+            "Managed SOC with real-time threat detection, response, and compliance reporting (PCI-DSS, GDPR, SOX).",
             "Deep expertise in protecting carrier-grade networks and subscriber data across distributed environments."
         ],
         gradient: "from-red-600 to-red-700"
@@ -55,7 +55,7 @@ const capabilities = [
     },
     {
         icon: Users,
-        title: "24×7 Global Support & Field Engineering Services",
+        title: "Global Support & Field Engineering Services",
         points: [
             "Dedicated NOC/SOC with ITIL-aligned operations, proactive monitoring, and L1–L3 support.",
             "Field engineering presence across 8+ remote locations for leading operators.",
@@ -271,7 +271,7 @@ export default function TelecomPage() {
                             {/* Bottom Statement */}
                             <div className="relative p-6 lg:p-8 bg-gray-50 rounded-xl lg:rounded-2xl border border-gray-200">
                                 <p className="text-base lg:text-lg text-gray-700 leading-relaxed">
-                                    With <span className="font-bold text-red-600">32+ years</span> of system integration expertise, a <span className="font-bold text-red-600">500+ certified technocrat workforce</span>, and <span className="font-bold text-red-600">750+ support locations</span>, Cache continues to power telecom innovation with agility and accountability. We are proud to be managing over <span className="font-bold text-red-600">75,000 devices</span> across telecom networks nationwide, ensuring performance, availability, and security 24×7.
+                                    With <span className="font-bold text-red-600">32+ years</span> of system integration expertise, a <span className="font-bold text-red-600">500+ certified technocrat workforce</span>, and <span className="font-bold text-red-600">750+ support locations</span>, Cache continues to power telecom innovation with agility and accountability. We are proud to be managing over <span className="font-bold text-red-600">75,000 devices</span> across telecom networks nationwide, ensuring performance, availability, and security.
                                 </p>
                             </div>
                         </div>

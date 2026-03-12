@@ -2,7 +2,6 @@ import React from 'react';
 import { ArrowRight, Mail, MessageCircle, Building2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useContent } from '../../context/ContentContext';
-import { usePlacement } from '../../context/PlacementsContext';
 
 interface CTASectionProps {
   className?: string;
@@ -10,58 +9,28 @@ interface CTASectionProps {
 
 const DEFAULT_CTA = {
   heading: 'Get the latest insights and updates delivered to your inbox.',
-  ctaText: 'Subscribe Now',
   questionHeading: 'Have a question tailored to your use case? Our experts are here to help.',
-  askCtaText: 'Ask Here',
 };
 
 const CTASection: React.FC<CTASectionProps> = ({ className = '' }) => {
   const navigate = useNavigate();
   const cms = useContent('home', 'cta');
-  const subscribeBgUrl = usePlacement('home', 'cta', 'subscribeBg') || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
-  const industryImageUrl = usePlacement('home', 'cta', 'industryImage') || '/techimage.jpg';
   const heading = cms.heading || DEFAULT_CTA.heading;
-  const ctaText = cms.ctaText || DEFAULT_CTA.ctaText;
   const questionHeading = cms.questionHeading || DEFAULT_CTA.questionHeading;
-  const askCtaText = cms.askCtaText || DEFAULT_CTA.askCtaText;
 
   const handleContactNavigation = () => {
     navigate('/contactus');
   };
 
-  const cards = [
-    {
-      label: 'Newsletter',
-      title: 'Insights & updates',
-      description: heading,
-      cta: ctaText,
-      icon: Mail,
-      variant: 'image' as const,
-      imageUrl: subscribeBgUrl,
-    },
-    {
-      label: 'Support',
-      title: 'Ask our experts',
-      description: questionHeading,
-      cta: askCtaText,
-      icon: MessageCircle,
-      variant: 'solid' as const,
-    },
-    {
-      label: 'Industries',
-      title: 'Industry solutions',
-      description: 'Solutions and offerings tailored to your industry.',
-      cta: 'Get a Quote',
-      icon: Building2,
-      variant: 'image' as const,
-      imageUrl: industryImageUrl,
-    },
+  const items = [
+    { icon: Mail, label: 'Newsletter', text: heading },
+    { icon: MessageCircle, label: 'Ask our experts', text: questionHeading },
+    { icon: Building2, label: 'Industry solutions', text: 'Solutions and offerings tailored to your industry.' },
   ];
 
   return (
     <section className={`w-full py-20 lg:py-28 px-6 sm:px-8 lg:px-12 bg-white border-t border-gray-100/80 ${className}`}>
       <div className="max-w-7xl mx-auto">
-        {/* Section header */}
         <div className="text-center mb-12 lg:mb-16">
           <p className="text-lg md:text-xl font-extrabold tracking-[0.3em] uppercase text-red-500 mb-3">Stay connected</p>
           <h2 className="text-4xl md:text-5xl lg:text-[52px] font-light text-(--apple-black) tracking-tight leading-[1.08] max-w-2xl mx-auto">
@@ -72,58 +41,41 @@ const CTASection: React.FC<CTASectionProps> = ({ className = '' }) => {
           </p>
         </div>
 
-        {/* Three cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {cards.map((card) => (
-            <div
-              key={card.label}
-              onClick={handleContactNavigation}
-              className="group relative rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-100 transition-all duration-300 ease-out cursor-pointer flex flex-col min-h-[280px]"
-            >
-              {/* Card with optional image background */}
-              {card.variant === 'image' && card.imageUrl ? (
-                <>
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
-                    style={{ backgroundImage: `url('${card.imageUrl}')` }}
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/50 to-black/20" />
-                </>
-              ) : (
-                <div className="absolute inset-0 bg-linear-to-br from-red-50 to-white opacity-90" />
-              )}
-
-              <div className="relative z-10 p-6 sm:p-7 flex flex-col flex-1 justify-between">
-                <div>
-                  <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-red-500/20 text-red-600 mb-4 group-hover:bg-red-500/30 transition-colors duration-300 ease-out">
-                    <card.icon className="w-5 h-5" strokeWidth={2} />
+        {/* Single combined CTA card */}
+        <div
+          onClick={handleContactNavigation}
+          className="group relative rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-100 transition-all duration-300 ease-out cursor-pointer"
+        >
+          <div className="absolute inset-0 bg-linear-to-br from-red-50 via-white to-slate-50/80" />
+          <div className="relative z-10 p-8 sm:p-10 lg:p-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mb-8 lg:mb-10">
+              {items.map((item) => (
+                <div key={item.label} className="flex flex-col sm:flex-row md:flex-col gap-3">
+                  <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-red-500/20 text-red-600 group-hover:bg-red-500/30 transition-colors duration-300 ease-out shrink-0">
+                    <item.icon className="w-5 h-5" strokeWidth={2} />
                   </div>
-                  <p className={`text-sm font-bold tracking-[0.2em] uppercase mb-2 ${card.variant === 'image' ? 'text-white' : 'text-red-500'}`}>
-                    {card.label}
-                  </p>
-                  <h3 className={`text-lg sm:text-xl font-semibold tracking-tight mb-2 ${card.variant === 'image' ? 'text-white' : 'text-(--apple-black)'}`}>
-                    {card.title}
-                  </h3>
-                  <p className={`text-sm leading-relaxed line-clamp-3 ${card.variant === 'image' ? 'text-white/90' : 'text-(--apple-gray)'}`}>
-                    {card.description}
-                  </p>
+                  <div>
+                    <p className="text-sm font-bold tracking-[0.15em] uppercase text-red-500 mb-1">
+                      {item.label}
+                    </p>
+                    <p className="text-(--apple-gray) text-sm leading-relaxed">
+                      {item.text}
+                    </p>
+                  </div>
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleContactNavigation();
-                  }}
-                  className={`mt-6 inline-flex items-center gap-2 text-sm font-bold rounded-full px-5 py-2.5 transition-all duration-300 ease-out w-fit ${card.variant === 'image'
-                    ? 'bg-white text-red-600 hover:bg-red-50 border border-white/30'
-                    : 'bg-red-600 text-white hover:bg-red-700'
-                    }`}
-                >
-                  {card.cta}
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
-                </button>
-              </div>
+              ))}
             </div>
-          ))}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleContactNavigation();
+              }}
+              className="inline-flex items-center gap-2 bg-red-600 text-white text-sm font-bold rounded-full px-6 py-3 hover:bg-red-500 transition-all duration-300 ease-out shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
+            >
+              Get in touch
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

@@ -131,7 +131,7 @@ export function Partners() {
               }}
             >
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1745847768380-2caeadbb3b71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHBhcnRuZXJzaGlwJTIwaGFuZHNoYWtlfGVufDF8fHx8MTc1NzI5NjU5OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                src="/pexels-life-of-pix-2391.jpg"
                 alt="Business Partnership"
                 className="w-full h-auto rounded-2xl shadow-2xl"
               />

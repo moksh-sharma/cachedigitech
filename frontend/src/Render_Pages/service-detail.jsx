@@ -56,7 +56,7 @@ const serviceDetails = {
         icon: <Star className="h-6 w-6" />
       },
       {
-        title: '24/7 Monitoring',
+        title: 'Monitoring',
         description: 'Continuous monitoring and proactive support',
         icon: <Users className="h-6 w-6" />
       },
@@ -80,7 +80,7 @@ const serviceDetails = {
       'Performance Monitoring'
     ],
     technologies: ['Linux', 'Windows Server', 'VMware', 'Docker', 'Kubernetes', 'Ansible'],
-    backgroundImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=600&fit=crop&crop=center',
+    backgroundImage: '/hero-bg-image.png',
     pricing: 'Starting from $3,000'
   },
   'network': {
@@ -130,7 +130,7 @@ const serviceDetails = {
       },
       {
         title: 'Expert Support',
-        description: 'Dedicated network specialists and 24/7 support',
+        description: 'Dedicated network specialists and support',
         icon: <Sparkles className="h-6 w-6" />
       }
     ],
@@ -143,7 +143,7 @@ const serviceDetails = {
       'Performance Optimization'
     ],
     technologies: ['Cisco', 'Juniper', 'Ubiquiti', 'Fortinet', 'Meraki', 'pfSense'],
-    backgroundImage: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&h=600&fit=crop&crop=center',
+    backgroundImage: '/homepage-bg.jpg',
     pricing: 'Starting from $4,000'
   },
   'cloud-solutions': {
@@ -159,7 +159,7 @@ const serviceDetails = {
       'Security and compliance management',
       'Disaster recovery planning',
       'Multi-cloud and hybrid solutions',
-      '24/7 monitoring and support'
+      'monitoring and support'
     ],
     whyChooseUs: {
       title: 'Why Choose Us for Cloud Solutions?',
@@ -206,7 +206,7 @@ const serviceDetails = {
       'Disaster Recovery'
     ],
     technologies: ['AWS', 'Azure', 'Google Cloud', 'Kubernetes', 'Terraform', 'Docker'],
-    backgroundImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=600&fit=crop&crop=center',
+    backgroundImage: '/servicesimages/cloudimage.jpg',
     pricing: 'Starting from $3,000'
   },
   'AI': {
@@ -269,7 +269,7 @@ const serviceDetails = {
       'AI Integration'
     ],
     technologies: ['Python', 'TensorFlow', 'PyTorch', 'OpenAI', 'Hugging Face', 'Azure AI'],
-    backgroundImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop&crop=center',
+    backgroundImage: '/servicesimages/aiimage.jpg',
     pricing: 'Starting from $7,000'
   },
   'cybersecurity': {
@@ -298,7 +298,7 @@ const serviceDetails = {
         icon: <Zap className="h-6 w-6" />
       },
       {
-        title: '24/7 Monitoring',
+        title: 'Monitoring',
         description: 'Round-the-clock security surveillance',
         icon: <Shield className="h-6 w-6" />
       },
@@ -332,7 +332,7 @@ const serviceDetails = {
       'Compliance Management'
     ],
     technologies: ['Nessus', 'Metasploit', 'Wireshark', 'Splunk', 'SIEM', 'Firewall'],
-    backgroundImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=600&fit=crop&crop=center',
+    backgroundImage: '/servicesimages/cyberimage.jpg',
     pricing: 'Starting from $4,000'
   },
   'consulting': {
@@ -395,7 +395,7 @@ const serviceDetails = {
       'Change Management'
     ],
     technologies: ['Agile', 'DevOps', 'ITIL', 'Prince2', 'Lean', 'Six Sigma'],
-    backgroundImage: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1200&h=600&fit=crop&crop=center',
+    backgroundImage: '/servicesimages/consultingimage.jpg',
     pricing: 'Starting from $2,500'
   }
 };

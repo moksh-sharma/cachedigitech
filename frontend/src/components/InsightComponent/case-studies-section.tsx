@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
@@ -628,13 +627,7 @@ export function CaseStudiesSection() {
   return (
     <section className="py-16 lg:py-24 bg-white scroll-mt-20" id="success-stories">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
             Success <span className="text-red-600">Stories</span>
           </h2>
@@ -642,22 +635,15 @@ export function CaseStudiesSection() {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Discover how we've helped leading organizations transform their business through innovative system integration solutions.
           </p>
-        </motion.div>
+        </div>
 
         {/* Tab Navigation */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-2 mb-12"
-        >
+        <div className="flex flex-wrap justify-center gap-2 mb-12">
           {industries.map((industry) => (
-            <motion.button
+            <button
               key={industry}
+              type="button"
               onClick={() => setActiveTab(industry)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                 activeTab === industry
                   ? "bg-red-600 text-white shadow-lg"
@@ -665,19 +651,13 @@ export function CaseStudiesSection() {
               }`}
             >
               {industry}
-            </motion.button>
+            </button>
           ))}
-        </motion.div>
+        </div>
 
         <div className="space-y-6">
           {filteredCaseStudies.map((study, index) => (
-            <motion.div
-              key={study.id}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
+            <div key={study.id}>
               <Card className="overflow-hidden h-auto hover:shadow-2xl transition-all duration-300 group bg-linear-to-br from-white to-gray-50 border-0 shadow-lg">
                 <div className={`grid lg:grid-cols-2 lg:items-stretch gap-4 lg:gap-0 ${index % 2 !== 0 ? 'lg:grid-flow-col-dense' : ''}`}>
                   <div className={`relative h-56 sm:h-60 lg:h-full ${index % 2 !== 0 ? 'lg:col-start-2' : ''}`}>
@@ -737,7 +717,7 @@ export function CaseStudiesSection() {
                   </CardContent>
                 </div>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -760,12 +740,7 @@ export function CaseStudiesSection() {
         {/* Modal */}
         {selectedStudy && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white rounded-2xl w-full max-w-4xl md:h-[60vh] h-auto max-h-[85vh] relative shadow-2xl overflow-hidden"
-            >
+            <div className="bg-white rounded-2xl w-full max-w-4xl md:h-[60vh] h-auto max-h-[85vh] relative shadow-2xl overflow-hidden">
               {/* Modal Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
                 <h3 className="text-xl font-bold text-black">Case Study Details</h3>
@@ -816,7 +791,7 @@ export function CaseStudiesSection() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         )}
       </div>

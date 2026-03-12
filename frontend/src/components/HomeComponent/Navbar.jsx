@@ -225,7 +225,7 @@ function Navbar() {
           </div>
 
           {/* Center: Desktop nav links — dropdown sections vs direct links */}
-          <div className="hidden md:flex items-center gap-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="hidden md:flex items-center gap-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ">
             {Object.keys(menuData).map((section) => {
               const isDirectLink = DIRECT_LINK_SECTIONS.includes(section);
               const directRoute = isDirectLink && menuData[section]?.items?.[0]
@@ -267,10 +267,10 @@ function Navbar() {
             })}
           </div>
 
-          {/* Right: Mobile = both logos + divider; Desktop = Women Owned only */}
+          {/* Right: Mobile = Cache logo only; Desktop = Women Owned only */}
           <div className="flex items-center flex-1 min-w-0 justify-end overflow-hidden">
-            {/* Mobile: Cache logo + vertical line + Women Owned (constrained to fit) */}
-            <div className="flex md:hidden items-center gap-2 min-w-0 max-w-full shrink-0">
+            {/* Mobile: Cache logo only */}
+            <div className="flex md:hidden items-center min-w-0 max-w-full shrink-0">
               <div onClick={() => navigate("/")} className="cursor-pointer shrink-0 flex-shrink-0">
                 <img
                   src={logoUrl}
@@ -278,12 +278,6 @@ function Navbar() {
                   className="h-8 w-auto max-h-8 transition-all duration-300 filter-[brightness(0)_saturate(100%)_invert(25%)_sepia(98%)_saturate(2692%)_hue-rotate(346deg)]"
                 />
               </div>
-              <div className="h-6 w-px bg-white/50 shrink-0 flex-shrink-0" aria-hidden />
-              <img
-                src="/women_owned.png"
-                alt="Women Owned"
-                className="h-7 w-14 max-w-[3.5rem] object-contain object-left shrink-0 flex-shrink-0"
-              />
             </div>
             {/* Desktop: Women Owned only */}
             <img
@@ -297,7 +291,7 @@ function Navbar() {
         {/* ── Desktop Mega Menu Dropdown (stays open while hovering panel) ── */}
         {megaOpen && !DIRECT_LINK_SECTIONS.includes(megaOpen) && (
           <div
-            className="hidden md:block absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl z-1001 pt-px"
+            className="hidden md:block absolute top-full left-0 right-0 bg-white backdrop-blur-md rounded-xl sm:rounded-2xl shadow-xl z-1000 pt-px "
             style={{ animation: "megaSlideDown 0.25s ease-out" }}
             onMouseEnter={handleMegaPanelEnter}
             onMouseLeave={handleMegaPanelLeave}
@@ -307,14 +301,14 @@ function Navbar() {
                 {/* Section heading */}
                 <div className="w-48 shrink-0">
                   <h3 className="text-lg font-bold text-(--apple-black) mb-1">{megaOpen}</h3>
-                  <div className="w-8 h-0.5 bg-indigo-500 rounded-full" />
+                  <div className="w-8 h-0.5 bg-red-500 rounded-full" />
                 </div>
 
                 {/* Menu items */}
                 <div className="flex-1">
                   {menuData[megaOpen]?.submenus ? (
                     /* Two-level: Products / Services with sub-items */
-                    <div className="grid grid-cols-2 gap-8">
+                    <div className="grid grid-cols-2 gap-8 ">
                       {menuData[megaOpen].items.map((group) => (
                         <div key={group}>
                           <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-(--apple-gray) mb-4">{group}</h4>
@@ -323,7 +317,7 @@ function Navbar() {
                               <button
                                 key={item}
                                 onClick={() => handleMegaItemClick(megaOpen, item)}
-                                className="block w-full text-left px-3 py-2.5 text-[15px] font-medium text-gray-700 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-200"
+                                className="block w-full text-left px-3 py-2.5 text-[15px] font-medium text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-all duration-200 "
                               >
                                 {item}
                               </button>
@@ -339,7 +333,7 @@ function Navbar() {
                         <button
                           key={item}
                           onClick={() => handleMegaItemClick(megaOpen, item)}
-                          className="block w-full text-left px-3 py-2.5 text-[15px] font-medium text-gray-700 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-200"
+                          className="block w-full text-left px-3 py-2.5 text-[15px] font-medium text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-all duration-200"
                         >
                           {item}
                         </button>
@@ -398,7 +392,7 @@ function Navbar() {
                 <div key={index} className="mb-1">
                   <button
                     onClick={() => { navigate(directRoute); setMenuOpen(false); setActiveSubmenu(null); setHoveredSection(null); }}
-                    className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl cursor-pointer transition-all duration-300 text-gray-700 hover:bg-indigo-50 text-left"
+                    className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl cursor-pointer transition-all duration-300 text-gray-700 hover:bg-red-50 text-left"
                   >
                     <span className="font-semibold text-sm">{section}</span>
                   </button>
@@ -422,8 +416,8 @@ function Navbar() {
                 <div className={`
                   flex items-center justify-between px-4 py-3.5 rounded-xl cursor-pointer transition-all duration-300
                   ${hoveredSection === section
-                    ? "bg-indigo-600 text-white shadow-md"
-                    : "text-gray-700 hover:bg-indigo-50"
+                    ? "bg-red-500 text-white shadow-md"
+                    : "text-gray-700 hover:bg-red-50"
                   }
                 `}>
                   <span className="font-semibold text-sm">{section}</span>
@@ -449,10 +443,10 @@ function Navbar() {
             }
           }}
         >
-          <div className="py-6 px-6 border-b border-gray-100 bg-indigo-600 flex items-center gap-3">
+          <div className="py-6 px-6 border-b border-gray-100 bg-red-500 flex items-center gap-3">
             {activeNestedSubmenu ? (
               <button
-                className="p-2 rounded-lg bg-indigo-700 hover:bg-indigo-800 transition-colors"
+                className="p-2 rounded-lg bg-red-600 hover:bg-red-600/90 transition-colors"
                 onClick={() => setActiveNestedSubmenu(null)}
                 aria-label="Back"
               >
@@ -460,7 +454,7 @@ function Navbar() {
               </button>
             ) : (
               <button
-                className="md:hidden p-2 rounded-lg bg-indigo-700 hover:bg-indigo-800 transition-colors"
+                className="md:hidden p-2 rounded-lg bg-red-600 hover:bg-red-600/90 transition-colors"
                 onClick={() => { setActiveNestedSubmenu(null); setActiveSubmenu(null); setHoveredSection(null); }}
                 aria-label="Back"
               >
@@ -478,7 +472,7 @@ function Navbar() {
               <div
                 key={index}
                 className="px-4 py-3 rounded-xl cursor-pointer transition-all duration-300 mb-1 flex items-center justify-between
-                  text-gray-700 hover:bg-indigo-600 hover:text-white hover:shadow-md hover:translate-x-1"
+                  text-gray-700 hover:bg-red-500 hover:text-white hover:shadow-md hover:translate-x-1"
                 onClick={() => handleItemClick(activeSubmenu, item)}
               >
                 <span className="text-[15px] font-medium">{item}</span>

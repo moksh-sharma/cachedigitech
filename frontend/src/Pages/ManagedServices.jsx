@@ -12,7 +12,6 @@ import { usePlacement } from '../context/PlacementsContext';
 const ManagedServicesPage = () => {
     const [animatedText, setAnimatedText] = useState('');
     const [textIndex, setTextIndex] = useState(0);
-    const [activeSection, setActiveSection] = useState('');
     const location = useLocation();
     const heroImageUrl = usePlacement('manageservices', 'main', 'heroImage') || '/servicesimages/managedservices.jpg';
 
@@ -55,14 +54,6 @@ const ManagedServicesPage = () => {
 
         return () => clearInterval(typeWriter);
     }, [textIndex]);
-
-    const scrollToSection = (sectionId) => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-            setActiveSection(sectionId);
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    };
 
     const services = [
         {
@@ -112,10 +103,10 @@ const ManagedServicesPage = () => {
             label: 'NOC/SOC',
             icon: Shield,
             title: 'What We Monitor & Protect',
-            subtitle: '24/7 network operations, security monitoring, and comprehensive incident response services',
+            subtitle: 'Network operations, security monitoring, and comprehensive incident response services',
             description: 'Our NOC/SOC services provide round-the-clock monitoring, management, and protection of your IT infrastructure and security posture. We combine network operations center capabilities with security operations center expertise to deliver comprehensive monitoring, threat detection, incident response, and proactive maintenance to ensure optimal performance and security of your technology environment.',
             keyFeatures: [
-                { icon: Monitor, title: '24/7 Monitoring', desc: 'Continuous network and security monitoring services' },
+                { icon: Monitor, title: 'Monitoring', desc: 'Continuous network and security monitoring services' },
                 { icon: Eye, title: 'Threat Detection', desc: 'Advanced threat detection and security analysis' },
                 { icon: Zap, title: 'Incident Response', desc: 'Rapid incident response and resolution services' },
                 { icon: Activity, title: 'Performance Management', desc: 'Proactive performance monitoring and optimization' }
@@ -163,35 +154,6 @@ const ManagedServicesPage = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Sticky Navigation */}
-            <nav aria-label="Service sections" className="bg-white border-b border-red-100 shadow-sm sticky top-0 z-50">
-                <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-4">
-                    <div className="flex flex-wrap justify-center gap-2">
-                        {services.map((service) => {
-                            const IconComponent = service.icon;
-                            const isActive = activeSection === service.id;
-                            return (
-                                <button
-                                    key={service.id}
-                                    type="button"
-                                    onClick={() => scrollToSection(service.id)}
-                                    aria-current={isActive ? 'true' : undefined}
-                                    aria-label={`Go to ${service.label}`}
-                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 ${
-                                        isActive
-                                            ? 'text-red-600 bg-red-50 border-red-200 shadow-sm'
-                                            : 'text-gray-600 hover:text-red-600 hover:bg-red-50 border-transparent hover:border-red-100'
-                                    }`}
-                                >
-                                    <IconComponent className="w-4 h-4" aria-hidden />
-                                    <span>{service.label}</span>
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-            </nav>
 
             {/* Service Sections */}
             <div className="py-16">

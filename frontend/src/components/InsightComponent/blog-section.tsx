@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
@@ -11,47 +10,14 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Calendar, User } from "lucide-react";
-
-const API_BASE = import.meta.env.VITE_API_BASE || "";
-
-type BlogPost = {
-  id: number | string;
-  title: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  category: string;
-  readTime: string;
-  image: string;
-};
+import { HARDCODED_BLOGS } from "../../data/blogsAndHighlights";
 
 export function BlogSection() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const posts = HARDCODED_BLOGS;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let cancelled = false;
-    fetch(API_BASE + "/api/blogs")
-      .then((res) => (res.ok ? res.json() : Promise.reject(new Error("Failed to load"))))
-      .then((data) => {
-        if (!cancelled) setPosts(Array.isArray(data) ? data : []);
-      })
-      .catch((e) => {
-        if (!cancelled) {
-          setError(e.message);
-          setPosts([]);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, []);
-
   return (
-    <section className="pt-16 lg:pt-24 pb-0 bg-gray-50 scroll-mt-20" id="blog">
+    <section className="pt-8 lg:pt-10 pb-0 bg-gray-50 scroll-mt-20" id="blog">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 overflow-visible">
         <motion.div
           initial={{ opacity: 0 }}
@@ -69,22 +35,16 @@ export function BlogSection() {
           </p>
         </motion.div>
 
-        {loading && (
-          <div className="text-center py-12 text-gray-500">Loading blogs...</div>
-        )}
-        {error && !loading && (
-          <div className="text-center py-12 text-gray-600">Unable to load blogs. They may be managed from the Blog CMS.</div>
-        )}
-        {!loading && !error && posts.length === 0 && (
+        {posts.length === 0 && (
           <div className="text-center py-12 text-gray-500">No blog posts yet.</div>
         )}
-        {!loading && posts.length > 0 && (
+        {posts.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
             viewport={{ once: true, margin: "-30px" }}
-            className="relative px-6 sm:px-8 lg:px-12 pb-16 md:pb-20 overflow-visible"
+            className="relative px-6 sm:px-8 lg:px-12 pb-8 md:pb-10 overflow-visible"
           >
             <Carousel
               opts={{

@@ -10,7 +10,6 @@ import {
 const InfrastructureServicesPage = () => {
   const [animatedText, setAnimatedText] = useState('');
   const [textIndex, setTextIndex] = useState(0);
-  const [activeSection, setActiveSection] = useState('');
 
   const location = useLocation();
 
@@ -53,14 +52,6 @@ const InfrastructureServicesPage = () => {
 
     return () => clearInterval(typeWriter);
   }, [textIndex]);
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      setActiveSection(sectionId);
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const services = [
     {
@@ -110,10 +101,10 @@ const InfrastructureServicesPage = () => {
       label: 'Operate & Manage',
       icon: Monitor,
       title: 'What We Operate & Manage',
-      subtitle: '24/7 infrastructure monitoring, management, and support for optimal performance and reliability',
-      description: 'Our managed infrastructure services provide round-the-clock monitoring and management of your IT infrastructure. With 24/7 operations center coverage, proactive monitoring, and rapid issue resolution, we ensure your infrastructure operates at peak performance while you focus on core business activities.',
+      subtitle: 'Infrastructure monitoring, management, and support for optimal performance and reliability',
+      description: 'Our managed infrastructure services provide round-the-clock monitoring and management of your IT infrastructure. With operations center coverage, proactive monitoring, and rapid issue resolution, we ensure your infrastructure operates at peak performance while you focus on core business activities.',
       keyFeatures: [
-        { icon: Clock, title: '24/7 Monitoring', desc: 'Continuous infrastructure monitoring and alerting' },
+        { icon: Clock, title: 'Monitoring', desc: 'Continuous infrastructure monitoring and alerting' },
         { icon: Shield, title: 'Proactive Management', desc: 'Preventive maintenance and optimization' },
         { icon: Zap, title: 'Rapid Response', desc: 'Quick issue resolution and support' },
         { icon: TrendingUp, title: 'Performance Optimization', desc: 'Ongoing performance tuning and improvements' }
@@ -137,15 +128,15 @@ const InfrastructureServicesPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+      {/* Hero Section — full viewport height */}
       <section
         id="hero"
-        className="relative h-[80vh] bg-cover bg-center scroll-mt-0"
+        className="relative min-h-screen bg-cover bg-center scroll-mt-0"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url(https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)`
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url(/images/infraimg.webp)`
         }}
       >
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center min-h-screen">
           <div className="text-center text-white px-4 sm:px-6 lg:px-12 max-w-4xl mx-auto pt-20 sm:pt-24 pb-12">
             <div className="mb-4 sm:mb-6">
               <Server className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto mb-3 sm:mb-4" aria-hidden />
@@ -164,34 +155,6 @@ const InfrastructureServicesPage = () => {
           </div>
         </div>
       </section>
-
-      {/* Navigation (below hero, sticky on scroll) */}
-      <nav aria-label="Service sections" className="bg-white border-b border-red-100 shadow-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-3 sm:py-4">
-          <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
-            {services.map((service) => {
-              const IconComponent = service.icon;
-              const isActive = activeSection === service.id;
-              return (
-                <button
-                  key={service.id}
-                  type="button"
-                  onClick={() => scrollToSection(service.id)}
-                  aria-current={isActive ? 'true' : undefined}
-                  aria-label={`Go to ${service.label}`}
-                  className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full border text-xs sm:text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 ${isActive
-                      ? 'text-red-600 bg-red-50 border-red-200 shadow-sm'
-                      : 'text-gray-600 hover:text-red-600 hover:bg-red-50 border-transparent hover:border-red-100'
-                    }`}
-                >
-                  <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" aria-hidden />
-                  <span className="truncate">{service.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </nav>
 
       {/* Services Sections */}
       {services.map((service, index) => (

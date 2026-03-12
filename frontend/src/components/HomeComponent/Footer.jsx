@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { usePlacement } from "../../context/PlacementsContext";
 import { navLinks } from "./navLinks";
-import PrivacyPolicyPage from "../../Pages/PrivacyPolicyPage";
-import TermsOfUsePage from "../../Pages/TermsOfUse";
+
+const PrivacyPolicyPage = lazy(() => import("../../Pages/PrivacyPolicyPage"));
+const TermsOfUsePage = lazy(() => import("../../Pages/TermsOfUse"));
 
 /* ── Footer nav: same headings as navbar ── */
 const FOOTER_NAV = [
@@ -324,8 +325,20 @@ function Footer() {
       </footer>
 
       {/* Shared modals (mobile + desktop) */}
-      {showPrivacy && <LegalModal onClose={() => setShowPrivacy(false)}><PrivacyPolicyPage /></LegalModal>}
-      {showTerms && <LegalModal onClose={() => setShowTerms(false)}><TermsOfUsePage /></LegalModal>}
+      {showPrivacy && (
+        <LegalModal onClose={() => setShowPrivacy(false)}>
+          <Suspense fallback={<div className="p-6 text-gray-500">Loading…</div>}>
+            <PrivacyPolicyPage />
+          </Suspense>
+        </LegalModal>
+      )}
+      {showTerms && (
+        <LegalModal onClose={() => setShowTerms(false)}>
+          <Suspense fallback={<div className="p-6 text-gray-500">Loading…</div>}>
+            <TermsOfUsePage />
+          </Suspense>
+        </LegalModal>
+      )}
     </>
   );
 }

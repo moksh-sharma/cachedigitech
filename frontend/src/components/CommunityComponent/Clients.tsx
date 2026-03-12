@@ -23,7 +23,7 @@ export function Clients() {
     },
     {
       icon: Shield,
-      number: '24/7',
+      number: 'Always',
       label: 'Support Available',
       color: 'from-purple-500 to-purple-600'
     }

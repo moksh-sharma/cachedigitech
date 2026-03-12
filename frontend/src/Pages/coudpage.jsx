@@ -38,7 +38,7 @@ const capabilities = [
   {
     icon: Monitor,
     title: "Managed Cloud Operations",
-    description: "24/7 proactive monitoring, governance, and performance optimization to ensure your cloud environment runs securely and efficiently.",
+    description: "Proactive monitoring, governance, and performance optimization to ensure your cloud environment runs securely and efficiently.",
   },
   {
     icon: Zap,
@@ -215,7 +215,7 @@ export default function CloudPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-3xl"></div>
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1676378280996-cff6b481d701?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbG91ZCUyMGNvbXB1dGluZyUyMGluZnJhc3RydWN0dXJlfGVufDF8fHx8MTc1OTczODgyOXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/images/cloud.png"
                   alt="Cloud Computing Infrastructure"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[500px] xl:h-[600px] object-cover rounded-2xl sm:rounded-3xl shadow-2xl"
                 />
@@ -414,7 +414,7 @@ export default function CloudPage() {
               {/* Main Image */}
               <div className="relative">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8Y2xvdWQlMjBzZXJ2ZXIlMjBkYXRhJTIwY2VudGVyfGVufDF8fHx8MTc1OTczODgzNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/images/cloud2.png"
                   alt="Cloud Server Data Center"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />
@@ -497,7 +497,7 @@ export default function CloudPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-2xl lg:rounded-3xl"></div>
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1623578240928-9473b76272ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwdHJhbnNmb3JtYXRpb24lMjB0ZWNobm9sb2d5fGVufDF8fHx8MTc1OTY0Njg0OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/images/infraimg.webp"
                   alt="Digital Transformation Technology"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />

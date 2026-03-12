@@ -62,7 +62,7 @@ const NetworkingServicesPage = () => {
       id: 'audit',
       label: 'Audit',
       icon: Eye,
-      heroImage: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      heroImage: '/hero-bg-image.png',
       content: {
         title: 'Network Assessment & Performance Audit',
         subtitle: 'Comprehensive evaluation of your network infrastructure, performance analysis, and security assessment',
@@ -114,7 +114,7 @@ const NetworkingServicesPage = () => {
       id: 'consult',
       label: 'Consult',
       icon: Users,
-      heroImage: 'https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      heroImage: '/homepage-bg.jpg',
       content: {
         title: 'Strategic Network Consulting & Planning',
         subtitle: 'Expert guidance for network strategy, technology roadmaps, and digital transformation initiatives',
@@ -166,7 +166,7 @@ const NetworkingServicesPage = () => {
       id: 'design',
       label: 'Design',
       icon: Settings,
-      heroImage: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=2125&q=80',
+      heroImage: '/servicesimages/consultingimage.jpg',
       content: {
         title: 'Network Architecture Design & Engineering',
         subtitle: 'Custom network solutions designed for performance, scalability, security, and reliability',
@@ -218,7 +218,7 @@ const NetworkingServicesPage = () => {
       id: 'build',
       label: 'Build',
       icon: Router,
-      heroImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80',
+      heroImage: '/servicesimages/cloudimage.jpg',
       content: {
         title: 'Network Implementation & Deployment',
         subtitle: 'End-to-end network deployment with seamless integration and minimal business disruption',
@@ -270,14 +270,14 @@ const NetworkingServicesPage = () => {
       id: 'operate',
       label: 'Operate & Manage',
       icon: Monitor,
-      heroImage: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80',
+      heroImage: '/servicesimages/cyberimage.jpg',
       content: {
         title: 'Managed Network Services & Operations',
-        subtitle: '24/7 network monitoring, management, and support for optimal performance and reliability',
+        subtitle: 'Network monitoring, management, and support for optimal performance and reliability',
         about: {
-          description: 'Our managed networking services provide round-the-clock monitoring and management of your network infrastructure. With 24/7 network operations center coverage, proactive monitoring, and rapid issue resolution, we ensure your network operates at peak performance while you focus on core business activities.',
+          description: 'Our managed networking services provide round-the-clock monitoring and management of your network infrastructure. With network operations center coverage, proactive monitoring, and rapid issue resolution, we ensure your network operates at peak performance while you focus on core business activities.',
           keyFeatures: [
-            { icon: Clock, title: '24/7 Network Monitoring', desc: 'Continuous network monitoring and alerting' },
+            { icon: Clock, title: 'Network Monitoring', desc: 'Continuous network monitoring and alerting' },
             { icon: Zap, title: 'Proactive Management', desc: 'Preventive maintenance and optimization' },
             { icon: AlertTriangle, title: 'Rapid Response', desc: 'Quick issue resolution and support' },
             { icon: TrendingUp, title: 'Performance Optimization', desc: 'Ongoing network tuning and improvements' }
@@ -285,7 +285,7 @@ const NetworkingServicesPage = () => {
         },
         prosAndCons: {
           pros: [
-            '24/7 professional network monitoring and management',
+            'Professional network monitoring and management',
             'Proactive issue detection and prevention',
             'Reduced internal IT overhead and operational costs',
             'Access to specialized networking expertise and tools',
@@ -300,7 +300,7 @@ const NetworkingServicesPage = () => {
         },
         services: [
           {
-            title: '24/7 Network Operations Center',
+            title: 'Network Operations Center',
             description: 'Comprehensive network monitoring including real-time performance tracking, fault detection, traffic analysis, and automated alerting systems.',
             benefits: ['Continuous monitoring', 'Proactive alerts', 'Performance tracking']
           },

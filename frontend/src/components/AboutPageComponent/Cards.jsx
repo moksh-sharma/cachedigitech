@@ -167,7 +167,7 @@ function PartnershipCards() {
                 className="rounded-2xl overflow-hidden shadow-xl border border-gray-100"
               >
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1745847768380-2caeadbb3b71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHBhcnRuZXJzaGlwJTIwaGFuZHNoYWtlfGVufDF8fHx8MTc1NzI5NjU5OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="/girl-hand.jpg"
                   alt="Business Partnership"
                   className="w-full h-auto object-cover"
                 />

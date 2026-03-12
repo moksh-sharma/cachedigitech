@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Mail, Phone, MapPin, Instagram, Linkedin, Twitter, Facebook, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
 
-const API_BASE = import.meta.env.VITE_API_BASE || '';
-// Form submissions are sent to the backend and stored in the database only (no local JSON).
+// No backend: form opens default email client (mailto).
+const CONTACT_EMAIL = 'contact@cachedigitech.com';
 const initialFormState = { name: '', email: '', phone: '', subject: '', message: '' };
 
 const ContactUsPage = () => {
@@ -19,28 +19,18 @@ const ContactUsPage = () => {
     if (submitError) setSubmitError('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitting(true);
     setSubmitError('');
-    try {
-      const res = await fetch(API_BASE + '/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setSubmitError(data.error || 'Failed to send message. Please try again.');
-        return;
-      }
-      setForm(initialFormState);
-      setSubmitted(true);
-    } catch (err) {
-      setSubmitError('Network error. Please check your connection and try again.');
-    } finally {
-      setSubmitting(false);
-    }
+    const subject = encodeURIComponent(form.subject || 'Contact from website');
+    const body = encodeURIComponent(
+      [form.name && `Name: ${form.name}`, form.email && `Email: ${form.email}`, form.phone && `Phone: ${form.phone}`, form.message && `Message:\n${form.message}`].filter(Boolean).join('\n\n')
+    );
+    const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    window.location.href = mailto;
+    setForm(initialFormState);
+    setSubmitted(true);
+    setSubmitting(false);
   };
 
   useEffect(() => {
@@ -264,66 +254,6 @@ const ContactUsPage = () => {
               )}
             </section>
           </div>
-
-          {/* Additional Information */}
-          <section className="mt-12 lg:mt-16 bg-red-50 rounded-2xl shadow-lg p-8 lg:p-10" aria-labelledby="why-choose-heading">
-            <div className="text-center">
-              <h2 id="why-choose-heading" className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                Why Choose Cache Digitech?
-              </h2>
-              <p className="text-gray-600 max-w-3xl mx-auto mb-8">
-                We combine deep technical expertise with human understanding, offering accessible global support, world-class infrastructure, and a fantastic team of skilled professionals who deliver excellence with speed and empathy.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="text-center">
-                  <div className="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4" aria-hidden>
-                    <Mail className="h-8 w-8 text-red-600" />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Quick Response</h3>
-                  <p className="text-gray-600">We respond to all inquiries within 24 hours</p>
-                </div>
-
-                <div className="text-center">
-                  <div className="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4" aria-hidden>
-                    <Phone className="h-8 w-8 text-red-600" />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Expert Support</h3>
-                  <p className="text-gray-600">Our experienced team is here to help</p>
-                </div>
-
-                <div className="text-center">
-                  <div className="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4" aria-hidden>
-                    <MapPin className="h-8 w-8 text-red-600" />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Local Presence</h3>
-                  <p className="text-gray-600">Serving clients worldwide with local expertise</p>
-                </div>
-              </div>
-
-              {/* Social Media Links */}
-              <div className="mt-8 pt-8 border-t border-red-200/60">
-                <h3 className="text-lg font-medium text-gray-900 mb-4 text-center">Follow Us</h3>
-                <div className="flex justify-center gap-4 flex-wrap">
-                  <a href="https://www.instagram.com/cachetechnologies/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 rounded-lg text-gray-600 hover:text-red-600 hover:bg-white/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-red-50">
-                    <Instagram className="h-6 w-6" />
-                  </a>
-                  <a href="https://www.linkedin.com/company/cache-digitech-pvt-ltd/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 rounded-lg text-gray-600 hover:text-red-600 hover:bg-white/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-red-50">
-                    <Linkedin className="h-6 w-6" />
-                  </a>
-                  <a href="https://x.com/digitech_cache" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" className="p-2 rounded-lg text-gray-600 hover:text-red-600 hover:bg-white/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-red-50">
-                    <Twitter className="h-6 w-6" />
-                  </a>
-                  <a href="https://www.facebook.com/CacheDigitech01" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 rounded-lg text-gray-600 hover:text-red-600 hover:bg-white/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-red-50">
-                    <Facebook className="h-6 w-6" />
-                  </a>
-                  <a href="mailto:info@cachedigitech.com" aria-label="Email us" className="p-2 rounded-lg text-gray-600 hover:text-red-600 hover:bg-white/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-red-50">
-                    <Mail className="h-6 w-6" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
         </div>
       </main>
     </div>

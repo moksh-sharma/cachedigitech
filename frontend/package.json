@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve": "vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.17.14",
