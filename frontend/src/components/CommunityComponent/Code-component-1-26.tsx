@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { usePlacement } from "../../context/PlacementsContext";
 
 export function Hero() {
-  const communityBlogImageUrl = usePlacement('community', 'blog', 'image') || '/blog/communitypage.jpg';
+  const communityBlogImageUrl = usePlacement('community', 'blog', 'image') || '/blog/communitypage.webp';
   const achievements = [
     'Leading System Integrator',
     '500+ Successful Projects',

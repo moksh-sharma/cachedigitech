@@ -4,7 +4,7 @@ import { Shield, FileCheck, AlertTriangle, Lock, CheckCircle, Globe, Server, Arr
 import { usePlacement } from '../context/PlacementsContext';
 
 export default function GRCDashboard() {
-  const heroImageUrl = usePlacement('grc-dashboard', 'main', 'heroImage') || '/servicesimages/GRC.jpg';
+  const heroImageUrl = usePlacement('grc-dashboard', 'main', 'heroImage') || '/servicesimages/GRC.webp';
 
   useEffect(() => {
     window.scrollTo(0, 0);

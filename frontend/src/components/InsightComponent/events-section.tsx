@@ -13,7 +13,7 @@ const events = [
     date: "April 15-16, 2025",
     location: "Mumbai Convention Center",
     description: "Join industry leaders for two days of insights on the future of digital integration and emerging technologies.",
-    image: "/images/careers-meeting.png",
+    image: "/images/careers-meeting.webp",
     attendees: "500+ Expected"
   },
   {
@@ -23,7 +23,7 @@ const events = [
     date: "Every Month",
     location: "Cache Digitech HQ",
     description: "Monthly hands-on workshops covering latest integration technologies, cloud platforms, and best practices.",
-    image: "/blog/insight.jpg",
+    image: "/blog/insight.webp",
     attendees: "50 per session"
   },
   {
@@ -33,7 +33,7 @@ const events = [
     date: "June 20-22, 2025",
     location: "Bangalore Tech Park",
     description: "48-hour hackathon focused on solving real-world system integration challenges with innovative solutions.",
-    image: "/blog/global.jpg",
+    image: "/blog/global.webp",
     attendees: "200+ Participants"
   }
 ];
@@ -60,7 +60,7 @@ const socialActivities = [
 ];
 
 export function EventsSection() {
-  const eventsImageUrl = usePlacement('insights', 'events', 'image') || '/blog/insightsection.jpg';
+  const eventsImageUrl = usePlacement('insights', 'events', 'image') || '/blog/insightsection.webp';
   return (
     <section className="pt-0 pb-16 lg:pb-24 bg-gray-50 scroll-mt-20" id="events">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">

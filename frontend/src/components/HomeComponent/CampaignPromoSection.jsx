@@ -4,7 +4,7 @@ import { usePlacement } from "../../context/PlacementsContext";
 import { ArrowRight } from "lucide-react";
 
 export default function CampaignPromoSection() {
-  const bannerImageUrl = usePlacement("home", "banner", "image") || "/banner2.jpeg";
+  const bannerImageUrl = usePlacement("home", "banner", "image") || "/banner2.webp";
 
   return (
     <section className="w-full pt-6 pb-6 sm:pt-8 sm:pb-8 bg-white" aria-labelledby="campaign-promo-heading">

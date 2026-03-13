@@ -215,7 +215,7 @@ export default function CloudPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-3xl"></div>
                 <ImageWithFallback
-                  src="/images/cloud.png"
+                  src="/images/cloud.webp"
                   alt="Cloud Computing Infrastructure"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[500px] xl:h-[600px] object-cover rounded-2xl sm:rounded-3xl shadow-2xl"
                 />
@@ -414,7 +414,7 @@ export default function CloudPage() {
               {/* Main Image */}
               <div className="relative">
                 <ImageWithFallback
-                  src="/images/cloud2.png"
+                  src="/images/cloud2.webp"
                   alt="Cloud Server Data Center"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />

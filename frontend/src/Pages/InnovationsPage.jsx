@@ -20,14 +20,14 @@ import {
 } from "lucide-react";
 
 // Local imagery from public folder
-const HERO_IMAGE = "/hero-bg-image.png";
-const OVERVIEW_IMAGE = "/images/innovations-meeting.png";
+const HERO_IMAGE = "/hero-bg-image.webp";
+const OVERVIEW_IMAGE = "/images/innovations-meeting.webp";
 const SPOTLIGHT_IMAGES = [
-  "/blog/ai.jpg",
-  "/blog/cloud.jpg",
-  "/blog/security.jpg",
+  "/blog/ai.webp",
+  "/blog/cloud.webp",
+  "/blog/security.webp",
 ];
-const CLOUD_SECTION_IMAGE = "/images/cloud2.png";
+const CLOUD_SECTION_IMAGE = "/images/cloud2.webp";
 
 const CLOUD_INNOVATION_POINTS = [
   "Hybrid & multi-cloud strategy—design and operate across AWS, Azure, GCP, and on-prem with a single operating model.",

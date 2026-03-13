@@ -13,7 +13,7 @@ export function PlacementsProvider({ children }) {
 
 /**
  * Get image URL for a placement. No backend: placements are empty, so always return undefined (components use fallbacks).
- * Usage: const url = usePlacement('global', 'branding', 'logo'); <img src={url || '/logo1.jpg'} />
+ * Usage: const url = usePlacement('global', 'branding', 'logo'); <img src={url || '/logo1.webp'} />
  */
 export function usePlacement(pageId, sectionId, fieldKey) {
   const { placements } = useContext(PlacementsContext);

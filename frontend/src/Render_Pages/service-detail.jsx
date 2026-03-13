@@ -80,7 +80,7 @@ const serviceDetails = {
       'Performance Monitoring'
     ],
     technologies: ['Linux', 'Windows Server', 'VMware', 'Docker', 'Kubernetes', 'Ansible'],
-    backgroundImage: '/hero-bg-image.png',
+    backgroundImage: '/hero-bg-image.webp',
     pricing: 'Starting from $3,000'
   },
   'network': {
@@ -143,7 +143,7 @@ const serviceDetails = {
       'Performance Optimization'
     ],
     technologies: ['Cisco', 'Juniper', 'Ubiquiti', 'Fortinet', 'Meraki', 'pfSense'],
-    backgroundImage: '/homepage-bg.jpg',
+    backgroundImage: '/homepage-bg.webp',
     pricing: 'Starting from $4,000'
   },
   'cloud-solutions': {
@@ -206,7 +206,7 @@ const serviceDetails = {
       'Disaster Recovery'
     ],
     technologies: ['AWS', 'Azure', 'Google Cloud', 'Kubernetes', 'Terraform', 'Docker'],
-    backgroundImage: '/servicesimages/cloudimage.jpg',
+    backgroundImage: '/servicesimages/cloudimage.webp',
     pricing: 'Starting from $3,000'
   },
   'AI': {
@@ -269,7 +269,7 @@ const serviceDetails = {
       'AI Integration'
     ],
     technologies: ['Python', 'TensorFlow', 'PyTorch', 'OpenAI', 'Hugging Face', 'Azure AI'],
-    backgroundImage: '/servicesimages/aiimage.jpg',
+    backgroundImage: '/servicesimages/aiimage.webp',
     pricing: 'Starting from $7,000'
   },
   'cybersecurity': {
@@ -332,7 +332,7 @@ const serviceDetails = {
       'Compliance Management'
     ],
     technologies: ['Nessus', 'Metasploit', 'Wireshark', 'Splunk', 'SIEM', 'Firewall'],
-    backgroundImage: '/servicesimages/cyberimage.jpg',
+    backgroundImage: '/servicesimages/cyberimage.webp',
     pricing: 'Starting from $4,000'
   },
   'consulting': {
@@ -395,7 +395,7 @@ const serviceDetails = {
       'Change Management'
     ],
     technologies: ['Agile', 'DevOps', 'ITIL', 'Prince2', 'Lean', 'Six Sigma'],
-    backgroundImage: '/servicesimages/consultingimage.jpg',
+    backgroundImage: '/servicesimages/consultingimage.webp',
     pricing: 'Starting from $2,500'
   }
 };

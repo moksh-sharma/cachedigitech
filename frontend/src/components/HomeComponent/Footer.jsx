@@ -82,7 +82,7 @@ function Footer() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [mobileOpenSection, setMobileOpenSection] = useState(null);
-  const footerLogoUrl = usePlacement("global", "footer", "bgImage") || "/cachefootercut.jpg";
+  const footerLogoUrl = usePlacement("global", "footer", "bgImage") || "/cachefootercut.webp";
   const mobileSections = getMobileSections(setShowPrivacy, setShowTerms);
 
   /* ── Mobile footer (accordion style, light gradient) ── */
@@ -186,7 +186,7 @@ function Footer() {
               <img src={footerLogoUrl} alt="Cache Digitech" className="h-14 sm:h-16 lg:h-[72px] w-auto brightness-200 opacity-90 max-w-[180px]" />
             </div>
             <img
-              src="/women_owned.png"
+              src="/women_owned.webp"
               alt="Women Owned"
               className="h-12 w-[130px] object-contain shrink-0 self-start sm:self-end"
             />

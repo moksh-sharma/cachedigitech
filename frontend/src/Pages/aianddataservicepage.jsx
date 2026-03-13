@@ -188,7 +188,7 @@ export default function DataAIPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-2xl sm:rounded-3xl"></div>
                 <ImageWithFallback
-                  src="/images/dataai.png"
+                  src="/images/dataai.webp"
                   alt="AI and Machine Learning Visualization"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[500px] xl:h-[600px] object-cover rounded-2xl sm:rounded-3xl shadow-2xl"
                 />
@@ -322,7 +322,7 @@ export default function DataAIPage() {
               {/* Main Image */}
               <div className="relative">
                 <ImageWithFallback
-                  src="/techimage.jpg"
+                  src="/techimage.webp"
                   alt="Technology Partnership Network"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />

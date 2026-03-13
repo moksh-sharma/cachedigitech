@@ -25,7 +25,7 @@ export function IndustryVerticals() {
       icon: Building2,
       description: 'Digital transformation solutions for secure financial operations',
       color: 'from-blue-500 to-blue-600',
-      image: '/industryvertical/bfsi.png'
+      image: '/industryvertical/bfsi.webp'
     },
     
     {
@@ -34,7 +34,7 @@ export function IndustryVerticals() {
       icon: Heart,
       description: 'Digital health solutions and medical system integration',
       color: 'from-red-400 to-pink-500',
-      image: '/industryvertical/healthcare.png'
+      image: '/industryvertical/healthcare.webp'
     },
     
     
@@ -44,7 +44,7 @@ export function IndustryVerticals() {
       icon: Store,
       description: 'Omnichannel retail solutions and customer experience platforms',
       color: 'from-orange-500 to-red-500',
-      image: '/industryvertical/reatailing.png'
+      image: '/industryvertical/reatailing.webp'
     },
     
     {
@@ -53,7 +53,7 @@ export function IndustryVerticals() {
   icon: Signal,
   description: 'Digital communication infrastructure including 5G, fiber optics, and network solutions.',
   color: 'from-blue-500 to-sky-600',
-  image: '/industryvertical/telecom.png'
+  image: '/industryvertical/telecom.webp'
 }
   ];
 

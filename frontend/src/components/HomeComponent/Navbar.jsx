@@ -281,7 +281,7 @@ function Navbar() {
             </div>
             {/* Desktop: Women Owned only */}
             <img
-              src="/women_owned.png"
+              src="/women_owned.webp"
               alt="Women Owned"
               className="h-10 w-[100px] object-contain shrink-0 hidden md:block"
             />

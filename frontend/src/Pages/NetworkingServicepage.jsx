@@ -62,7 +62,7 @@ const NetworkingServicesPage = () => {
       id: 'audit',
       label: 'Audit',
       icon: Eye,
-      heroImage: '/hero-bg-image.png',
+      heroImage: '/hero-bg-image.webp',
       content: {
         title: 'Network Assessment & Performance Audit',
         subtitle: 'Comprehensive evaluation of your network infrastructure, performance analysis, and security assessment',
@@ -114,7 +114,7 @@ const NetworkingServicesPage = () => {
       id: 'consult',
       label: 'Consult',
       icon: Users,
-      heroImage: '/homepage-bg.jpg',
+      heroImage: '/homepage-bg.webp',
       content: {
         title: 'Strategic Network Consulting & Planning',
         subtitle: 'Expert guidance for network strategy, technology roadmaps, and digital transformation initiatives',
@@ -166,7 +166,7 @@ const NetworkingServicesPage = () => {
       id: 'design',
       label: 'Design',
       icon: Settings,
-      heroImage: '/servicesimages/consultingimage.jpg',
+      heroImage: '/servicesimages/consultingimage.webp',
       content: {
         title: 'Network Architecture Design & Engineering',
         subtitle: 'Custom network solutions designed for performance, scalability, security, and reliability',
@@ -218,7 +218,7 @@ const NetworkingServicesPage = () => {
       id: 'build',
       label: 'Build',
       icon: Router,
-      heroImage: '/servicesimages/cloudimage.jpg',
+      heroImage: '/servicesimages/cloudimage.webp',
       content: {
         title: 'Network Implementation & Deployment',
         subtitle: 'End-to-end network deployment with seamless integration and minimal business disruption',
@@ -270,7 +270,7 @@ const NetworkingServicesPage = () => {
       id: 'operate',
       label: 'Operate & Manage',
       icon: Monitor,
-      heroImage: '/servicesimages/cyberimage.jpg',
+      heroImage: '/servicesimages/cyberimage.webp',
       content: {
         title: 'Managed Network Services & Operations',
         subtitle: 'Network monitoring, management, and support for optimal performance and reliability',

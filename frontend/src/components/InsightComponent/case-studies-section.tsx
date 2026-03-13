@@ -46,7 +46,7 @@ const caseStudies = [
       cost: "Data breach risks mitigated",
       uptime: "Sensitive telecom data protected"
     },
-    image: "/casestudies/telecomdatasecurity.png",
+    image: "/casestudies/telecomdatasecurity.webp",
     duration: "Secure laptops and printers deployment"
   },
   {
@@ -59,7 +59,7 @@ const caseStudies = [
       cost: "Operational efficiency enhanced",
       uptime: "Robust infrastructure deployed"
     },
-    image: "/casestudies/telecom2.png",
+    image: "/casestudies/telecom2.webp",
     duration: "Standardized servers, OpenGear, cables, IG cards, and ROCK devices"
   },
   {
@@ -72,7 +72,7 @@ const caseStudies = [
       cost: "Consistent performance achieved",
       uptime: "Easier maintenance across locations"
     },
-    image: "/casestudies/telelcom3.png",
+    image: "/casestudies/telelcom3.webp",
     duration: "Uniform deployment of commercial devices and network hardware"
   },
 
@@ -87,7 +87,7 @@ const caseStudies = [
       cost: "Improved performance for digital transactions",
       uptime: "Support for future growth enabled"
     },
-    image: "/casestudies/bfsi1.png",
+    image: "/casestudies/bfsi1.webp",
     duration: "Over 1000 network devices implemented"
   },
   {
@@ -100,7 +100,7 @@ const caseStudies = [
       cost: "Advanced threat detection implemented",
       uptime: "Industry compliance achieved"
     },
-    image: "/casestudies/bfsi2.png",
+    image: "/casestudies/bfsi2.webp",
     duration: "Enhanced network visibility"
   },
   {
@@ -113,7 +113,7 @@ const caseStudies = [
       cost: "Streamlined IT management",
       uptime: "Improved customer experience"
     },
-    image: "/casestudies/bfsi3.png",
+    image: "/casestudies/bfsi3.webp",
     duration: "Standardized enterprise infrastructure"
   },
 
@@ -128,7 +128,7 @@ const caseStudies = [
       cost: "Budget control implemented",
       uptime: "Maximum ROI from cloud investments"
     },
-    image: "/casestudies/auto1.png",
+    image: "/casestudies/auto1.webp",
     duration: "Resource efficiency optimized"
   },
   {
@@ -141,7 +141,7 @@ const caseStudies = [
       cost: "Reduced operational downtime",
       uptime: "Simplified IT operations"
     },
-    image: "/casestudies/auto2.png",
+    image: "/casestudies/auto2.webp",
     duration: "Integrated cloud and on-premise solutions"
   },
   {
@@ -154,7 +154,7 @@ const caseStudies = [
       cost: "Future-ready architecture implemented",
       uptime: "Enhanced innovation capabilities"
     },
-    image: "/casestudies/auto3.png",
+    image: "/casestudies/auto3.webp",
     duration: "Improved growth potential"
   },
 
@@ -169,7 +169,7 @@ const caseStudies = [
       cost: "Data breach risks mitigated",
       uptime: "Secure customer data protection"
     },
-    image: "/casestudies/retail1.png",
+    image: "/casestudies/retail1.webp",
     duration: "Secured solutions for laptops and desktops"
   },
   {
@@ -182,7 +182,7 @@ const caseStudies = [
       cost: "Performance optimization achieved",
       uptime: "Operational continuity maintained"
     },
-    image: "/casestudies/retail2.png",
+    image: "/casestudies/retail2.webp",
     duration: "Secured laptops and desktops deployment"
   },
   {
@@ -195,7 +195,7 @@ const caseStudies = [
       cost: "Simplified IT management achieved",
       uptime: "Consistent operational efficiency"
     },
-    image: "/casestudies/retail3.png",
+    image: "/casestudies/retail3.webp",
     duration: "Standardized secured devices across locations"
   },
 
@@ -210,7 +210,7 @@ const caseStudies = [
       cost: "Real-time monitoring implemented",
       uptime: "Optimization strategies deployed"
     },
-    image: "/casestudies/healthcare1.png",
+    image: "/casestudies/healthcare1.webp",
     duration: "Maximized efficiency and cost control"
   },
   {
@@ -223,7 +223,7 @@ const caseStudies = [
       cost: "Cost allocation established",
       uptime: "Compliance-driven tracking enabled"
     },
-    image: "/casestudies/healthcare2.png",
+    image: "/casestudies/healthcare2.webp",
     duration: "Financial governance aligned with regulations"
   },
   {
@@ -236,7 +236,7 @@ const caseStudies = [
       cost: "Workloads rightsized",
       uptime: "Auto-scaling mechanisms implemented"
     },
-    image: "/casestudies/healthcare3.png",
+    image: "/casestudies/healthcare3.webp",
     duration: "Significant cost savings with maintained performance"
   },
 
@@ -251,7 +251,7 @@ const caseStudies = [
       cost: "Redundant backup systems deployed",
       uptime: "Critical operations protected"
     },
-    image: "/casestudies/governance1.png",
+    image: "/casestudies/governance1.webp",
     duration: "CDAC-backed tender data backup system"
   },
   {
@@ -264,7 +264,7 @@ const caseStudies = [
       cost: "Threat detection implemented",
       uptime: "Incident response capabilities"
     },
-    image: "/casestudies/governance2.png",
+    image: "/casestudies/governance2.webp",
     duration: "SIEM tool with Microfocus 2000 EPS"
   },
   {
@@ -277,7 +277,7 @@ const caseStudies = [
       cost: "Performance optimization achieved",
       uptime: "Future-ready IT backbone"
     },
-    image: "/casestudies/governance3.png",
+    image: "/casestudies/governance3.webp",
     duration: "Advanced storage and networking solutions"
   },
 
@@ -292,7 +292,7 @@ const caseStudies = [
       cost: "Minimized downtime achieved",
       uptime: "Regular maintenance provided"
     },
-    image: "/casestudies/ites1.png",
+    image: "/casestudies/ites1.webp",
     duration: "Server AMC and hardware support services"
   },
   {
@@ -305,7 +305,7 @@ const caseStudies = [
       cost: "Legal risks avoided",
       uptime: "Uninterrupted application access"
     },
-    image: "/casestudies/ites2.png",
+    image: "/casestudies/ites2.webp",
     duration: "Managed license renewal services"
   },
   {
@@ -318,7 +318,7 @@ const caseStudies = [
       cost: "Cost-efficient operations achieved",
       uptime: "Planned upgrades scheduled"
     },
-    image: "/casestudies/ites3.png",
+    image: "/casestudies/ites3.webp",
     duration: "Comprehensive asset management approach"
   }
 ];

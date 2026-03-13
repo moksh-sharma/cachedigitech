@@ -44,7 +44,7 @@ const jobs = [
 
 
 export default function Careers() {
-     const heroImageUrl = usePlacement('careers', 'main', 'heroImage') || '/oppportunites.jpg';
+     const heroImageUrl = usePlacement('careers', 'main', 'heroImage') || '/oppportunites.webp';
 
      useEffect(() => {
         window.scrollTo(0, 0); // scroll to top when page loads

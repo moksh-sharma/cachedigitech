@@ -2,12 +2,12 @@ import React from "react";
 
 function Certifications({ sectionOnly = false }) {
   const certifications = [
-    { name: "ISO 9001:2015", logo: "/iso9001.jpeg", description: "Quality Management System" },
-    { name: "ISO 27001:2022", logo: "/iso27001.png", description: "Information Security Management" },
-    { name: "CMMI Level 5", logo: "/cmmilevel.jpeg", description: "Capability Maturity Model Integration" },
-    { name: "MSME Registered", logo: "/msme.jpeg", description: "Micro, Small & Medium Enterprises" },
-    { name: "NSIC Registered", logo: "/nisc.png", description: "National Small Industries Corporation" },
-    { name: "WEConnect International", logo: "/weconnect.jpeg", description: "Women-Owned Business Certification" },
+    { name: "ISO 9001:2015", logo: "/iso9001.webp", description: "Quality Management System" },
+    { name: "ISO 27001:2022", logo: "/iso27001.webp", description: "Information Security Management" },
+    { name: "CMMI Level 5", logo: "/cmmilevel.webp", description: "Capability Maturity Model Integration" },
+    { name: "MSME Registered", logo: "/msme.webp", description: "Micro, Small & Medium Enterprises" },
+    { name: "NSIC Registered", logo: "/nisc.webp", description: "National Small Industries Corporation" },
+    { name: "WEConnect International", logo: "/weconnect.webp", description: "Women-Owned Business Certification" },
   ];
 
   return (

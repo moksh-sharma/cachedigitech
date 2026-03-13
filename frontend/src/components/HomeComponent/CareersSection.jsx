@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CAREERS_HERO_IMAGE = "/images/careers-meeting.png";
+const CAREERS_HERO_IMAGE = "/images/careers-meeting.webp";
 
 export default function CareersSection() {
   return (

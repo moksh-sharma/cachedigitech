@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { usePlacement } from "../../context/PlacementsContext";
 
 export function HeroSection() {
-  const heroImageUrl = usePlacement('insights', 'hero', 'image') || '/blog/insight.jpg';
+  const heroImageUrl = usePlacement('insights', 'hero', 'image') || '/blog/insight.webp';
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-linear-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
       <div className="absolute inset-0 bg-black/50 z-10"></div>

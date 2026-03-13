@@ -28,77 +28,77 @@ function PartnershipCards() {
     {
       category: 'Titanium',
       items: [
-        { name: 'Dell', level: 'Titanium', logo: '/community/dell.png' },
+        { name: 'Dell', level: 'Titanium', logo: '/community/dell.webp' },
       ],
     },
     {
       category: 'Premier',
       items: [
-        { name: 'Cisco', level: 'Premier', logo: '/Partners/cisco.png' },
+        { name: 'Cisco', level: 'Premier', logo: '/Partners/cisco.webp' },
       ],
     },
     {
       category: 'Gold & Silver',
       items: [
-        { name: 'HP', level: 'Gold', logo: '/community/hpelogo.png' },
-        { name: 'Trellix', level: 'Gold', logo: '/Partners/trellix.png' },
-        { name: 'IBM', level: 'Silver', logo: '/community/ibmlogo.png' },
+        { name: 'HP', level: 'Gold', logo: '/community/hpelogo.webp' },
+        { name: 'Trellix', level: 'Gold', logo: '/Partners/trellix.webp' },
+        { name: 'IBM', level: 'Silver', logo: '/community/ibmlogo.webp' },
       ],
     },
     {
       category: 'Cloud & CSP',
       items: [
-        { name: 'Microsoft', level: 'CSP', logo: '/community/microsoft.jpg' },
-        { name: 'GCP', level: 'Partner', logo: '/community/gcp2.jpg' },
-        { name: 'AWS', level: 'Select', logo: '/community/awslogo.png' },
-        { name: 'Azure', level: 'Member', logo: '/community/microsoft.jpg' },
-        { name: 'Oracle', level: 'OPN Member', logo: '/community/oracle.png' },
+        { name: 'Microsoft', level: 'CSP', logo: '/community/microsoft.webp' },
+        { name: 'GCP', level: 'Partner', logo: '/community/gcp2.webp' },
+        { name: 'AWS', level: 'Select', logo: '/community/awslogo.webp' },
+        { name: 'Azure', level: 'Member', logo: '/community/microsoft.webp' },
+        { name: 'Oracle', level: 'OPN Member', logo: '/community/oracle.webp' },
       ],
     },
     {
       category: 'Advance & MSSP',
       items: [
-        { name: 'Fortinet', level: 'Advance, MSSP', logo: '/community/fortinet.jpg' },
+        { name: 'Fortinet', level: 'Advance, MSSP', logo: '/community/fortinet.webp' },
       ],
     },
     {
       category: 'Authorised',
       items: [
-        { name: 'Broadcom', level: 'Authorised', logo: '/Partners/cloudsek.png' },
-        { name: 'Commscope', level: 'Netconnect', logo: '/Partners/everest.png' },
-        { name: 'Arista', level: 'Authorised', logo: '/Partners/arista.png' },
-        { name: 'Extreme', level: 'Authorised', logo: '/Partners/extreme.png' },
+        { name: 'Broadcom', level: 'Authorised', logo: '/Partners/cloudsek.webp' },
+        { name: 'Commscope', level: 'Netconnect', logo: '/Partners/everest.webp' },
+        { name: 'Arista', level: 'Authorised', logo: '/Partners/arista.webp' },
+        { name: 'Extreme', level: 'Authorised', logo: '/Partners/extreme.webp' },
       ],
     },
     {
       category: 'Enrolled',
       items: [
-        { name: 'Nutanix', level: 'Enrolled', logo: '/Partners/nutanix.png' },
-        { name: 'Red Hat', level: 'Enrolled', logo: '/community/redhat.jpg' },
-        { name: 'Beyond Trust', level: 'Enrolled', logo: '/Partners/beyondtrust.png' },
-        { name: 'Tenable', level: 'Enrolled', logo: '/Partners/tenable.png' },
-        { name: 'Tufin', level: 'Enrolled', logo: '/Partners/tenable.png' },
-        { name: 'CrowdStrike', level: 'Enrolled', logo: '/Partners/trellix.png' },
-        { name: 'Firemon', level: 'Enrolled', logo: '/Partners/forescout.png' },
-        { name: 'Zscaler', level: 'Enrolled', logo: '/Partners/zscaler.png' },
+        { name: 'Nutanix', level: 'Enrolled', logo: '/Partners/nutanix.webp' },
+        { name: 'Red Hat', level: 'Enrolled', logo: '/community/redhat.webp' },
+        { name: 'Beyond Trust', level: 'Enrolled', logo: '/Partners/beyondtrust.webp' },
+        { name: 'Tenable', level: 'Enrolled', logo: '/Partners/tenable.webp' },
+        { name: 'Tufin', level: 'Enrolled', logo: '/Partners/tenable.webp' },
+        { name: 'CrowdStrike', level: 'Enrolled', logo: '/Partners/trellix.webp' },
+        { name: 'Firemon', level: 'Enrolled', logo: '/Partners/forescout.webp' },
+        { name: 'Zscaler', level: 'Enrolled', logo: '/Partners/zscaler.webp' },
       ],
     },
     {
       category: 'Registered & Preferred',
       items: [
-        { name: 'Imperva', level: 'Registered', logo: '/Partners/imperva.png' },
-        { name: 'Everest', level: 'Registered', logo: '/Partners/everest.png' },
-        { name: 'Cloudsek', level: 'Registered', logo: '/community/cloudsek.jpg' },
-        { name: 'Cloudera', level: 'Registered', logo: '/Partners/cloudsek.png' },
-        { name: 'Kaspersky', level: 'Registered', logo: '/Partners/kaspersky.png' },
-        { name: 'Haproxy', level: 'Registered', logo: '/Partners/haproxy.png' },
-        { name: 'Forescout', level: 'Registered', logo: '/Partners/forescout.png' },
-        { name: 'Palo Alto', level: 'Registered, Innovator', logo: '/community/paloalto.jpg' },
-        { name: 'Veeam', level: 'Registered & SP', logo: '/Partners/veeam.png' },
-        { name: 'Commvault', level: 'Registered', logo: '/Partners/commvault.png' },
-        { name: 'HPI', level: 'Registered', logo: '/Partners/hplogo.png' },
-        { name: 'IBM Apptio Cloud', level: 'Registered, SP', logo: '/community/ibmlogo.png' },
-        { name: 'NetApp', level: 'Approved, Preferred', logo: '/Partners/netapp.png' },
+        { name: 'Imperva', level: 'Registered', logo: '/Partners/imperva.webp' },
+        { name: 'Everest', level: 'Registered', logo: '/Partners/everest.webp' },
+        { name: 'Cloudsek', level: 'Registered', logo: '/community/cloudsek.webp' },
+        { name: 'Cloudera', level: 'Registered', logo: '/Partners/cloudsek.webp' },
+        { name: 'Kaspersky', level: 'Registered', logo: '/Partners/kaspersky.webp' },
+        { name: 'Haproxy', level: 'Registered', logo: '/Partners/haproxy.webp' },
+        { name: 'Forescout', level: 'Registered', logo: '/Partners/forescout.webp' },
+        { name: 'Palo Alto', level: 'Registered, Innovator', logo: '/community/paloalto.webp' },
+        { name: 'Veeam', level: 'Registered & SP', logo: '/Partners/veeam.webp' },
+        { name: 'Commvault', level: 'Registered', logo: '/Partners/commvault.webp' },
+        { name: 'HPI', level: 'Registered', logo: '/Partners/hplogo.webp' },
+        { name: 'IBM Apptio Cloud', level: 'Registered, SP', logo: '/community/ibmlogo.webp' },
+        { name: 'NetApp', level: 'Approved, Preferred', logo: '/Partners/netapp.webp' },
       ],
     },
   ];
@@ -169,7 +169,7 @@ function PartnershipCards() {
                 className="rounded-2xl overflow-hidden shadow-xl border border-gray-100"
               >
                 <ImageWithFallback
-                  src="/girl-hand.jpg"
+                  src="/girl-hand.webp"
                   alt="Business Partnership"
                   className="w-full h-auto object-cover"
                 />

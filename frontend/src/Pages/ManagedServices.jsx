@@ -13,7 +13,7 @@ const ManagedServicesPage = () => {
     const [animatedText, setAnimatedText] = useState('');
     const [textIndex, setTextIndex] = useState(0);
     const location = useLocation();
-    const heroImageUrl = usePlacement('manageservices', 'main', 'heroImage') || '/servicesimages/managedservices.jpg';
+    const heroImageUrl = usePlacement('manageservices', 'main', 'heroImage') || '/servicesimages/managedservices.webp';
 
     useEffect(() => {
         // Check if there's a hash in the URL for section navigation

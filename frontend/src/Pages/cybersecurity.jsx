@@ -237,7 +237,7 @@ export default function CybersecurityPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-2xl sm:rounded-3xl"></div>
                 <ImageWithFallback
-                  src="/images/cybersec.png"
+                  src="/images/cybersec.webp"
                   alt="Cybersecurity Network Protection"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[500px] xl:h-[600px] object-cover rounded-2xl sm:rounded-3xl shadow-2xl"
                 />
@@ -345,7 +345,7 @@ export default function CybersecurityPage() {
               {/* Main Image */}
               <div className="relative">
                 <ImageWithFallback
-                  src="/images/audits.png"
+                  src="/images/audits.webp"
                   alt="Security Operations Center Monitoring"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />
@@ -550,7 +550,7 @@ export default function CybersecurityPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-xl sm:rounded-2xl lg:rounded-3xl"></div>
                 <ImageWithFallback
-                  src="/images/grc.png"
+                  src="/images/grc.webp"
                   alt="Digital Security Shield Technology"
                   className="w-full h-48 sm:h-64 md:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl"
                 />

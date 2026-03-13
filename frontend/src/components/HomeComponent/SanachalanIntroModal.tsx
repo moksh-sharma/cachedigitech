@@ -6,7 +6,7 @@ import { usePlacement } from "../../context/PlacementsContext";
 export default function SanachalanIntroModal({ loading = false }: { loading?: boolean }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const bannerImageUrl = usePlacement('home', 'banner', 'image') || '/banner2.jpeg';
+  const bannerImageUrl = usePlacement('home', 'banner', 'image') || '/banner2.webp';
   const [open, setOpen] = useState(false);
   const [closedForSession, setClosedForSession] = useState(false);
   // Animation handled via CSS keyframes

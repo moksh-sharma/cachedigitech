@@ -4,18 +4,18 @@ import { ImageWithFallback } from '../figma/ImageWithFallback';
 
 export function Partners() {
   const partnerLogos = [
-    { name: 'Microsoft', logo: '/community/microsoftlogo.png' },
-    { name: 'Amazon AWS', logo: '/community/awslogo.png' },
-    { name: 'Cisco', logo: '/Partners/cisco.png' },
-    { name: 'redHat', logo: '/Partners/redhat.png' },
-    { name: 'CloudSek', logo: '/Partners/cloudsek.png' },
-    { name: 'IBM', logo: '/community/ibmlogo.png' },
-    { name: 'SentinelOne', logo: '/Partners/sentinalone.png' },
-    { name: 'Palo Alto', logo: '/Partners/paloato.png' },
-    { name: 'Dell', logo: '/community/dell.png' },
-    { name: 'Fortinet', logo: '/Partners/fortinet.png' },
-    { name: 'Trellix', logo: '/Partners/trellix.png' },
-    { name: 'Tenable', logo: '/Partners/tenable.png' }
+    { name: 'Microsoft', logo: '/community/microsoftlogo.webp' },
+    { name: 'Amazon AWS', logo: '/community/awslogo.webp' },
+    { name: 'Cisco', logo: '/Partners/cisco.webp' },
+    { name: 'redHat', logo: '/Partners/redhat.webp' },
+    { name: 'CloudSek', logo: '/Partners/cloudsek.webp' },
+    { name: 'IBM', logo: '/community/ibmlogo.webp' },
+    { name: 'SentinelOne', logo: '/Partners/sentinalone.webp' },
+    { name: 'Palo Alto', logo: '/Partners/paloato.webp' },
+    { name: 'Dell', logo: '/community/dell.webp' },
+    { name: 'Fortinet', logo: '/Partners/fortinet.webp' },
+    { name: 'Trellix', logo: '/Partners/trellix.webp' },
+    { name: 'Tenable', logo: '/Partners/tenable.webp' }
   ];
 
   const partnershipBenefits = [
@@ -131,7 +131,7 @@ export function Partners() {
               }}
             >
               <ImageWithFallback
-                src="/pexels-life-of-pix-2391.jpg"
+                src="/pexels-life-of-pix-2391.webp"
                 alt="Business Partnership"
                 className="w-full h-auto rounded-2xl shadow-2xl"
               />

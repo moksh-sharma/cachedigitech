@@ -84,7 +84,7 @@ const industries = [
 ];
 
 export default function CompliancePage() {
-  const heroImageUrl = usePlacement('consultingservice', 'main', 'heroImage') || '/servicesimages/consulting.jpg';
+  const heroImageUrl = usePlacement('consultingservice', 'main', 'heroImage') || '/servicesimages/consulting.webp';
 
   return (
     <div className="min-h-screen bg-white">
@@ -214,7 +214,7 @@ export default function CompliancePage() {
               {/* Main Image */}
               <div className="relative">
                 <ImageWithFallback
-                  src="/images/audits.png"
+                  src="/images/audits.webp"
                   alt="Regulatory Compliance Dashboard"
                   className="w-full h-64 sm:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-2xl lg:rounded-3xl shadow-2xl"
                 />

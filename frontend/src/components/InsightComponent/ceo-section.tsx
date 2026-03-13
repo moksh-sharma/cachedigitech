@@ -2,7 +2,7 @@
 import { usePlacement } from "../../context/PlacementsContext";
 
 export function CEOSection() {
-  const ceoImageUrl = usePlacement('about', 'leadership', 'ceoImage') || '/team/prarthna.jpg';
+  const ceoImageUrl = usePlacement('about', 'leadership', 'ceoImage') || '/team/prarthna.webp';
   return (
     <section className="pt-24 lg:pt-32 pb-16 lg:pb-24 bg-white scroll-mt-20" id="LeadershipVision" aria-labelledby="ceo-heading">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -51,7 +51,7 @@ export function CEOSection() {
                 <p className="text-base sm:text-lg mt-1 font-holiday text-gray-700">
                   That&apos;s Cache&apos;s Promise
                 </p>
-                <img className="h-3 sm:h-4 mt-2 invert mix-blend-multiply" alt="" src="/footerline.png" aria-hidden />
+                <img className="h-3 sm:h-4 mt-2 invert mix-blend-multiply" alt="" src="/footerline.webp" aria-hidden />
               </div>
 
               <div className="mt-6 p-6 bg-linear-to-r from-red-50 to-gray-50 rounded-lg border-l-4 border-red-600">
@@ -68,7 +68,7 @@ export function CEOSection() {
           {/* Image: absolute so row height comes from right column only; image matches that height */}
           <div className="rounded-lg overflow-hidden w-full lg:absolute lg:left-0 lg:top-0 lg:bottom-0 lg:w-[calc(50%-1.5rem)]">
             <img
-              src="/leadership-booth.png"
+              src="/leadership-booth.webp"
               alt="Cache Digitech team at exhibition booth with CACHE Endeavouring Perfection and DELL Technologies branding, Women Owned"
               className="block w-full h-full min-h-full object-cover"
               loading="lazy"

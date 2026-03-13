@@ -39,23 +39,23 @@ export default function Profile() {
 
   // Customer logos (using available assets in /public)
   const customerLogos = [
-    { name: 'Airtel', img: '/clients/airtel.png' },
-    { name: 'HT', img: '/clients/HT Media.png' },
-    { name: 'Erricson', img: '/clients/ericsson.png' },
-    { name: 'Energizer', img: '/clients/ienergizer.png' },
-    { name: 'industryTower', img: '/clients/industower.png' },
-    { name: 'JKCement', img: '/clients/jk cement.png' },
-    { name: 'Jubilant', img: '/clients/jubilant.png' },
-    { name: 'Lal Path Lab', img: '/clients/lal path lab.png' },
-    { name: 'TCL', img: '/clients/tcl.png' },
-    { name: 'Nokia', img: '/clients/nokia.png' },
-    { name: 'Cisco', img: '/Partners/cisco.png' },
-    { name: 'NSE', img: '/clients/nse.png' },
+    { name: 'Airtel', img: '/clients/airtel.webp' },
+    { name: 'HT', img: '/clients/HT Media.webp' },
+    { name: 'Erricson', img: '/clients/ericsson.webp' },
+    { name: 'Energizer', img: '/clients/ienergizer.webp' },
+    { name: 'industryTower', img: '/clients/industower.webp' },
+    { name: 'JKCement', img: '/clients/jk cement.webp' },
+    { name: 'Jubilant', img: '/clients/jubilant.webp' },
+    { name: 'Lal Path Lab', img: '/clients/lal path lab.webp' },
+    { name: 'TCL', img: '/clients/tcl.webp' },
+    { name: 'Nokia', img: '/clients/nokia.webp' },
+    { name: 'Cisco', img: '/Partners/cisco.webp' },
+    { name: 'NSE', img: '/clients/nse.webp' },
     { name: 'RJCorp', img: '/clients/rjcorp.webp' },
-    { name: 'CDAC', img: '/clients/cdac.jpeg' },
-    { name: 'PhonePe', img: '/clients/phonepe.png' },
-    { name: 'Hero MotoCorp', img: '/clients/hero.png' },
-    { name: 'Vodafone', img: '/clients/vodafone.png' },
+    { name: 'CDAC', img: '/clients/cdac.webp' },
+    { name: 'PhonePe', img: '/clients/phonepe.webp' },
+    { name: 'Hero MotoCorp', img: '/clients/hero.webp' },
+    { name: 'Vodafone', img: '/clients/vodafone.webp' },
   ];
 
   return (
@@ -130,7 +130,7 @@ export default function Profile() {
             </div>
             <div className="rounded-2xl overflow-hidden shadow-xl border border-red-500/20 relative aspect-4/3 min-h-[240px] sm:min-h-[320px] order-1 md:order-2">
               <img
-                src="/leadership-booth.png"
+                src="/leadership-booth.webp"
                 alt="Our Commitment — teamwork and partnership"
                 className="w-full h-full object-cover"
               />
@@ -164,7 +164,7 @@ export default function Profile() {
             </div>
             <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl border border-gray-100 relative aspect-[4/3] w-full max-w-md mx-auto sm:max-w-none sm:mx-0 min-h-[200px] sm:min-h-[320px] bg-gray-100 order-1 lg:order-2">
               <img
-                src="/mission.jpg"
+                src="/mission.webp"
                 alt="Our Philosophy — excellence with agility, service with heart"
                 className="w-full h-full object-cover"
               />

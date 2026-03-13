@@ -123,8 +123,8 @@ const futureVision = [
 
 export default function TelecomPage() {
     const [activeSection, setActiveSection] = useState("hero");
-    const heroImage1Url = usePlacement('telecom', 'hero', 'image1') || '/servicesimages/telecompage.png';
-    const heroImage2Url = usePlacement('telecom', 'hero', 'image2') || '/servicesimages/telecompage2.png';
+    const heroImage1Url = usePlacement('telecom', 'hero', 'image1') || '/servicesimages/telecompage.webp';
+    const heroImage2Url = usePlacement('telecom', 'hero', 'image2') || '/servicesimages/telecompage2.webp';
 
     useEffect(() => {
         const handleScroll = () => {

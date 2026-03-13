@@ -54,35 +54,35 @@ const caseStudyData = {
   'Telecom': {
     name: 'Telecom Network Modernization',
     description: 'Transformed a major telecom operator\'s infrastructure with 5G deployment, network optimization, and digital service platforms that increased network efficiency by 45% and customer satisfaction by 35%.',
-    image: "/girl-hand.jpg",
+    image: "/girl-hand.webp",
     benefits: ['45% increase in network efficiency', '35% improvement in customer satisfaction', '5G network deployment', 'Enhanced digital service delivery'],
     approach: ['Network infrastructure assessment', '5G rollout strategy', 'Digital transformation roadmap']
   },
   'BFSI': {
     name: 'Banking & Financial Services Innovation',
     description: 'Modernized core banking systems for a leading financial institution, implementing digital banking solutions, fraud detection systems, and regulatory compliance frameworks that reduced operational costs by 40%.',
-    image: "public/girl-hand.jpg",
+    image: "public/girl-hand.webp",
     benefits: ['40% reduction in operational costs', '99.9% system uptime', 'Enhanced fraud detection', 'Regulatory compliance automation'],
     approach: ['Legacy system modernization', 'Digital banking implementation', 'Security framework deployment']
   },
   'Automobile & Manufacturing': {
     name: 'Smart Manufacturing & Automotive Solutions',
     description: 'Implemented Industry 4.0 solutions for automotive manufacturing, including IoT integration, predictive maintenance, and supply chain optimization that improved production efficiency by 50%.',
-    image: "public/girl-hand.jpg",
+    image: "public/girl-hand.webp",
     benefits: ['50% improvement in production efficiency', '30% reduction in downtime', 'Predictive maintenance implementation', 'Supply chain optimization'],
     approach: ['Smart factory design', 'IoT sensor deployment', 'Automation integration']
   },
   'Retail': {
     name: 'Retail Digital Transformation',
     description: 'Revolutionized retail operations with omnichannel platforms, inventory management systems, and customer analytics that increased sales by 60% and improved customer experience across all touchpoints.',
-    image: "public/girl-hand.jpg",
+    image: "public/girl-hand.webp",
     benefits: ['60% increase in sales', 'Omnichannel customer experience', 'Real-time inventory management', 'Personalized customer analytics'],
     approach: ['Customer journey mapping', 'Platform integration', 'Data analytics implementation']
   },
   'Healthcare & Hospitality': {
     name: 'Healthcare & Hospitality Innovation',
     description: 'Delivered comprehensive digital solutions for healthcare providers and hospitality chains, including patient management systems, telemedicine platforms, and guest experience optimization that improved service quality by 55%.',
-    image: '/blog/healthcare.jpg',
+    image: '/blog/healthcare.webp',
     benefits: ['55% improvement in service quality', 'Enhanced patient care delivery', 'Streamlined guest experiences', 'HIPAA compliance achieved'],
     approach: ['Service design optimization', 'Digital platform integration', 'Compliance framework implementation']
   },

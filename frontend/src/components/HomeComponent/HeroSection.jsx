@@ -388,7 +388,7 @@ const HeroSection = () => {
           <div
             className="absolute inset-0 bg-no-repeat bg-center"
             style={{
-              backgroundImage: 'url(/girl-hand.jpg)',
+              backgroundImage: 'url(/girl-hand.webp)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -755,7 +755,7 @@ const HeroSection = () => {
 };
 
 /* ───────── Innovations (home strip) ───────── */
-const INNOVATIONS_HERO_IMAGE = '/images/innovations-meeting.png';
+const INNOVATIONS_HERO_IMAGE = '/images/innovations-meeting.webp';
 
 function InnovationsSection() {
   return (
@@ -948,30 +948,30 @@ function SolutionsShowcaseSection() {
 
 /* ───────── OEM Alliances Section (with category for globe popup) ───────── */
 const OEM_PARTNERS = [
-  { name: 'Dell', logo: '/community/dell.png', level: 'Titanium' },
-  { name: 'Cisco', logo: '/Partners/cisco.png', level: 'Premier' },
-  { name: 'Microsoft', logo: '/community/microsoft.jpg', level: 'CSP' },
-  { name: 'Amazon AWS', logo: '/community/awslogo.png', level: 'Select' },
-  { name: 'Red Hat', logo: '/community/redhat.jpg', level: 'Enrolled' },
-  { name: 'IBM', logo: '/community/ibmlogo.png', level: 'Silver' },
-  { name: 'Google Cloud', logo: '/community/gcp2.jpg', level: 'Partner' },
-  { name: 'Palo Alto', logo: '/community/paloalto.jpg', level: 'Registered, Innovator' },
-  { name: 'Fortinet', logo: '/community/fortinet.jpg', level: 'Advance, MSSP' },
-  { name: 'Oracle', logo: '/community/oracle.png', level: 'OPN Member' },
-  { name: 'VMware', logo: '/Partners/vmvare.png', level: 'Partner' },
-  { name: 'SentinelOne', logo: '/Partners/sentinalone.png', level: 'Partner' },
-  { name: 'HPE', logo: '/community/hpelogo.png', level: 'Gold' },
-  { name: 'Juniper Networks', logo: '/community/junipernetwork.png', level: 'Authorised' },
-  { name: 'Trellix', logo: '/Partners/trellix.png', level: 'Gold' },
-  { name: 'Tenable', logo: '/Partners/tenable.png', level: 'Enrolled' },
-  { name: 'CloudSek', logo: '/community/cloudsek.jpg', level: 'Registered' },
-  { name: 'Zscaler', logo: '/Partners/zscaler.png', level: 'Enrolled' },
-  { name: 'NetApp', logo: '/Partners/netapp.png', level: 'Approved, Preferred' },
-  { name: 'Nutanix', logo: '/Partners/nutanix.png', level: 'Enrolled' },
-  { name: 'SAP', logo: '/community/saplogo.jpeg', level: 'Partner' },
-  { name: 'Salesforce', logo: '/community/salesforce.png', level: 'Partner' },
-  { name: 'Trend Micro', logo: '/Partners/trendmicro.png', level: 'Registered' },
-  { name: 'Veeam', logo: '/Partners/veeam.png', level: 'Registered & SP' },
+  { name: 'Dell', logo: '/community/dell.webp', level: 'Titanium' },
+  { name: 'Cisco', logo: '/Partners/cisco.webp', level: 'Premier' },
+  { name: 'Microsoft', logo: '/community/microsoft.webp', level: 'CSP' },
+  { name: 'Amazon AWS', logo: '/community/awslogo.webp', level: 'Select' },
+  { name: 'Red Hat', logo: '/community/redhat.webp', level: 'Enrolled' },
+  { name: 'IBM', logo: '/community/ibmlogo.webp', level: 'Silver' },
+  { name: 'Google Cloud', logo: '/community/gcp2.webp', level: 'Partner' },
+  { name: 'Palo Alto', logo: '/community/paloalto.webp', level: 'Registered, Innovator' },
+  { name: 'Fortinet', logo: '/community/fortinet.webp', level: 'Advance, MSSP' },
+  { name: 'Oracle', logo: '/community/oracle.webp', level: 'OPN Member' },
+  { name: 'VMware', logo: '/Partners/vmvare.webp', level: 'Partner' },
+  { name: 'SentinelOne', logo: '/Partners/sentinalone.webp', level: 'Partner' },
+  { name: 'HPE', logo: '/community/hpelogo.webp', level: 'Gold' },
+  { name: 'Juniper Networks', logo: '/community/junipernetwork.webp', level: 'Authorised' },
+  { name: 'Trellix', logo: '/Partners/trellix.webp', level: 'Gold' },
+  { name: 'Tenable', logo: '/Partners/tenable.webp', level: 'Enrolled' },
+  { name: 'CloudSek', logo: '/community/cloudsek.webp', level: 'Registered' },
+  { name: 'Zscaler', logo: '/Partners/zscaler.webp', level: 'Enrolled' },
+  { name: 'NetApp', logo: '/Partners/netapp.webp', level: 'Approved, Preferred' },
+  { name: 'Nutanix', logo: '/Partners/nutanix.webp', level: 'Enrolled' },
+  { name: 'SAP', logo: '/community/saplogo.webp', level: 'Partner' },
+  { name: 'Salesforce', logo: '/community/salesforce.webp', level: 'Partner' },
+  { name: 'Trend Micro', logo: '/Partners/trendmicro.webp', level: 'Registered' },
+  { name: 'Veeam', logo: '/Partners/veeam.webp', level: 'Registered & SP' },
 ];
 
 const PARTNER_CARD_WIDTH = 96;   // w-24
@@ -1064,14 +1064,14 @@ function OEMAlliancesSection() {
 
 /* ───────── Premium Partners (logo + tier) ───────── */
 const PREMIUM_PARTNERS = [
-  { name: 'Dell', tier: 'Titanium', logo: '/community/dell.png' },
-  { name: 'Cisco', tier: 'Premier', logo: '/Partners/cisco.png' },
-  { name: 'Microsoft', tier: 'CSP', logo: '/community/microsoft.jpg' },
-  { name: 'HP', tier: 'Gold', logo: '/community/hpelogo.png' },
-  { name: 'IBM', tier: 'Silver', logo: '/community/ibmlogo.png' },
-  { name: 'Trellix', tier: 'Gold', logo: '/Partners/trellix.png' },
-  { name: 'GCP', tier: 'Service Partner', logo: '/community/gcp2.jpg' },
-  { name: 'AWS', tier: 'Select', logo: '/community/awslogo.png' },
+  { name: 'Dell', tier: 'Titanium', logo: '/community/dell.webp' },
+  { name: 'Cisco', tier: 'Premier', logo: '/Partners/cisco.webp' },
+  { name: 'Microsoft', tier: 'CSP', logo: '/community/microsoft.webp' },
+  { name: 'HP', tier: 'Gold', logo: '/community/hpelogo.webp' },
+  { name: 'IBM', tier: 'Silver', logo: '/community/ibmlogo.webp' },
+  { name: 'Trellix', tier: 'Gold', logo: '/Partners/trellix.webp' },
+  { name: 'GCP', tier: 'Service Partner', logo: '/community/gcp2.webp' },
+  { name: 'AWS', tier: 'Select', logo: '/community/awslogo.webp' },
 ];
 
 function PremiumPartnersSection() {
