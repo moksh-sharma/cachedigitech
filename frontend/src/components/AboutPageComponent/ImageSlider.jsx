@@ -23,7 +23,7 @@ const AwardsSection = () => {
   return (
     <div className="w-full min-h-screen bg-[#fafafa]">
       <section
-        className="relative pt-8 md:pt-12 pb-8 md:pb-12 overflow-hidden"
+        className="relative pt-24 lg:pt-32 pb-8 md:pb-12 overflow-hidden"
         style={{ background: 'linear-gradient(180deg, #fafbfc 0%, #f1f5f9 50%, #fafbfc 100%)' }}
       >
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-red-100/25 blur-[120px] pointer-events-none" />
