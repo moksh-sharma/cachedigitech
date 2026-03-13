@@ -4,7 +4,7 @@ import { usePlacement } from "../../context/PlacementsContext";
 export function CEOSection() {
   const ceoImageUrl = usePlacement('about', 'leadership', 'ceoImage') || '/team/prarthna.jpg';
   return (
-    <section className="py-16 lg:py-24 bg-white scroll-mt-20" id="LeadershipVision" aria-labelledby="ceo-heading">
+    <section className="pt-24 lg:pt-32 pb-16 lg:pb-24 bg-white scroll-mt-20" id="LeadershipVision" aria-labelledby="ceo-heading">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="text-center mb-16">
           <h2 id="ceo-heading" className="text-4xl md:text-5xl font-bold text-black mb-4">

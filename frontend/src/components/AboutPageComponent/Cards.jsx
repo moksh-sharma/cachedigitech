@@ -124,17 +124,19 @@ function PartnershipCards() {
   return (
     <div id="partners" className="min-h-screen bg-[#fafafa]">
       {/* Benefits + Image Section */}
-      <section ref={benefitsRef} className="relative py-20 md:py-28 overflow-hidden" style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}>
+      <section ref={benefitsRef} className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden" style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}>
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-red-100/25 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-red-50/20 blur-[100px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             {/* Partnership Benefits */}
             <div className={`space-y-5 transition-all duration-700 ${benefitsVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
-              <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-2">Why partner with us</p>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-(--apple-black) tracking-tight leading-[1.08] mb-10">
-                Partnership Benefits
-              </h2>
+              <div className="text-center">
+                <p className="text-3xl sm:text-4xl font-extrabold tracking-[0.2em] uppercase text-red-500 mb-2">Why partner with us</p>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-(--apple-black) tracking-tight leading-[1.08] mb-10">
+                  Partnership Benefits
+                </h2>
+              </div>
               {partnershipBenefits.map((benefit, index) => {
                 const IconComponent = benefit.icon;
                 return (

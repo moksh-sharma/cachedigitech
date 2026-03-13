@@ -190,7 +190,7 @@ export default function Profile() {
             {industries.map((industry, index) => (
               <Link
                 key={index}
-                to={`/insights?industry=${encodeURIComponent(industry)}#success-stories`}
+                to={`/case-studies?industry=${encodeURIComponent(industry)}`}
                 className="px-4 py-2 sm:px-5 sm:py-2.5 text-sm sm:text-base font-medium bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-full hover:bg-red-600 hover:border-red-500 hover:text-white transition-all duration-300"
                 aria-label={`View ${industry} case studies`}
               >

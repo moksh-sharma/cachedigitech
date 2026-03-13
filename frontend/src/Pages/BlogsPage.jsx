@@ -10,7 +10,7 @@ export default function BlogsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <section className="pt-16 lg:pt-24 pb-12 lg:pb-20">
+      <section className="pt-24 lg:pt-32 pb-12 lg:pb-20">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
