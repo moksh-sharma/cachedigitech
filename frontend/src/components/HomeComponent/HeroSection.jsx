@@ -20,13 +20,6 @@ const SERVICE_LINKS = [
   { name: 'Data & AI', path: '/aianddataservice' },
 ];
 
-const CAPABILITIES = [
-  { name: 'Audit & Consult', icon: '🔍', services: SERVICE_LINKS },
-  { name: 'Design', icon: '🎨', services: SERVICE_LINKS },
-  { name: 'Build', icon: '🔧', services: SERVICE_LINKS },
-  { name: 'Operate & Manage', icon: '⚙️', services: SERVICE_LINKS },
-];
-
 const CASE_STUDIES = [
   'Telecom',
   'BFSI',
@@ -327,7 +320,6 @@ const HeroSection = () => {
 
   // Dropdown state for "Choose your interest"
   const [capOpen, setCapOpen] = useState(false);
-  const [expandedCap, setExpandedCap] = useState(null); // which capability's subtopics are shown
   const [csOpen, setCsOpen] = useState(false);
   const dropdownAreaRef = useRef(null);
 
@@ -336,7 +328,6 @@ const HeroSection = () => {
     const handler = (e) => {
       if (dropdownAreaRef.current && !dropdownAreaRef.current.contains(e.target)) {
         setCapOpen(false);
-        setExpandedCap(null);
         setCsOpen(false);
       }
     };
@@ -344,13 +335,8 @@ const HeroSection = () => {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const handleCapClick = (cap) => {
-    setExpandedCap(expandedCap === cap.name ? null : cap.name);
-  };
-
   const handleServiceClick = (path) => {
     setCapOpen(false);
-    setExpandedCap(null);
     navigate(path);
   };
 
@@ -423,14 +409,14 @@ const HeroSection = () => {
                 </span>
               </h1>
             </div>
-            <p className="hero-text-fadein text-base sm:text-lg lg:text-xl text-white/95 font-light max-w-2xl leading-[1.6] sm:leading-[1.65]" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.4)' }}>
+            <p className="hero-text-fadein text-sm sm:text-base lg:text-lg text-white/95 font-light max-w-2xl leading-[1.6] sm:leading-[1.65] -mt-2 sm:-mt-3" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.4)' }}>
               {subheading}
             </p>
             <div className="hero-text-fadein-delay flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1">
               <button
                 type="button"
                 onClick={() => navigate('/contactus')}
-                className="inline-flex items-center gap-2 bg-white text-[#0a0a0b] text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-white/95 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b]"
+                className="inline-flex items-center gap-2 bg-white text-[#0a0a0b] text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-red-500 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b]"
               >
                 Get Started
                 <span className="text-[17px] leading-none" aria-hidden>&rarr;</span>
@@ -438,7 +424,7 @@ const HeroSection = () => {
               <button
                 type="button"
                 onClick={() => navigate('/about')}
-                className="inline-flex items-center gap-2 bg-white/10 border border-white/40 text-white text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-white/15 hover:border-white/60 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b]"
+                className="inline-flex items-center gap-2 bg-white/10 border border-white/40 text-white text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-red-500 hover:border-red-500 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b]"
               >
                 Learn More
               </button>
@@ -527,7 +513,7 @@ const HeroSection = () => {
         className="ai-roi-banner relative overflow-hidden"
         style={{
           background:
-            'linear-gradient(180deg, #020617 0%, #0b1220 18%, #1d2a5b 40%, #3b5fe0 65%, #1e3a8a 100%)',
+            'linear-gradient(180deg, #0a0a0b 0%, #1a0a0c 20%, #7f1d1d 40%, #b91c1c 50%,  #ff4747 100%)',
         }}
       >
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'1440\' height=\'120\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 60 Q360 0 720 60 T1440 60 V120 H0Z\' fill=\'%23ffffff\'/%3E%3C/svg%3E")', backgroundSize: '100% 100%' }} />
@@ -535,15 +521,12 @@ const HeroSection = () => {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6 flex flex-col lg:flex-row items-start lg:items-center gap-5 lg:gap-6">
           {/* Title block */}
           <div className="flex flex-col gap-2 lg:gap-3 shrink-0">
-            <span className="inline-flex w-fit items-center rounded-full bg-white/15 backdrop-blur-sm px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white/95">
-              Impact in numbers
-            </span>
             <h3 className="text-white text-lg sm:text-xl font-bold leading-tight max-w-sm">
               AI that drives real outcomes
             </h3>
             <a
               href="/about"
-              className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white text-[#1e3a8a] text-xs font-semibold px-4 py-2 shadow-md hover:bg-white/95 hover:shadow-lg transition-all duration-200"
+              className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white text-[#0a0a0b] text-xs font-semibold px-4 py-2 shadow-md hover:bg-red-500 hover:text-white hover:shadow-lg transition-all duration-200"
             >
               Learn how we deliver
               <span className="text-sm leading-none" aria-hidden>→</span>
@@ -551,22 +534,22 @@ const HeroSection = () => {
           </div>
 
           {/* Stats grid — card style */}
-          <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="flex-1 hidden sm:grid grid-cols-4 gap-3 sm:gap-4">
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
-              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">45%</p>
-              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster application delivery with AI-augmented development</p>
+              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">50%</p>
+              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster deployment with cloud and infrastructure solutions</p>
             </div>
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
-              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">20%</p>
-              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster incident resolution with intelligent IT operations</p>
+              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">30%</p>
+              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster incident resolution with 24/7 NOC and intelligent operations</p>
             </div>
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
-              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">~$100M</p>
-              <p className="text-white/90 text-[12px] leading-snug mt-1.5">in savings potential with AI-powered clinical and operational insights</p>
+              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">35%</p>
+              <p className="text-white/90 text-[12px] leading-snug mt-1.5">reduction in infrastructure and cloud spend with optimized solutions</p>
             </div>
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
-              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">87%</p>
-              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster compliance and surveillance investigations with intelligent automation</p>
+              <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">90%</p>
+              <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster threat detection with cybersecurity and compliance automation</p>
             </div>
           </div>
         </div>
@@ -658,7 +641,7 @@ const HeroSection = () => {
             {/* Capabilities card */}
             <div className="relative">
               <button
-                onClick={() => { setCapOpen(!capOpen); setExpandedCap(null); setCsOpen(false); }}
+                onClick={() => { setCapOpen(!capOpen); setCsOpen(false); }}
                 className={`group flex items-center justify-between w-full bg-white rounded-2xl px-6 py-5 text-(--apple-black) font-semibold shadow-sm border transition-all duration-200 ease-out text-left ${capOpen ? 'border-red-400 shadow-md ring-1 ring-red-100' : 'border-gray-200 hover:border-gray-300 hover:shadow-md'}`}
               >
                 <span className="flex items-center gap-3">
@@ -671,33 +654,17 @@ const HeroSection = () => {
               </button>
               {capOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden animate-[fadeSlideDown_0.2s_ease-out]">
-                  {CAPABILITIES.map((cap, idx) => (
-                    <div key={cap.name}>
+                  <div className="bg-gray-50/70">
+                    {SERVICE_LINKS.map((svc, idx) => (
                       <button
-                        onClick={() => handleCapClick(cap)}
-                        className={`w-full text-left px-5 py-3.5 transition-colors flex items-center justify-between ${idx !== CAPABILITIES.length - 1 ? 'border-b border-gray-100' : ''} ${expandedCap === cap.name ? 'bg-red-50/60' : 'hover:bg-gray-50'}`}
+                        key={svc.name}
+                        onClick={() => handleServiceClick(svc.path)}
+                        className={`w-full text-left pl-12 pr-5 py-2.5 text-gray-500 hover:text-white hover:bg-red-500 transition-colors text-[13px] font-medium ${idx !== 0 ? 'border-t border-gray-100/80' : ''}`}
                       >
-                        <span className="flex items-center gap-3">
-                          <span className="text-base">{cap.icon}</span>
-                          <span className="font-medium text-sm text-(--apple-black)">{cap.name}</span>
-                        </span>
-                        <span className={`material-symbols-outlined text-gray-400 text-base transition-transform duration-200 ease-out ${expandedCap === cap.name ? 'rotate-180' : ''}`}>expand_more</span>
+                        {svc.name}
                       </button>
-                      {expandedCap === cap.name && (
-                        <div className="bg-gray-50/70">
-                          {cap.services.map((svc) => (
-                            <button
-                              key={svc.name}
-                              onClick={() => handleServiceClick(svc.path)}
-                              className="w-full text-left pl-12 pr-5 py-2.5 text-gray-500 hover:text-white hover:bg-red-500 transition-colors text-[13px] font-medium border-t border-gray-100/80"
-                            >
-                              {svc.name}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -876,7 +843,7 @@ function SolutionsShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative pt-24 lg:pt-32 pb-8 lg:pb-10 px-6 sm:px-8 lg:px-12 overflow-hidden"
+      className="relative pt-12 lg:pt-16 pb-8 lg:pb-10 px-6 sm:px-8 lg:px-12 overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%)' }}
     >
       {/* Ambient blurs */}
@@ -888,18 +855,17 @@ function SolutionsShowcaseSection() {
 
           {/* ── Left: Heading + paragraph ── */}
           <div className={`transition-all duration-700 ease-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-bold text-(--apple-black) tracking-tight leading-[1.08] mb-6">
-              Scale with confidence:{' '}
+            <h2 className="text-4xl md:text-5xl lg:text-[52px] font-bold tracking-tight leading-[1.08] mb-6">
               <span
                 ref={headingRef}
                 className="gradient-text-fill inline-block cursor-default transition-[background] duration-150 select-none bg-clip-text text-transparent"
                 style={{
                   background: isHoveringHeading
-                    ? `radial-gradient(circle at ${gradientPos.x}% ${gradientPos.y}%, #dc2626 0%, #b91c1c 5%, #7c3aed 20%, #5b21b6 100%)`
-                    : 'linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%)',
+                    ? `radial-gradient(circle at ${gradientPos.x}% ${gradientPos.y}%, #b91c1c 0%, #991b1b 5%, #1a1a1a 20%, #0a0a0b 100%)`
+                    : 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0b 100%)',
                 }}
               >
-                Built on partnership & proven technology
+                Scale with confidence: Built on partnership & proven technology
               </span>
             </h2>
             <p className="text-(--apple-gray) text-lg leading-relaxed max-w-lg">

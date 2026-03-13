@@ -4,14 +4,24 @@ import { Linkedin, Github, Mail } from 'lucide-react';
 
 const DeveloperTeam = () => {
 
-   useEffect(() => {
-      window.scrollTo(0, 0); // scroll to top when page loads
-    }, []);
-  
+  useEffect(() => {
+    window.scrollTo(0, 0); // scroll to top when page loads
+  }, []);
+
 
   const developers = [
     {
       id: 1,
+      name: "Moksh Sharma",
+      role: "Full Stack AI Developer",
+      photo: "/Developer/Moksh.webp",
+      linkedin: "https://www.linkedin.com/in/msam1113/",
+      github: "https://github.com/moksh-sharma",
+      email: "moksh11072005@gmail.com",
+      skills: ["Python", "ReactJs", "SQL", "Node.js"]
+    },
+    {
+      id: 2,
       name: "Anil Kumar",
       role: "FUll Stack Developer",
       photo: "/Developer/anil1.webp",
@@ -20,7 +30,7 @@ const DeveloperTeam = () => {
       email: "anilkumar.gugm@gmail.com",
       skills: ["MongoDb", "ReactJs", "Cloud GCP"]
     },
-    
+
     {
       id: 3,
       name: "Devender Singh",
@@ -31,7 +41,7 @@ const DeveloperTeam = () => {
       email: "david@company.com",
       skills: ["ReactJs Vite", "AWS", "Azure"]
     },
-    
+
     {
       id: 4,
       name: "Rishabh ",
@@ -61,9 +71,9 @@ const DeveloperTeam = () => {
       github: "https://github.com/jessicathompson",
       email: "jessica@company.com",
       skills: ["React Js", "Tailwind Css", "Wordpress"]
-    }, 
+    },
     {
-      id: 2,
+      id: 7,
       name: "Aman Raj",
       role: "Cloud & DevOps Engineer",
       photo: "/Developer/Aman.webp",
@@ -84,8 +94,8 @@ const DeveloperTeam = () => {
             <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-linear-to-r from-red-600 to-red-400 rounded-full"></div>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Meet the talented individuals behind our innovative web solutions. 
-            Our diverse team of developers brings expertise in cutting-edge technologies 
+            Meet the talented individuals behind our innovative web solutions.
+            Our diverse team of developers brings expertise in cutting-edge technologies
             to deliver exceptional digital experiences.
           </p>
         </div>
@@ -93,22 +103,22 @@ const DeveloperTeam = () => {
         {/* Team Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {developers.map((dev) => (
-            <div 
+            <div
               key={dev.id}
               className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-red-100 hover:border-red-200"
             >
               {/* Profile Image */}
               <div className="relative overflow-hidden">
-                <img 
-                  src={dev.photo} 
+                <img
+                  src={dev.photo}
                   alt={dev.name}
                   className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-red-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
+
                 {/* Social Links Overlay */}
                 <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-8 group-hover:translate-x-0">
-                  <a 
+                  <a
                     href={dev.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -124,7 +134,7 @@ const DeveloperTeam = () => {
                   >
                     <Github size={18} />
                   </a> */}
-                  <a 
+                  <a
                     href={`mailto:${dev.email}`}
                     className="bg-white/90 hover:bg-red-600 hover:text-white p-2 rounded-full shadow-lg transition-all duration-200"
                   >
@@ -141,7 +151,7 @@ const DeveloperTeam = () => {
                 <p className="text-red-600 font-semibold mb-4 text-sm uppercase tracking-wide">
                   {dev.role}
                 </p>
-                
+
                 {/* Skills */}
                 {/* <div className="flex flex-wrap gap-2 mb-4">
                   {dev.skills.map((skill, index) => (
@@ -156,7 +166,7 @@ const DeveloperTeam = () => {
 
                 {/* Contact Links */}
                 <div className="flex space-x-4 pt-4 border-t border-gray-100">
-                  <a 
+                  <a
                     href={dev.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -172,7 +182,7 @@ const DeveloperTeam = () => {
                   >
                     <Github size={20} />
                   </a> */}
-                  <a 
+                  <a
                     href={`mailto:${dev.email}`}
                     className="text-gray-400 hover:text-red-600 transition-colors duration-200"
                   >

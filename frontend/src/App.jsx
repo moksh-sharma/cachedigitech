@@ -58,7 +58,7 @@ function App() {
     const loader = document.getElementById("app-loader");
     const img = loader?.querySelector("#app-loader-img");
     const gifPlayDurationMs = 5000; // One full loop of loading.gif
-    const maxWaitMs = 1250;
+    const maxWaitMs = 1500;
 
     const removeLoader = () => {
       if (loader?.parentNode) loader.remove();
