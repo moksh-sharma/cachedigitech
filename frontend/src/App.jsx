@@ -106,11 +106,6 @@ function App() {
               <Route path="/service/infra" element={<InfrastructureServicesPage />} />
               <Route path="/service/network" element={<NetworkingServicesPage />} />
               <Route path="/service/cloud-solutions" element={<CloudServicesPage />} />
-              {/* <Route path="/service/cybersecurity" element={<CybersecurityServicesPage />} />
-        <Route path="/service/AI" element={<AIDataServicesPage />} />
-        <Route path="/consultingservice" element={<NetworkingConsultingPage />} */}
-
-
               <Route path="/cloudservices" element={<CloudServicesPage />} />
               <Route path="/cybersecurity" element={<CybersecurityServicesPage />} />
               <Route path="/infrastructureservice" element={<InfrastructureServicesPage />} />

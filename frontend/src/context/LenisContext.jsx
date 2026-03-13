@@ -4,7 +4,7 @@ import Lenis from 'lenis';
 const LenisContext = createContext(null);
 
 const LENIS_OPTIONS = {
-  duration: 0.85,
+  duration: 1,
   easing: (t) => Math.min(1, 1.001 - 2 ** (-10 * t)),
   orientation: 'vertical',
   gestureOrientation: 'vertical',

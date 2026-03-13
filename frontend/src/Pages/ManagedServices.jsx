@@ -133,7 +133,7 @@ const ManagedServicesPage = () => {
             {/* Hero Section */}
             <section
                 id="hero"
-                className="relative bg-cover bg-center h-[80vh] scroll-mt-0"
+                className="relative bg-cover bg-center h-[80vh] scroll-mt-0 pt-20 sm:pt-24"
                 style={{ backgroundImage: `url('${heroImageUrl}')` }}
             >
                 <div className="absolute inset-0 bg-black/60" aria-hidden />
