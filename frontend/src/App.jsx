@@ -53,6 +53,36 @@ function App() {
   const location = useLocation();
   const { scrollTo } = useLenis();
 
+  // Remove loader as soon as the GIF has played once (duration parsed from loading.gif: 33 frames = 5000ms)
+  useEffect(() => {
+    const loader = document.getElementById("app-loader");
+    const img = loader?.querySelector("#app-loader-img");
+    const gifPlayDurationMs = 5000; // One full loop of loading.gif
+    const maxWaitMs = 1250;
+
+    const removeLoader = () => {
+      if (loader?.parentNode) loader.remove();
+    };
+
+    const scheduleRemove = () => {
+      setTimeout(removeLoader, gifPlayDurationMs);
+    };
+
+    if (!loader) return;
+
+    if (img) {
+      if (img.complete && img.naturalWidth > 0) {
+        scheduleRemove();
+      } else {
+        img.addEventListener("load", scheduleRemove, { once: true });
+        img.addEventListener("error", removeLoader, { once: true });
+      }
+    } else {
+      scheduleRemove();
+    }
+    setTimeout(removeLoader, maxWaitMs);
+  }, []);
+
   // Scroll to top on route change (smooth via Lenis when available)
   useEffect(() => {
     if (scrollTo) {
@@ -72,53 +102,53 @@ function App() {
         <main className={!isAdmin ? "flex-1 min-h-0" : ""}>
           <Suspense fallback={<PageLoader />}>
             <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/service/infra" element={<InfrastructureServicesPage />} />
-            <Route path="/service/network" element={<NetworkingServicesPage />} />
-            <Route path="/service/cloud-solutions" element={<CloudServicesPage />} />
-            {/* <Route path="/service/cybersecurity" element={<CybersecurityServicesPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/service/infra" element={<InfrastructureServicesPage />} />
+              <Route path="/service/network" element={<NetworkingServicesPage />} />
+              <Route path="/service/cloud-solutions" element={<CloudServicesPage />} />
+              {/* <Route path="/service/cybersecurity" element={<CybersecurityServicesPage />} />
         <Route path="/service/AI" element={<AIDataServicesPage />} />
         <Route path="/consultingservice" element={<NetworkingConsultingPage />} */}
 
 
-            <Route path="/cloudservices" element={<CloudServicesPage />} />
-            <Route path="/cybersecurity" element={<CybersecurityServicesPage />} />
-            <Route path="/infrastructureservice" element={<InfrastructureServicesPage />} />
-            <Route path="/aianddataservice" element={<AIDataServicesPage />} />
-            <Route path="/manageservices" element={<ManagedServicesPage />} />
-            <Route path="/consultingservice" element={<NetworkingConsultingPage />} />
-            <Route path="/grc-dashboard" element={<GRC />} />
-            <Route path="/telecom" element={<TelecomPage />} />
+              <Route path="/cloudservices" element={<CloudServicesPage />} />
+              <Route path="/cybersecurity" element={<CybersecurityServicesPage />} />
+              <Route path="/infrastructureservice" element={<InfrastructureServicesPage />} />
+              <Route path="/aianddataservice" element={<AIDataServicesPage />} />
+              <Route path="/manageservices" element={<ManagedServicesPage />} />
+              <Route path="/consultingservice" element={<NetworkingConsultingPage />} />
+              <Route path="/grc-dashboard" element={<GRC />} />
+              <Route path="/telecom" element={<TelecomPage />} />
 
 
 
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/insights" element={<InsightPage />} />
-            <Route path="/blogs" element={<BlogsPage />} />
-            <Route path="/case-studies" element={<CaseStudiesPage />} />
-            <Route path="/blog/:id" element={<BlogDetailPage />} />
-            <Route path="/admin" element={<Navigate to="/" replace />} />
-            <Route path="/community" element={<CommunityPage />} />
-            <Route path="/developerteam" element={<DeveloperTeam />} />
-            <Route path="/contactus" element={<ContactUsPage />} />
-            <Route path="/about" element={<AboutCache />} />
-            <Route path="/innovations" element={<InnovationsPage />} />
-            <Route path="/about/profile" element={<Profile />} />
-            <Route path="/about/awards" element={<AwardsAndCertificationsPage />} />
-            <Route path="/about/certifications" element={<Navigate to="/about/awards" replace />} />
-            <Route path="/about/alliances" element={<PartnershipCards />} />
-            <Route path="/about/leadership" element={<TeamSection />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms-of-use" element={<TermsOfUsePage />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/epf-amendment-notice" element={<EPFAmendmentNotice />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/insights" element={<InsightPage />} />
+              <Route path="/blogs" element={<BlogsPage />} />
+              <Route path="/case-studies" element={<CaseStudiesPage />} />
+              <Route path="/blog/:id" element={<BlogDetailPage />} />
+              <Route path="/admin" element={<Navigate to="/" replace />} />
+              <Route path="/community" element={<CommunityPage />} />
+              <Route path="/developerteam" element={<DeveloperTeam />} />
+              <Route path="/contactus" element={<ContactUsPage />} />
+              <Route path="/about" element={<AboutCache />} />
+              <Route path="/innovations" element={<InnovationsPage />} />
+              <Route path="/about/profile" element={<Profile />} />
+              <Route path="/about/awards" element={<AwardsAndCertificationsPage />} />
+              <Route path="/about/certifications" element={<Navigate to="/about/awards" replace />} />
+              <Route path="/about/alliances" element={<PartnershipCards />} />
+              <Route path="/about/leadership" element={<TeamSection />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms-of-use" element={<TermsOfUsePage />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/epf-amendment-notice" element={<EPFAmendmentNotice />} />
 
-            {/* Notification pages */}
-            <Route path="/campaigns" element={<CampaignsPage />} />
-            <Route path="/newsletter" element={<NewsletterPage />} />
-            <Route path="/offers" element={<OffersPage />} />
+              {/* Notification pages */}
+              <Route path="/campaigns" element={<CampaignsPage />} />
+              <Route path="/newsletter" element={<NewsletterPage />} />
+              <Route path="/offers" element={<OffersPage />} />
 
-            <Route path="*" element={<NotFoundPage />} />
+              <Route path="*" element={<NotFoundPage />} />
 
             </Routes>
           </Suspense>
