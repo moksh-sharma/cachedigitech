@@ -82,7 +82,7 @@ function Footer() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [mobileOpenSection, setMobileOpenSection] = useState(null);
-  const footerLogoUrl = usePlacement("global", "footer", "bgImage") || "/cachefootercut.webp";
+  const footerLogoUrl = usePlacement("global", "footer", "bgImage") || "/navbar-logo.svg";
   const mobileSections = getMobileSections(setShowPrivacy, setShowTerms);
 
   /* ── Mobile footer (accordion style, light gradient) ── */
@@ -177,13 +177,13 @@ function Footer() {
     <>
       {mobileFooter}
 
-      <footer className="hidden md:flex bg-[#0a0a0a] text-white flex-col -mt-8 shrink-0" style={{ boxShadow: '0 -4px 0 0 #0a0a0a' }} role="contentinfo">
+      <footer className="hidden md:flex bg-[#0a0a0a] text-white flex-col -mt-8 shrink-0 min-h-[520px]" style={{ boxShadow: '0 -4px 0 0 #0a0a0a' }} role="contentinfo">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 pb-0 flex flex-col w-full">
         {/* Brand row */}
         <div className="pb-4 sm:pb-6 border-b border-white/10 shrink-0">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div className="flex flex-col gap-1.5">
-              <img src={footerLogoUrl} alt="Cache Digitech" className="h-14 sm:h-16 lg:h-[72px] w-auto brightness-200 opacity-90 max-w-[180px]" />
+              <img src={footerLogoUrl} alt="Cache Digitech" className="h-14 sm:h-16 lg:h-[72px] w-auto max-w-[180px]" />
             </div>
             <img
               src="/women_owned.webp"

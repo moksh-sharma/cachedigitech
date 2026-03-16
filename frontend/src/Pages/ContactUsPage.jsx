@@ -1,37 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
-// No backend: form opens default email client (mailto).
-const CONTACT_EMAIL = 'contact@cachedigitech.com';
-const initialFormState = { name: '', email: '', phone: '', subject: '', message: '' };
+const ZOHO_CONTACT_FORM_URL =
+  'https://forms.zohopublic.in/cachedigiteh1/form/CacheTest/formperma/8iVU_cZT4Drao9gm87I9to2E1ugmhqy5xSi8N9li9iM';
 
 const ContactUsPage = () => {
   const location = useLocation();
-  const [form, setForm] = useState(initialFormState);
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    if (submitError) setSubmitError('');
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitError('');
-    const subject = encodeURIComponent(form.subject || 'Contact from website');
-    const body = encodeURIComponent(
-      [form.name && `Name: ${form.name}`, form.email && `Email: ${form.email}`, form.phone && `Phone: ${form.phone}`, form.message && `Message:\n${form.message}`].filter(Boolean).join('\n\n')
-    );
-    const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    window.location.href = mailto;
-    setForm(initialFormState);
-    setSubmitted(true);
-    setSubmitting(false);
-  };
 
   useEffect(() => {
     if (location.hash) {
@@ -45,213 +20,118 @@ const ContactUsPage = () => {
     window.scrollTo(0, 0);
   }, [location]);
 
+  const contactItems = [
+    {
+      icon: Mail,
+      label: 'Email',
+      value: 'info@cachedigitech.com',
+      href: 'mailto:info@cachedigitech.com',
+      description: 'We reply within 24 hours',
+    },
+    {
+      icon: Phone,
+      label: 'Phone',
+      value: '+1 (800) 309-4333',
+      href: 'tel:+18003094333',
+      description: 'Mon–Fri, 9am–6pm IST',
+    },
+    {
+      icon: MapPin,
+      label: 'Delhi Office',
+      value: 'CRC2 Building Cache Digitech Sultanpur',
+      description: 'Delhi 110030',
+    },
+    {
+      icon: MapPin,
+      label: 'Mumbai Office',
+      value: '404, C-Wing, Eastern Court Junction',
+      description: 'Tejapal & Parleshwar Road, Vile Parle East, Mumbai 400057',
+    },
+    {
+      icon: MapPin,
+      label: 'Dubai Office',
+      value: 'Compass Building, Al Hulaila',
+      description: 'AL Hulaila Industrial Zone-FZ, Ras Al Khaimah, UAE',
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100/80">
       <main className="pt-24 pb-16 lg:pb-24 px-4 sm:px-6 lg:px-8" id="contact-main">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <header className="text-center mb-12 lg:mb-16">
+            <p className="text-sm font-semibold uppercase tracking-wider text-red-600 mb-3">Get in touch</p>
             <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 tracking-tight">Contact Us</h1>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Get in touch with our team. We're here to help you with any questions or concerns.
+            <div className="w-16 h-1 bg-red-500 rounded-full mx-auto mb-5" aria-hidden />
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              Have a question or want to work together? We're here to help.
             </p>
           </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch min-h-[calc(100vh-14rem)]">
             {/* Contact Information */}
-            <section className="bg-white rounded-2xl shadow-lg p-8 lg:p-10" aria-labelledby="get-in-touch-heading">
-              <h2 id="get-in-touch-heading" className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h2>
-              <p className="text-gray-600 mb-8">
-                We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            <section
+              className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 p-8 lg:p-10 border border-gray-100"
+              aria-labelledby="get-in-touch-heading"
+            >
+              <h2 id="get-in-touch-heading" className="text-2xl font-bold text-gray-900 mb-2">
+                Reach out
+              </h2>
+              <p className="text-gray-500 text-sm mb-8">
+                Choose your preferred way to connect.
               </p>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600" aria-hidden>
-                    <Mail className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium uppercase tracking-wide text-gray-500">Email</p>
-                    <a href="mailto:info@cachedigitech.com" className="text-lg font-medium text-gray-900 hover:text-red-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 rounded">
-                      info@cachedigitech.com
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600" aria-hidden>
-                    <Phone className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium uppercase tracking-wide text-gray-500">Phone</p>
-                    <a href="tel:+18003094333" className="text-lg font-medium text-gray-900 hover:text-red-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 rounded">
-                      +1 (800) 309-4333
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600" aria-hidden>
-                    <MapPin className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium uppercase tracking-wide text-gray-500">Delhi Office</p>
-                    <p className="text-gray-600 leading-relaxed">
-                      CRC2 Building Cache Digitech Sultanpur, Delhi 110030
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600" aria-hidden>
-                    <MapPin className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium uppercase tracking-wide text-gray-500">Mumbai Office</p>
-                    <p className="text-gray-600 leading-relaxed">
-                      404, C-Wing, Eastern Court Junction, Tejapal & Parleshwar Road, Vile Parle East, Mumbai, Maharashtra, India (400057)
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600" aria-hidden>
-                    <MapPin className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium uppercase tracking-wide text-gray-500">Dubai Office</p>
-                    <p className="text-gray-600 leading-relaxed">
-                      Compass building - Al Hulaila, AL Hulaila Industrial Zone-FZ, Ras Al Khaimah, United Arab Emirates
-                    </p>
-                  </div>
-                </div>
+              <div className="space-y-1">
+                {contactItems.map((item) => {
+                  const Icon = item.icon;
+                  const content = (
+                    <>
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 ring-1 ring-red-100 transition-colors group-hover:bg-red-100 group-hover:ring-red-200" aria-hidden>
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                          {item.label}
+                        </p>
+                        {item.href ? (
+                          <a
+                            href={item.href}
+                            className="text-gray-900 font-medium hover:text-red-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 rounded"
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <p className="text-gray-900 font-medium">{item.value}</p>
+                        )}
+                        {item.description && (
+                          <p className="text-sm text-gray-500 mt-0.5">{item.description}</p>
+                        )}
+                      </div>
+                    </>
+                  );
+                  return (
+                    <div
+                      key={item.label + (item.value || '')}
+                      className={`flex items-start gap-4 p-4 rounded-xl transition-colors group ${
+                        item.href ? 'hover:bg-gray-50/80' : ''
+                      }`}
+                    >
+                      {content}
+                    </div>
+                  );
+                })}
               </div>
             </section>
 
-            {/* Contact Form */}
-            <section className="bg-white rounded-2xl shadow-lg p-8 lg:p-10" aria-labelledby="form-heading">
-              <h2 id="form-heading" className="text-2xl font-bold text-gray-900 mb-2">Send a message</h2>
-              <p className="text-gray-600 mb-6">Fill out the form below and we'll get back to you shortly.</p>
-
-              {submitted ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center" role="status" aria-live="polite">
-                  <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mb-4">
-                    <CheckCircle className="w-10 h-10 text-red-600" aria-hidden />
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Message sent</h3>
-                  <p className="text-gray-600 max-w-sm mb-6">
-                    Thank you for reaching out. We'll respond within 24 hours.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setSubmitted(false)}
-                    className="text-red-600 font-medium hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 rounded px-3 py-1.5"
-                  >
-                    Send another message
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div>
-                    <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Name <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      name="name"
-                      required
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder="Your name"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Email <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="contact-email"
-                        type="email"
-                        name="email"
-                        required
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="you@company.com"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="contact-phone" className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Phone
-                      </label>
-                      <input
-                        id="contact-phone"
-                        type="tel"
-                        name="phone"
-                        value={form.phone}
-                        onChange={handleChange}
-                        placeholder="+91 "
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="contact-subject" className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Subject <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      id="contact-subject"
-                      type="text"
-                      name="subject"
-                      required
-                      value={form.subject}
-                      onChange={handleChange}
-                      placeholder="How can we help?"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-message" className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Message <span className="text-red-600">*</span>
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      name="message"
-                      required
-                      rows={5}
-                      value={form.message}
-                      onChange={handleChange}
-                      placeholder="Your message..."
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors resize-y min-h-[120px]"
-                    />
-                  </div>
-                  {submitError && (
-                    <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2" role="alert">
-                      {submitError}
-                    </p>
-                  )}
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-500 disabled:bg-red-400 text-white font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                  >
-                    {submitting ? (
-                      <>
-                        <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" aria-hidden />
-                        Send message
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
+            {/* Zoho Contact Form */}
+            <section className="flex flex-col min-h-[min(70vh,700px)] lg:min-h-0" aria-label="Contact form">
+              <iframe
+                src={ZOHO_CONTACT_FORM_URL}
+                title="Contact us form"
+                className="w-full flex-1 min-h-[min(70vh,700px)] lg:min-h-0 border-0 rounded-xl"
+                allowFullScreen
+              />
             </section>
           </div>
         </div>
