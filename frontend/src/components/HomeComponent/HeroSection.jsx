@@ -387,24 +387,29 @@ const HeroSection = () => {
 
   return (
     <>
-      {/* Hero — left text, right image; homepage-bg.webp on all viewports */}
+      {/* Hero — left text, right image; mobile: cycling hero images as bg; desktop: homepage-bg + right slider */}
       <section
         className="relative min-h-screen min-h-[100dvh] flex flex-col overflow-hidden"
         aria-label="Hero"
       >
-        {/* Background image — same on mobile and desktop; full opacity */}
+        {/* Desktop: static background */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-100"
+          className="hidden lg:block absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-100"
           style={{ backgroundImage: 'url(/homepage-bg.webp)', zIndex: 0, opacity: 1 }}
           aria-hidden
         />
+        {/* Mobile: hero slider images as full-bleed background + dark overlay for contrast */}
+        <div className="lg:hidden absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <HeroImageSlider />
+          <div className="absolute inset-0 z-[2] bg-black/80 pointer-events-none" aria-hidden />
+        </div>
         <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 w-full max-w-7xl mx-auto items-center justify-items-center lg:justify-items-stretch min-h-0">
             {/* Left: text — centered on mobile, left-aligned from lg */}
-            <div className="text-center lg:text-left space-y-2 sm:space-y-3 lg:space-y-4 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0">
+            <div className="text-center lg:text-left space-y-7 sm:space-y-4 lg:space-y-4 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0">
               <div className="min-h-32 lg:min-h-44 flex flex-col justify-center items-center lg:items-start">
                 <h1
-                  className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-(--apple-black) w-full`}
+                  className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-white lg:text-(--apple-black) w-full`}
                   style={headingStyle}
                 >
                   <span className="block">We</span>
@@ -418,7 +423,7 @@ const HeroSection = () => {
                   </span>
                 </h1>
               </div>
-              <p className="text-xs sm:text-sm lg:text-base text-black font-light max-w-2xl leading-[1.6] sm:leading-[1.65] mx-auto lg:mx-0">
+              <p className="text-xs sm:text-sm lg:text-base text-white lg:text-black font-light max-w-2xl leading-[1.6] sm:leading-[1.65] mx-auto lg:mx-0">
                 {subheading}
               </p>
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
@@ -433,7 +438,7 @@ const HeroSection = () => {
                 <button
                   type="button"
                   onClick={() => navigate('/about')}
-                  className="inline-flex items-center gap-1.5 bg-white border border-gray-300 text-(--apple-black) text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-gray-50 hover:border-red-200 hover:text-red-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex items-center gap-1.5 bg-white/10 border border-white text-white lg:bg-white lg:border-gray-300 lg:text-(--apple-black) text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-white/20 hover:border-white lg:hover:bg-gray-50 lg:hover:border-red-200 lg:hover:text-red-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   Learn More
                 </button>

@@ -14,13 +14,13 @@ export function CEOSection() {
         </div>
 
         {/* Top Section: Image and Block 1 */}
-        <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
-          <div>
-            <div className="overflow-hidden shadow-2xl rounded-xl">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="w-full">
+            <div className="overflow-hidden shadow-2xl rounded-xl aspect-square w-full">
               <img
                 src={ceoImageUrl}
                 alt="Prarthana Gupta - Chief Executive Officer"
-                className="w-full h-[500px] object-cover"
+                className="w-full h-full object-cover"
                 loading="lazy"
               />
             </div>
@@ -30,7 +30,14 @@ export function CEOSection() {
           <div className="space-y-6">
             <div>
               <h1 className="text-5xl font-bold text-black mb-2 tracking-wide">
-                Prarthana Gupta
+                <a
+                  href="https://www.linkedin.com/in/prarthana-gupta-112510a5/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:text-red-600 focus:text-red-600 focus:outline-none focus:underline underline-offset-2 transition-colors"
+                >
+                  Prarthana Gupta
+                </a>
               </h1>
               <div className="space-y-1 mb-6">
                 <p className="text-red-600 text-sm">Founder & Chairperson, Cache Digitech Pvt. Ltd.</p>

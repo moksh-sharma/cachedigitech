@@ -288,7 +288,7 @@ function Navbar() {
               <img
                 src={logoUrl}
                 alt="CacheDigiTech Logo"
-                className="h-10 w-auto transition-all duration-300 filter-[brightness(0)_saturate(100%)_invert(25%)_sepia(98%)_saturate(2692%)_hue-rotate(346deg)]"
+                className="h-12 w-auto transition-all duration-300 filter-[brightness(0)_saturate(100%)_invert(25%)_sepia(98%)_saturate(2692%)_hue-rotate(346deg)]"
               />
             </div>
           </div>
@@ -352,7 +352,7 @@ function Navbar() {
             <img
               src="/women_owned.webp"
               alt="Women Owned"
-              className="h-10 w-[100px] object-contain shrink-0 hidden md:block"
+              className="h-12 w-[120px] object-contain shrink-0 hidden md:block"
             />
           </div>
         </div>
