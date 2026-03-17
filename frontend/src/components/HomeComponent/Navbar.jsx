@@ -5,24 +5,63 @@ import { navLinks } from "./navLinks";
 import { usePlacement } from "../../context/PlacementsContext";
 
 /* ── Sections that are direct links (no dropdown) ── */
-const DIRECT_LINK_SECTIONS = ["Innovations", "Careers", "Contact"];
+const DIRECT_LINK_SECTIONS = ["Careers", "Contact"];
 
 /* ── Menu structure ── */
 const menuData = {
   "About Us": {
     items: ["Profile of Cache", "Leadership Team", "Our Alliances", "Awards & Certifications", "Leadership Vision", "Blogs"],
   },
-  "Products": {
+  "What We Do": {
     items: ["Cloud", "Cybersecurity", "Data Analytics & AI", "Infra & Networking"],
+    submenus: {
+      "Cloud": ["Cloud Strategy", "Hybrid Cloud", "Cloud Security", "App Modernization", "Cloud Operations"],
+      "Cybersecurity": [
+        "Security Consulting",
+        "Infrastructure & Endpoint Security",
+        "Threat Monitoring & Response",
+        "Data & Cloud Security",
+      ],
+      "Data Analytics & AI": [
+        "Data Platforms",
+        "Advanced Analytics",
+        "AI Automation",
+        "Intelligent CRM",
+        "Data Security & Governance",
+      ],
+      "Infra & Networking": [
+        "Infrastructure Consulting",
+        "Infrastructure Design",
+        "Infrastructure Deployment",
+        "Infrastructure Management",
+        "Data Center Migration",
+      ],
+    },
+  },
+  "Innovations": {
+    items: [
+      "Overview",
+      "Techbank",
+      "Bid Intelligence",
+      "GRC (Sanchalan)",
+      "AskCache",
+      "CRM",
+      "HRMS",
+      "Employee App",
+      "Cache BI",
+      "EDM",
+      "Mail Integration",
+      "Cache Website",
+      "Cache GPT",
+      "Cache DB",
+      "Cache DOC",
+    ],
   },
   "Services": {
     items: ["Consulting & Auditing", "Managed Services", "GRC"],
   },
   "Industries": {
     items: ["Telecom", "BFSI", "Automobile & Manufacturing", "Retail", "Healthcare & Hospitality", "Governance", "IT & ITES"],
-  },
-  "Innovations": {
-    items: ["Innovations"],
   },
   "Careers": {
     items: ["Careers"],
@@ -296,28 +335,28 @@ function Navbar() {
             onMouseEnter={handleMegaPanelEnter}
             onMouseLeave={handleMegaPanelLeave}
           >
-            <div className="max-w-[1400px] mx-auto px-10 py-8">
-              <div className="flex gap-12">
+            <div className="max-w-[1400px] mx-auto px-8 py-6">
+              <div className="flex gap-10">
                 {/* Section heading */}
-                <div className="w-48 shrink-0">
-                  <h3 className="text-lg font-bold text-(--apple-black) mb-1">{megaOpen}</h3>
-                  <div className="w-8 h-0.5 bg-red-500 rounded-full" />
+                <div className="w-40 shrink-0">
+                  <h3 className="text-base font-bold text-(--apple-black) mb-1">{megaOpen}</h3>
+                  <div className="w-6 h-0.5 bg-red-500 rounded-full" />
                 </div>
 
                 {/* Menu items */}
                 <div className="flex-1">
                   {menuData[megaOpen]?.submenus ? (
-                    /* Two-level: Products / Services with sub-items */
-                    <div className="grid grid-cols-2 gap-8 ">
+                    /* Two-level: each main heading in its own column (e.g. Cloud, Cybersecurity, Data & AI, Infra) */
+                    <div className="grid grid-cols-4 gap-6">
                       {menuData[megaOpen].items.map((group) => (
-                        <div key={group}>
-                          <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-(--apple-gray) mb-4">{group}</h4>
-                          <div className="space-y-1">
+                        <div key={group} className="flex flex-col">
+                          <h4 className="text-[10px] font-bold tracking-[0.12em] uppercase text-(--apple-gray) mb-3">{group}</h4>
+                          <div className="space-y-0.5">
                             {(menuData[megaOpen].submenus[group] || []).map((item) => (
                               <button
                                 key={item}
                                 onClick={() => handleMegaItemClick(megaOpen, item)}
-                                className="block w-full text-left px-3 py-2.5 text-[15px] font-medium text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-all duration-200 "
+                                className="block w-full text-left px-2 py-1.5 text-xs font-medium text-gray-700 rounded-md hover:bg-red-50 hover:text-red-600 transition-all duration-200"
                               >
                                 {item}
                               </button>
@@ -333,7 +372,7 @@ function Navbar() {
                         <button
                           key={item}
                           onClick={() => handleMegaItemClick(megaOpen, item)}
-                          className="block w-full text-left px-3 py-2.5 text-[15px] font-medium text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+                          className="block w-full text-left px-2 py-1.5 text-sm font-medium text-gray-700 rounded-md hover:bg-red-50 hover:text-red-600 transition-all duration-200"
                         >
                           {item}
                         </button>

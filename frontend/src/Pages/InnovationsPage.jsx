@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { INNOVATION_PROJECTS } from "../data/innovationProjects";
 import {
   Lightbulb,
   Cpu,
@@ -163,9 +164,9 @@ export default function InnovationsPage() {
   }, [location]);
 
   return (
-    <div className="w-full min-h-screen bg-white overflow-x-hidden">
-      {/* Hero — professional, high-impact */}
-      <section className="relative min-h-[60vh] sm:min-h-[70vh] lg:min-h-[75vh] flex flex-col justify-center overflow-hidden">
+    <div className="w-full min-h-screen bg-white overflow-x-hidden min-w-0">
+      {/* Hero — professional, high-impact; mobile responsive */}
+      <section className="relative min-h-[55vh] sm:min-h-[60vh] md:min-h-[70vh] lg:min-h-[75vh] flex flex-col justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${HERO_IMAGE})` }}
@@ -173,17 +174,17 @@ export default function InnovationsPage() {
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/60 to-black/85" aria-hidden />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(220,38,38,0.08),transparent)] pointer-events-none" aria-hidden />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-16 sm:py-24 lg:py-36">
-          <span className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/95 text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-4 sm:mb-6">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-14 sm:py-20 md:py-24 lg:py-36 w-full min-w-0">
+          <span className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/95 text-[10px] sm:text-xs font-semibold tracking-[0.12em] sm:tracking-[0.2em] uppercase mb-3 sm:mb-6">
             Innovation at Cache
           </span>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tight max-w-4xl leading-[1.1] drop-shadow-lg">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tight max-w-4xl leading-[1.15] drop-shadow-lg break-words">
             Where ideas meet impact
           </h1>
-          <p className="mt-4 sm:mt-8 text-base sm:text-lg lg:text-xl text-gray-200/95 max-w-2xl leading-relaxed">
+          <p className="mt-3 sm:mt-6 md:mt-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-200/95 max-w-2xl leading-relaxed break-words">
             We believe innovation is not a department—it's how we work. From research and emerging tech to accelerators and partnerships, we help you turn vision into outcomes.
           </p>
-          <div className="mt-8 sm:mt-12 flex flex-wrap gap-3 sm:gap-6 text-xs sm:text-sm">
+          <div className="mt-6 sm:mt-8 md:mt-12 flex flex-wrap gap-3 sm:gap-6 text-xs sm:text-sm">
             <span className="flex items-center gap-2 text-white/90">
               <span className="w-2 h-2 rounded-full bg-red-400" /> Research & ideation
             </span>
@@ -197,27 +198,27 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Overview with image */}
-      <section id="overview" className="relative py-12 sm:py-16 lg:py-28 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
-            <div className="min-w-0">
-              <p className="text-red-500 text-xs font-semibold tracking-[0.25em] uppercase mb-3 sm:mb-4">Our approach</p>
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight mb-4 sm:mb-6 leading-tight">
+      {/* Overview with image — mobile: image first, single column */}
+      <section id="overview" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-24 items-center">
+            <div className="min-w-0 order-2 lg:order-1">
+              <p className="text-red-500 text-xs font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-2 sm:mb-4">Our approach</p>
+              <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight mb-3 sm:mb-6 leading-tight break-words">
                 Reimagining possibility
               </h2>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-4 sm:mb-6">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed mb-3 sm:mb-6 break-words">
                 Cache Digitech combines deep engineering heritage with a forward-looking mindset. Our innovations span technology adoption, solution accelerators, and strategic partnerships—enabling our clients to stay ahead in a rapidly evolving digital landscape.
               </p>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+              <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed break-words">
                 We partner with you from ideation through delivery, turning complex challenges into scalable, future-ready solutions.
               </p>
             </div>
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5 order-first lg:order-0">
+            <div className="relative rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5 order-1 lg:order-2 w-full min-w-0">
               <img
                 src={OVERVIEW_IMAGE}
                 alt="Collaboration and innovation"
-                className="w-full h-full object-cover aspect-4/3"
+                className="w-full h-full object-cover aspect-4/3 max-w-full"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent pointer-events-none" />
@@ -226,26 +227,26 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Focus areas */}
-      <section id="focus-areas" className="relative py-12 sm:py-16 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <header className="text-center mb-10 sm:mb-16 lg:mb-20">
-            <p className="text-red-500 text-xs font-semibold tracking-[0.25em] uppercase mb-3">
+      {/* Focus areas — mobile: 1 col, touch-friendly */}
+      <section id="focus-areas" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <header className="text-center mb-8 sm:mb-12 lg:mb-20">
+            <p className="text-red-500 text-xs font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-2 sm:mb-3">
               What we innovate
             </p>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1">
+            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1 break-words">
               Innovation focus areas
             </h2>
-            <div className="mt-4 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
+            <div className="mt-3 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
             {FOCUS_AREAS.map((area) => {
               const Icon = area.icon;
               return (
                 <Link
                   key={area.title}
                   to={area.path}
-                  className="group bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-slate-200/80 shadow-lg hover:shadow-xl hover:border-red-200/70 hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col ring-0 hover:ring-2 hover:ring-red-100 min-w-0"
+                  className="group bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 border border-slate-200/80 shadow-lg hover:shadow-xl hover:border-red-200/70 active:scale-[0.99] sm:hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col ring-0 hover:ring-2 hover:ring-red-100 min-w-0"
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-red-50 flex items-center justify-center mb-3 sm:mb-5 group-hover:bg-red-100 group-hover:scale-110 transition-all duration-300 ease-out">
                     <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-red-600" aria-hidden />
@@ -266,42 +267,42 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Cloud at the core */}
-      <section id="cloud-innovation" className="relative py-12 sm:py-16 lg:py-28 bg-slate-50/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
-            <div className="min-w-0">
-              <p className="text-red-500 text-xs font-semibold tracking-[0.25em] uppercase mb-3">
+      {/* Cloud at the core — mobile: image first */}
+      <section id="cloud-innovation" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-24 items-center">
+            <div className="min-w-0 order-2 lg:order-1">
+              <p className="text-red-500 text-xs font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-2 sm:mb-3">
                 Cloud at the core
               </p>
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight mb-4 sm:mb-6 leading-tight">
+              <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight mb-3 sm:mb-6 leading-tight break-words">
                 Innovate on cloud—with control and clarity
               </h2>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6 sm:mb-8">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed mb-4 sm:mb-6 md:mb-8 break-words">
                 Our cloud innovation practice helps you adopt and scale on cloud with strategy, migration, and operations that put cost, security, and agility in balance. We work across hyperscalers and hybrid environments so you can focus on outcomes, not infrastructure.
               </p>
-              <ul className="space-y-3 sm:space-y-4">
+              <ul className="space-y-2 sm:space-y-3 md:space-y-4">
                 {CLOUD_INNOVATION_POINTS.map((point) => (
-                  <li key={point.slice(0, 24)} className="flex gap-2 sm:gap-3 text-gray-700 text-sm sm:text-base">
+                  <li key={point.slice(0, 24)} className="flex gap-2 sm:gap-3 text-gray-700 text-xs sm:text-sm md:text-base min-w-0">
                     <Cloud className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 shrink-0 mt-0.5" aria-hidden />
-                    <span className="leading-relaxed min-w-0">{point}</span>
+                    <span className="leading-relaxed break-words">{point}</span>
                   </li>
                 ))}
               </ul>
-              <div className="mt-10">
+              <div className="mt-6 sm:mt-8 md:mt-10">
                 <Link
                   to="/cloudservices"
-                  className="inline-flex items-center gap-2 text-red-600 font-semibold hover:gap-3 transition-all"
+                  className="inline-flex items-center gap-2 text-red-600 font-semibold hover:gap-3 transition-all text-sm sm:text-base py-1"
                 >
                   Explore cloud services <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
             </div>
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5 order-first lg:order-0">
+            <div className="relative rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5 order-1 lg:order-2 w-full min-w-0">
               <img
                 src={CLOUD_SECTION_IMAGE}
                 alt="Cloud infrastructure and innovation"
-                className="w-full h-full object-cover aspect-4/3"
+                className="w-full h-full object-cover aspect-4/3 max-w-full"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent pointer-events-none" />
@@ -311,24 +312,24 @@ export default function InnovationsPage() {
       </section>
 
       {/* How we innovate (pillars) */}
-      <section id="pillars" className="relative py-12 sm:py-16 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <header className="text-center mb-10 sm:mb-16 lg:mb-20">
-            <p className="text-red-500 text-xs font-semibold tracking-[0.25em] uppercase mb-3">
+      <section id="pillars" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <header className="text-center mb-8 sm:mb-12 lg:mb-20">
+            <p className="text-red-500 text-xs font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-2 sm:mb-3">
               Our focus
             </p>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1">
+            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1 break-words">
               How we innovate
             </h2>
-            <div className="mt-4 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
+            <div className="mt-3 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-10">
             {INNOVATION_PILLARS.map((pillar) => {
               const Icon = pillar.icon;
               return (
                 <div
                   key={pillar.title}
-                  className="group bg-slate-50/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-slate-200/60 shadow-lg hover:shadow-xl hover:border-red-100 hover:-translate-y-1 transition-all duration-300 ease-out min-w-0"
+                  className="group bg-slate-50/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 border border-slate-200/60 shadow-lg hover:shadow-xl hover:border-red-100 sm:hover:-translate-y-1 transition-all duration-300 ease-out min-w-0"
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-white flex items-center justify-center mb-3 sm:mb-5 shadow-sm group-hover:bg-red-50 group-hover:scale-105 transition-all duration-300 ease-out">
                     <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-red-600" aria-hidden />
@@ -347,18 +348,18 @@ export default function InnovationsPage() {
       </section>
 
       {/* Proof & credibility */}
-      <section id="proof" className="relative py-12 sm:py-16 lg:py-28 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <header className="text-center mb-10 sm:mb-16 lg:mb-20">
-            <p className="text-red-500 text-xs font-semibold tracking-[0.25em] uppercase mb-3">
+      <section id="proof" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <header className="text-center mb-8 sm:mb-12 lg:mb-20">
+            <p className="text-red-500 text-xs font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-2 sm:mb-3">
               Why trust us
             </p>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1">
+            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1 break-words">
               Proof & credibility
             </h2>
-            <div className="mt-4 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
+            <div className="mt-3 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-10">
             {PROOF_ITEMS.map((item) => {
               const Icon = item.icon;
               const content = (
@@ -382,14 +383,14 @@ export default function InnovationsPage() {
                 <Link
                   key={item.title}
                   to={item.path}
-                  className="group bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-slate-200/60 shadow-lg hover:shadow-xl hover:border-red-100 hover:-translate-y-1 transition-all duration-300 ease-out block min-w-0"
+                  className="group bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 border border-slate-200/60 shadow-lg hover:shadow-xl hover:border-red-100 sm:hover:-translate-y-1 transition-all duration-300 ease-out block min-w-0 active:scale-[0.99]"
                 >
                   {content}
                 </Link>
               ) : (
                 <div
                   key={item.title}
-                  className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-slate-200/60 shadow-lg min-w-0"
+                  className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 border border-slate-200/60 shadow-lg min-w-0"
                 >
                   {content}
                 </div>
@@ -400,33 +401,33 @@ export default function InnovationsPage() {
       </section>
 
       {/* Innovation spotlight with images */}
-      <section id="spotlight" className="relative py-12 sm:py-16 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <header className="text-center mb-10 sm:mb-16 lg:mb-20">
-            <p className="text-red-500 text-xs font-semibold tracking-[0.25em] uppercase mb-3">
+      <section id="spotlight" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <header className="text-center mb-8 sm:mb-12 lg:mb-20">
+            <p className="text-red-500 text-xs font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-2 sm:mb-3">
               In action
             </p>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1">
+            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1 break-words">
               Innovation spotlight
             </h2>
-            <div className="mt-4 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
+            <div className="mt-3 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
           </header>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6 lg:gap-10">
             {INNOVATION_SPOTLIGHT.map((item, idx) => (
               <Link
                 key={item.title}
                 to={item.path}
-                className="group block rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-slate-200/60 shadow-lg hover:shadow-xl hover:border-red-200/60 hover:-translate-y-2 transition-all duration-300 ease-out min-w-0"
+                className="group block rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-slate-200/60 shadow-lg hover:shadow-xl hover:border-red-200/60 sm:hover:-translate-y-2 transition-all duration-300 ease-out min-w-0 active:scale-[0.99]"
               >
-                <div className="aspect-16/10 overflow-hidden bg-slate-100">
+                <div className="aspect-16/10 overflow-hidden bg-slate-100 w-full min-w-0">
                   <img
                     src={SPOTLIGHT_IMAGES[idx]}
                     alt=""
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out max-w-full"
                     loading="lazy"
                   />
                 </div>
-                <div className="p-4 sm:p-6 lg:p-8 border-t border-slate-100">
+                <div className="p-4 sm:p-5 md:p-6 lg:p-8 border-t border-slate-100">
                   <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-red-500/80 mb-3 sm:mb-4" />
                   <h3 className="text-base sm:text-lg font-bold text-(--apple-black) mb-1.5 sm:mb-2 group-hover:text-red-600 transition-colors duration-300 ease-out">
                     {item.title}
@@ -450,28 +451,77 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Thought leadership & trends */}
-      <section id="trends" className="relative py-12 sm:py-16 lg:py-28 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-start">
+      {/* Our projects — mobile: 1 col, full-width cards */}
+      <section id="projects" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <header className="text-center mb-8 sm:mb-12 lg:mb-20">
+            <p className="text-red-500 text-xs font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-2 sm:mb-3">
+              What we build
+            </p>
+            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight max-w-3xl mx-auto px-1 break-words">
+              Our innovation projects
+            </h2>
+            <div className="mt-3 sm:mt-6 w-16 h-1 bg-red-500/80 rounded-full mx-auto" aria-hidden />
+          </header>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
+            {INNOVATION_PROJECTS.map((project) => (
+              <Link
+                key={project.slug}
+                to={`/innovations/projects/${project.slug}`}
+                className="group block bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/60 shadow-lg hover:shadow-xl hover:border-red-100 transition-all duration-300 ease-out min-w-0 active:scale-[0.99]"
+              >
+                <div className="aspect-16/10 overflow-hidden bg-slate-100 w-full min-w-0">
+                  <img
+                    src={project.image || "/images/innovations-meeting.webp"}
+                    alt=""
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 max-w-full"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-4 sm:p-5 lg:p-6 min-w-0">
+                  <h3 className="text-base sm:text-lg font-bold text-(--apple-black) mb-1.5 group-hover:text-red-600 transition-colors duration-300 ease-out">
+                    {project.name}
+                  </h3>
+                  {project.tagline && (
+                    <p className="text-(--apple-gray) text-xs sm:text-sm font-medium mb-2 min-w-0">
+                      {project.tagline}
+                    </p>
+                  )}
+                  <p className="text-(--apple-gray) text-xs sm:text-sm leading-relaxed line-clamp-3 min-w-0">
+                    {project.description}
+                  </p>
+                  <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 group-hover:gap-2 transition-all">
+                    Learn more <ArrowRight className="h-4 w-4" />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Thought leadership & trends — mobile: stack vertically */}
+      <section id="trends" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-20 items-start">
             <div className="min-w-0">
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-(--apple-black) tracking-tight mb-6 sm:mb-8">
+              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-(--apple-black) tracking-tight mb-4 sm:mb-6 md:mb-8 break-words">
                 Trends we're betting on
               </h2>
-              <ul className="space-y-3 sm:space-y-5">
+              <ul className="space-y-2 sm:space-y-3 md:space-y-5">
                 {TRENDS.map((trend) => (
-                  <li key={trend} className="flex items-start sm:items-center gap-3 sm:gap-4 text-gray-700 text-base sm:text-lg min-w-0">
+                  <li key={trend} className="flex items-start sm:items-center gap-2 sm:gap-3 md:gap-4 text-gray-700 text-sm sm:text-base md:text-lg min-w-0">
                     <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 shrink-0 ring-2 sm:ring-4 ring-red-100 mt-1.5 sm:mt-0" />
-                    <span>{trend}</span>
+                    <span className="break-words">{trend}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-10 shadow-lg border border-slate-200/60 min-w-0">
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-(--apple-black) tracking-tight mb-4 sm:mb-6">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-10 shadow-lg border border-slate-200/60 min-w-0">
+              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-(--apple-black) tracking-tight mb-3 sm:mb-4 md:mb-6 break-words">
                 Responsible innovation
               </h2>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6 sm:mb-8">
+              <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed mb-4 sm:mb-6 md:mb-8 break-words">
                 We embed governance, fairness, explainability, and compliance into every innovation—aligning with our commitment to Trust by Design and ethical technology.
               </p>
               <Link
@@ -486,38 +536,38 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative py-12 sm:py-16 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <div className="rounded-2xl sm:rounded-3xl bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 p-5 sm:p-8 lg:p-16 text-center shadow-2xl">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6">
+      {/* CTA — mobile: full-width buttons, responsive padding */}
+      <section className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
+          <div className="rounded-xl sm:rounded-2xl lg:rounded-3xl bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 p-4 sm:p-6 md:p-8 lg:p-16 text-center shadow-2xl">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4 md:mb-6 break-words">
               Ready to innovate together?
             </h2>
-            <p className="text-slate-300 max-w-2xl mx-auto mb-6 sm:mb-10 text-sm sm:text-base lg:text-lg">
+            <p className="text-slate-300 max-w-2xl mx-auto mb-5 sm:mb-6 md:mb-10 text-xs sm:text-sm md:text-base lg:text-lg break-words px-1">
               Partner with us for co-innovation, pilots, or innovation workshops. Explore our services or get in touch to see how we can help you leverage technology for growth and transformation.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
               <Link
                 to="/cloudservices"
-                className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-all duration-300 ease-out shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-sm sm:text-base"
+                className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full transition-all duration-300 ease-out shadow-lg hover:shadow-xl sm:hover:-translate-y-0.5 text-sm sm:text-base w-full sm:w-auto min-h-[44px]"
               >
-                Cloud Services <ArrowRight className="h-4 w-4" />
+                Cloud Services <ArrowRight className="h-4 w-4 shrink-0" />
               </Link>
               <Link
                 to="/aianddataservice"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-white/30 transition-all duration-300 ease-out hover:-translate-y-0.5 text-sm sm:text-base"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full border border-white/30 transition-all duration-300 ease-out sm:hover:-translate-y-0.5 text-sm sm:text-base w-full sm:w-auto min-h-[44px]"
               >
-                AI & Data Services <ArrowRight className="h-4 w-4" />
+                AI & Data Services <ArrowRight className="h-4 w-4 shrink-0" />
               </Link>
               <Link
                 to="/contactus"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-white/30 transition-all duration-300 ease-out hover:-translate-y-0.5 text-sm sm:text-base"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full border border-white/30 transition-all duration-300 ease-out sm:hover:-translate-y-0.5 text-sm sm:text-base w-full sm:w-auto min-h-[44px]"
               >
                 Contact Us
               </Link>
               <Link
                 to="/careers"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-white/30 transition-all duration-300 ease-out hover:-translate-y-0.5 text-sm sm:text-base"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full border border-white/30 transition-all duration-300 ease-out sm:hover:-translate-y-0.5 text-sm sm:text-base w-full sm:w-auto min-h-[44px]"
               >
                 Careers in innovation
               </Link>

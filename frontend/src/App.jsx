@@ -17,6 +17,7 @@ const DeveloperTeam = lazy(() => import("./Pages/DeveloperTeam"));
 const ContactUsPage = lazy(() => import("./Pages/ContactUsPage"));
 const AboutCache = lazy(() => import("./Pages/AboutPage"));
 const InnovationsPage = lazy(() => import("./Pages/InnovationsPage"));
+const InnovationsProjectPage = lazy(() => import("./Pages/InnovationsProjectPage"));
 const Profile = lazy(() => import("./components/AboutPageComponent/profile"));
 const AwardsAndCertificationsPage = lazy(() => import("./Pages/AwardsAndCertificationsPage"));
 const PartnershipCards = lazy(() => import("./components/AboutPageComponent/Cards"));
@@ -51,7 +52,7 @@ function PageLoader() {
 }
 function App() {
   const location = useLocation();
-  const { scrollTo } = useLenis();
+  const { scrollTo, resize } = useLenis();
 
   // Remove loader as soon as the GIF has played once (duration parsed from loading.gif: 33 frames = 5000ms)
   useEffect(() => {
@@ -83,23 +84,23 @@ function App() {
     setTimeout(removeLoader, maxWaitMs);
   }, []);
 
-  // Scroll to top on route change (smooth via Lenis when available)
+  // Scroll to top on route change and resize Lenis so smooth scroll applies to new page content
   useEffect(() => {
     if (scrollTo) {
       scrollTo(0, { immediate: false });
+      // Recalculate dimensions after route change so Lenis applies to the new page
+      const t = resize ? setTimeout(resize, 100) : undefined;
+      return () => { if (t) clearTimeout(t); };
     } else {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
-  }, [location.pathname, scrollTo]);
-
-  const isAdmin = false; // Backend removed; no admin panel
+  }, [location.pathname, scrollTo, resize]);
 
   return (
     <>
-      <div className={!isAdmin ? "min-h-screen flex flex-col" : ""}>
-        {!isAdmin && <Navbar />}
-        {/* Page routes — flex-1 so content fills space and footer sticks to bottom */}
-        <main className={!isAdmin ? "flex-1 min-h-0" : ""}>
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 min-h-0">
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
@@ -114,9 +115,6 @@ function App() {
               <Route path="/consultingservice" element={<NetworkingConsultingPage />} />
               <Route path="/grc-dashboard" element={<GRC />} />
               <Route path="/telecom" element={<TelecomPage />} />
-
-
-
               <Route path="/contact" element={<Contact />} />
               <Route path="/insights" element={<InsightPage />} />
               <Route path="/blogs" element={<BlogsPage />} />
@@ -128,6 +126,7 @@ function App() {
               <Route path="/contactus" element={<ContactUsPage />} />
               <Route path="/about" element={<AboutCache />} />
               <Route path="/innovations" element={<InnovationsPage />} />
+              <Route path="/innovations/projects/:slug" element={<InnovationsProjectPage />} />
               <Route path="/about/profile" element={<Profile />} />
               <Route path="/about/awards" element={<AwardsAndCertificationsPage />} />
               <Route path="/about/certifications" element={<Navigate to="/about/awards" replace />} />
@@ -148,8 +147,8 @@ function App() {
             </Routes>
           </Suspense>
         </main>
-        {!isAdmin && <Footer />}
-        {!isAdmin && <CookieBanner />}
+        <Footer />
+        <CookieBanner />
       </div>
     </>
   );

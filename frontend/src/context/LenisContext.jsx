@@ -12,15 +12,19 @@ const LENIS_OPTIONS = {
   wheelMultiplier: 1.05,
   touchMultiplier: 1.8,
   anchors: true,
+  autoResize: true,
 };
 
 export function LenisProvider({ children }) {
   const lenisRef = useRef(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
     const lenis = new Lenis({
       ...LENIS_OPTIONS,
-      autoResize: true,
+      wrapper: window,
+      content: document.documentElement,
     });
     lenisRef.current = lenis;
 
@@ -45,8 +49,12 @@ export function LenisProvider({ children }) {
     }
   }, []);
 
+  const resize = useCallback(() => {
+    if (lenisRef.current?.resize) lenisRef.current.resize();
+  }, []);
+
   return (
-    <LenisContext.Provider value={{ lenisRef, scrollTo }}>
+    <LenisContext.Provider value={{ lenisRef, scrollTo, resize }}>
       {children}
     </LenisContext.Provider>
   );

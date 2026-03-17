@@ -66,8 +66,46 @@ const HERO_GRID_IMAGES = [
   'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80&fm=jpg&fit=crop',
 ];
 
+// Hero background slider: home hero + product page hero images only (no Unsplash).
+const HERO_SLIDER_IMAGES = [
+  '/girl-hand.webp',
+  '/images/cloudimg.webp',
+  '/images/aimlimg.webp',
+  '/images/cyberimg.webp',
+  '/images/infraimg.webp',
+];
 
-
+function HeroBackgroundSlider() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % HERO_SLIDER_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="absolute inset-0 z-0" aria-hidden>
+      {HERO_SLIDER_IMAGES.map((src, i) => (
+        <div
+          key={i}
+          className="absolute inset-0 bg-no-repeat bg-center transition-opacity duration-1000 ease-in-out"
+          style={{
+            backgroundImage: `url(${src})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: i === index ? 1 : 0,
+            zIndex: i === index ? 1 : 0,
+          }}
+        />
+      ))}
+      <div
+        className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/70 via-[#0a0a0b]/50 to-[#0a0a0b]/90"
+        style={{ zIndex: 2 }}
+        aria-hidden
+      />
+    </div>
+  );
+}
 
 const INITIAL_MESSAGES = [
   { role: 'assistant', content: "System ready. I'm your Cache Digitech assistant. Ask me about our services, deployments, or how we can help you scale your infrastructure." },
@@ -364,33 +402,20 @@ const HeroSection = () => {
 
   return (
     <>
-      {/* Hero — mobile: centered text + background only; desktop: left text + card grid */}
+      {/* Hero — centered text + full-screen background image on all breakpoints */}
       <section
-        className="relative min-h-screen min-h-[100dvh] bg-[#0a0a0b] flex flex-col lg:flex-row overflow-hidden"
+        className="relative min-h-screen min-h-[100dvh] bg-[#0a0a0b] flex flex-col overflow-hidden"
         aria-label="Hero"
       >
-        {/* Full-screen background image + gradient (responsive) */}
-        <div className="absolute inset-0 z-0">
-          <div
-            className="absolute inset-0 bg-no-repeat bg-center"
-            style={{
-              backgroundImage: 'url(/girl-hand.webp)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-r from-[#0a0a0b] via-[#0a0a0b]/92 to-[#0a0a0b]/60"
-            aria-hidden
-          />
-        </div>
+        {/* Full-screen background: image slider (no cards) */}
+        <HeroBackgroundSlider />
 
-        {/* Text + CTAs: centered on mobile, left-aligned on desktop */}
-        <div className="relative z-20 flex-1 flex items-center justify-center lg:justify-start px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
-          <div className="w-full max-w-xl mx-auto lg:mx-0 text-center lg:text-left space-y-6 sm:space-y-7 lg:space-y-9">
-            <div className="min-h-48 lg:min-h-64 flex flex-col justify-center items-center lg:items-stretch">
+        {/* Text + CTAs: centered on all screen sizes */}
+        <div className="relative z-20 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
+          <div className="w-full max-w-xl mx-auto text-center space-y-6 sm:space-y-7 lg:space-y-9">
+            <div className="min-h-48 lg:min-h-64 flex flex-col justify-center items-center">
               <h1
-                className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-white text-center lg:text-left w-full`}
+                className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-white text-center w-full`}
                 style={{ ...headingStyle, textShadow: '0 2px 24px rgba(0,0,0,0.6), 0 4px 32px rgba(0,0,0,0.4), 0 0 60px rgba(0,0,0,0.2)' }}
               >
                 <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.1s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
@@ -402,17 +427,17 @@ const HeroSection = () => {
                 <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.26s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
                   that
                 </span>
-                <span className="hero-heading-anim-fadeIn block min-h-[1.15em] w-full flex justify-center lg:justify-start" style={{ animationDelay: '0.34s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                <span className="hero-heading-anim-fadeIn block min-h-[1.15em] w-full flex justify-center" style={{ animationDelay: '0.34s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
                   <strong className="inline-block min-w-[11ch]">
                     <TypewriterWords />
                   </strong>
                 </span>
               </h1>
             </div>
-            <p className="hero-text-fadein text-sm sm:text-base lg:text-lg text-white/95 font-light max-w-2xl leading-[1.6] sm:leading-[1.65] -mt-2 sm:-mt-3" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.4)' }}>
+            <p className="hero-text-fadein text-sm sm:text-base lg:text-lg text-white/95 font-light max-w-2xl leading-[1.6] sm:leading-[1.65] -mt-2 sm:-mt-3 mx-auto" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.4)' }}>
               {subheading}
             </p>
-            <div className="hero-text-fadein-delay flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1">
+            <div className="hero-text-fadein-delay flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-1">
               <button
                 type="button"
                 onClick={() => navigate('/contactus')}
@@ -429,81 +454,6 @@ const HeroSection = () => {
                 Learn More
               </button>
             </div>
-          </div>
-        </div>
-
-        {/* Card grid: hidden on mobile; visible from lg up */}
-        <div className="absolute inset-0 z-10 hidden lg:flex overflow-hidden pointer-events-none">
-          <style>{`
-            @keyframes hero-col-scroll-down {
-              0% { transform: translate3d(0, 0, 0); }
-              100% { transform: translate3d(0, -50%, 0); }
-            }
-            @keyframes hero-col-scroll-up {
-              0% { transform: translate3d(0, -50%, 0); }
-              100% { transform: translate3d(0, 0, 0); }
-            }
-            @keyframes hero-cols-fadein {
-              0% { opacity: 0; }
-              100% { opacity: 1; }
-            }
-            .hero-col-down {
-              animation: hero-col-scroll-down 22s linear infinite;
-              will-change: transform;
-              backface-visibility: hidden;
-            }
-            .hero-col-up {
-              animation: hero-col-scroll-up 22s linear infinite;
-              will-change: transform;
-              backface-visibility: hidden;
-            }
-            .hero-cols-enter { animation: hero-cols-fadein 1.2s ease-out forwards; }
-            @keyframes hero-text-fadein {
-              0% { opacity: 0; transform: translateY(8px); }
-              100% { opacity: 1; transform: translateY(0); }
-            }
-            .hero-text-fadein { animation: hero-text-fadein 0.7s ease-out 0.5s both; }
-            .hero-text-fadein-delay { animation: hero-text-fadein 0.7s ease-out 0.7s both; }
-            .hero-cols-fade-left-to-right {
-              mask-image: linear-gradient(to right, transparent 0%, transparent 25%, rgba(0,0,0,0.2) 38%, rgba(0,0,0,0.5) 48%, rgba(0,0,0,0.8) 55%, black 62%, black 100%);
-              -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 25%, rgba(0,0,0,0.2) 38%, rgba(0,0,0,0.5) 48%, rgba(0,0,0,0.8) 55%, black 62%, black 100%);
-              mask-size: 100% 100%;
-              -webkit-mask-size: 100% 100%;
-            }
-          `}</style>
-          <div className="flex gap-2 sm:gap-3 lg:gap-4 w-full h-full hero-cols-enter hero-cols-fade-left-to-right">
-            {[0, 1, 2, 3].map((colIndex) => {
-              const start = colIndex * 3;
-              const colImages = HERO_GRID_IMAGES.slice(start, start + 3);
-              const isDown = colIndex % 2 === 0;
-              return (
-                <div
-                  key={colIndex}
-                  className="flex-1 flex flex-col overflow-hidden min-w-0 h-full"
-                >
-                  <div className={`flex flex-col gap-2 sm:gap-3 lg:gap-4 shrink-0 ${isDown ? 'hero-col-down' : 'hero-col-up'}`}>
-                    {[...colImages, ...colImages].map((src, i) => (
-                      <div
-                        key={`${colIndex}-${i}`}
-                        className="relative rounded-xl sm:rounded-2xl overflow-hidden border border-white/[0.08] bg-gray-900/40 shrink-0 w-full aspect-3/4 min-h-[120px] shadow-lg"
-                      >
-                        <img
-                          src={src}
-                          alt=""
-                          className="w-full h-full object-cover"
-                          loading="eager"
-                          decoding="async"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800"><rect fill="%231f2937" width="600" height="800"/></svg>');
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </section>

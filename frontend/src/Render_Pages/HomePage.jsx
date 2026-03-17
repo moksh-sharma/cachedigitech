@@ -20,10 +20,6 @@ export default function HomePage() {
       <BlogSection />
       <CareersSection />
       <CTASection />
-
-      {/* Chatbot components removed */}
-
-      {/* <FullScreenThreeImageSlider /> */}
     </>
   )
 }

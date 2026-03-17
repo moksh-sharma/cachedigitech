@@ -288,6 +288,17 @@ body {
   animation-timing-function: var(--ease-out-smooth);
 }
 
+@keyframes hero-text-fadein {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.hero-text-fadein {
+  animation: hero-text-fadein 0.7s ease-out 0.5s both;
+}
+.hero-text-fadein-delay {
+  animation: hero-text-fadein 0.7s ease-out 0.7s both;
+}
+
 /* Hero animated background: gradient orbs + subtle grid (transparent so image carousel shows) */
 .hero-animated-bg {
   background: transparent;
