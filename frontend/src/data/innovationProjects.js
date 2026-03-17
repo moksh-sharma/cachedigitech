@@ -33,7 +33,7 @@ export const INNOVATION_PROJECTS = [
     ],
   },
   {
-    name: "GRC",
+    name: "GRC (Sanchalan)",
     slug: "grc",
     tagline: "AI-enabled Governance, Risk, and Compliance platform.",
     description:
@@ -97,7 +97,7 @@ export const INNOVATION_PROJECTS = [
     ],
   },
   {
-    name: "Employee APP",
+    name: "Employee App",
     slug: "employee-app",
     tagline: "Digital performance management with transparency and accountability.",
     description:
@@ -161,21 +161,6 @@ export const INNOVATION_PROJECTS = [
     ],
   },
   {
-    name: "Cache Website",
-    slug: "cache-website",
-    tagline: "Next-generation digital presence for solutions and innovations.",
-    description:
-      "Cache Website v2 represents the next generation of the company's digital presence, designed to showcase its technology solutions, innovations, and service offerings. Built with modern web technologies and a scalable architecture, the platform provides an engaging user experience while delivering clear insights into the company's capabilities across AI, cloud, cybersecurity, and enterprise solutions.",
-    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80",
-    features: [
-      "Showcase of technology solutions, innovations, and service offerings",
-      "Modern web technologies and scalable architecture",
-      "Engaging user experience and clear capability insights",
-      "Coverage of AI, cloud, cybersecurity, and enterprise solutions",
-      "Next-generation digital presence for the brand",
-    ],
-  },
-  {
     name: "Cache GPT",
     slug: "cache-gpt",
     tagline: "Secure, on-premises generative AI for the enterprise.",
@@ -218,6 +203,21 @@ export const INNOVATION_PROJECTS = [
       "Management of contracts, reports, policies, and internal docs",
       "Document traceability and compliance",
       "Efficient knowledge management across teams",
+    ],
+  },
+  {
+    name: "Web & App Development",
+    slug: "custom-app-development",
+    tagline: "Tailored software solutions built for your business needs.",
+    description:
+      "Web & App Development delivers end-to-end software solutions designed around your workflows and goals. From web and mobile applications to internal tools and integrations, we build scalable, secure systems using modern stacks and best practices. Our teams combine product thinking with engineering excellence to ship solutions that improve productivity, automate processes, and integrate seamlessly with your existing infrastructure.",
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80&fm=jpg&fit=crop",
+    features: [
+      "Web, mobile, and internal tool development from concept to deployment",
+      "Scalable architecture and modern technology stacks",
+      "Integration with existing systems and APIs",
+      "Security, performance, and maintainability by default",
+      "Ongoing support and iterative improvement",
     ],
   },
 ];

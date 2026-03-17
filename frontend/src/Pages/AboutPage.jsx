@@ -62,13 +62,12 @@ function AboutCache() {
     <div className="w-full">
       {/* ===== Video Section ===== */}
       <div id="concept-of-cache" className="relative w-full h-screen overflow-hidden">
-        {/* Background Video */}
-        <video
+        {/* Background (GIF) */}
+        <img
+          src="/videos/aboutpage.gif"
+          alt=""
           className="absolute inset-0 w-full h-full object-cover"
-          src="/videos/aboutpage.mp4" // Replace with your video
-          autoPlay
-          loop
-          muted
+          aria-hidden
         />
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>

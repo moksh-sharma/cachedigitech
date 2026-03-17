@@ -45,43 +45,15 @@ const DeveloperTeam = () => {
     {
       id: 4,
       name: "Rishabh ",
-      role: "Lead Full-Stack Developer",
-      photo: "/Developer/rishabh.JPG",
+      role: "Lead Gen AI Full-Stack Developer",
+      photo: "/Developer/rishabh.webp",
       linkedin: "#",
       github: "#",
       email: "#",
       skills: ["React", "Node.js", "TypeScript"]
     },
-    {
-      id: 5,
-      name: "Vanshdeep",
-      role: "Full Stack & AI Developer",
-      photo: "/Developer/vanshdeep.webp",
-      linkedin: "https://linkedin.com/in/michaelchen",
-      github: "https://github.com/michaelchen",
-      email: "michael@company.com",
-      skills: ["Vue.js", "Tailwind", "JavaScript"]
-    },
-    {
-      id: 6,
-      name: "Kritika Verma",
-      role: "Frontend Developer",
-      photo: "/Developer/kritika3.webp",
-      linkedin: "https://linkedin.com/in/jessicathompson",
-      github: "https://github.com/jessicathompson",
-      email: "jessica@company.com",
-      skills: ["React Js", "Tailwind Css", "Wordpress"]
-    },
-    {
-      id: 7,
-      name: "Aman Raj",
-      role: "Cloud & DevOps Engineer",
-      photo: "/Developer/Aman.webp",
-      linkedin: "https://www.linkedin.com/in/aman-raj-34252526a",
-      github: "https://github.com/amangithub2003",
-      email: "amanrajdss1516@gmail.com",
-      skills: ["AWS", "Docker", "Swift"]
-    }
+
+
   ];
 
   return (

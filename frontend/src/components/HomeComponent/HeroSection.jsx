@@ -182,8 +182,7 @@ function parseHeadingIntoWords(html) {
 }
 
 const TYPEWRITER_WORDS = [
-  'THRIVE', 'Grow', 'Scale', 'Lead', 'Win', 'Excel', 'Dominate',
-  'Evolve', 'Succeed', 'Perform', 'Transform', 'Prosper',
+  'Analytics', 'Cloud', 'Automation', 'Integration', 'Optimization', 'Scalability', 'Innovation',
 ];
 
 // Lenis-style lerp (same as Lenis scrollTo) for smooth typewriter
@@ -286,12 +285,12 @@ const HeroSection = () => {
   const headingAnimationDelay = parseFloat(cms.headingAnimationDelay) || 0;
 
   const headingSizeClass = {
-    small: 'text-5xl lg:text-6xl',
-    medium: 'text-6xl lg:text-7xl',
-    large: 'text-6xl lg:text-[72px]',
-    xlarge: 'text-7xl lg:text-[84px]',
-    default: 'text-6xl lg:text-[72px]',
-  }[headingFontSize] || 'text-6xl lg:text-[72px]';
+    small: 'text-4xl lg:text-5xl',
+    medium: 'text-5xl lg:text-6xl',
+    large: 'text-5xl lg:text-6xl',
+    xlarge: 'text-6xl lg:text-[72px]',
+    default: 'text-5xl lg:text-6xl',
+  }[headingFontSize] || 'text-5xl lg:text-6xl';
 
   const isWordByWordFade = headingAnimation === 'fadeIn';
   const normalizedHeading = useMemo(() => normalizeHeadingForDisplay(heading), [heading]);
@@ -391,47 +390,48 @@ const HeroSection = () => {
         className="relative min-h-screen min-h-[100dvh] flex flex-col overflow-hidden"
         aria-label="Hero"
       >
-        {/* Background image — same on mobile and desktop */}
+        {/* Background image — same on mobile and desktop; full opacity */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
-          style={{ backgroundImage: 'url(/homepage-bg.webp)', zIndex: 0 }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-100"
+          style={{ backgroundImage: 'url(/homepage-bg.webp)', zIndex: 0, opacity: 1 }}
           aria-hidden
         />
         <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 w-full max-w-7xl mx-auto items-center justify-items-center lg:justify-items-stretch min-h-0">
             {/* Left: text — centered on mobile, left-aligned from lg */}
-            <div className="text-center lg:text-left space-y-3 sm:space-y-4 lg:space-y-5 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0">
-              <div className="min-h-40 lg:min-h-52 flex flex-col justify-center items-center lg:items-start">
+            <div className="text-center lg:text-left space-y-2 sm:space-y-3 lg:space-y-4 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0">
+              <div className="min-h-32 lg:min-h-44 flex flex-col justify-center items-center lg:items-start">
                 <h1
                   className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-(--apple-black) w-full`}
                   style={headingStyle}
                 >
-                  <span className="block">We <strong>BUILD</strong></span>
-                  <span className="block">Industries</span>
-                  <span className="block">that</span>
+                  <span className="block">We</span>
+                  <span className="block"><strong>Empower</strong></span>
+                  <span className="block">Businesses</span>
+                  <span className="block">through</span>
                   <span className="block min-h-[1.15em] w-full flex justify-center lg:justify-start">
-                    <strong className="inline-block min-w-[11ch]">
+                    <strong className="inline-block min-w-[12ch]">
                       <TypewriterWords />
                     </strong>
                   </span>
                 </h1>
               </div>
-              <p className="text-sm sm:text-base lg:text-lg text-black font-light max-w-2xl leading-[1.6] sm:leading-[1.65] mx-auto lg:mx-0">
+              <p className="text-xs sm:text-sm lg:text-base text-black font-light max-w-2xl leading-[1.6] sm:leading-[1.65] mx-auto lg:mx-0">
                 {subheading}
               </p>
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => navigate('/contactus')}
-                  className="inline-flex items-center gap-2 bg-red-600 text-white text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-red-500 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex items-center gap-1.5 bg-red-600 text-white text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-red-500 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   Get Started
-                  <span className="text-[17px] leading-none" aria-hidden>&rarr;</span>
+                  <span className="text-[15px] leading-none" aria-hidden>&rarr;</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => navigate('/about')}
-                  className="inline-flex items-center gap-2 bg-white border border-gray-300 text-(--apple-black) text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-gray-50 hover:border-red-200 hover:text-red-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex items-center gap-1.5 bg-white border border-gray-300 text-(--apple-black) text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-gray-50 hover:border-red-200 hover:text-red-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   Learn More
                 </button>

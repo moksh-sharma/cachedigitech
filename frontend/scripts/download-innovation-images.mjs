@@ -20,10 +20,10 @@ const PROJECTS = [
   { slug: "cache-bi", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" },
   { slug: "edm", url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" },
   { slug: "mail-integration", url: "https://images.unsplash.com/photo-1557200134-90327ee9fafa?w=800&q=80" },
-  { slug: "cache-website", url: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80" },
   { slug: "cache-gpt", url: "https://images.unsplash.com/photo-1535378620166-273708d44e4c?w=800&q=80" },
   { slug: "cache-db", url: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&q=80" },
   { slug: "cache-doc", url: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&q=80" },
+  { slug: "custom-app-development", url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80" },
 ];
 
 const OUT_DIR = path.join(__dirname, "..", "public", "images", "innovations");

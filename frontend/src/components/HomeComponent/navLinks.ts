@@ -26,10 +26,10 @@ export const navLinks: NavLink[] = [
   { label: "EDM", route: "/innovations/projects/edm" },
   { label: "MAIL INTEGRATION", route: "/innovations/projects/mail-integration" },
   { label: "Mail Integration", route: "/innovations/projects/mail-integration" },
-  { label: "Cache Website", route: "/innovations/projects/cache-website" },
   { label: "Cache GPT", route: "/innovations/projects/cache-gpt" },
   { label: "Cache DB", route: "/innovations/projects/cache-db" },
   { label: "Cache DOC", route: "/innovations/projects/cache-doc" },
+  { label: "Web & App Development", route: "/innovations/projects/custom-app-development" },
   { label: "GRC (Sanchalan)", route: "/innovations/projects/grc" },
 
   // Search aliases (same page)

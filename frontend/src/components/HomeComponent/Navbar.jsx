@@ -40,22 +40,17 @@ const menuData = {
   },
   "Innovations": {
     items: [
-      "Overview",
-      "Techbank",
-      "Bid Intelligence",
-      "GRC (Sanchalan)",
-      "AskCache",
-      "CRM",
-      "HRMS",
-      "Employee App",
-      "Cache BI",
-      "EDM",
-      "Mail Integration",
-      "Cache Website",
-      "Cache GPT",
-      "Cache DB",
-      "Cache DOC",
+      "Finance & Enterprise Solutions",
+      "Operations & Compliance",
+      "Workforce & Productivity",
+      "GenAI and software solutions",
     ],
+    submenus: {
+      "Finance & Enterprise Solutions": ["Techbank", "CRM", "Bid Intelligence"],
+      "Operations & Compliance": ["GRC (Sanchalan)", "EDM", "Cache DOC"],
+      "Workforce & Productivity": ["HRMS", "Employee App", "Mail Integration"],
+      "GenAI and software solutions": ["AskCache", "Cache GPT", "Cache BI", "Cache DB", "Web & App Development"],
+    },
   },
   "Services": {
     items: ["Cloud", "Consulting & Auditing", "Managed Services", "Infrastructure & Networking"],
@@ -376,12 +371,23 @@ function Navbar() {
                 <div className="w-40 shrink-0">
                   <h3 className="text-base font-bold text-(--apple-black) mb-1">{megaOpen}</h3>
                   <div className="w-6 h-0.5 bg-red-500 rounded-full" />
+                  {megaOpen === "Innovations" && (
+                    <button
+                      onClick={() => {
+                        setMegaOpen(null);
+                        navigate("/innovations");
+                      }}
+                      className="mt-3 block w-full text-left text-sm font-medium text-gray-600 hover:text-red-600 transition-colors"
+                    >
+                      Overview
+                    </button>
+                  )}
                 </div>
 
                 {/* Menu items */}
                 <div className="flex-1">
                   {menuData[megaOpen]?.submenus ? (
-                    /* Two-level: each main heading in its own column (e.g. Cloud, Cybersecurity, Data & AI, Infra) */
+                    /* Two-level: each main heading in its own column */
                     <div className="grid grid-cols-4 gap-6">
                       {menuData[megaOpen].items.map((group) => (
                         <div key={group} className="flex flex-col">
@@ -541,7 +547,9 @@ function Navbar() {
           <div className="p-4">
             {(activeNestedSubmenu
               ? menuData[activeSubmenu].submenus[activeNestedSubmenu]
-              : menuData[activeSubmenu].items
+              : activeSubmenu === "Innovations"
+                ? ["Overview", ...menuData[activeSubmenu].items]
+                : menuData[activeSubmenu].items
             ).map((item, index) => (
               <div
                 key={index}

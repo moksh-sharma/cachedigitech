@@ -63,13 +63,11 @@ export default function Profile() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-(--apple-black) min-h-screen flex items-center">
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <video
-            src="/videos/aboutpage.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
+          <img
+            src="/videos/aboutpage.gif"
+            alt=""
             className="w-full h-full object-cover"
+            aria-hidden
           />
           <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/70" />
         </div>
