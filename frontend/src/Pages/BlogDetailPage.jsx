@@ -13,11 +13,11 @@ export default function BlogDetailPage() {
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-6 sm:px-8 lg:px-12">
         <p className="text-gray-600 mb-4">Blog post not found.</p>
         <Link
-          to="/insights"
+          to="/blogs"
           className="inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Insights
+          Back to Blogs
         </Link>
       </div>
     );
@@ -27,11 +27,11 @@ export default function BlogDetailPage() {
     <div className="min-h-screen bg-white">
       <article className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-16">
         <Link
-          to="/insights"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm font-medium mt-8 mb-8"
+          to="/blogs"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm font-medium mt-16 mb-8"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Insights
+          Back to Blogs
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
@@ -78,7 +78,7 @@ export default function BlogDetailPage() {
               </div>
             </header>
             <div className="text-gray-700 text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
-              {post.excerpt}
+              {post.content ?? post.excerpt}
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { Calendar, User } from "lucide-react";
 import { HARDCODED_BLOGS } from "../data/blogsAndHighlights";
 
 export default function BlogsPage() {
-  const posts = HARDCODED_BLOGS;
+  const posts = [...HARDCODED_BLOGS].sort((a, b) => a.id - b.id);
   const navigate = useNavigate();
 
   return (

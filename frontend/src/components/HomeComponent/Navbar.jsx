@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Menu, ChevronLeft, ChevronRight, ChevronDown, X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { navLinks } from "./navLinks";
-import { usePlacement } from "../../context/PlacementsContext";
 
 /* ── Sections that are direct links (no dropdown) ── */
 const DIRECT_LINK_SECTIONS = ["Careers", "Contact"];
@@ -21,7 +20,7 @@ const menuData = {
         "Infrastructure & Endpoint Security",
         "Threat Monitoring & Response",
         "Data & Cloud Security",
-        "Security Audits & Compliance"
+        "Security Audits & Compliance",
       ],
       "Data Analytics & AI": [
         "Data Platforms",
@@ -59,7 +58,41 @@ const menuData = {
     ],
   },
   "Services": {
-    items: ["Consulting & Auditing", "Managed Services", "GRC"],
+    items: ["Cloud", "Consulting & Auditing", "Managed Services", "Infrastructure & Networking"],
+    submenus: {
+      "Cloud": [
+        "Cloud Consulting",
+        "Cloud Migration",
+        "Cloud Architecture",
+        "Managed Cloud Services",
+        "Cloud Security",
+        "DevOps & Automation",
+      ],
+      "Consulting & Auditing": [
+        "Strategy Consulting",
+        "Infrastructure Advisory",
+        "Security Consulting",
+        "Risk & Compliance",
+        "IT Audits",
+        "Process Optimization",
+      ],
+      "Managed Services": [
+        "Network Managed Services",
+        "IT Infrastructure Management",
+        "Cloud Managed Services",
+        "Security Operations (SOC / SIEM / MDR)",
+        "DevOps & Automation Services",
+        "End-User & Workplace Support",
+      ],
+      "Infrastructure & Networking": [
+        "IT Infrastructure Solutions",
+        "Data Center Management",
+        "Network Infrastructure (LAN/WAN/Wireless)",
+        "Server & Storage Management",
+        "Virtualization & Hypervisor Management",
+        "Backup & Disaster Recovery",
+      ],
+    },
   },
   "Industries": {
     items: ["Telecom", "BFSI", "Automobile & Manufacturing", "Retail", "Healthcare & Hospitality", "Governance", "IT & ITES"],
@@ -182,8 +215,10 @@ function Navbar() {
   );
 
   const handleItemClick = (section, item) => {
-    const hasNested = menuData[section]?.submenus && menuData[section].submenus[item];
-    if (hasNested) {
+    const nestedItems = menuData[section]?.submenus?.[item];
+    const hasNested = nestedItems && nestedItems.length > 0;
+    // Single-item submenu that matches the group name → treat as direct link
+    if (hasNested && !(nestedItems.length === 1 && nestedItems[0] === item)) {
       setActiveNestedSubmenu(item);
       return;
     }
@@ -311,7 +346,7 @@ function Navbar() {
           <div className="flex items-center flex-1 min-w-0 justify-end overflow-hidden">
             {/* Mobile: Cache logo only */}
             <div className="flex md:hidden items-center min-w-0 max-w-full shrink-0">
-              <div onClick={() => navigate("/")} className="cursor-pointer shrink-0 flex-shrink-0">
+              <div onClick={() => navigate("/")} className="cursor-pointer shrink-0">
                 <img
                   src={logoUrl}
                   alt="CacheDigiTech Logo"

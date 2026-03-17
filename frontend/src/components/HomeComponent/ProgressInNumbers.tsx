@@ -1,15 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 
 const STATS = [
-  { value: "$14.5B", label: "Revenue" },
-  { value: "226K+", label: "People" },
-  { value: "60", label: "Countries" },
-  { value: "167", label: "Nationalities" },
-  { value: "220+", label: "Delivery Centers" },
-  { value: "70+", label: "Labs" },
-  { value: "18K+", label: "Clients using our software and products" },
-  { value: "2,200+", label: "Patents driving innovations" },
-  { value: "26", label: "Countries recognize us as a Top Employer" },
+  { value: "32+", label: "Years of Legacy" },
+  { value: "24×7", label: "Support Availability" },
+  { value: "3", label: "Office Locations" },
+  { value: "7+", label: "Core Service Domains" },
+  { value: "6+", label: "Industry Verticals Served" },
+  { value: "24×7", label: "Monitoring Coverage" },
+  { value: "2", label: "ISO Certifications" },
+  { value: "5", label: "CMMI Level" },
+  { value: "Pan India", label: "Service Coverage" },
 ];
 
 /** Parse "14.5", "226", "2,200" etc. into numeric value for animation. */
@@ -98,7 +98,9 @@ export function ProgressInNumbers() {
   }, [inView]);
 
   const formatDisplay = (index: number) => {
-    const parsed = parseStatValue(STATS[index].value);
+    const raw = STATS[index].value;
+    if (!/[\d.,]/.test(raw)) return raw;
+    const parsed = parseStatValue(raw);
     const n = displayNumbers[index] ?? 0;
     const formatted =
       parsed.decimals > 0
@@ -126,8 +128,7 @@ export function ProgressInNumbers() {
                 Progress in Numbers
               </h2>
               <p className="mt-5 text-(--apple-gray) text-base sm:text-lg leading-relaxed max-w-xl">
-                Powered by a global team, we deliver smarter, better ways for all our
-                stakeholders to benefit from technology.
+                With over three decades of legacy and pan-India coverage, we deliver technology solutions that drive growth and resilience for our clients.
               </p>
             </div>
 
