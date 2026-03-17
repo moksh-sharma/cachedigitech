@@ -21,6 +21,7 @@ const menuData = {
         "Infrastructure & Endpoint Security",
         "Threat Monitoring & Response",
         "Data & Cloud Security",
+        "Security Audits & Compliance"
       ],
       "Data Analytics & AI": [
         "Data Platforms",
