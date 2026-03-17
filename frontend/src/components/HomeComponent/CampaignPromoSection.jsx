@@ -18,6 +18,8 @@ export default function CampaignPromoSection() {
               src={bannerImageUrl}
               alt="Current promotion"
               className="block w-full h-auto max-h-[240px] sm:max-h-[280px] md:max-h-none object-contain"
+              loading="lazy"
+              decoding="async"
             />
           </div>
           <div className="flex-1 flex items-center justify-between gap-4 p-4 sm:p-5 min-w-0 md:max-w-[260px] lg:max-w-[280px] shrink-0 md:absolute md:top-0 md:right-0 md:bottom-0 md:w-[260px] lg:w-[280px] md:h-full overflow-visible">

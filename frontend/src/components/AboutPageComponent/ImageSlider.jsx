@@ -69,6 +69,7 @@ const AwardsSection = () => {
                     alt={slide.name}
                     className="w-full h-full object-contain p-5 transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <h3 className="mt-4 text-sm font-semibold text-(--apple-black) group-hover:text-red-600 transition-colors duration-200 leading-tight px-1">

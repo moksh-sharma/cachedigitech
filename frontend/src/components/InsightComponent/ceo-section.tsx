@@ -22,6 +22,7 @@ export function CEOSection() {
                 alt="Prarthana Gupta - Chief Executive Officer"
                 className="w-full h-full object-cover"
                 loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -67,7 +68,7 @@ export function CEOSection() {
                 <p className="text-base sm:text-lg mt-1 font-holiday text-gray-700">
                   That&apos;s Cache&apos;s Promise
                 </p>
-                <img className="h-3 sm:h-4 mt-2 invert mix-blend-multiply" alt="" src="/footerline.webp" aria-hidden />
+                <img className="h-3 sm:h-4 mt-2 invert mix-blend-multiply" alt="" src="/footerline.webp" aria-hidden decoding="async" loading="lazy" />
               </div>
 
               <div className="mt-6 p-6 bg-linear-to-r from-red-50 to-gray-50 rounded-lg border-l-4 border-red-600">
@@ -88,6 +89,7 @@ export function CEOSection() {
               alt="Cache Digitech team at exhibition booth with CACHE Endeavouring Perfection and DELL Technologies branding, Women Owned"
               className="block w-full h-full min-h-full object-cover"
               loading="lazy"
+              decoding="async"
             />
           </div>
 

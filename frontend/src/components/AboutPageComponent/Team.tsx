@@ -122,6 +122,7 @@ const TeamSection: React.FC = () => {
                     className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     style={{ transform: `scale(${member.imageScale || 1})` }}
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 </Link>
@@ -159,7 +160,7 @@ const TeamSection: React.FC = () => {
                       aria-label={`${member.name} on LinkedIn`}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <img src="/linkedin.webp" alt="" className="w-4 h-4 opacity-80" aria-hidden />
+                      <img src="/linkedin.webp" alt="" className="w-4 h-4 opacity-80" aria-hidden decoding="async" />
                       <span>LinkedIn</span>
                     </a>
                   )}

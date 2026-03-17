@@ -183,12 +183,14 @@ function Footer() {
         <div className="pb-4 sm:pb-6 border-b border-white/10 shrink-0">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div className="flex flex-col gap-1.5">
-              <img src={footerLogoUrl} alt="Cache Digitech" className="h-12 w-[130px] object-contain shrink-0" />
+              <img src={footerLogoUrl} alt="Cache Digitech" className="h-12 w-[130px] object-contain shrink-0" decoding="async" loading="lazy" />
             </div>
             <img
               src="/women_owned.webp"
               alt="Women Owned"
               className="h-12 w-[130px] object-contain shrink-0 self-start sm:self-end"
+              decoding="async"
+              loading="lazy"
             />
           </div>
         </div>

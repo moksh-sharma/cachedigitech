@@ -220,6 +220,7 @@ export default function InnovationsPage() {
                 alt="Collaboration and innovation"
                 className="w-full h-full object-cover aspect-4/3 max-w-full"
                 loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent pointer-events-none" />
             </div>
@@ -304,6 +305,7 @@ export default function InnovationsPage() {
                 alt="Cloud infrastructure and innovation"
                 className="w-full h-full object-cover aspect-4/3 max-w-full"
                 loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent pointer-events-none" />
             </div>
@@ -425,6 +427,7 @@ export default function InnovationsPage() {
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out max-w-full"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="p-4 sm:p-5 md:p-6 lg:p-8 border-t border-slate-100">
@@ -476,6 +479,7 @@ export default function InnovationsPage() {
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 max-w-full"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="p-4 sm:p-5 lg:p-6 min-w-0">

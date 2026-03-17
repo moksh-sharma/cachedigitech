@@ -90,6 +90,8 @@ function ClientsCards() {
                   src={client.img}
                   alt={client.name}
                   className="h-[100px] w-[100px] object-contain" // fixed logo size
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             ))}

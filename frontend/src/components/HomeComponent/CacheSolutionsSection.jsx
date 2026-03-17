@@ -334,6 +334,8 @@ export default function CacheSolutionsSection() {
                         alt={`${selectedItem.name} icon`}
                         className="w-16 h-16 sm:w-24 sm:h-24 rounded-lg object-cover border border-gray-300"
                         data-testid="img-definition"
+                        loading="lazy"
+                        decoding="async"
                       />
                       <h2 className="text-lg sm:text-2xl font-bold text-black" data-testid="text-definition-title">
                         {selectedItem.name}

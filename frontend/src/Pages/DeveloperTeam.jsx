@@ -85,6 +85,8 @@ const DeveloperTeam = () => {
                   src={dev.photo}
                   alt={dev.name}
                   className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-red-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 

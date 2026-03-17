@@ -50,6 +50,7 @@ function Certifications({ sectionOnly = false }) {
                     alt={cert.name}
                     className="max-w-full max-h-full object-contain"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <span className="text-xs sm:text-sm font-medium text-(--apple-black) text-center leading-tight group-hover:text-red-600 transition-colors">

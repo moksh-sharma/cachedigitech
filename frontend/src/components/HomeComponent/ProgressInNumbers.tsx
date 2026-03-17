@@ -41,6 +41,8 @@ function GlobeGraphic() {
           className="absolute inset-0 w-full h-full object-cover"
           onError={() => setImgError(true)}
           aria-hidden
+          decoding="async"
+          loading="lazy"
         />
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center text-gray-500 text-sm">

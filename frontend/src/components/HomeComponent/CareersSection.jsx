@@ -45,6 +45,7 @@ export default function CareersSection() {
               alt="Careers at Cache Digitech"
               className="w-full h-full object-cover aspect-4/3"
               loading="lazy"
+              decoding="async"
             />
           </div>
         </div>

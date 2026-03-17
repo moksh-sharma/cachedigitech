@@ -68,6 +68,7 @@ function AboutCache() {
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           aria-hidden
+          decoding="async"
         />
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>

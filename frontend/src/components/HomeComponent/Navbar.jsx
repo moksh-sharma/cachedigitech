@@ -289,6 +289,8 @@ function Navbar() {
                 src={logoUrl}
                 alt="CacheDigiTech Logo"
                 className="h-12 w-auto transition-all duration-300 filter-[brightness(0)_saturate(100%)_invert(25%)_sepia(98%)_saturate(2692%)_hue-rotate(346deg)]"
+                decoding="async"
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -345,6 +347,8 @@ function Navbar() {
                   src={logoUrl}
                   alt="CacheDigiTech Logo"
                   className="h-8 w-auto max-h-8 transition-all duration-300 filter-[brightness(0)_saturate(100%)_invert(25%)_sepia(98%)_saturate(2692%)_hue-rotate(346deg)]"
+                  decoding="async"
+                  fetchPriority="high"
                 />
               </div>
             </div>
@@ -353,6 +357,7 @@ function Navbar() {
               src="/women_owned.webp"
               alt="Women Owned"
               className="h-12 w-[120px] object-contain shrink-0 hidden md:block"
+              decoding="async"
             />
           </div>
         </div>
@@ -446,7 +451,7 @@ function Navbar() {
             className="flex items-center gap-3 cursor-pointer"
             onClick={() => { navigate("/"); setMenuOpen(false); setActiveSubmenu(null); }}
           >
-            <img src={logoUrl} alt="CacheDigiTech Logo" className="h-8" />
+            <img src={logoUrl} alt="CacheDigiTech Logo" className="h-8" decoding="async" />
           </div>
           <button
             className="p-2 rounded-lg hover:bg-gray-100 transition-colors"

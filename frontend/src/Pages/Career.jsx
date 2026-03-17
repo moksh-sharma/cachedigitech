@@ -77,6 +77,8 @@ export default function Careers() {
                             src={heroImageUrl}
                             alt="Opportunities Illustration"
                             className="w-full max-w-md rounded-xl shadow-lg"
+                            loading="lazy"
+                            decoding="async"
                         />
                     </div>
                 </div>

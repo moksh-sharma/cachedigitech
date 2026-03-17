@@ -56,6 +56,7 @@ export default function InnovationsProjectPage() {
                   alt=""
                   className="w-full h-full object-cover max-w-full"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

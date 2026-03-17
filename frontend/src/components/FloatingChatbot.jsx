@@ -80,7 +80,7 @@ const FloatingChatbot = () => {
           <div className="shrink-0 flex items-center justify-between px-5 pt-4 pb-3">
             <div className="flex items-center gap-2.5">
               <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center">
-                <img src="/ai-logo-animation.gif" alt="" className="w-full h-full object-cover" />
+                <img src="/ai-logo-animation.gif" alt="" className="w-full h-full object-cover" decoding="async" loading="lazy" />
               </div>
               <div>
                 <p className="text-[14px] font-semibold text-(--apple-black) leading-tight">AI Assistant</p>

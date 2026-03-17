@@ -68,6 +68,7 @@ export default function Profile() {
             alt=""
             className="w-full h-full object-cover"
             aria-hidden
+            decoding="async"
           />
           <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/70" />
         </div>
@@ -131,6 +132,8 @@ export default function Profile() {
                 src="/leadership-booth.webp"
                 alt="Our Commitment — teamwork and partnership"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -165,6 +168,8 @@ export default function Profile() {
                 src="/mission.webp"
                 alt="Our Philosophy — excellence with agility, service with heart"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -216,7 +221,7 @@ export default function Profile() {
             <div className="logo-marquee__track">
               {[...customerLogos, ...customerLogos].map((logo, idx) => (
                 <div key={idx} className="logo-marquee__item shrink-0 min-w-[140px] h-[80px] rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100/80 shadow-sm flex items-center justify-center px-5">
-                  <img src={logo.img} alt={logo.name} className="max-h-10 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity" loading="lazy" />
+                  <img src={logo.img} alt={logo.name} className="max-h-10 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity" loading="lazy" decoding="async" />
                 </div>
               ))}
             </div>

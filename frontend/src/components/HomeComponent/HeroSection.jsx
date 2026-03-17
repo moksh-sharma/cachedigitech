@@ -693,6 +693,7 @@ function InnovationsSection() {
               alt="Innovation at Cache Digitech"
               className="w-full h-full object-cover aspect-4/3"
               loading="lazy"
+              decoding="async"
             />
           </div>
 
@@ -946,7 +947,7 @@ function OEMAlliancesSection() {
               >
                 {[...OEM_PARTNERS, ...OEM_PARTNERS].map((p, i) => (
                   <div key={`${p.name}-${i}`} className="shrink-0 w-24 h-16 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 p-2">
-                    <img src={p.logo} alt={p.name} className="w-full h-full object-contain" loading="lazy" />
+                    <img src={p.logo} alt={p.name} className="w-full h-full object-contain" loading="lazy" decoding="async" />
                   </div>
                 ))}
               </div>
@@ -1020,6 +1021,7 @@ function PremiumPartnersSection() {
                   alt={partner.name}
                   className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
               <p className="text-(--apple-black) font-semibold text-xs sm:text-sm">{partner.name}</p>
