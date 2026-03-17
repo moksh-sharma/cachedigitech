@@ -66,29 +66,32 @@ const HERO_GRID_IMAGES = [
   'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80&fm=jpg&fit=crop',
 ];
 
-// Hero background slider: home hero + product page hero images only (no Unsplash).
+// Hero section images (stored in public/hero/)
 const HERO_SLIDER_IMAGES = [
-  '/girl-hand.webp',
-  '/images/cloudimg.webp',
-  '/images/aimlimg.webp',
-  '/images/cyberimg.webp',
-  '/images/infraimg.webp',
+  '/hero/girl-hand.webp',
+  '/hero/cloudimg.webp',
+  '/hero/aimlimg.webp',
+  '/hero/cyberimg.webp',
+  '/hero/infraimg.webp',
 ];
 
-function HeroBackgroundSlider() {
+const HERO_IMAGE_SLIDER_INTERVAL_MS = 5000;
+
+/** Slider that cycles through hero images with crossfade (used inside the right-side hero panel) */
+function HeroImageSlider() {
   const [index, setIndex] = useState(0);
   useEffect(() => {
     const t = setInterval(() => {
       setIndex((i) => (i + 1) % HERO_SLIDER_IMAGES.length);
-    }, 5000);
+    }, HERO_IMAGE_SLIDER_INTERVAL_MS);
     return () => clearInterval(t);
   }, []);
   return (
-    <div className="absolute inset-0 z-0" aria-hidden>
+    <>
       {HERO_SLIDER_IMAGES.map((src, i) => (
         <div
           key={i}
-          className="absolute inset-0 bg-no-repeat bg-center transition-opacity duration-1000 ease-in-out"
+          className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
           style={{
             backgroundImage: `url(${src})`,
             backgroundSize: 'cover',
@@ -96,14 +99,10 @@ function HeroBackgroundSlider() {
             opacity: i === index ? 1 : 0,
             zIndex: i === index ? 1 : 0,
           }}
+          aria-hidden
         />
       ))}
-      <div
-        className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/70 via-[#0a0a0b]/50 to-[#0a0a0b]/90"
-        style={{ zIndex: 2 }}
-        aria-hidden
-      />
-    </div>
+    </>
   );
 }
 
@@ -335,21 +334,6 @@ const HeroSection = () => {
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
 
-  // Hero entrance: left text + right card slide in, then card tilts and gains color
-  const [chatCardReveal, setChatCardReveal] = useState('entering'); // 'entering' | 'placed' | 'tilted'
-  const [heroTextReveal, setHeroTextReveal] = useState('entering');  // 'entering' | 'placed'
-  const slideStartDelay = 520;       // ms before both panels start moving
-  const slideDurationMs = 1480;     // ms for slide-in (smooth deceleration)
-  const pauseBeforeTilt = 340;      // ms hold when placed before card tilt
-  useEffect(() => {
-    const t1 = setTimeout(() => {
-      setChatCardReveal('placed');
-      setHeroTextReveal('placed');
-    }, slideStartDelay);
-    const t2 = setTimeout(() => setChatCardReveal('tilted'), slideStartDelay + slideDurationMs + pauseBeforeTilt);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
-
   // Sync chatFocused with hasAsked
   useEffect(() => {
     setChatFocused(hasAsked);
@@ -402,57 +386,66 @@ const HeroSection = () => {
 
   return (
     <>
-      {/* Hero — centered text + full-screen background image on all breakpoints */}
+      {/* Hero — left text, right image; homepage-bg.webp on all viewports */}
       <section
-        className="relative min-h-screen min-h-[100dvh] bg-[#0a0a0b] flex flex-col overflow-hidden"
+        className="relative min-h-screen min-h-[100dvh] flex flex-col overflow-hidden"
         aria-label="Hero"
       >
-        {/* Full-screen background: image slider (no cards) */}
-        <HeroBackgroundSlider />
-
-        {/* Text + CTAs: centered on all screen sizes */}
-        <div className="relative z-20 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
-          <div className="w-full max-w-xl mx-auto text-center space-y-6 sm:space-y-7 lg:space-y-9">
-            <div className="min-h-48 lg:min-h-64 flex flex-col justify-center items-center">
-              <h1
-                className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-white text-center w-full`}
-                style={{ ...headingStyle, textShadow: '0 2px 24px rgba(0,0,0,0.6), 0 4px 32px rgba(0,0,0,0.4), 0 0 60px rgba(0,0,0,0.2)' }}
-              >
-                <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.1s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                  We <strong>BUILD</strong>
-                </span>
-                <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.18s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                  Industries
-                </span>
-                <span className="hero-heading-anim-fadeIn block" style={{ animationDelay: '0.26s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                  that
-                </span>
-                <span className="hero-heading-anim-fadeIn block min-h-[1.15em] w-full flex justify-center" style={{ animationDelay: '0.34s', animationDuration: '0.6s', animationFillMode: 'both', animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                  <strong className="inline-block min-w-[11ch]">
-                    <TypewriterWords />
-                  </strong>
-                </span>
-              </h1>
+        {/* Background image — same on mobile and desktop */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+          style={{ backgroundImage: 'url(/homepage-bg.webp)', zIndex: 0 }}
+          aria-hidden
+        />
+        <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 w-full max-w-7xl mx-auto items-center justify-items-center lg:justify-items-stretch min-h-0">
+            {/* Left: text — centered on mobile, left-aligned from lg */}
+            <div className="text-center lg:text-left space-y-3 sm:space-y-4 lg:space-y-5 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0">
+              <div className="min-h-40 lg:min-h-52 flex flex-col justify-center items-center lg:items-start">
+                <h1
+                  className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-(--apple-black) w-full`}
+                  style={headingStyle}
+                >
+                  <span className="block">We <strong>BUILD</strong></span>
+                  <span className="block">Industries</span>
+                  <span className="block">that</span>
+                  <span className="block min-h-[1.15em] w-full flex justify-center lg:justify-start">
+                    <strong className="inline-block min-w-[11ch]">
+                      <TypewriterWords />
+                    </strong>
+                  </span>
+                </h1>
+              </div>
+              <p className="text-sm sm:text-base lg:text-lg text-black font-light max-w-2xl leading-[1.6] sm:leading-[1.65] mx-auto lg:mx-0">
+                {subheading}
+              </p>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4">
+                <button
+                  type="button"
+                  onClick={() => navigate('/contactus')}
+                  className="inline-flex items-center gap-2 bg-red-600 text-white text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-red-500 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                >
+                  Get Started
+                  <span className="text-[17px] leading-none" aria-hidden>&rarr;</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate('/about')}
+                  className="inline-flex items-center gap-2 bg-white border border-gray-300 text-(--apple-black) text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-gray-50 hover:border-red-200 hover:text-red-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                >
+                  Learn More
+                </button>
+              </div>
             </div>
-            <p className="hero-text-fadein text-sm sm:text-base lg:text-lg text-white/95 font-light max-w-2xl leading-[1.6] sm:leading-[1.65] -mt-2 sm:-mt-3 mx-auto" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.4)' }}>
-              {subheading}
-            </p>
-            <div className="hero-text-fadein-delay flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-1">
-              <button
-                type="button"
-                onClick={() => navigate('/contactus')}
-                className="inline-flex items-center gap-2 bg-white text-[#0a0a0b] text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-red-500 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b]"
-              >
-                Get Started
-                <span className="text-[17px] leading-none" aria-hidden>&rarr;</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/about')}
-                className="inline-flex items-center gap-2 bg-white/10 border border-white/40 text-white text-[15px] font-semibold px-7 py-3.5 rounded-full hover:bg-red-500 hover:border-red-500 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b]"
-              >
-                Learn More
-              </button>
+
+            {/* Right: image slider — hidden on mobile, visible from lg */}
+            <div
+              className="hidden lg:flex relative w-full max-w-xl mx-auto lg:max-w-none justify-center lg:justify-end"
+              style={{ minHeight: 'min(72vh, 520px)' }}
+            >
+              <div className="relative w-full h-full min-h-[380px] sm:min-h-[420px] lg:min-h-[460px] xl:min-h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                <HeroImageSlider />
+              </div>
             </div>
           </div>
         </div>

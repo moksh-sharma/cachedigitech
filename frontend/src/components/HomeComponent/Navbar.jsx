@@ -131,7 +131,6 @@ function Navbar() {
 
   // Use light navbar text + visible bar on pages with dark hero when at top
   const darkHeroPaths = [
-    "/",
     "/about/profile",
     "/innovations",
     "/cybersecurity",

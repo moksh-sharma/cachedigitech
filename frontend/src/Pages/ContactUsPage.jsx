@@ -31,7 +31,7 @@ const ContactUsPage = () => {
     {
       icon: Phone,
       label: 'Phone',
-      value: '+1 (800) 309-4333',
+      value: '1800-309-4333',
       href: 'tel:+18003094333',
       description: 'Mon–Fri, 9am–6pm IST',
     },
@@ -113,9 +113,8 @@ const ContactUsPage = () => {
                   return (
                     <div
                       key={item.label + (item.value || '')}
-                      className={`flex items-start gap-4 p-4 rounded-xl transition-colors group ${
-                        item.href ? 'hover:bg-gray-50/80' : ''
-                      }`}
+                      className={`flex items-start gap-4 p-4 rounded-xl transition-colors group ${item.href ? 'hover:bg-gray-50/80' : ''
+                        }`}
                     >
                       {content}
                     </div>
