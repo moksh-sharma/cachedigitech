@@ -68,11 +68,13 @@ const HERO_GRID_IMAGES = [
 
 // Hero section images (stored in public/hero/)
 const HERO_SLIDER_IMAGES = [
-  '/hero/girl-hand.webp',
-  '/hero/cloudimg.webp',
-  '/hero/aimlimg.webp',
-  '/hero/cyberimg.webp',
-  '/hero/infraimg.webp',
+  '/hero/hero-digital-transformation.webp',
+  '/hero/hero-data-driven.webp',
+  '/hero/hero-infrastructure.webp',
+  '/hero/hero-managed-services.webp',
+  '/hero/hero-cloud-migration.webp',
+  '/hero/hero-zero-trust.webp',
+  '/hero/hero-future-of-work.webp',
 ];
 
 const HERO_IMAGE_SLIDER_INTERVAL_MS = 5000;
