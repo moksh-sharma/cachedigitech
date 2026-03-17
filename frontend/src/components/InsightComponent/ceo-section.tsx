@@ -29,16 +29,25 @@ export function CEOSection() {
           {/* Block 1: Basic Info and Quote */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-5xl font-bold text-black mb-2 tracking-wide">
-                <a
-                  href="https://www.linkedin.com/in/prarthana-gupta-112510a5/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-black hover:text-red-600 focus:text-red-600 focus:outline-none focus:underline underline-offset-2 transition-colors"
-                >
-                  Prarthana Gupta
-                </a>
-              </h1>
+              <div className="mb-2">
+                <h1 className="text-5xl font-bold text-black tracking-wide m-0 leading-tight">
+                  Prarthana{" "}
+                  <span className="inline-flex items-center gap-2 align-middle">
+                    Gupta
+                    <a
+                      href="https://www.linkedin.com/in/prarthana-gupta-112510a5/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center shrink-0 text-[#0A66C2] hover:text-[#004182] focus:text-[#004182] focus:outline-none focus:ring-2 focus:ring-[#0A66C2] focus:ring-offset-2 rounded transition-colors"
+                      aria-label="Prarthana Gupta on LinkedIn"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8" width="24" height="24" focusable="false" aria-hidden>
+                        <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
+                      </svg>
+                    </a>
+                  </span>
+                </h1>
+              </div>
               <div className="space-y-1 mb-6">
                 <p className="text-red-600 text-sm">Founder & Chairperson, Cache Digitech Pvt. Ltd.</p>
                 <p className="text-red-600 text-sm">Managing Director, Calipers Consulting Pvt. Ltd.</p>
