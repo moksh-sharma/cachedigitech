@@ -1,8 +1,7 @@
 // Removed motion and custom UI imports to prevent module load errors
-import { usePlacement } from "../../context/PlacementsContext";
+const PRARTHANA_HEADSHOT = "/team/prarthna.webp";
 
 export function CEOSection() {
-  const ceoImageUrl = usePlacement('about', 'leadership', 'ceoImage') || '/team/prarthna.webp';
   return (
     <section className="pt-24 lg:pt-32 pb-16 lg:pb-24 bg-white scroll-mt-20" id="LeadershipVision" aria-labelledby="ceo-heading">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -18,7 +17,7 @@ export function CEOSection() {
           <div className="w-full">
             <div className="overflow-hidden shadow-2xl rounded-xl aspect-square w-full">
               <img
-                src={ceoImageUrl}
+                src={PRARTHANA_HEADSHOT}
                 alt="Prarthana Gupta - Chief Executive Officer"
                 className="w-full h-full object-cover"
                 loading="lazy"
