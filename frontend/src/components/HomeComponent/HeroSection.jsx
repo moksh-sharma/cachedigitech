@@ -468,9 +468,9 @@ const HeroSection = () => {
       >
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'1440\' height=\'120\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 60 Q360 0 720 60 T1440 60 V120 H0Z\' fill=\'%23ffffff\'/%3E%3C/svg%3E")', backgroundSize: '100% 100%' }} />
 
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6 flex flex-col lg:flex-row items-start lg:items-center gap-5 lg:gap-6">
-          {/* Title block */}
-          <div className="flex flex-col gap-2 lg:gap-3 shrink-0">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6 flex flex-col lg:flex-row items-center sm:items-start lg:items-center gap-5 lg:gap-6">
+          {/* Title block — centered on mobile */}
+          <div className="flex flex-col gap-2 lg:gap-3 shrink-0 items-center sm:items-start text-center sm:text-left w-full sm:w-auto">
             <h3 className="text-white text-lg sm:text-xl font-bold leading-tight max-w-sm">
               AI that drives real outcomes
             </h3>
@@ -483,8 +483,8 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Stats grid — card style */}
-          <div className="flex-1 hidden sm:grid grid-cols-4 gap-3 sm:gap-4">
+          {/* Stats grid — card style; 1 col on mobile, 4 cols from sm */}
+          <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full">
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
               <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">50%</p>
               <p className="text-white/90 text-[12px] leading-snug mt-1.5">faster deployment with cloud and infrastructure solutions</p>
@@ -725,16 +725,16 @@ function InnovationsSection() {
 /* ───────── Solutions Showcase Section ───────── */
 const SOLUTIONS_CARDS = [
   {
-    icon: 'psychology',
-    title: 'Data & AI',
-    description: 'Unlock value with AI and GenAI—automate processes, gain insights, and accelerate outcomes across your business.',
-    path: '/aianddataservice',
-  },
-  {
     icon: 'cloud',
     title: 'Cloud',
     description: 'Cloud solutions that optimize cost, performance, and scale so you can innovate faster and operate with confidence.',
     path: '/cloudservices',
+  },
+  {
+    icon: 'psychology',
+    title: 'Data & AI',
+    description: 'Unlock value with AI and GenAI—automate processes, gain insights, and accelerate outcomes across your business.',
+    path: '/aianddataservice',
   },
   {
     icon: 'engineering',
