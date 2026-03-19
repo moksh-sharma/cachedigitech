@@ -22,13 +22,13 @@ const DeveloperTeam = () => {
     },
     {
       id: 2,
-      name: "Anil Kumar",
-      role: "FUll Stack Developer",
-      photo: "/Developer/anil1.webp",
-      linkedin: "https://linkedin.com/in/anil-kumar85",
-      github: "https://github.com/anil29717",
-      email: "anilkumar.gugm@gmail.com",
-      skills: ["MongoDb", "ReactJs", "Cloud GCP"]
+      name: "Rishabh ",
+      role: "Lead Gen AI Full-Stack Developer",
+      photo: "/Developer/rishabh.webp",
+      linkedin: "#",
+      github: "#",
+      email: "#",
+      skills: ["React", "Node.js", "TypeScript"]
     },
 
     {
@@ -40,18 +40,9 @@ const DeveloperTeam = () => {
       github: "https://github.com/davidkim",
       email: "david@company.com",
       skills: ["ReactJs Vite", "AWS", "Azure"]
-    },
+    }
 
-    {
-      id: 4,
-      name: "Rishabh ",
-      role: "Lead Gen AI Full-Stack Developer",
-      photo: "/Developer/rishabh.webp",
-      linkedin: "#",
-      github: "#",
-      email: "#",
-      skills: ["React", "Node.js", "TypeScript"]
-    },
+
 
 
   ];
