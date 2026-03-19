@@ -2,6 +2,7 @@
 import React, { useEffect, Suspense, lazy } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useLenis } from "./context/LenisContext";
+import { useAppLoader } from "./context/AppLoaderContext";
 
 import Navbar from "./components/HomeComponent/Navbar";
 import Footer from "./components/HomeComponent/Footer";
@@ -53,6 +54,7 @@ function PageLoader() {
 function App() {
   const location = useLocation();
   const { scrollTo, resize } = useLenis();
+  const { setLoaderDone } = useAppLoader();
 
   // Remove loader as soon as the GIF has played once (duration parsed from loading.gif: 33 frames = 5000ms)
   useEffect(() => {
@@ -62,6 +64,7 @@ function App() {
     const maxWaitMs = 1500;
 
     const removeLoader = () => {
+      setLoaderDone(true);
       if (loader?.parentNode) loader.remove();
     };
 

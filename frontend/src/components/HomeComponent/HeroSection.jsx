@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect, useMemo, useContext, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useContext, useCallback, lazy, Suspense } from 'react';
 import ContentContext, { useContent } from '../../context/ContentContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useChatFocus } from '../../context/ChatFocusContext';
 import { useChat } from '../../context/ChatContext';
+import { useAppLoader } from '../../context/AppLoaderContext';
 import WhoWeAre from './Whoweare';
-import DomeGallery from '../AboutPageComponent/DomeGallery';
 import { CEOSection } from '../InsightComponent/ceo-section';
 import AwardsSection from '../AboutPageComponent/ImageSlider';
 import Certifications from '../AboutPageComponent/Certifications';
 import { HARDCODED_HIGHLIGHTS } from '../../data/blogsAndHighlights';
-import '../AboutPageComponent/DomeGallery.css';
+const DomeGalleryLazy = lazy(() => import('../AboutPageComponent/DomeGallery'));
 
 
 const SERVICE_LINKS = [
@@ -341,6 +341,52 @@ const HeroSection = () => {
     return () => setChatFocused(false);
   }, [hasAsked, setChatFocused]);
 
+  // Hero entrance: Lenis-style RAF + lerp for smooth animation; starts after app loader is gone
+  const { loaderDone } = useAppLoader();
+  const HERO_DELAY_MS = 520;
+  const HERO_TILT_HOLD_MS = 340;
+  const HERO_LERP = 0.1; // Slide and text entrance
+  const HERO_TILT_LERP = 0.1; // Slower tilt + grayscale→color for a gentler reveal
+
+  const [heroProgress, setHeroProgress] = useState({ text: 0, slide: 0, tilt: 0 });
+  const progressRef = useRef({ text: 0, slide: 0, tilt: 0 });
+  const targetRef = useRef({ text: 0, slide: 0, tilt: 0 });
+  const tiltScheduledRef = useRef(false);
+  const rafRef = useRef(null);
+
+  useEffect(() => {
+    if (!loaderDone) return;
+    const t = setTimeout(() => {
+      targetRef.current = { text: 1, slide: 1, tilt: targetRef.current.tilt };
+    }, HERO_DELAY_MS);
+    return () => clearTimeout(t);
+  }, [loaderDone]);
+
+  useEffect(() => {
+    const tick = () => {
+      const cur = progressRef.current;
+      const tgt = targetRef.current;
+      const lerp = (current, target, factor) => {
+        const next = current + (target - current) * factor;
+        return Math.abs(next - target) < 0.0005 ? target : next;
+      };
+      const nextText = lerp(cur.text, tgt.text, HERO_LERP);
+      const nextSlide = lerp(cur.slide, tgt.slide, HERO_LERP);
+      const nextTilt = lerp(cur.tilt, tgt.tilt, HERO_TILT_LERP);
+      progressRef.current = { text: nextText, slide: nextSlide, tilt: nextTilt };
+      setHeroProgress({ text: nextText, slide: nextSlide, tilt: nextTilt });
+
+      if (nextSlide >= 0.98 && !tiltScheduledRef.current) {
+        tiltScheduledRef.current = true;
+        setTimeout(() => { targetRef.current.tilt = 1; }, HERO_TILT_HOLD_MS);
+      }
+      const done = nextText >= 1 && nextSlide >= 1 && nextTilt >= 1;
+      if (!done) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [loaderDone]);
+
   // Dropdown state for "Choose your interest"
   const [capOpen, setCapOpen] = useState(false);
   const [csOpen, setCsOpen] = useState(false);
@@ -405,8 +451,15 @@ const HeroSection = () => {
         </div>
         <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 w-full max-w-7xl mx-auto items-center justify-items-center lg:justify-items-stretch min-h-0">
-            {/* Left: text — centered on mobile, left-aligned from lg */}
-            <div className="text-center lg:text-left space-y-7 sm:space-y-4 lg:space-y-4 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0">
+            {/* Left: text — centered on mobile, left-aligned from lg; Lenis-style lerp entrance from left */}
+            <div
+              className="text-center lg:text-left space-y-7 sm:space-y-4 lg:space-y-4 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0"
+              style={{
+                transform: `translateX(calc(${-100 * (1 - heroProgress.text)}% - ${24 * (1 - heroProgress.text)}vw)) translateZ(${-30 * (1 - heroProgress.text)}px) scale(${0.98 + 0.02 * heroProgress.text})`,
+                opacity: 0.94 + 0.06 * heroProgress.text,
+                willChange: heroProgress.text < 1 ? 'transform, opacity' : 'auto',
+              }}
+            >
               <div className="min-h-32 lg:min-h-44 flex flex-col justify-center items-center lg:items-start">
                 <h1
                   className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-white lg:text-(--apple-black) w-full`}
@@ -445,12 +498,26 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Right: image slider — hidden on mobile, visible from lg */}
+            {/* Right: image slider — hidden on mobile, visible from lg; entrance from right then tilt; sized to match left text block */}
             <div
-              className="hidden lg:flex relative w-full max-w-xl mx-auto lg:max-w-none justify-center lg:justify-end"
-              style={{ minHeight: 'min(72vh, 520px)' }}
+              className="hidden lg:flex relative w-full max-w-[440px] mx-auto lg:max-w-none justify-center lg:justify-end"
+              style={{
+                minHeight: 'min(60vh, 420px)',
+                perspective: 1200,
+                perspectiveOrigin: 'center center',
+              }}
             >
-              <div className="relative w-full h-full min-h-[380px] sm:min-h-[420px] lg:min-h-[460px] xl:min-h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+              <div
+                className="relative w-full h-full min-h-[320px] lg:min-h-[360px] xl:min-h-[400px] max-w-[440px] aspect-square rounded-2xl overflow-hidden shadow-2xl"
+                style={{
+                  transformStyle: 'preserve-3d',
+                  backfaceVisibility: 'hidden',
+                  transform: `translateX(calc(${100 * (1 - heroProgress.slide)}% + ${24 * (1 - heroProgress.slide)}vw)) translateZ(${-20 * (1 - heroProgress.slide)}px) rotateY(${-12 * heroProgress.tilt}deg)`,
+                  opacity: 0.97 + 0.03 * heroProgress.slide,
+                  filter: heroProgress.tilt >= 1 ? 'none' : `grayscale(${1 - heroProgress.tilt})`,
+                  willChange: heroProgress.slide < 1 || heroProgress.tilt < 1 ? 'transform, opacity, filter' : 'auto',
+                }}
+              >
                 <HeroImageSlider />
               </div>
             </div>
@@ -894,6 +961,71 @@ const OEM_PARTNERS = [
 const PARTNER_CARD_WIDTH = 96;   // w-24
 const PARTNER_GAP = 16;          // gap-4
 
+/** Load DomeGallery + @use-gesture only when partners section is near viewport (lighter initial JS). */
+function LazyPartnersGlobe() {
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldLoad(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          io.disconnect();
+        }
+      },
+      { root: null, rootMargin: '280px 0px', threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="hidden lg:block rounded-2xl overflow-hidden bg-transparent"
+      style={{ height: 'min(75vh, 580px)' }}
+    >
+      {shouldLoad ? (
+        <Suspense
+          fallback={
+            <div
+              className="w-full h-full min-h-[400px] rounded-2xl bg-slate-200/25"
+              aria-hidden
+            />
+          }
+        >
+          <DomeGalleryLazy
+            images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name, label: p.level }))}
+            fit={0.62}
+            fitBasis="height"
+            minRadius={320}
+            maxRadius={440}
+            maxVerticalRotationDeg={55}
+            segments={18}
+            dragDampening={2}
+            grayscale={false}
+            overlayBlurColor="#f1f5f9"
+            imageBorderRadius="12px"
+            openedImageBorderRadius="24px"
+            openedImageWidth="280px"
+            openedImageHeight="200px"
+            tileInset={7}
+          />
+        </Suspense>
+      ) : (
+        <div className="w-full h-full min-h-[400px] rounded-2xl bg-slate-100/40" aria-hidden />
+      )}
+    </div>
+  );
+}
+
 function OEMAlliancesSection() {
   const partnerSetWidth = OEM_PARTNERS.length * PARTNER_CARD_WIDTH + (OEM_PARTNERS.length - 1) * PARTNER_GAP;
   const partnerTrackWidth = partnerSetWidth * 2;
@@ -952,26 +1084,8 @@ function OEMAlliancesSection() {
                 ))}
               </div>
             </div>
-            {/* Desktop: dome gallery */}
-            <div className="hidden lg:block rounded-2xl overflow-hidden bg-transparent" style={{ height: 'min(75vh, 580px)' }}>
-              <DomeGallery
-                images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name, label: p.level }))}
-                fit={0.62}
-                fitBasis="height"
-                minRadius={320}
-                maxRadius={440}
-                maxVerticalRotationDeg={0}
-                segments={18}
-                dragDampening={2}
-                grayscale={false}
-                overlayBlurColor="#f1f5f9"
-                imageBorderRadius="12px"
-                openedImageBorderRadius="24px"
-                openedImageWidth="280px"
-                openedImageHeight="200px"
-                tileInset={7}
-              />
-            </div>
+            {/* Desktop: dome gallery (lazy + viewport-gated) */}
+            <LazyPartnersGlobe />
           </div>
         </div>
       </div>

@@ -117,6 +117,10 @@ export default function DomeGallery({
   const lastAutoRotateTime = useRef(null);
   const hoveringRef = useRef(false);
   const hoverCountRef = useRef(0);
+  const IDLE_RESET_MS = 6000;
+  const lastInteractionAtRef = useRef(0);
+  const resetTimeoutRef = useRef(null);
+  const resetRAFRef = useRef(null);
 
   const scrollLockedRef = useRef(false);
   const lockScroll = useCallback(() => {
@@ -243,6 +247,13 @@ export default function DomeGallery({
     applyTransform(rotationRef.current.x, rotationRef.current.y);
   }, [applyTransform]);
 
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) clearTimeout(resetTimeoutRef.current);
+      if (resetRAFRef.current) cancelAnimationFrame(resetRAFRef.current);
+    };
+  }, []);
+
   // Auto-rotate globe (pause while dragging or during inertia)
   useEffect(() => {
     if (!autoRotate || autoRotateSpeed === 0) return;
@@ -269,6 +280,48 @@ export default function DomeGallery({
     }
   }, []);
 
+  const stopResetAnimation = useCallback(() => {
+    if (resetRAFRef.current) {
+      cancelAnimationFrame(resetRAFRef.current);
+      resetRAFRef.current = null;
+    }
+  }, []);
+
+  const runResetToOrigin = useCallback(() => {
+    stopInertia();
+    stopResetAnimation();
+    const startX = rotationRef.current.x;
+    const startY = rotationRef.current.y;
+    const durationMs = 800;
+    const startTime = performance.now();
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const easeOutCubic = (t) => 1 - (1 - t) ** 3;
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / durationMs, 1);
+      const eased = easeOutCubic(t);
+      const x = lerp(startX, 0, eased);
+      const y = lerp(startY, 0, eased);
+      rotationRef.current = { x, y };
+      applyTransform(x, y);
+      if (t < 1) {
+        resetRAFRef.current = requestAnimationFrame(step);
+      } else {
+        resetRAFRef.current = null;
+      }
+    };
+    resetRAFRef.current = requestAnimationFrame(step);
+  }, [stopInertia, stopResetAnimation, applyTransform]);
+
+  const scheduleIdleReset = useCallback(() => {
+    lastInteractionAtRef.current = performance.now();
+    if (resetTimeoutRef.current) clearTimeout(resetTimeoutRef.current);
+    resetTimeoutRef.current = setTimeout(() => {
+      resetTimeoutRef.current = null;
+      runResetToOrigin();
+    }, IDLE_RESET_MS);
+  }, [runResetToOrigin]);
+
   const startInertia = useCallback(
     (vx, vy) => {
       const MAX_V = 1.4;
@@ -284,10 +337,12 @@ export default function DomeGallery({
         vY *= frictionMul;
         if (Math.abs(vX) < stopThreshold && Math.abs(vY) < stopThreshold) {
           inertiaRAF.current = null;
+          scheduleIdleReset();
           return;
         }
         if (++frames > maxFrames) {
           inertiaRAF.current = null;
+          scheduleIdleReset();
           return;
         }
         const nextX = clamp(rotationRef.current.x - vY / 200, -maxVerticalRotationDeg, maxVerticalRotationDeg);
@@ -299,7 +354,7 @@ export default function DomeGallery({
       stopInertia();
       inertiaRAF.current = requestAnimationFrame(step);
     },
-    [dragDampening, maxVerticalRotationDeg, stopInertia, applyTransform]
+    [dragDampening, maxVerticalRotationDeg, stopInertia, applyTransform, scheduleIdleReset]
   );
 
   useGesture(
@@ -307,6 +362,12 @@ export default function DomeGallery({
       onDragStart: ({ event }) => {
         if (focusedElRef.current) return;
         stopInertia();
+        stopResetAnimation();
+        if (resetTimeoutRef.current) {
+          clearTimeout(resetTimeoutRef.current);
+          resetTimeoutRef.current = null;
+        }
+        scheduleIdleReset();
         const evt = event;
         draggingRef.current = true;
         movedRef.current = false;
@@ -315,6 +376,7 @@ export default function DomeGallery({
       },
       onDrag: ({ event, last, velocity = [0, 0], direction = [0, 0], movement }) => {
         if (focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
+        scheduleIdleReset();
         const evt = event;
         const dxTotal = evt.clientX - startPosRef.current.x;
         const dyTotal = evt.clientY - startPosRef.current.y;

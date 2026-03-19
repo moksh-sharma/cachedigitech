@@ -10,8 +10,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-router': ['react-router-dom'],
+        manualChunks(id) {
+          if (id.includes('node_modules/react-router')) return 'vendor-router'
+          if (id.includes('node_modules/lenis')) return 'vendor-lenis'
+          if (id.includes('node_modules/@use-gesture')) return 'vendor-gesture'
+          if (id.includes('node_modules/lucide-react')) return 'vendor-lucide'
         },
       },
     },

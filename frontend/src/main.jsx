@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { ContentProvider } from "./context/ContentContext";
 import { PlacementsProvider } from "./context/PlacementsContext";
+import { AppLoaderProvider } from "./context/AppLoaderContext";
 import { ChatFocusProvider } from "./context/ChatFocusContext";
 import { ChatProvider } from "./context/ChatContext";
 import { LenisProvider } from "./context/LenisContext";
@@ -17,6 +18,7 @@ const Router = window.location.protocol === "file:" ? HashRouter : BrowserRouter
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Router>
+      <AppLoaderProvider>
       <ContentProvider>
         <PlacementsProvider>
           <ChatFocusProvider>
@@ -30,6 +32,7 @@ createRoot(document.getElementById("root")).render(
           </ChatFocusProvider>
         </PlacementsProvider>
       </ContentProvider>
+      </AppLoaderProvider>
     </Router>
   </StrictMode>
 );
