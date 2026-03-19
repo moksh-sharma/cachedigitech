@@ -14,8 +14,9 @@ const menuData = {
   "What We Do": {
     items: ["Cloud", "Cybersecurity", "Data Analytics & AI", "Infra & Networking"],
     submenus: {
-      "Cloud": ["Cloud Strategy", "Hybrid Cloud", "Cloud Security", "App Modernization", "Cloud Operations"],
+      "Cloud": ["Cloud Overview", "Cloud Strategy", "Hybrid Cloud", "Cloud Security", "App Modernization", "Cloud Operations"],
       "Cybersecurity": [
+        "Cybersecurity Overview",
         "Security Consulting",
         "Infrastructure & Endpoint Security",
         "Threat Monitoring & Response",
@@ -23,6 +24,7 @@ const menuData = {
         "Security Audits & Compliance",
       ],
       "Data Analytics & AI": [
+        "Data & AI Overview",
         "Data Platforms",
         "Advanced Analytics",
         "AI Automation",
@@ -30,6 +32,7 @@ const menuData = {
         "Data Security & Governance",
       ],
       "Infra & Networking": [
+        "Infrastructure Overview",
         "Infrastructure Consulting",
         "Infrastructure Design",
         "Infrastructure Deployment",
@@ -56,6 +59,7 @@ const menuData = {
     items: ["Cloud", "Consulting & Auditing", "Managed Services", "Infrastructure & Networking"],
     submenus: {
       "Cloud": [
+        "Cloud Overview",
         "Cloud Consulting",
         "Cloud Migration",
         "Cloud Architecture",
@@ -64,6 +68,7 @@ const menuData = {
         "DevOps & Automation",
       ],
       "Consulting & Auditing": [
+        "Consulting Overview",
         "Strategy Consulting",
         "Infrastructure Advisory",
         "Security Consulting",
@@ -72,6 +77,7 @@ const menuData = {
         "Process Optimization",
       ],
       "Managed Services": [
+        "Managed Services Overview",
         "Network Managed Services",
         "IT Infrastructure Management",
         "Cloud Managed Services",
@@ -80,6 +86,7 @@ const menuData = {
         "End-User & Workplace Support",
       ],
       "Infrastructure & Networking": [
+        "Infrastructure Overview",
         "IT Infrastructure Solutions",
         "Data Center Management",
         "Network Infrastructure (LAN/WAN/Wireless)",
@@ -129,7 +136,12 @@ function Navbar() {
     "/about/profile",
     "/innovations",
     "/cybersecurity",
+    "/cloud",
     "/cloudservices",
+    "/data-analytics",
+    "/infrastructure",
+    "/consulting",
+    "/managed-services",
     "/aianddataservice",
     "/consultingservice",
     "/infrastructureservice",

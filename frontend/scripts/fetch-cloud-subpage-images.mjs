@@ -1,0 +1,71 @@
+/**
+ * Downloads royalty-free Unsplash photos and saves as WebP under public/cloud/subpages/.
+ * Run from repo root: node frontend/scripts/fetch-cloud-subpage-images.mjs
+ *
+ * Unsplash License: https://unsplash.com/license — free to use for commercial projects.
+ */
+import sharp from "sharp";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const outDir = path.resolve(__dirname, "..", "public", "cloud", "subpages");
+
+/** width param for CDN; we re-encode to WebP locally */
+const u = (id, w = 1600) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
+
+/**
+ * Per subpage: hero (wide banner feel) + body (detail / secondary)
+ * Photo IDs are Unsplash path segments after photo-
+ */
+const jobs = [
+  ["cloud-strategy", u("photo-1552664730-d307ca884978"), u("photo-1553877522-43269d4ea984")],
+  ["hybrid-cloud", u("photo-1451187580459-43490279c0fa"), u("photo-1558494949-ef010cbdcc31")],
+  ["cloud-security", u("photo-1563986768609-322da13575f3"), u("photo-1555949963-ff9fe0c870eb")],
+  ["app-modernization", u("photo-1461749280684-dccba630e2f6"), u("photo-1498050108023-c5249f4df085")],
+  ["cloud-operations", u("photo-1558494949-ef010cbdcc31"), u("photo-1451187580459-43490279c0fa")],
+  ["cloud-consulting", u("photo-1553877522-43269d4ea984"), u("photo-1522071820081-009f0129c71c")],
+  ["cloud-migration", u("photo-1544197150-b99a580bb7a8"), u("photo-1558494949-ef010cbdcc31")],
+  ["cloud-architecture", u("photo-1555949963-aa79dcee981c"), u("photo-1518770660439-4636190af475")],
+  ["managed-cloud-services", u("photo-1454165804606-c3d57bc86b40"), u("photo-1460925895917-afdab827c52f")],
+  ["devops-automation", u("photo-1618401471353-b98afee0b2eb"), u("photo-1555066931-4365d14bab8c")],
+];
+
+async function downloadBuffer(url) {
+  const res = await fetch(url, {
+    headers: {
+      Accept: "image/jpeg,image/webp,image/*,*/*;q=0.8",
+    },
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+  return Buffer.from(await res.arrayBuffer());
+}
+
+async function toWebp(buf, destPath) {
+  await sharp(buf)
+    .resize(1600, 1000, { fit: "cover", position: "attention" })
+    .webp({ quality: 82 })
+    .toFile(destPath);
+}
+
+async function main() {
+  fs.mkdirSync(outDir, { recursive: true });
+  for (const [base, heroUrl, bodyUrl] of jobs) {
+    const heroPath = path.join(outDir, `${base}.webp`);
+    const bodyPath = path.join(outDir, `${base}-body.webp`);
+    try {
+      console.log("Fetching", base, "hero…");
+      await toWebp(await downloadBuffer(heroUrl), heroPath);
+      console.log("Fetching", base, "body…");
+      await toWebp(await downloadBuffer(bodyUrl), bodyPath);
+      console.log("OK", base);
+    } catch (e) {
+      console.error("FAIL", base, e.message);
+      process.exitCode = 1;
+    }
+  }
+}
+
+main();

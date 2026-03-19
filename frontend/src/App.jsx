@@ -28,6 +28,8 @@ const TermsOfUsePage = lazy(() => import("./Pages/TermsOfUse"));
 const Careers = lazy(() => import("./Pages/Career"));
 const EPFAmendmentNotice = lazy(() => import("./Pages/EPFAmendmentNotice"));
 const CloudServicesPage = lazy(() => import("./Pages/coudpage"));
+const CloudSubServicePage = lazy(() => import("./Pages/CloudSubServicePage"));
+const ServiceSubPage = lazy(() => import("./Pages/ServiceSubPage"));
 const CybersecurityServicesPage = lazy(() => import("./Pages/cybersecurity"));
 const InfrastructureServicesPage = lazy(() => import("./Pages/infrastructureservicepage"));
 const NetworkingServicesPage = lazy(() => import("./Pages/NetworkingServicepage"));
@@ -111,10 +113,16 @@ function App() {
               <Route path="/service/network" element={<NetworkingServicesPage />} />
               <Route path="/service/cloud-solutions" element={<CloudServicesPage />} />
               <Route path="/cloudservices" element={<CloudServicesPage />} />
+              <Route path="/cloud/:slug" element={<CloudSubServicePage />} />
+              <Route path="/cybersecurity/:slug" element={<ServiceSubPage section="cybersecurity" />} />
               <Route path="/cybersecurity" element={<CybersecurityServicesPage />} />
+              <Route path="/infrastructure/:slug" element={<ServiceSubPage section="infrastructure" />} />
               <Route path="/infrastructureservice" element={<InfrastructureServicesPage />} />
+              <Route path="/data-analytics/:slug" element={<ServiceSubPage section="data-analytics" />} />
               <Route path="/aianddataservice" element={<AIDataServicesPage />} />
+              <Route path="/managed-services/:slug" element={<ServiceSubPage section="managed-services" />} />
               <Route path="/manageservices" element={<ManagedServicesPage />} />
+              <Route path="/consulting/:slug" element={<ServiceSubPage section="consulting" />} />
               <Route path="/consultingservice" element={<NetworkingConsultingPage />} />
               <Route path="/grc-dashboard" element={<GRC />} />
               <Route path="/telecom" element={<TelecomPage />} />
