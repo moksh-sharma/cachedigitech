@@ -343,10 +343,10 @@ const HeroSection = () => {
 
   // Hero entrance: Lenis-style RAF + lerp for smooth animation; starts after app loader is gone
   const { loaderDone } = useAppLoader();
-  const HERO_DELAY_MS = 520;
-  const HERO_TILT_HOLD_MS = 340;
-  const HERO_LERP = 0.1; // Slide and text entrance
-  const HERO_TILT_LERP = 0.1; // Slower tilt + grayscale→color for a gentler reveal
+  const HERO_DELAY_MS = 0;
+  const HERO_TILT_HOLD_MS = 500;
+  const HERO_LERP = 0.08; // Slide and text entrance
+  const HERO_TILT_LERP = 0.05; // Slower tilt + grayscale→color for a gentler reveal
 
   const [heroProgress, setHeroProgress] = useState({ text: 0, slide: 0, tilt: 0 });
   const progressRef = useRef({ text: 0, slide: 0, tilt: 0 });
@@ -503,7 +503,7 @@ const HeroSection = () => {
               className="hidden lg:flex relative w-full max-w-[440px] mx-auto lg:max-w-none justify-center lg:justify-end"
               style={{
                 minHeight: 'min(60vh, 420px)',
-                perspective: 1200,
+                perspective: 1000,
                 perspectiveOrigin: 'center center',
               }}
             >
