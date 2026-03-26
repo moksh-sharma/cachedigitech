@@ -46,6 +46,8 @@ main.sphere-main {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
   box-sizing: border-box;
+  animation: none !important;
+  transition: none !important;
 }
 
 .sphere {

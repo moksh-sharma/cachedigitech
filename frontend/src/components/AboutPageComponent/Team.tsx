@@ -22,7 +22,7 @@ const TeamSection: React.FC = () => {
     { id: 5, name: "Sourabh Srivastava", designation: "Vice President - Cyber Security", image: "/team/saurabh.webp", link: "https://www.linkedin.com/in/sourabh-kumar-srivastava-6b078b148/", imageScale: 1.20 },
     { id: 8, name: "Naresh Kumar", designation: "Vice President - Infra", image: "/team/naresh.webp", link: "/", imageScale: 1 },
     { id: 9, name: "Anurag Singh", designation: "Vice President - Operation", image: "/team/anurag.webp", link: "/", imageScale: 1 },
-    { id: 14, name: "Varun Vohra", designation: "Pre-Sales Manager", image:"/team/varun.webp", link: "https://www.linkedin.com/in/varun-vohra-926bb4365?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", imageScale: 1 },
+    { id: 14, name: "Varun Vohra", designation: "Pre-Sales Manager", image: "/team/varun.webp", link: "https://www.linkedin.com/in/varun-vohra-926bb4365?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", imageScale: 1 },
     { id: 6, name: "Manohar Singh", designation: "Senior Sales Manager", image: "/team/manohar.webp", link: "https://www.linkedin.com/in/manohar-singh-51b05b131?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", imageScale: 1 },
     { id: 7, name: "Geetanjali Kumar", designation: "Vice President - Legal & Compliance", image: "/team/geetanjli.webp", link: "https://www.linkedin.com/in/geetanjali-s-kumar-entity-compliance-manager-apac/", imageScale: 1 },
     { id: 10, name: "Shweta Gaba", designation: "General Manager - HR", image: "/team/sweta.webp", link: "https://www.linkedin.com/in/shweta-gaba-29ab80139/", imageScale: 1 },

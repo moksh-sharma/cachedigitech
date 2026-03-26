@@ -1,0 +1,653 @@
+Cache DigiTech Frontend - Full Website Rebuild Specification
+=============================================================
+
+Purpose
+-------
+This document captures the current frontend implementation details so the website can be rebuilt with matching structure, behavior, UI flows, animations, and dependencies.
+
+Project and Runtime
+-------------------
+- Repo path: D:/cachedigitech-frontend
+- Frontend app path: D:/cachedigitech-frontend/frontend
+- Framework: React 18 + Vite
+- Language mix: JavaScript, TypeScript, TSX, JSX
+- Routing: react-router-dom (BrowserRouter + HashRouter fallback for file:// use)
+- Styling: Tailwind CSS + custom CSS files
+- Icons: lucide-react + react-icons
+- Motion/animation: framer-motion + CSS keyframes + Tailwind transitions
+- Smooth scrolling: Lenis
+
+Build and Scripts
+-----------------
+- dev: vite
+- build: vite build
+- preview: vite preview
+- serve: npx serve dist -s
+- lint: eslint .
+- images:webp: node scripts/convert-to-webp.mjs
+- images:cloud-subpages: node scripts/fetch-cloud-subpage-images.mjs
+- videos:to-gif: node scripts/videos-to-gif.mjs
+
+Dependency Stack (Production)
+-----------------------------
+- react, react-dom
+- react-router-dom
+- framer-motion
+- lenis
+- lucide-react
+- @lottiefiles/dotlottie-react
+- tailwindcss, @tailwindcss/vite
+- class-variance-authority, clsx, tailwind-merge
+- @radix-ui/* component primitives (accordion, dialog, popover, tabs, etc.)
+- recharts
+- react-hook-form
+- react-icons
+- embla-carousel-react
+- @react-three/fiber, @react-three/drei, three
+- sonner
+- vaul
+- cmdk
+- input-otp
+- react-day-picker
+- react-resizable-panels
+- @use-gesture/react
+
+Core App Bootstrapping
+----------------------
+Entry point: frontend/src/main.jsx
+
+App tree wraps <App /> in providers (in this order):
+1) AppLoaderProvider
+2) ContentProvider
+3) PlacementsProvider
+4) ChatFocusProvider
+5) ChatProvider
+6) LenisProvider
+7) CookieConsentProvider
+
+Router selection:
+- If protocol is file:// => HashRouter
+- Else => BrowserRouter
+
+Global Application Behavior
+---------------------------
+File: frontend/src/App.jsx
+
+- Uses route-level lazy loading for almost all pages.
+- Suspense fallback: centered "Loading..." pulse UI.
+- Includes persistent shell components:
+  - Navbar (top, fixed)
+  - Footer (bottom)
+  - CookieBanner (global cookie consent)
+- Loader removal logic:
+  - Targets DOM element #app-loader with optional image #app-loader-img.
+  - Intended GIF loop duration: 5000ms.
+  - Safety fallback max wait: 1500ms.
+  - On completion, removes loader from DOM and sets loaderDone=true in AppLoaderContext.
+- Route change behavior:
+  - Scroll to top using Lenis scrollTo if available.
+  - Lenis resize is called shortly after route change for recalculation.
+  - Fallback: native smooth window.scrollTo.
+
+Navigation Architecture
+-----------------------
+Primary nav files:
+- frontend/src/components/HomeComponent/Navbar.jsx
+- frontend/src/components/HomeComponent/navLinks.ts
+
+Navbar behavior:
+- Desktop:
+  - Floating translucent rounded navbar with blur.
+  - Mega menu with multi-column nested items.
+  - Hover-to-open and delayed close behavior.
+  - "Careers" and "Contact" are direct-link sections (not mega menus).
+- Mobile:
+  - Full-width slide-in sidebar.
+  - Nested submenu panel with back navigation.
+  - Body scroll lock when menu open.
+- Scroll behavior:
+  - Navbar turns "scrolled" after Y > 60.
+  - Hides on scroll down and reappears on scroll up.
+  - Top threshold to keep it visible near top.
+- Route-aware styling:
+  - Supports dark-hero pages and light-text navbar mode at top.
+
+Footer behavior:
+- Separate desktop and mobile layouts.
+- Mobile: accordion sections + social links + contact CTA.
+- Desktop: multi-column navigation, social row, legal modal triggers.
+- Legal modal content lazy-loads:
+  - PrivacyPolicyPage
+  - TermsOfUsePage
+
+Global Consent and Analytics
+----------------------------
+Cookie Consent:
+- Context: frontend/src/context/CookieConsentContext.jsx
+- Banner: frontend/src/components/CookieBanner.jsx + CookieBanner.css
+- Stores consent states: null / accepted / rejected.
+- On accepted:
+  - Injects Google Analytics script from googletagmanager
+  - Initializes gtag with measurement ID: G-S517TXV48S
+- Banner supports animated entry/exit.
+
+Chat System Behavior
+--------------------
+Floating chat UI:
+- Component: frontend/src/components/FloatingChatbot.jsx
+- Context: frontend/src/context/ChatContext.jsx
+
+Important functional detail:
+- Chat backend is disabled.
+- On user send, assistant replies with static message:
+  "Chat is not available. All content is managed in the frontend."
+- Floating launcher appears only when hero chatbot card is out of viewport (IntersectionObserver).
+- Popup includes:
+  - message list
+  - loading state
+  - keyboard Enter-to-send
+  - animated open (floatChatIn)
+  - gradient themed by CMS fallback values
+
+Content/Data Source Pattern
+---------------------------
+ContentContext currently returns content:null (no live fetch in current code).
+All major content used by pages is hardcoded in frontend data files:
+- blogsAndHighlights.js
+- innovationProjects.js
+- cloudSubPages.ts
+- cybersecuritySubPages.ts
+- infrastructureSubPages.ts
+- dataAnalyticsSubPages.ts
+- consultingSubPages.ts
+- managedServicesSubPages.ts
+- sectionRegistry.ts
+
+Route Map (Complete)
+--------------------
+From frontend/src/App.jsx:
+
+- /
+- /service/infra
+- /service/network
+- /service/cloud-solutions
+- /cloudservices
+- /cloud/:slug
+- /cybersecurity
+- /cybersecurity/:slug
+- /infrastructureservice
+- /infrastructure/:slug
+- /aianddataservice
+- /data-analytics/:slug
+- /manageservices
+- /managed-services/:slug
+- /consultingservice
+- /consulting/:slug
+- /grc-dashboard
+- /telecom
+- /contact
+- /insights
+- /blogs
+- /blog/:id
+- /case-studies
+- /community
+- /developerteam
+- /contactus
+- /about
+- /innovations
+- /innovations/projects/:slug
+- /about/profile
+- /about/awards
+- /about/certifications (redirects to /about/awards)
+- /about/alliances
+- /about/leadership
+- /privacy-policy
+- /terms-of-use
+- /careers
+- /epf-amendment-notice
+- /campaigns
+- /newsletter
+- /offers
+- /admin (redirects to /)
+- * (NotFound)
+
+Main Page Components Inventory
+------------------------------
+Top-level pages (frontend/src/Pages):
+- AboutPage
+- ContactUsPage
+- coudpage (Cloud services overview)
+- CloudSubServicePage
+- cybersecurity
+- infrastructureservicepage
+- aianddataservicepage
+- consultingservicePage
+- ManagedServices
+- ServiceSubPage (shared template for multiple sections)
+- GRCDashbaord
+- TelecomePage
+- InsightPage
+- BlogsPage
+- BlogDetailPage
+- CaseStudiesPage
+- CommunitPage
+- DeveloperTeam
+- InnovationsPage
+- InnovationsProjectPage
+- CampaignsPage
+- NewsletterPage
+- OffersPage
+- Career
+- EPFAmendmentNotice
+- PrivacyPolicyPage
+- TermsOfUse
+- AwardsAndCertificationsPage
+- NotFoundPage
+
+Home composition (frontend/src/Render_Pages/HomePage.jsx):
+- HeroSection
+- CacheSolutionsSection
+- ProgressInNumbers
+- BlogSection
+- CareersSection
+- Subscribe (CTA)
+
+Service Subpage Engine
+----------------------
+Cloud dynamic page:
+- Route: /cloud/:slug
+- Data: cloudSubPages.ts
+- Validation: isCloudSubPageSlug()
+
+Generic service dynamic page:
+- Route patterns:
+  - /cybersecurity/:slug
+  - /infrastructure/:slug
+  - /data-analytics/:slug
+  - /managed-services/:slug
+  - /consulting/:slug
+- Template: ServiceSubPage.jsx
+- Registry: sectionRegistry.ts
+- Config shape includes:
+  - overviewRoute
+  - sectionTitle
+  - badgeLabel
+  - overviewLabel
+  - pages[] each with slug/title/tagline/images/intro/highlights/offerings
+
+Data-Driven Slug Sets
+---------------------
+Cloud slugs:
+- cloud-strategy
+- hybrid-cloud
+- cloud-security
+- app-modernization
+- cloud-operations
+- cloud-consulting
+- cloud-migration
+- cloud-architecture
+- managed-cloud-services
+- devops-automation
+
+Cybersecurity section slugs:
+- security-consulting
+- infrastructure-endpoint-security
+- threat-monitoring-response
+- data-cloud-security
+- security-audits-compliance
+
+Data Analytics & AI section slugs:
+- data-platforms
+- advanced-analytics
+- ai-automation
+- intelligent-crm
+- data-security-governance
+
+Consulting section slugs:
+- strategy-consulting
+- infrastructure-advisory
+- security-consulting
+- risk-compliance
+- it-audits
+- process-optimization
+
+Managed Services slugs:
+- network-managed-services
+- it-infrastructure-management
+- cloud-managed-services
+- security-operations-soc-siem-mdr
+- devops-automation-services
+- end-user-workplace-support
+
+Infrastructure section slugs (selected from data file):
+- infrastructure-consulting
+- infrastructure-design
+- infrastructure-deployment
+- infrastructure-management
+- data-center-migration
+- it-infrastructure-solutions
+- data-center-management
+- network-infrastructure
+- server-storage-management
+- virtualization-hypervisor-management
+- backup-disaster-recovery
+
+Innovation content:
+- 14 hardcoded projects in innovationProjects.js with slug-based detail pages.
+
+Blog/highlights content:
+- HARDCODED_BLOGS in blogsAndHighlights.js
+- HARDCODED_HIGHLIGHTS for insight/highlight cards
+
+Animations and Motion (Exact Sources)
+-------------------------------------
+Framer Motion usage files:
+- components/HomeComponent/CacheSolutionsSection.jsx
+- components/AboutPageComponent/Cards.jsx
+- components/InsightComponent/blog-section.tsx
+- components/InsightComponent/events-section.tsx
+- components/InsightComponent/hero-section.tsx
+- components/CommunityComponent/IndustryVerticals.tsx
+- components/CommunityComponent/Partners.tsx
+- components/CommunityComponent/Clients.tsx
+- components/CommunityComponent/Code-component-1-26.tsx
+
+Common motion patterns used:
+- initial -> animate transitions (opacity, y, x, scale)
+- whileInView reveal animations for scroll-in cards
+- staggered delays by index
+- looping float animations for decorative elements
+
+CSS keyframe animation definitions:
+- frontend/src/index.css
+  - slide
+  - slideFromRight
+  - hero-heading-fadeIn
+  - hero-heading-slideUp
+  - hero-heading-slideInLeft
+  - hero-heading-scaleIn
+  - hero-text-fadein
+  - hero-orb-float-1
+  - hero-orb-float-2
+  - hero-orb-float-3
+  - pulse-ring
+  - fadeSlideDown
+  - floatChatIn
+  - testimonialSlide
+  - flip-letter-reveal
+- frontend/src/components/HomeComponent/Navbar.jsx
+  - slideInFromRight
+  - megaSlideDown
+- frontend/src/components/AboutPageComponent/ImageSlider.jsx
+  - awards-slide
+- frontend/src/components/HomeComponent/HeroSection.jsx
+  - partners-marquee
+  - highlights-marquee
+- frontend/src/components/CookieBanner.css
+  - cookie-banner-in
+  - cookie-banner-out
+- frontend/src/css/slider.css
+  - logo-marquee
+- frontend/src/components/ServicesComponent/service-detail.css
+  - fade-in-up
+
+Additional UX/Interaction Features
+----------------------------------
+- Smooth scrolling globally via Lenis provider.
+- Scroll-to-top on route changes.
+- Lazy loading for most pages/components to improve initial load.
+- Mobile-first responsive behavior with separate desktop/mobile nav and footer patterns.
+- Multiple CTA buttons route to /contactus and service overviews.
+- Reusable image fallback component:
+  - components/figma/ImageWithFallback.tsx
+
+Key Visual/UI Component Areas
+-----------------------------
+About section components:
+- profile
+- Cards (alliances/partners style section)
+- Team
+- Certifications
+- ImageSlider
+- GrowthComponent
+- CoreOfferingsSection
+- DomeGallery (+ DomeGallery.css)
+
+Home section components:
+- HeroSection
+- CacheSolutionsSection
+- ProgressInNumbers
+- CampaignPromoSection
+- CareersSection
+- Subscribe
+- Whoweare
+
+Insights section components:
+- hero-section
+- ceo-section
+- blog-section
+- case-studies-section
+- events-section
+- problems-section
+
+Community section components:
+- IndustryVerticals
+- Partners
+- Clients
+- clientsCards
+- Code-component-1-26
+
+Services utilities:
+- services contact page component
+- service-detail CSS + legacy Render_Pages/service-detail
+
+UI primitives:
+- components/ui/accordion.tsx
+- components/ui/button.tsx
+- components/ui/badge.tsx
+- components/ui/card.tsx
+- components/ui/carousel.tsx
+- components/ui/utils.ts
+
+Static Assets and Naming Conventions
+------------------------------------
+- Images are mostly from /public/images/*, /public/blog/*, /cloud/subpages/*
+- Logos/badges examples:
+  - /navbar-logo.svg
+  - /women_owned.webp
+  - /ai-logo-animation.gif
+- Service pages use heroImage + bodyImage fields from data configs.
+
+Exact Rebuild Checklist
+-----------------------
+1) Recreate React + Vite + Tailwind setup with same dependencies.
+2) Implement provider stack exactly as in main.jsx.
+3) Implement App shell (Navbar/Footer/CookieBanner) and lazy route loading.
+4) Recreate all routes listed above including redirects and wildcard 404.
+5) Recreate navLinks.ts mapping and mega-menu structure.
+6) Recreate sectionRegistry and each section data file with same slugs.
+7) Recreate ServiceSubPage and CloudSubServicePage templates with same CTA flow.
+8) Recreate hardcoded blogs and innovation project datasets.
+9) Recreate framer-motion effects and CSS keyframes listed above.
+10) Recreate cookie consent flow and GA conditional loading.
+11) Recreate floating chatbot behavior with "chat unavailable" fallback.
+12) Recreate responsive desktop/mobile nav + footer behavior.
+
+Notes for One-to-One Matching
+-----------------------------
+- Keep route paths and slug strings identical; many menu links depend on exact names.
+- Preserve hash anchor support from navLinks entries where sectionId exists.
+- Preserve CSS class names used in JS logic (e.g., .ai-chat-card for IntersectionObserver).
+- Keep loader IDs (#app-loader and #app-loader-img) unchanged for startup behavior.
+- Maintain dark hero path checks in Navbar for visual parity.
+
+Cursor Prompts - Home Page Components
+-------------------------------------
+Use these prompts directly in Cursor (one by one). They are designed to recreate the Home page and its component stack with matching behavior and style patterns.
+
+Prompt 1 - Build Home page composition
+--------------------------------------
+Create `frontend/src/Render_Pages/HomePage.jsx` for a React + Vite app.
+
+Requirements:
+- Import React `lazy`, `Suspense`, and `useEffect`.
+- Include top section `HeroSection` directly (non-lazy).
+- Lazy load and render in order:
+  1) `CacheSolutionsSection`
+  2) `ProgressInNumbers` (named export mapped to default inside lazy import)
+  3) `BlogSection` (named export mapped to default inside lazy import)
+  4) `CareersSection`
+  5) `CTASection` from `Subscribe`
+- Add tiny below-fold fallback component: `<div className="min-h-[24px] w-full" aria-hidden />`.
+- On mount, scroll to top (`window.scrollTo(0,0)`).
+- Return fragment with hero first, then suspense block for all other sections.
+- Keep file JS/JSX only.
+
+Prompt 2 - Build HeroSection component
+--------------------------------------
+Create `frontend/src/components/HomeComponent/HeroSection.jsx`.
+
+Requirements:
+- Build a premium enterprise hero section with:
+  - full-width dark gradient background
+  - large animated heading and subtext
+  - CTA buttons to `/contactus` and key service routes
+  - partner logo marquee
+  - highlights marquee
+  - optional embedded chatbot card region with class name `.ai-chat-card`
+- Use Tailwind utility classes for layout and responsiveness.
+- Include custom keyframe styles for:
+  - `partners-marquee`
+  - `highlights-marquee`
+- Add heading/text intro animation classes compatible with global keyframes:
+  - `hero-heading-fadeIn`, `hero-heading-slideUp`, `hero-text-fadein`
+- Ensure mobile-first behavior and clean spacing from navbar overlap.
+- Export default `HeroSection`.
+
+Prompt 3 - Build CacheSolutionsSection with Framer Motion
+---------------------------------------------------------
+Create `frontend/src/components/HomeComponent/CacheSolutionsSection.jsx`.
+
+Requirements:
+- Use `framer-motion` (`motion`, `AnimatePresence`).
+- Build a section that presents solution categories/cards with animated transitions.
+- Include:
+  - section heading/subheading
+  - interactive tabs or cards (click/hover)
+  - content panel that crossfades/slides between selected solutions
+  - CTA button(s) to service overview routes
+- Motion behavior:
+  - fade-in container on mount
+  - animated item entrance (staggered)
+  - smooth content swap animation with `AnimatePresence`
+- Keep design enterprise-style (neutral dark/white base + red accent).
+- Export default `CacheSolutionsSection`.
+
+Prompt 4 - Build ProgressInNumbers stats section
+------------------------------------------------
+Create `frontend/src/components/HomeComponent/ProgressInNumbers.tsx`.
+
+Requirements:
+- Export named component `ProgressInNumbers` (not default).
+- Build responsive KPI/statistics cards (for years experience, clients, projects, etc.).
+- Include subtle animation on reveal (either Framer Motion or CSS transitions).
+- Keep typography bold and clean, with strong numeric emphasis.
+- Add short descriptive labels under each metric.
+- Maintain accessibility (proper heading hierarchy).
+- Keep TypeScript typing simple and strict-safe.
+
+Prompt 5 - Build BlogSection (Insights preview)
+-----------------------------------------------
+Create `frontend/src/components/InsightComponent/blog-section.tsx`.
+
+Requirements:
+- Export named component `BlogSection`.
+- Use `framer-motion` for reveal animations.
+- Show latest blog cards (image, title, excerpt, category, read time).
+- Add CTA/link buttons to:
+  - `/blogs`
+  - individual blog detail route `/blog/:id`
+- If data source is not connected, use local mock list shape compatible with:
+  - `id`, `title`, `excerpt`, `category`, `readTime`, `image`.
+- Card hover behavior:
+  - slight lift
+  - subtle shadow increase
+  - image zoom-in
+- Keep section spacing consistent with Home page flow.
+
+Prompt 6 - Build CareersSection
+-------------------------------
+Create `frontend/src/components/HomeComponent/CareersSection.jsx`.
+
+Requirements:
+- Build a hiring/people-focused section with:
+  - heading
+  - short value proposition text
+  - cards/bullets of company culture highlights
+  - CTA button linking to `/careers`
+- Visual style:
+  - dark/light contrast matching website theme
+  - rounded cards and subtle hover effects
+- Keep copy editable through constants at top of file.
+- Export default `CareersSection`.
+
+Prompt 7 - Build Subscribe/CTA section
+--------------------------------------
+Create `frontend/src/components/HomeComponent/Subscribe.tsx`.
+
+Requirements:
+- Build a strong bottom CTA section for Home page.
+- Include:
+  - headline
+  - short supporting text
+  - primary CTA to `/contactus`
+  - secondary CTA to `/insights` or `/services`-style route
+- Optionally include simple email input UI (frontend-only, no backend call).
+- Styling:
+  - dark gradient band
+  - red accent buttons
+  - rounded controls
+- Ensure responsive stacking on mobile.
+- Export default component.
+
+Prompt 8 - Wire Home page imports and lazy boundaries
+-----------------------------------------------------
+Update existing files to wire Home page exactly:
+- `frontend/src/Render_Pages/HomePage.jsx` should import:
+  - `HeroSection` from `../components/HomeComponent/HeroSection`
+  - lazy modules listed in Prompt 1
+- Keep `Suspense` fallback minimal.
+- Ensure component names and export style exactly match:
+  - `CacheSolutionsSection` default
+  - `ProgressInNumbers` named
+  - `BlogSection` named
+  - `CareersSection` default
+  - `Subscribe` default
+
+Prompt 9 - Add/verify Home-related keyframes in global CSS
+-----------------------------------------------------------
+Update `frontend/src/index.css` with keyframes (if missing):
+- `hero-heading-fadeIn`
+- `hero-heading-slideUp`
+- `hero-text-fadein`
+- `partners-marquee`
+- `highlights-marquee`
+- `floatChatIn`
+
+Also:
+- Add class utilities/selectors that apply these animations to hero content.
+- Keep animation durations smooth and premium (around 0.5s to 20s depending on effect).
+- Ensure no janky overflow on mobile.
+
+Prompt 10 - Validate and polish Home page UX
+--------------------------------------------
+Run a final pass across Home components:
+- Ensure spacing below fixed navbar is correct.
+- Ensure all CTA buttons navigate correctly.
+- Ensure no console warnings from keys/props.
+- Ensure animations are subtle and performant.
+- Ensure sections render in exact order:
+  Hero -> Cache Solutions -> Progress -> Blog -> Careers -> CTA.
+- Keep code production-ready and readable.
+
+End of specification.

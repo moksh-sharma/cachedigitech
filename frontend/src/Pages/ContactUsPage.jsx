@@ -31,8 +31,8 @@ const ContactUsPage = () => {
     {
       icon: Phone,
       label: 'Phone',
-      value: '1800-309-4333',
-      href: 'tel:+18003094333',
+      value: '+91 180030 94333',
+      href: 'tel:+9118003094333',
       description: 'Mon–Fri, 9am–6pm IST',
     },
     {
