@@ -42,6 +42,8 @@ export default function BlogDetailPage() {
                 src={post.image}
                 alt={post.title}
                 className="w-full h-full min-h-[280px] object-cover"
+                loading="eager"
+                fetchPriority="high"
               />
             </div>
           )}

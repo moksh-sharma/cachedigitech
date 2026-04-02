@@ -217,6 +217,8 @@ export default function CompliancePage() {
                   src="/images/audits.webp"
                   alt="Regulatory Compliance Dashboard"
                   className="w-full h-64 sm:h-80 lg:h-[400px] xl:h-[500px] object-cover rounded-2xl lg:rounded-3xl shadow-2xl"
+                  loading="eager"
+                  fetchPriority="high"
                 />
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/10 to-transparent rounded-2xl lg:rounded-3xl"></div>
               </div>

@@ -18,12 +18,12 @@ const TermsOfUsePage = () => {
   const sections = [
     {
       id: 'about',
-      title: 'About Cache DigTech',
+      title: 'About Cache Digitech',
       icon: Building,
       content: (
         <>
           <p>
-            With 34+ years of experience as a leading system integration company in India, Cache DigiTech specializes in Technology Integration, Digital Transformation, Infrastructure, and IT Consulting Solutions.
+            With 34+ years of experience as a leading system integration company in India, Cache Digitech specializes in Technology Integration, Digital Transformation, Infrastructure, and IT Consulting Solutions.
           </p>
           
         </>
@@ -36,7 +36,7 @@ const TermsOfUsePage = () => {
       content: (
         <>
           <p>
-            By accessing and using Cache DigTech's services or platforms, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use and all applicable laws.
+            By accessing and using Cache Digitech&apos;s services or platforms, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use and all applicable laws.
           </p>
           
         </>
@@ -89,7 +89,7 @@ const TermsOfUsePage = () => {
       content: (
         <>
           <p>
-            All intellectual property rights in our services, including software, documentation, trademarks, and methodologies, remain the exclusive property of Cache DigTech or its licensors.
+            All intellectual property rights in our services, including software, documentation, trademarks, and methodologies, remain the exclusive property of Cache Digitech or its licensors.
           </p>
           <div className="bg-gray-50 rounded-lg p-4 mt-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Our Intellectual Property Includes</h3>

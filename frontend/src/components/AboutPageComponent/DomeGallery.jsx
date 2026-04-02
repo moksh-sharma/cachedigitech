@@ -94,6 +94,8 @@ export default function DomeGallery({
   autoRotate = true,
   autoRotateSpeed = 4,
   tileInset,
+  /** No tile→lightbox FLIP animation; overlay appears at final size immediately. */
+  instantLightbox = false,
 }) {
   const rootRef = useRef(null);
   const mainRef = useRef(null);
@@ -121,6 +123,8 @@ export default function DomeGallery({
   const lastInteractionAtRef = useRef(0);
   const resetTimeoutRef = useRef(null);
   const resetRAFRef = useRef(null);
+  const instantLightboxRef = useRef(instantLightbox);
+  instantLightboxRef.current = instantLightbox;
 
   const scrollLockedRef = useRef(false);
   const lockScroll = useCallback(() => {
@@ -162,64 +166,64 @@ export default function DomeGallery({
         if (w === lastW && h === lastH) return;
         lastW = w;
         lastH = h;
-      const minDim = Math.min(w, h);
-      const maxDim = Math.max(w, h);
-      const aspect = w / h;
-      let basis;
-      switch (fitBasis) {
-        case 'min':
-          basis = minDim;
-          break;
-        case 'max':
-          basis = maxDim;
-          break;
-        case 'width':
-          basis = w;
-          break;
-        case 'height':
-          basis = h;
-          break;
-        default:
-          basis = aspect >= 1.3 ? w : minDim;
-      }
-      let radius = basis * fit;
-      const heightGuard = h * 1.35;
-      radius = Math.min(radius, heightGuard);
-      radius = clamp(radius, minRadius, maxRadius);
-      lockedRadiusRef.current = Math.round(radius);
-
-      const viewerPad = Math.max(8, Math.round(minDim * padFactor));
-      root.style.setProperty('--radius', `${lockedRadiusRef.current}px`);
-      root.style.setProperty('--viewer-pad', `${viewerPad}px`);
-      root.style.setProperty('--overlay-blur-color', overlayBlurColor);
-      root.style.setProperty('--tile-radius', imageBorderRadius);
-      root.style.setProperty('--enlarge-radius', openedImageBorderRadius);
-      root.style.setProperty('--image-filter', grayscale ? 'grayscale(1)' : 'none');
-      if (tileInset !== undefined) root.style.setProperty('--tile-inset', `${tileInset}px`);
-      applyTransform(rotationRef.current.x, rotationRef.current.y);
-
-      const enlargedOverlay = viewerRef.current?.querySelector('.enlarge');
-      if (enlargedOverlay && frameRef.current && mainRef.current) {
-        const frameR = frameRef.current.getBoundingClientRect();
-        const mainR = mainRef.current.getBoundingClientRect();
-        const hasCustomSize = openedImageWidth && openedImageHeight;
-        if (hasCustomSize) {
-          const tempDiv = document.createElement('div');
-          tempDiv.style.cssText = `position: absolute; width: ${openedImageWidth}; height: ${openedImageHeight}; visibility: hidden;`;
-          document.body.appendChild(tempDiv);
-          const tempRect = tempDiv.getBoundingClientRect();
-          document.body.removeChild(tempDiv);
-          const centeredLeft = frameR.left - mainR.left + (frameR.width - tempRect.width) / 2;
-          const centeredTop = frameR.top - mainR.top + (frameR.height - tempRect.height) / 2;
-          enlargedOverlay.style.left = `${centeredLeft}px`;
-          enlargedOverlay.style.top = `${centeredTop}px`;
-        } else {
-          enlargedOverlay.style.left = `${frameR.left - mainR.left}px`;
-          enlargedOverlay.style.top = `${frameR.top - mainR.top}px`;
-          enlargedOverlay.style.width = `${frameR.width}px`;
-          enlargedOverlay.style.height = `${frameR.height}px`;
+        const minDim = Math.min(w, h);
+        const maxDim = Math.max(w, h);
+        const aspect = w / h;
+        let basis;
+        switch (fitBasis) {
+          case 'min':
+            basis = minDim;
+            break;
+          case 'max':
+            basis = maxDim;
+            break;
+          case 'width':
+            basis = w;
+            break;
+          case 'height':
+            basis = h;
+            break;
+          default:
+            basis = aspect >= 1.3 ? w : minDim;
         }
-      }
+        let radius = basis * fit;
+        const heightGuard = h * 1.35;
+        radius = Math.min(radius, heightGuard);
+        radius = clamp(radius, minRadius, maxRadius);
+        lockedRadiusRef.current = Math.round(radius);
+
+        const viewerPad = Math.max(8, Math.round(minDim * padFactor));
+        root.style.setProperty('--radius', `${lockedRadiusRef.current}px`);
+        root.style.setProperty('--viewer-pad', `${viewerPad}px`);
+        root.style.setProperty('--overlay-blur-color', overlayBlurColor);
+        root.style.setProperty('--tile-radius', imageBorderRadius);
+        root.style.setProperty('--enlarge-radius', openedImageBorderRadius);
+        root.style.setProperty('--image-filter', grayscale ? 'grayscale(1)' : 'none');
+        if (tileInset !== undefined) root.style.setProperty('--tile-inset', `${tileInset}px`);
+        applyTransform(rotationRef.current.x, rotationRef.current.y);
+
+        const enlargedOverlay = viewerRef.current?.querySelector('.enlarge');
+        if (enlargedOverlay && frameRef.current && mainRef.current) {
+          const frameR = frameRef.current.getBoundingClientRect();
+          const mainR = mainRef.current.getBoundingClientRect();
+          const hasCustomSize = openedImageWidth && openedImageHeight;
+          if (hasCustomSize) {
+            const tempDiv = document.createElement('div');
+            tempDiv.style.cssText = `position: absolute; width: ${openedImageWidth}; height: ${openedImageHeight}; visibility: hidden;`;
+            document.body.appendChild(tempDiv);
+            const tempRect = tempDiv.getBoundingClientRect();
+            document.body.removeChild(tempDiv);
+            const centeredLeft = frameR.left - mainR.left + (frameR.width - tempRect.width) / 2;
+            const centeredTop = frameR.top - mainR.top + (frameR.height - tempRect.height) / 2;
+            enlargedOverlay.style.left = `${centeredLeft}px`;
+            enlargedOverlay.style.top = `${centeredTop}px`;
+          } else {
+            enlargedOverlay.style.left = `${frameR.left - mainR.left}px`;
+            enlargedOverlay.style.top = `${frameR.top - mainR.top}px`;
+            enlargedOverlay.style.width = `${frameR.width}px`;
+            enlargedOverlay.style.height = `${frameR.height}px`;
+          }
+        }
       });
     });
     ro.observe(root);
@@ -433,6 +437,23 @@ export default function DomeGallery({
         parent?.style?.setProperty('--rot-x-delta', '0deg');
         el.style.visibility = '';
         el.style.zIndex = 0;
+        el.removeAttribute('data-focused');
+        focusedElRef.current = null;
+        rootRef.current?.removeAttribute('data-enlarging');
+        openingRef.current = false;
+        unlockScroll();
+        return;
+      }
+      if (instantLightboxRef.current) {
+        overlay.remove();
+        originalTilePositionRef.current = null;
+        if (refDiv) refDiv.remove();
+        parent.style.setProperty('--rot-y-delta', '0deg');
+        parent.style.setProperty('--rot-x-delta', '0deg');
+        el.style.visibility = '';
+        el.style.opacity = '';
+        el.style.zIndex = '0';
+        el.removeAttribute('data-focused');
         focusedElRef.current = null;
         rootRef.current?.removeAttribute('data-enlarging');
         openingRef.current = false;
@@ -486,6 +507,7 @@ export default function DomeGallery({
           el.style.zIndex = 0;
           focusedElRef.current = null;
           rootRef.current?.removeAttribute('data-enlarging');
+          el.removeAttribute('data-focused');
           requestAnimationFrame(() => {
             parent.style.transition = '';
             el.style.transition = 'opacity 300ms ease-out';
@@ -551,6 +573,7 @@ export default function DomeGallery({
       if (!mainR || !frameR || tileR.width <= 0 || tileR.height <= 0) {
         openingRef.current = false;
         focusedElRef.current = null;
+        el.removeAttribute('data-focused');
         parent.removeChild(refDiv);
         unlockScroll();
         return;
@@ -561,16 +584,6 @@ export default function DomeGallery({
       el.style.zIndex = 0;
       const overlay = document.createElement('div');
       overlay.className = 'enlarge';
-      overlay.style.position = 'absolute';
-      overlay.style.left = frameR.left - mainR.left + 'px';
-      overlay.style.top = frameR.top - mainR.top + 'px';
-      overlay.style.width = frameR.width + 'px';
-      overlay.style.height = frameR.height + 'px';
-      overlay.style.opacity = '0';
-      overlay.style.zIndex = '30';
-      overlay.style.willChange = 'transform, opacity';
-      overlay.style.transformOrigin = 'top left';
-      overlay.style.transition = `transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease`;
       const rawSrc = parent.dataset.src || el.querySelector('img')?.src || '';
       const img = document.createElement('img');
       img.src = rawSrc;
@@ -584,6 +597,49 @@ export default function DomeGallery({
         overlay.appendChild(labelEl);
       }
       viewerRef.current.appendChild(overlay);
+
+      const wantsResize = openedImageWidth || openedImageHeight;
+
+      if (instantLightbox) {
+        overlay.style.position = 'absolute';
+        overlay.style.zIndex = '30';
+        overlay.style.opacity = '1';
+        overlay.style.transition = 'none';
+        overlay.style.transform = 'none';
+        overlay.style.willChange = 'auto';
+        overlay.style.transformOrigin = 'top left';
+        if (wantsResize) {
+          const tempDiv = document.createElement('div');
+          tempDiv.style.cssText = `position: absolute; width: ${openedImageWidth}; height: ${openedImageHeight}; visibility: hidden;`;
+          document.body.appendChild(tempDiv);
+          const tempRect = tempDiv.getBoundingClientRect();
+          document.body.removeChild(tempDiv);
+          const centeredLeft = frameR.left - mainR.left + (frameR.width - tempRect.width) / 2;
+          const centeredTop = frameR.top - mainR.top + (frameR.height - tempRect.height) / 2;
+          overlay.style.left = `${centeredLeft}px`;
+          overlay.style.top = `${centeredTop}px`;
+          overlay.style.width = openedImageWidth;
+          overlay.style.height = openedImageHeight;
+        } else {
+          overlay.style.left = `${frameR.left - mainR.left}px`;
+          overlay.style.top = `${frameR.top - mainR.top}px`;
+          overlay.style.width = `${frameR.width}px`;
+          overlay.style.height = `${frameR.height}px`;
+        }
+        rootRef.current?.setAttribute('data-enlarging', 'true');
+        return;
+      }
+
+      overlay.style.position = 'absolute';
+      overlay.style.left = `${frameR.left - mainR.left}px`;
+      overlay.style.top = `${frameR.top - mainR.top}px`;
+      overlay.style.width = `${frameR.width}px`;
+      overlay.style.height = `${frameR.height}px`;
+      overlay.style.opacity = '0';
+      overlay.style.zIndex = '30';
+      overlay.style.willChange = 'transform, opacity';
+      overlay.style.transformOrigin = 'top left';
+      overlay.style.transition = `transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease`;
       const tx0 = tileR.left - frameR.left;
       const ty0 = tileR.top - frameR.top;
       const sx0 = tileR.width / frameR.width;
@@ -599,7 +655,6 @@ export default function DomeGallery({
         rootRef.current?.setAttribute('data-enlarging', 'true');
       }, 16);
 
-      const wantsResize = openedImageWidth || openedImageHeight;
       if (wantsResize) {
         const onFirstEnd = (ev) => {
           if (ev.propertyName !== 'transform') return;
@@ -632,7 +687,7 @@ export default function DomeGallery({
         overlay.addEventListener('transitionend', onFirstEnd);
       }
     },
-    [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, segments, unlockScroll]
+    [enlargeTransitionMs, instantLightbox, lockScroll, openedImageHeight, openedImageWidth, segments, unlockScroll]
   );
 
   const onTileClick = useCallback(
@@ -680,7 +735,7 @@ export default function DomeGallery({
   return (
     <div
       ref={rootRef}
-      className="sphere-root"
+      className={`sphere-root${instantLightbox ? ' sphere-root--instant' : ''}`}
       style={{
         ['--segments-x']: segments,
         ['--segments-y']: segments,
@@ -721,7 +776,14 @@ export default function DomeGallery({
                   onMouseEnter={onTileMouseEnter}
                   onMouseLeave={onTileMouseLeave}
                 >
-                  <img src={it.src} draggable={false} alt={it.alt} decoding="async" loading="lazy" />
+                  <img
+                    src={it.src}
+                    draggable={false}
+                    alt={it.alt}
+                    decoding="async"
+                    loading={i < 20 ? 'eager' : 'lazy'}
+                    fetchPriority={i < 8 ? 'high' : 'low'}
+                  />
                 </div>
               </div>
             ))}

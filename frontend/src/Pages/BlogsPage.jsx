@@ -27,7 +27,7 @@ export default function BlogsPage() {
           )}
           {posts.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post) => (
+              {posts.map((post, idx) => (
                 <Card
                   key={post.id}
                   className="h-full transition-all duration-300 group cursor-pointer border-0 shadow-md hover:shadow-lg"
@@ -47,6 +47,8 @@ export default function BlogsPage() {
                         src={post.image}
                         alt={post.title}
                         className="w-full h-64 sm:h-72 object-cover group-hover:scale-105 transition-transform duration-200"
+                        loading={idx < 6 ? 'eager' : 'lazy'}
+                        fetchPriority={idx < 3 ? 'high' : 'low'}
                       />
                     </div>
                   </CardHeader>

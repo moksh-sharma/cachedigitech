@@ -36,7 +36,7 @@ function NewsletterPage() {
             Newsletter
           </h1>
           <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-            Stay informed with the latest technology trends, industry insights, and CacheDigitech updates delivered to your inbox.
+            Stay informed with the latest technology trends, industry insights, and Cache Digitech updates delivered to your inbox.
           </p>
         </div>
       </section>

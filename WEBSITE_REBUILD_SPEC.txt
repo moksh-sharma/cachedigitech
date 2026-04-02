@@ -1,4 +1,4 @@
-Cache DigiTech Frontend - Full Website Rebuild Specification
+Cache Digitech Frontend - Full Website Rebuild Specification
 =============================================================
 
 Purpose

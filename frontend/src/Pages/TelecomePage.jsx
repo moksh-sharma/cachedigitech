@@ -284,6 +284,8 @@ export default function TelecomPage() {
                                     src={heroImage1Url}
                                     alt="5G Telecom Network Tower"
                                     className="w-full h-64 sm:h-80 lg:h-[500px] xl:h-[600px] object-cover rounded-3xl shadow-2xl"
+                                    loading="eager"
+                                    fetchPriority="high"
                                 />
                             </div>
                         </div>

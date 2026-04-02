@@ -219,8 +219,9 @@ export default function InnovationsPage() {
                 src={OVERVIEW_IMAGE}
                 alt="Collaboration and innovation"
                 className="w-full h-full object-cover aspect-4/3 max-w-full"
-                loading="lazy"
+                loading="eager"
                 decoding="async"
+                fetchPriority="high"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent pointer-events-none" />
             </div>

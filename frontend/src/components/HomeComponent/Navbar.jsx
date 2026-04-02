@@ -299,10 +299,11 @@ function Navbar() {
             <div onClick={() => navigate("/")} className="cursor-pointer shrink-0 hidden md:block">
               <img
                 src={logoUrl}
-                alt="CacheDigiTech Logo"
+                alt="Cache Digitech logo"
                 className="h-12 w-auto transition-all duration-300 filter-[brightness(0)_saturate(100%)_invert(25%)_sepia(98%)_saturate(2692%)_hue-rotate(346deg)]"
                 decoding="async"
                 fetchPriority="high"
+                loading="eager"
               />
             </div>
           </div>
@@ -357,10 +358,11 @@ function Navbar() {
               <div onClick={() => navigate("/")} className="cursor-pointer shrink-0">
                 <img
                   src={logoUrl}
-                  alt="CacheDigiTech Logo"
+                  alt="Cache Digitech logo"
                   className="h-8 w-auto max-h-8 transition-all duration-300 filter-[brightness(0)_saturate(100%)_invert(25%)_sepia(98%)_saturate(2692%)_hue-rotate(346deg)]"
                   decoding="async"
                   fetchPriority="high"
+                  loading="eager"
                 />
               </div>
             </div>
@@ -370,6 +372,8 @@ function Navbar() {
               alt="Women Owned"
               className="h-12 w-[120px] object-contain shrink-0 hidden md:block"
               decoding="async"
+              loading="lazy"
+              fetchPriority="low"
             />
           </div>
         </div>
@@ -463,7 +467,7 @@ function Navbar() {
             className="flex items-center gap-3 cursor-pointer"
             onClick={() => { navigate("/"); setMenuOpen(false); setActiveSubmenu(null); }}
           >
-            <img src={logoUrl} alt="CacheDigiTech Logo" className="h-8" decoding="async" />
+            <img src={logoUrl} alt="Cache Digitech logo" className="h-8" decoding="async" loading="lazy" fetchPriority="low" />
           </div>
           <button
             className="p-2 rounded-lg hover:bg-gray-100 transition-colors"

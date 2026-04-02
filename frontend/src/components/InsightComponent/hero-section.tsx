@@ -12,6 +12,8 @@ export function HeroSection() {
         src={heroImageUrl}
         alt="Modern Technology Building"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+        fetchPriority="high"
       />
 
       <div className="relative z-20 text-center text-white max-w-4xl mx-auto px-4">

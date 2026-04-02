@@ -50,22 +50,6 @@ const DEFAULT_HERO = {
   stat3: 'SOC2',
 };
 
-// Hero grid images — 4 columns × 3 images = 12 (online Unsplash; themed: cloud, cyber, AI, infra, data, team)
-const HERO_GRID_IMAGES = [
-  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80&fm=jpg&fit=crop',
-  'https://plus.unsplash.com/premium_photo-1678566111481-8e275550b700?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80&fm=jpg&fit=crop',
-  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80&fm=jpg&fit=crop',
-];
-
 // Hero section images (stored in public/hero/)
 const HERO_SLIDER_IMAGES = [
   '/hero/hero-digital-transformation.webp',
@@ -79,31 +63,51 @@ const HERO_SLIDER_IMAGES = [
 
 const HERO_IMAGE_SLIDER_INTERVAL_MS = 5000;
 
-/** Slider that cycles through hero images with crossfade (used inside the right-side hero panel) */
+/** Slider that cycles through hero images with crossfade. Only mounts slides as needed so all 7 assets are not fetched at once. */
 function HeroImageSlider() {
   const [index, setIndex] = useState(0);
+  const len = HERO_SLIDER_IMAGES.length;
+  const [mounted, setMounted] = useState(() => new Set([0, Math.min(1, len - 1)]));
+
   useEffect(() => {
     const t = setInterval(() => {
-      setIndex((i) => (i + 1) % HERO_SLIDER_IMAGES.length);
+      setIndex((i) => (i + 1) % len);
     }, HERO_IMAGE_SLIDER_INTERVAL_MS);
     return () => clearInterval(t);
-  }, []);
+  }, [len]);
+
+  useEffect(() => {
+    const next = (index + 1) % len;
+    setMounted((prev) => {
+      if (prev.has(next)) return prev;
+      const nextSet = new Set(prev);
+      nextSet.add(next);
+      return nextSet;
+    });
+  }, [index, len]);
+
   return (
     <>
-      {HERO_SLIDER_IMAGES.map((src, i) => (
-        <div
-          key={i}
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
-          style={{
-            backgroundImage: `url(${src})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: i === index ? 1 : 0,
-            zIndex: i === index ? 1 : 0,
-          }}
-          aria-hidden
-        />
-      ))}
+      {HERO_SLIDER_IMAGES.map((src, i) => {
+        if (!mounted.has(i)) return null;
+        const isCurrent = i === index;
+        return (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out pointer-events-none"
+            style={{
+              opacity: isCurrent ? 1 : 0,
+              zIndex: isCurrent ? 1 : 0,
+            }}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchPriority={i === 0 ? 'high' : 'low'}
+            decoding="async"
+            aria-hidden
+          />
+        );
+      })}
     </>
   );
 }
@@ -742,6 +746,7 @@ const HeroSection = () => {
 const INNOVATIONS_HERO_IMAGE = '/images/innovations-meeting.webp';
 
 function InnovationsSection() {
+  const [innovImgLoaded, setInnovImgLoaded] = useState(false);
   return (
     <section
       id="innovations"
@@ -754,13 +759,15 @@ function InnovationsSection() {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Image */}
-          <div className="order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+          <div className="order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5 bg-slate-100/80">
             <img
               src={INNOVATIONS_HERO_IMAGE}
               alt="Innovation at Cache Digitech"
-              className="w-full h-full object-cover aspect-4/3"
-              loading="lazy"
+              className={`w-full h-full object-cover aspect-4/3 transition-opacity duration-300 ease-out ${innovImgLoaded ? 'opacity-100' : 'opacity-0'}`}
+              loading="eager"
               decoding="async"
+              fetchPriority="low"
+              onLoad={() => setInnovImgLoaded(true)}
             />
           </div>
 
@@ -1011,6 +1018,7 @@ function LazyPartnersGlobe() {
             segments={18}
             dragDampening={2}
             grayscale={false}
+            instantLightbox
             overlayBlurColor="#f1f5f9"
             imageBorderRadius="12px"
             openedImageBorderRadius="24px"
@@ -1079,7 +1087,14 @@ function OEMAlliancesSection() {
               >
                 {[...OEM_PARTNERS, ...OEM_PARTNERS].map((p, i) => (
                   <div key={`${p.name}-${i}`} className="shrink-0 w-24 h-16 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 p-2">
-                    <img src={p.logo} alt={p.name} className="w-full h-full object-contain" loading="lazy" decoding="async" />
+                    <img
+                      src={p.logo}
+                      alt={p.name}
+                      className="w-full h-full object-contain"
+                      loading={i < 16 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      fetchPriority={i < 8 ? 'high' : 'low'}
+                    />
                   </div>
                 ))}
               </div>
@@ -1168,11 +1183,17 @@ function LatestHighlightsSection() {
   const trackWidth = setWidth * 2;
   const doublePanels = panels.length > 0 ? [...panels, ...panels] : [];
 
-  const renderCardContent = (panel, isMobile) => (
+  /** Desktop marquee: lazy breaks in transformed track; mobile stack can lazy-load. */
+  const renderCardContent = (panel, isMobile, { marquee = false } = {}) => (
     <>
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
-        style={{ backgroundImage: `url('${panel.image}')` }}
+      <img
+        src={panel.image}
+        alt=""
+        className="absolute inset-0 w-full h-full min-h-[120px] object-cover transition-transform duration-500 ease-out group-hover:scale-105 pointer-events-none"
+        loading={marquee ? 'eager' : 'lazy'}
+        decoding="async"
+        fetchPriority={marquee ? 'auto' : 'low'}
+        referrerPolicy="no-referrer"
       />
       <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-transparent" />
       <div className={`absolute inset-0 flex flex-col justify-end text-left text-white ${isMobile ? 'p-4' : 'p-6 sm:p-8'}`}>
@@ -1261,7 +1282,7 @@ function LatestHighlightsSection() {
               const link = (panel.link || '').trim();
               if (link) {
                 const isExternal = link.startsWith('http');
-                const cardContent = renderCardContent(panel, false);
+                const cardContent = renderCardContent(panel, false, { marquee: true });
                 if (isExternal) {
                   return (
                     <a key={i} href={link} target="_blank" rel="noopener noreferrer" className={`${cardClass} block cursor-pointer`} style={cardStyle}>
@@ -1277,7 +1298,7 @@ function LatestHighlightsSection() {
               }
               return (
                 <article key={i} className={cardClass} style={cardStyle}>
-                  {renderCardContent(panel, false)}
+                  {renderCardContent(panel, false, { marquee: true })}
                 </article>
               );
             })}

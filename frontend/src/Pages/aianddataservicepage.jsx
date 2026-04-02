@@ -191,6 +191,8 @@ export default function DataAIPage() {
                   src="/images/dataai.webp"
                   alt="AI and Machine Learning Visualization"
                   className="w-full h-36 sm:h-44 md:h-52 lg:h-64 xl:h-80 object-cover rounded-lg sm:rounded-xl shadow-xl"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
             </div>

@@ -216,6 +216,8 @@ export default function CloudPage() {
                   src="/images/cloud.webp"
                   alt="Cloud Computing Infrastructure"
                   className="w-full h-36 sm:h-44 md:h-52 lg:h-64 xl:h-80 object-cover rounded-xl sm:rounded-2xl shadow-xl"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
             </div>

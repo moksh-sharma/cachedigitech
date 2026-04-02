@@ -92,6 +92,8 @@ export default function CloudSubServicePage() {
                   src={page.bodyImage}
                   alt={`${page.title} — Cache Digitech`}
                   className="w-full aspect-4/3 sm:aspect-16/10 object-cover"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
             </div>

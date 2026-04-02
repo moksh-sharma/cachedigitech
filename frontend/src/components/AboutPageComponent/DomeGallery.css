@@ -55,6 +55,14 @@ main.sphere-main {
   will-change: transform;
 }
 
+.sphere-root--instant .viewer .scrim {
+  transition: opacity 120ms ease;
+}
+
+.sphere-root--instant .viewer .enlarge {
+  transition: none !important;
+}
+
 .overlay,
 .overlay--blur {
   position: absolute;

@@ -86,7 +86,6 @@ function PartnershipCards() {
     {
       category: 'Registered & Preferred',
       items: [
-        { name: 'Imperva', level: 'Registered', logo: '/Partners/imperva.webp' },
         { name: 'Everest', level: 'Registered', logo: '/Partners/everest.webp' },
         { name: 'Cloudsek', level: 'Registered', logo: '/community/cloudsek.webp' },
         { name: 'Cloudera', level: 'Registered', logo: '/Partners/cloudsek.webp' },
@@ -95,7 +94,6 @@ function PartnershipCards() {
         { name: 'Forescout', level: 'Registered', logo: '/Partners/forescout.webp' },
         { name: 'Palo Alto', level: 'Registered, Innovator', logo: '/community/paloalto.webp' },
         { name: 'Veeam', level: 'Registered & SP', logo: '/Partners/veeam.webp' },
-        { name: 'Commvault', level: 'Registered', logo: '/Partners/commvault.webp' },
         { name: 'HPI', level: 'Registered', logo: '/Partners/hplogo.webp' },
         { name: 'IBM Apptio Cloud', level: 'Registered, SP', logo: '/community/ibmlogo.webp' },
         { name: 'NetApp', level: 'Approved, Preferred', logo: '/Partners/netapp.webp' },

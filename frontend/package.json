@@ -10,6 +10,7 @@
     "serve": "npx serve dist -s",
     "lint": "eslint .",
     "images:webp": "node scripts/convert-to-webp.mjs",
+    "images:highlights": "node scripts/fetch-highlights-from-posts.mjs",
     "images:cloud-subpages": "node scripts/fetch-cloud-subpage-images.mjs",
     "videos:to-gif": "node scripts/videos-to-gif.mjs"
   },

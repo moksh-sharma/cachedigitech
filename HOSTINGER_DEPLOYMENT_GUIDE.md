@@ -1,4 +1,4 @@
-# Hostinger Deployment Guide for CacheDigitech
+# Hostinger Deployment Guide for Cache Digitech
 
 ## Prerequisites
 - Hostinger hosting account with cPanel access
@@ -97,4 +97,4 @@ If you encounter issues:
 3. Verify file permissions and .htaccess configuration
 
 ---
-**Deployment completed successfully! Your CacheDigitech website should now be live on Hostinger.**
+**Deployment completed successfully! Your Cache Digitech website should now be live on Hostinger.**

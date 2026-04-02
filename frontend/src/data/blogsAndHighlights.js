@@ -176,9 +176,10 @@ IT leaders are increasingly measured on both operational metrics and EX outcomes
   },
 ];
 
+/** Card art: local WebP under public/images/highlights (from each post’s og:image). Re-fetch: npm run images:highlights */
 export const HARDCODED_HIGHLIGHTS = [
   {
-    image: "https://media.licdn.com/dms/image/v2/D5622AQEEGikPIKwYNQ/feedshare-shrink_800/B56Zvg_oOdIoAg-/0/1769006335163?e=1774483200&v=beta&t=3AWv4NqVjXyIcZxDgQMD-J8-csV-_HoMGOAJCEPE6UI",
+    image: "/images/highlights/highlight-01.webp",
     tag: "Award & Recognition",
     title: "Ingram Micro APAC Female Leader of the Year 2025",
     description:
@@ -187,7 +188,7 @@ export const HARDCODED_HIGHLIGHTS = [
     link: "https://www.linkedin.com/posts/prarthana-gupta-112510a5_apacfemaleleaderoftheyear-ingrammicro-washingtondc-activity-7419750364259762177-fmvf/",
   },
   {
-    image: "https://media.licdn.com/dms/image/v2/D5622AQHScTHJ4MYBnA/feedshare-shrink_800/B56ZnbnXbuJ8Ag-/0/1760326158584?e=1774483200&v=beta&t=cPMeANpTrLFPJYm04t0OUmfJw-6ceBByLJEw2sY9MBk",
+    image: "/images/highlights/highlight-02.webp",
     tag: "Event",
     title: "Cache Digitech at India Mobile Congress 2025",
     description:
@@ -196,7 +197,7 @@ export const HARDCODED_HIGHLIGHTS = [
     link: "https://www.linkedin.com/posts/prarthana-gupta-112510a5_technology-breathe-cache-activity-7383343055010979840-Jay2/",
   },
   {
-    image: "https://media.licdn.com/dms/image/v2/D5622AQGa6bKPXabg1Q/feedshare-shrink_800/B56ZkQohinHkAk-/0/1756920689416?e=1774483200&v=beta&t=HE1_VHGWxGwG7banA0VVeCJRl7ejHQTMl8fncHd3Ieg",
+    image: "/images/highlights/highlight-03.webp",
     tag: "Award",
     title: "Acquisition Champion Award at Dell Technologies Partner Summit India 2025",
     description:
@@ -205,7 +206,7 @@ export const HARDCODED_HIGHLIGHTS = [
     link: "https://www.linkedin.com/posts/prarthana-gupta-112510a5_delltechnologies-cache-partnerships-activity-7369212066651394048-KO8s/",
   },
   {
-    image: "https://media.licdn.com/dms/image/v2/D5622AQFO3_vdvb5Q1Q/feedshare-shrink_800/B56ZgUSv.8HcAk-/0/1752687122215?e=1774483200&v=beta&t=kcE3LqXfgN_Yhpirq-W8V95d4CHWKUpnVg2zOPMij_8",
+    image: "/images/highlights/highlight-04.webp",
     tag: "Award & Recognition",
     title: "Cache Digitech Named Nutanix Enterprise Partner of the Year – North",
     description:
@@ -214,7 +215,7 @@ export const HARDCODED_HIGHLIGHTS = [
     link: "https://www.linkedin.com/posts/prarthana-gupta-112510a5_we-are-delighted-to-share-that-cache-digitech-activity-7351302613625155584-T3lR/",
   },
   {
-    image: "https://media.licdn.com/dms/image/v2/D4D22AQEXQxJ3IdPX0w/feedshare-shrink_1280/B4DZnIhwTHJIAw-/0/1760005916788?e=1774483200&v=beta&t=q8DgG0Kivd_wgWcCTwtZ0qz26X3OMIrSpGV6ezCdqMs",
+    image: "/images/highlights/highlight-05.webp",
     tag: "Event",
     title: "Women in Tech: Diverse Minds, Disruptive Ideas at IMC 2025",
     description:
@@ -223,7 +224,7 @@ export const HARDCODED_HIGHLIGHTS = [
     link: "https://www.linkedin.com/posts/nitika-mehta-b7b11a18_imc2025-digitalindia-telecom-ugcPost-7382066224739848192-gECd/",
   },
   {
-    image: "https://media.licdn.com/dms/image/v2/D5622AQERkLdsN9vTxQ/feedshare-shrink_800/feedshare-shrink_800/0/1720426455072?e=1774483200&v=beta&t=GEaBiOtPPYpibJRFKP9GRog_eMYCd6_75ejnFGM1aUw",
+    image: "/images/highlights/highlight-06.webp",
     tag: "Award & Recognition",
     title: "Dell Technologies Channel Partner of the Year – Services Business India (FY24)",
     description:
@@ -232,7 +233,7 @@ export const HARDCODED_HIGHLIGHTS = [
     link: "https://www.linkedin.com/posts/cache-digitech-pvt-ltd_award-servicesbusinessinida-itsector-ugcPost-7215991568502071296-7lZQ/",
   },
   {
-    image: "https://media.licdn.com/dms/image/v2/D5622AQErknCqtdSavA/feedshare-shrink_1280/feedshare-shrink_1280/0/1716642188642?e=1774483200&v=beta&t=IV6RCnMD9rHIEKGiEWAkcwUoM0Xw9hrrrlif0FWHbS4",
+    image: "/images/highlights/highlight-07.webp",
     tag: "Event",
     title: "Fireside Chat on the Future of Work at ETCIO Annual Conclave 2024",
     description:

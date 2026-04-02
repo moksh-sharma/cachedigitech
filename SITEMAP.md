@@ -1,4 +1,4 @@
-# CacheDigitech – Complete website sitemap
+# Cache Digitech – Complete website sitemap
 
 Base URL (development): `http://localhost:5178`  
 Base URL (production): replace with your domain (e.g. `https://www.cachedigitech.com`)
