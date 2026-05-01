@@ -301,7 +301,7 @@ export default function CacheSolutionsSection() {
 
   return (
     <>
-      {/* Visible content removed — dropdowns now live in HeroSection. Only modals remain. */}
+      {/* Visible content removed - dropdowns now live in HeroSection. Only modals remain. */}
 
       <AnimatePresence>
         {definitionOpen && selectedItem && (

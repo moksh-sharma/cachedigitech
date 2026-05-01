@@ -9,7 +9,7 @@ const services = [
   {
     icon: Database,
     title: "Data Modernization",
-    description: "We architect and implement scalable, cloud-based data platforms using Snowflake, Databricks, and modern ETL frameworks. Our approach ensures data unification, integrity, and accessibility — enabling enterprises to extract maximum value from every data point.",
+    description: "We architect and implement scalable, cloud-based data platforms using Snowflake, Databricks, and modern ETL frameworks. Our approach ensures data unification, integrity, and accessibility - enabling enterprises to extract maximum value from every data point.",
     gradient: "from-red-500 to-red-600"
   },
   {
@@ -82,7 +82,7 @@ const faqs = [
   },
   {
     question: "How does AI transform business operations?",
-    answer: "AI automates complex workflows, enhances decision accuracy, and enables real-time personalization. It improves efficiency across operations — from demand forecasting to customer service."
+    answer: "AI automates complex workflows, enhances decision accuracy, and enables real-time personalization. It improves efficiency across operations - from demand forecasting to customer service."
   },
   {
     question: "Is my data secure when implementing AI solutions?",
@@ -162,7 +162,7 @@ export default function DataAIPage() {
 
               {/* Description */}
               <p className="text-xs sm:text-sm lg:text-base text-gray-600 leading-relaxed">
-                At Cache Digitech, we believe that data and artificial intelligence are the cornerstones of modern business transformation. We empower organizations to evolve into intelligent, insight-driven enterprises — where every decision is informed by analytics and every process is optimized through AI.
+                At Cache Digitech, we believe that data and artificial intelligence are the cornerstones of modern business transformation. We empower organizations to evolve into intelligent, insight-driven enterprises - where every decision is informed by analytics and every process is optimized through AI.
               </p>
 
               {/* Mission Statement */}
@@ -306,7 +306,7 @@ export default function DataAIPage() {
                     <span className="text-red-400 font-medium text-[11px] sm:text-xs">Global Impact</span>
                   </div>
                   <p className="text-xs sm:text-sm lg:text-base leading-relaxed">
-                    Through these partnerships, Cache Digitech provides end-to-end solutions spanning data engineering, analytics, AI deployment, automation, and governance across multiple industries — including{" "}
+                    Through these partnerships, Cache Digitech provides end-to-end solutions spanning data engineering, analytics, AI deployment, automation, and governance across multiple industries - including{" "}
                     <span className="text-red-400 font-medium">
                       {industries.join(", ")}
                     </span>.

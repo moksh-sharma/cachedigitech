@@ -25,7 +25,7 @@ export const consultingSubPages: SectionConfig = {
       heroImage: IMG("audits.webp"),
       bodyImage: IMG("audits.webp"),
       intro:
-        "We help define IT and digital strategy aligned to business goals—current-state assessment, target operating model, roadmap, and investment prioritization. Executive and technical workshops to align stakeholders and de-risk execution.",
+        "We help define IT and digital strategy aligned to business goals - current-state assessment, target operating model, roadmap, and investment prioritization. Executive and technical workshops to align stakeholders and de-risk execution.",
       highlights: [
         "IT and digital strategy and roadmap",
         "Target operating model and governance",
@@ -45,7 +45,7 @@ export const consultingSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We advise on infrastructure strategy—server, storage, network, and cloud—assessment, architecture options, migration and modernization paths, and vendor selection. Independent guidance to optimize spend and performance.",
+        "We advise on infrastructure strategy - server, storage, network, and cloud - assessment, architecture options, migration and modernization paths, and vendor selection. Independent guidance to optimize spend and performance.",
       highlights: [
         "Infrastructure assessment and options analysis",
         "Architecture and migration advisory",
@@ -65,7 +65,7 @@ export const consultingSubPages: SectionConfig = {
       heroImage: IMG("CyberSecback.webp"),
       bodyImage: IMG("cybersec.webp"),
       intro:
-        "We provide security consulting—strategy, architecture, and risk assessment—aligned to zero-trust and compliance. Same depth as our Cybersecurity practice: advisory workshops, security design, and audit readiness.",
+        "We provide security consulting - strategy, architecture, and risk assessment - aligned to zero-trust and compliance. Same depth as our Cybersecurity practice: advisory workshops, security design, and audit readiness.",
       highlights: [
         "Security strategy and risk assessment",
         "Zero-trust and compliance-aligned architecture",
@@ -85,7 +85,7 @@ export const consultingSubPages: SectionConfig = {
       heroImage: IMG("audits.webp"),
       bodyImage: IMG("grc.webp"),
       intro:
-        "We help assess and manage IT risk and compliance—control frameworks, gap analysis, regulatory mapping (GDPR, DPDP, industry standards), and remediation planning. Maintain an audit-ready, risk-aware posture.",
+        "We help assess and manage IT risk and compliance - control frameworks, gap analysis, regulatory mapping (GDPR, DPDP, industry standards), and remediation planning. Maintain an audit-ready, risk-aware posture.",
       highlights: [
         "Risk assessment and control frameworks",
         "Regulatory and standards mapping",
@@ -105,7 +105,7 @@ export const consultingSubPages: SectionConfig = {
       heroImage: IMG("audits.webp"),
       bodyImage: IMG("audits.webp"),
       intro:
-        "We conduct independent IT audits—controls testing, evidence collection, and audit reports—aligned to internal audit and external compliance requirements. Identify gaps and provide actionable recommendations.",
+        "We conduct independent IT audits - controls testing, evidence collection, and audit reports - aligned to internal audit and external compliance requirements. Identify gaps and provide actionable recommendations.",
       highlights: [
         "Controls testing and evidence collection",
         "Audit reports and management summaries",
@@ -125,7 +125,7 @@ export const consultingSubPages: SectionConfig = {
       heroImage: IMG("audits.webp"),
       bodyImage: IMG("audits.webp"),
       intro:
-        "We optimize IT processes—service management, change, incident, problem—and align to ITIL or your operating model. Reduce friction, improve quality, and establish continuous improvement loops.",
+        "We optimize IT processes - service management, change, incident, problem - and align to ITIL or your operating model. Reduce friction, improve quality, and establish continuous improvement loops.",
       highlights: [
         "Process assessment and design",
         "ITIL and operational alignment",

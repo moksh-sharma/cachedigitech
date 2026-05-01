@@ -345,7 +345,7 @@ export function CaseStudiesSection() {
     'IT & ITES': 'IT & ITES',
   };
 
-  // Handle URL parameters for industry or active case study — run when search changes
+  // Handle URL parameters for industry or active case study - run when search changes
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     // Prefer industry param when present

@@ -154,7 +154,7 @@ function Navbar() {
   );
   const useLightNavText = isDarkHeroPage && !scrolled;
 
-  // Scroll listener — transparent on top, solid on scroll; hide on scroll down, show on scroll up
+  // Scroll listener - transparent on top, solid on scroll; hide on scroll down, show on scroll up
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
@@ -308,7 +308,7 @@ function Navbar() {
             </div>
           </div>
 
-          {/* Center: Desktop nav links — dropdown sections vs direct links */}
+          {/* Center: Desktop nav links - dropdown sections vs direct links */}
           <div className="hidden md:flex items-center gap-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ">
             {Object.keys(menuData).map((section) => {
               const isDirectLink = DIRECT_LINK_SECTIONS.includes(section);

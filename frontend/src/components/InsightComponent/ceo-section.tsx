@@ -79,7 +79,7 @@ export function CEOSection() {
           </div>
         </div>
 
-        {/* Bottom Section: Image and Vision & Purpose — image height matches right div (right sets height) */}
+        {/* Bottom Section: Image and Vision & Purpose - image height matches right div (right sets height) */}
         <div className="relative grid lg:grid-cols-2 lg:gap-12">
           {/* Image: absolute so row height comes from right column only; image matches that height */}
           <div className="rounded-lg overflow-hidden w-full lg:absolute lg:left-0 lg:top-0 lg:bottom-0 lg:w-[calc(50%-1.5rem)]">
@@ -92,7 +92,7 @@ export function CEOSection() {
             />
           </div>
 
-          {/* Block 3: Vision and Mission — in flow in column 2 so it sets row height; image matches this */}
+          {/* Block 3: Vision and Mission - in flow in column 2 so it sets row height; image matches this */}
           <div className="space-y-4 lg:col-start-2">
             <div className="p-6 shadow-lg rounded-lg bg-white">
               <h4 className="text-xl font-bold text-red-600 mb-4 border-b border-gray-200 pb-2">Vision & Purpose</h4>

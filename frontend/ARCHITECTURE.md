@@ -1,4 +1,4 @@
-# Cache Digitech — Frontend Architecture
+# Cache Digitech - Frontend Architecture
 
 This document describes the structure of the Cache Digitech frontend application and how its main pieces fit together.
 
@@ -78,7 +78,7 @@ Route groups (logical; not every path listed):
 
 | Group | Purpose |
 |-------|--------|
-| **Home** | `/` — HomePage |
+| **Home** | `/` - HomePage |
 | **Services** | `/service/infra`, `/service/network`, `/service/cloud-solutions`, `/cloudservices`, `/cybersecurity`, `/infrastructureservice`, `/aianddataservice`, `/manageservices`, `/consultingservice`, `/grc-dashboard`, `/telecom` |
 | **About** | `/about`, `/about/profile`, `/about/awards`, `/about/alliances`, `/about/leadership`, `/innovations` |
 | **Insights / Blogs** | `/insights`, `/blogs`, `/case-studies`, `/blog/:id` |
@@ -112,7 +112,7 @@ flowchart LR
 | Path | Purpose |
 |------|--------|
 | **src/Pages/** | Route-level page components (e.g. ContactUsPage, BlogsPage, Career, PrivacyPolicyPage). One (or a few) pages per route. |
-| **src/Render_Pages/** | HomePage and service-detail — home and service landing pages. |
+| **src/Render_Pages/** | HomePage and service-detail - home and service landing pages. |
 | **src/components/** | Reusable and feature-specific UI. Subfolders: **HomeComponent** (Navbar, Footer, HeroSection, CareersSection, etc.), **AboutPageComponent**, **CommunityComponent**, **InsightComponent**, **ServicesComponent**, **figma**, **ui** (shared primitives). |
 | **src/context/** | React context providers: ContentContext, PlacementsContext, ChatFocusContext, ChatContext, LenisContext, CookieConsentContext. |
 | **src/data/** | Static or structured data (e.g. blogsAndHighlights). |

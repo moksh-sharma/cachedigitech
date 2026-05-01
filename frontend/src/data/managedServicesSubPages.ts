@@ -26,7 +26,7 @@ export const managedServicesSubPages: SectionConfig = {
       heroImage: IMG("manages.webp"),
       bodyImage: IMG("manages.webp"),
       intro:
-        "We manage your network estate—monitoring, configuration, performance, and incident response—with clear SLAs and escalation. LAN, WAN, wireless, and security perimeter with proactive optimization and change management.",
+        "We manage your network estate - monitoring, configuration, performance, and incident response - with clear SLAs and escalation. LAN, WAN, wireless, and security perimeter with proactive optimization and change management.",
       highlights: [
         "Network monitoring and incident management",
         "Configuration and change management",
@@ -46,7 +46,7 @@ export const managedServicesSubPages: SectionConfig = {
       heroImage: IMG("manages.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We operate your server, storage, and virtualization estate—provisioning, patching, backup verification, performance tuning, and capacity planning. Single accountability for infrastructure availability and efficiency.",
+        "We operate your server, storage, and virtualization estate - provisioning, patching, backup verification, performance tuning, and capacity planning. Single accountability for infrastructure availability and efficiency.",
       highlights: [
         "Server, storage, and virtualization operations",
         "Patching, backup, and DR verification",
@@ -66,7 +66,7 @@ export const managedServicesSubPages: SectionConfig = {
       heroImage: IMG("manages.webp"),
       bodyImage: IMG("Cloudback.webp"),
       intro:
-        "We manage your cloud estate—AWS, Azure, GCP—monitoring, security posture, cost optimization, and incident response. Proactive operations, FinOps, and compliance so you focus on building, not plumbing.",
+        "We manage your cloud estate - AWS, Azure, GCP - monitoring, security posture, cost optimization, and incident response. Proactive operations, FinOps, and compliance so you focus on building, not plumbing.",
       highlights: [
         "Multi-cloud monitoring and operations",
         "Security posture and compliance",
@@ -86,7 +86,7 @@ export const managedServicesSubPages: SectionConfig = {
       heroImage: IMG("manages.webp"),
       bodyImage: IMG("cybersec.webp"),
       intro:
-        "We deliver managed security operations—SOC, SIEM, and MDR—with 24/7 monitoring, threat detection, and response. SIEM/SOAR, threat intelligence, and XDR with clear escalation and incident lifecycle management.",
+        "We deliver managed security operations-SOC, SIEM, and MDR-with 24/7 monitoring, threat detection, and response. SIEM/SOAR, threat intelligence, and XDR with clear escalation and incident lifecycle management.",
       highlights: [
         "24/7 SOC monitoring and triage",
         "SIEM, SOAR, and XDR management",
@@ -106,7 +106,7 @@ export const managedServicesSubPages: SectionConfig = {
       heroImage: IMG("manages.webp"),
       bodyImage: IMG("Cloudback.webp"),
       intro:
-        "We operate and evolve your DevOps and automation—CI/CD pipelines, IaC, GitOps, and platform tooling. Run, maintain, and improve delivery pipelines and infrastructure automation with SRE practices.",
+        "We operate and evolve your DevOps and automation - CI/CD pipelines, IaC, GitOps, and platform tooling. Run, maintain, and improve delivery pipelines and infrastructure automation with SRE practices.",
       highlights: [
         "CI/CD and pipeline operations",
         "IaC and GitOps management",
@@ -126,7 +126,7 @@ export const managedServicesSubPages: SectionConfig = {
       heroImage: IMG("manages.webp"),
       bodyImage: IMG("manages.webp"),
       intro:
-        "We provide end-user and workplace support—desktop, collaboration tools, identity, and device management—with service desk, L1/L2, and escalation. Improve productivity and satisfaction with clear SLAs.",
+        "We provide end-user and workplace support - desktop, collaboration tools, identity, and device management - with service desk, L1/L2, and escalation. Improve productivity and satisfaction with clear SLAs.",
       highlights: [
         "Service desk and L1/L2 support",
         "Desktop and device management",

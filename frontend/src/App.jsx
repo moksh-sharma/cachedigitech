@@ -47,7 +47,7 @@ const CampaignsPage = lazy(() => import("./Pages/CampaignsPage"));
 const NewsletterPage = lazy(() => import("./Pages/NewsletterPage"));
 const OffersPage = lazy(() => import("./Pages/OffersPage"));
 
-/** No “Loading…” text after the global splash — avoids a second loading state on route transitions */
+/** No “Loading…” text after the global splash - avoids a second loading state on route transitions */
 function RouteTransitionPlaceholder() {
   return <div className="min-h-[50vh] w-full" aria-hidden />;
 }

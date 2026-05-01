@@ -532,7 +532,7 @@ export default function CybersecurityPage() {
                   Strengthen Your Cyber Resilience with Cache
                 </h3>
                 <p className="text-gray-300 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
-                  Partner with Cache to secure your enterprise against today's and tomorrow's cyber threats. Our combination of advanced threat intelligence, automated response, and continuous monitoring ensures your business operates securely — with confidence, compliance, and resilience.
+                  Partner with Cache to secure your enterprise against today's and tomorrow's cyber threats. Our combination of advanced threat intelligence, automated response, and continuous monitoring ensures your business operates securely - with confidence, compliance, and resilience.
                 </p>
                 <Link
                   to="/contactus"

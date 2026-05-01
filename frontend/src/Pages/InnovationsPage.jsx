@@ -31,11 +31,11 @@ const SPOTLIGHT_IMAGES = [
 const CLOUD_SECTION_IMAGE = "/images/cloud2.webp";
 
 const CLOUD_INNOVATION_POINTS = [
-  "Hybrid & multi-cloud strategy—design and operate across AWS, Azure, GCP, and on-prem with a single operating model.",
-  "Cloud migration & modernization—from assessment and roadmap to lift-and-shift and refactor, with minimal disruption.",
-  "Cloud-native & serverless—containers, Kubernetes, and serverless to build scalable, cost-efficient applications.",
-  "FinOps & cost optimization—visibility, rightsizing, and governance so you innovate without overspend.",
-  "Security & compliance in the cloud—identity, zero trust, and compliance frameworks built into every design.",
+  "Hybrid & multi-cloud strategy - design and operate across AWS, Azure, GCP, and on-prem with a single operating model.",
+  "Cloud migration & modernization - from assessment and roadmap to lift-and-shift and refactor, with minimal disruption.",
+  "Cloud-native & serverless - containers, Kubernetes, and serverless to build scalable, cost-efficient applications.",
+  "FinOps & cost optimization - visibility, rightsizing, and governance so you innovate without overspend.",
+  "Security & compliance in the cloud - identity, zero trust, and compliance frameworks built into every design.",
 ];
 
 const INNOVATION_PILLARS = [
@@ -75,7 +75,7 @@ const FOCUS_AREAS = [
   {
     icon: Cloud,
     title: "Cloud & Digital",
-    description: "Hybrid and multi-cloud strategy, cloud-native development, migration at scale, and FinOps—so you innovate faster with agility and cost control.",
+    description: "Hybrid and multi-cloud strategy, cloud-native development, migration at scale, and FinOps - so you innovate faster with agility and cost control.",
     path: "/cloudservices",
   },
   {
@@ -165,7 +165,7 @@ export default function InnovationsPage() {
 
   return (
     <div className="w-full min-h-screen bg-white overflow-x-hidden min-w-0">
-      {/* Hero — professional, high-impact; mobile responsive */}
+      {/* Hero - professional, high-impact; mobile responsive */}
       <section className="relative min-h-[55vh] sm:min-h-[60vh] md:min-h-[70vh] lg:min-h-[75vh] flex flex-col justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -182,7 +182,7 @@ export default function InnovationsPage() {
             Where ideas meet impact
           </h1>
           <p className="mt-3 sm:mt-6 md:mt-8 text-sm sm:text-base md:text-lg lg:text-xl text-gray-200/95 max-w-2xl leading-relaxed break-words">
-            We believe innovation is not a department—it's how we work. From research and emerging tech to accelerators and partnerships, we help you turn vision into outcomes.
+            We believe innovation is not a department - it's how we work. From research and emerging tech to accelerators and partnerships, we help you turn vision into outcomes.
           </p>
           <div className="mt-6 sm:mt-8 md:mt-12 flex flex-wrap gap-3 sm:gap-6 text-xs sm:text-sm">
             <span className="flex items-center gap-2 text-white/90">
@@ -198,7 +198,7 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Overview with image — mobile: image first, single column */}
+      {/* Overview with image - mobile: image first, single column */}
       <section id="overview" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-24 items-center">
@@ -208,7 +208,7 @@ export default function InnovationsPage() {
                 Reimagining possibility
               </h2>
               <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed mb-3 sm:mb-6 break-words">
-                Cache Digitech combines deep engineering heritage with a forward-looking mindset. Our innovations span technology adoption, solution accelerators, and strategic partnerships—enabling our clients to stay ahead in a rapidly evolving digital landscape.
+                Cache Digitech combines deep engineering heritage with a forward-looking mindset. Our innovations span technology adoption, solution accelerators, and strategic partnerships - enabling our clients to stay ahead in a rapidly evolving digital landscape.
               </p>
               <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed break-words">
                 We partner with you from ideation through delivery, turning complex challenges into scalable, future-ready solutions.
@@ -229,7 +229,7 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Focus areas — mobile: 1 col, touch-friendly */}
+      {/* Focus areas - mobile: 1 col, touch-friendly */}
       <section id="focus-areas" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
           <header className="text-center mb-8 sm:mb-12 lg:mb-20">
@@ -269,7 +269,7 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Cloud at the core — mobile: image first */}
+      {/* Cloud at the core - mobile: image first */}
       <section id="cloud-innovation" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-24 items-center">
@@ -278,7 +278,7 @@ export default function InnovationsPage() {
                 Cloud at the core
               </p>
               <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-(--apple-black) tracking-tight mb-3 sm:mb-6 leading-tight break-words">
-                Innovate on cloud—with control and clarity
+                Innovate on cloud - with control and clarity
               </h2>
               <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed mb-4 sm:mb-6 md:mb-8 break-words">
                 Our cloud innovation practice helps you adopt and scale on cloud with strategy, migration, and operations that put cost, security, and agility in balance. We work across hyperscalers and hybrid environments so you can focus on outcomes, not infrastructure.
@@ -455,7 +455,7 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Our projects — mobile: 1 col, full-width cards */}
+      {/* Our projects - mobile: 1 col, full-width cards */}
       <section id="projects" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
           <header className="text-center mb-8 sm:mb-12 lg:mb-20">
@@ -505,7 +505,7 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* Thought leadership & trends — mobile: stack vertically */}
+      {/* Thought leadership & trends - mobile: stack vertically */}
       <section id="trends" className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-20 items-start">
@@ -527,7 +527,7 @@ export default function InnovationsPage() {
                 Responsible innovation
               </h2>
               <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed mb-4 sm:mb-6 md:mb-8 break-words">
-                We embed governance, fairness, explainability, and compliance into every innovation—aligning with our commitment to Trust by Design and ethical technology.
+                We embed governance, fairness, explainability, and compliance into every innovation - aligning with our commitment to Trust by Design and ethical technology.
               </p>
               <Link
                 to="/blogs"
@@ -541,7 +541,7 @@ export default function InnovationsPage() {
         </div>
       </section>
 
-      {/* CTA — mobile: full-width buttons, responsive padding */}
+      {/* CTA - mobile: full-width buttons, responsive padding */}
       <section className="relative py-10 sm:py-14 md:py-16 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full min-w-0">
           <div className="rounded-xl sm:rounded-2xl lg:rounded-3xl bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 p-4 sm:p-6 md:p-8 lg:p-16 text-center shadow-2xl">

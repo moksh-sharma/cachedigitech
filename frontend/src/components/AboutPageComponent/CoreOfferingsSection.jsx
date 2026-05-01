@@ -30,7 +30,7 @@ const CORE_OFFERINGS = [
   {
     icon: <HeadphonesIcon className="h-8 w-8 text-black" />,
     title: "Managed Services",
-    description: "At the heart of our delivery excellence lies our world-class service infrastructure, comprising a 24x7 Global Network Operations Center (NOC) and a dedicated Security Operations Center (SOC). These centers ensure continuous monitoring, rapid response, and compliance — keeping our customers' operations secure, connected, and protected worldwide. Offering round-the-clock operational support, proactive monitoring, and optimization services to help clients focus on their core business goals."
+    description: "At the heart of our delivery excellence lies our world-class service infrastructure, comprising a 24x7 Global Network Operations Center (NOC) and a dedicated Security Operations Center (SOC). These centers ensure continuous monitoring, rapid response, and compliance - keeping our customers' operations secure, connected, and protected worldwide. Offering round-the-clock operational support, proactive monitoring, and optimization services to help clients focus on their core business goals."
   }
 ];
 

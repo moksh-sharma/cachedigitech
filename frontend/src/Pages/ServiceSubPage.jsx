@@ -94,7 +94,7 @@ export default function ServiceSubPage({ section }) {
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/15 to-transparent pointer-events-none z-10" />
                 <ImageWithFallback
                   src={page.bodyImage}
-                  alt={`${page.title} — Cache Digitech`}
+                  alt={`${page.title} - Cache Digitech`}
                   className="w-full aspect-4/3 sm:aspect-16/10 object-cover"
                   loading="eager"
                   fetchPriority="high"

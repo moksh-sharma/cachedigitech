@@ -25,7 +25,7 @@ export default function CareersSection() {
               Explore new opportunities
             </h2>
             <p className="text-(--apple-gray) text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
-              Join a team that values innovation, integrity, and impact. From technology to business development—find your path and grow with Cache Digitech.
+              Join a team that values innovation, integrity, and impact. From technology to business development-find your path and grow with Cache Digitech.
             </p>
             <Link
               to="/careers"

@@ -8,7 +8,7 @@ const capabilities = [
   {
     icon: Shield,
     title: "Cloud Security Services",
-    description: "End-to-end protection for data, workloads, and applications across multi-cloud and hybrid environments — powered by zero-trust architecture and compliance-first governance.",
+    description: "End-to-end protection for data, workloads, and applications across multi-cloud and hybrid environments - powered by zero-trust architecture and compliance-first governance.",
   },
   {
     icon: Cloud,
@@ -373,7 +373,7 @@ export default function CloudPage() {
                 </h2>
 
                 <p className="text-xs sm:text-sm lg:text-base text-gray-600 leading-relaxed">
-                  Cache delivers robust infrastructure management and cloud operations services that ensure seamless performance across your technology ecosystem — including data centers, storage, hypervisors, and multi-cloud platforms.
+                  Cache delivers robust infrastructure management and cloud operations services that ensure seamless performance across your technology ecosystem - including data centers, storage, hypervisors, and multi-cloud platforms.
                 </p>
               </div>
 

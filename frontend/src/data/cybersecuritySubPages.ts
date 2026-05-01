@@ -28,7 +28,7 @@ export const cybersecuritySubPages: SectionConfig = {
       heroImage: IMG("CyberSecback.webp"),
       bodyImage: IMG("cybersec.webp"),
       intro:
-        "Cache Digitech delivers security consulting to design and harden your security posture. We align strategy with business risk, define target operating models, and implement governance frameworks—from zero-trust architecture to compliance readiness.",
+        "Cache Digitech delivers security consulting to design and harden your security posture. We align strategy with business risk, define target operating models, and implement governance frameworks - from zero-trust architecture to compliance readiness.",
       highlights: [
         "Security strategy and risk assessment aligned to business objectives",
         "Zero-trust and identity-centric architecture design",
@@ -48,7 +48,7 @@ export const cybersecuritySubPages: SectionConfig = {
       heroImage: IMG("CyberSecback.webp"),
       bodyImage: IMG("cybersec.webp"),
       intro:
-        "We design and manage hardened perimeters—NGFW, intrusion detection, network segmentation, and DDoS mitigation—plus endpoint resilience with EDR/XDR, patch compliance, and automated containment to prevent lateral movement.",
+        "We design and manage hardened perimeters - NGFW, intrusion detection, network segmentation, and DDoS mitigation - plus endpoint resilience with EDR/XDR, patch compliance, and automated containment to prevent lateral movement.",
       highlights: [
         "NGFW management, deep packet inspection, and VPN connectivity",
         "Intrusion detection and network segmentation to prevent lateral movement",
@@ -68,7 +68,7 @@ export const cybersecuritySubPages: SectionConfig = {
       heroImage: IMG("CyberSecback.webp"),
       bodyImage: IMG("cybersec.webp"),
       intro:
-        "Our Managed SOC serves as a unified security command center—continuous surveillance across hybrid-cloud and on-premise, intelligent triage to prioritize critical threats, threat hunting for APTs, and end-to-end lifecycle orchestration from detection to recovery.",
+        "Our Managed SOC serves as a unified security command center - continuous surveillance across hybrid-cloud and on-premise, intelligent triage to prioritize critical threats, threat hunting for APTs, and end-to-end lifecycle orchestration from detection to recovery.",
       highlights: [
         "24/7 monitoring across hybrid-cloud and on-premise environments",
         "SIEM/SOAR, threat intelligence, and XDR platforms",
@@ -108,7 +108,7 @@ export const cybersecuritySubPages: SectionConfig = {
       heroImage: IMG("CyberSecback.webp"),
       bodyImage: IMG("audits.webp"),
       intro:
-        "We shift organizations from reactive defense to proactive resilience through full-spectrum auditing—automated and manual testing across network, web, mobile, and API—adversarial simulations, architecture assessment, and risk prioritization with proof-of-closure and audit-ready reports.",
+        "We shift organizations from reactive defense to proactive resilience through full-spectrum auditing - automated and manual testing across network, web, mobile, and API - adversarial simulations, architecture assessment, and risk prioritization with proof-of-closure and audit-ready reports.",
       highlights: [
         "VAPT, DAST/SAST, and pen-test orchestration",
         "Adversarial simulations and business-logic testing",

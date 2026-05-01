@@ -37,7 +37,7 @@ export type CloudSubPageDef = {
   offerings: { title: string; description: string; icon: LucideIcon }[];
 };
 
-/** Unsplash sources — run `node frontend/scripts/fetch-cloud-subpage-images.mjs` to download as WebP */
+/** Unsplash sources - run `node frontend/scripts/fetch-cloud-subpage-images.mjs` to download as WebP */
 const IMG = (name: string) => `/cloud/subpages/${name}.webp`;
 
 export const cloudSubPages: CloudSubPageDef[] = [
@@ -89,7 +89,7 @@ export const cloudSubPages: CloudSubPageDef[] = [
     heroImage: IMG("cloud-security"),
     bodyImage: IMG("cloud-security-body"),
     intro:
-      "Protect workloads, data, and identities across multi-cloud estates. We embed security into architecture, pipelines, and day-2 operations—not as an afterthought.",
+      "Protect workloads, data, and identities across multi-cloud estates. We embed security into architecture, pipelines, and day-2 operations - not as an afterthought.",
     highlights: [
       "Identity, IAM, and least-privilege design",
       "Data protection, encryption, and key management",
@@ -109,7 +109,7 @@ export const cloudSubPages: CloudSubPageDef[] = [
     heroImage: IMG("app-modernization"),
     bodyImage: IMG("app-modernization-body"),
     intro:
-      "Refactor, re-platform, or rebuild applications to unlock elasticity, resilience, and faster release cycles—without losing business continuity.",
+      "Refactor, re-platform, or rebuild applications to unlock elasticity, resilience, and faster release cycles - without losing business continuity.",
     highlights: [
       "Microservices and API-first design",
       "Containers, serverless, and managed platforms",
@@ -149,7 +149,7 @@ export const cloudSubPages: CloudSubPageDef[] = [
     heroImage: IMG("cloud-consulting"),
     bodyImage: IMG("cloud-consulting-body"),
     intro:
-      "Work alongside senior practitioners to clarify goals, choose platforms, and de-risk complex programs—from first landing zone to global scale-out.",
+      "Work alongside senior practitioners to clarify goals, choose platforms, and de-risk complex programs - from first landing zone to global scale-out.",
     highlights: [
       "Vendor-neutral advice across AWS, Azure, and GCP",
       "Architecture reviews and well-architected alignment",
@@ -169,7 +169,7 @@ export const cloudSubPages: CloudSubPageDef[] = [
     heroImage: IMG("cloud-migration"),
     bodyImage: IMG("cloud-migration-body"),
     intro:
-      "Plan and execute migrations with dependency mapping, wave planning, cutover rehearsal, and hypercare—whether you rehost, replatform, or refactor.",
+      "Plan and execute migrations with dependency mapping, wave planning, cutover rehearsal, and hypercare - whether you rehost, replatform, or refactor.",
     highlights: [
       "Discovery, sizing, and migration factory approach",
       "Database and data movement with validation",
@@ -189,7 +189,7 @@ export const cloudSubPages: CloudSubPageDef[] = [
     heroImage: IMG("cloud-architecture"),
     bodyImage: IMG("cloud-architecture-body"),
     intro:
-      "Design foundations that scale: multi-account structures, networking, identity, observability, and disaster recovery—documented for your teams to own.",
+      "Design foundations that scale: multi-account structures, networking, identity, observability, and disaster recovery - documented for your teams to own.",
     highlights: [
       "Landing zone and multi-account strategy",
       "Network, edge, and global traffic patterns",
@@ -209,7 +209,7 @@ export const cloudSubPages: CloudSubPageDef[] = [
     heroImage: IMG("managed-cloud-services"),
     bodyImage: IMG("managed-cloud-services-body"),
     intro:
-      "Offload routine operations while staying in control. We monitor, patch, optimize, and report—so your teams focus on products, not plumbing.",
+      "Offload routine operations while staying in control. We monitor, patch, optimize, and report-so your teams focus on products, not plumbing.",
     highlights: [
       "Proactive monitoring and incident handling",
       "Patch, backup, and configuration lifecycle",
@@ -229,7 +229,7 @@ export const cloudSubPages: CloudSubPageDef[] = [
     heroImage: IMG("devops-automation"),
     bodyImage: IMG("devops-automation-body"),
     intro:
-      "Accelerate delivery with automated pipelines, repeatable environments, and measurable quality gates—from commit to production.",
+      "Accelerate delivery with automated pipelines, repeatable environments, and measurable quality gates - from commit to production.",
     highlights: [
       "CI/CD pipeline design and implementation",
       "IaC, GitOps, and environment promotion patterns",

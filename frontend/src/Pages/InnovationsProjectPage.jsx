@@ -17,7 +17,7 @@ export default function InnovationsProjectPage() {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Hero with project image — mobile responsive */}
+      {/* Hero with project image - mobile responsive */}
       <section className="relative min-h-[38vh] sm:min-h-[45vh] md:min-h-[50vh] flex flex-col justify-end overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"

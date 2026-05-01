@@ -61,12 +61,12 @@ const TeamSection: React.FC = () => {
 
   return (
     <section className="relative py-16 sm:py-24 overflow-hidden min-h-screen" style={{ background: "linear-gradient(180deg, #fafbfc 0%, #f1f5f9 50%, #fafbfc 100%)" }}>
-      {/* Ambient blurs — match home page sections */}
+      {/* Ambient blurs - match home page sections */}
       <div className="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full bg-red-100/20 blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] rounded-full bg-red-50/15 blur-[80px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section label + heading — aligned with home "Explore" / "Our Alliances" style */}
+        {/* Section label + heading - aligned with home "Explore" / "Our Alliances" style */}
         <div
           className="text-center py-10 sm:py-14 mb-12 sm:mb-16"
           data-cursor-element-id="team-stage"
@@ -79,7 +79,7 @@ const TeamSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Grid — leaders reveal one by one on scroll */}
+        {/* Grid - leaders reveal one by one on scroll */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 pointer-events-auto">
           {teamMembers.map((member, idx) => {
             const desktopCols = getColumns("desktop");

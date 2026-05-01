@@ -12,7 +12,7 @@ function Certifications({ sectionOnly = false }) {
 
   return (
     <div className={sectionOnly ? "w-full" : "w-full min-h-screen bg-[#fafafa]"}>
-      {/* Logos / Certifications — when sectionOnly, used inside Awards & Certifications page */}
+      {/* Logos / Certifications - when sectionOnly, used inside Awards & Certifications page */}
       <section
         className="relative pt-8 md:pt-12 pb-8 md:pb-12 overflow-hidden"
         style={{ background: "linear-gradient(180deg, #fafbfc 0%, #f1f5f9 50%, #fafbfc 100%)" }}

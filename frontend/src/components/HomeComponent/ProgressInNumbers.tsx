@@ -141,7 +141,7 @@ export function ProgressInNumbers() {
             </div>
           </div>
 
-          {/* Right: image — shifted down to align with left stats */}
+          {/* Right: image - shifted down to align with left stats */}
           <div
             className={`relative w-full min-h-[280px] flex justify-center pt-12 lg:pt-20 transition-all duration-700 ease-out ${inView ? "opacity-100 scale-100" : "opacity-0 scale-95"
               }`}

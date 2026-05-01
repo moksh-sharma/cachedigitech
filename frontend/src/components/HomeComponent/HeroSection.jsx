@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo, useContext, useCallback, lazy, Suspense } from 'react';
 import { ArrowRight } from 'lucide-react';
 import ContentContext, { useContent } from '../../context/ContentContext';
+import { useAppLoader } from '../../context/AppLoaderContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useChatFocus } from '../../context/ChatFocusContext';
 import { useChat } from '../../context/ChatContext';
@@ -20,49 +21,109 @@ const SERVICE_LINKS = [
   { name: 'Data & AI', path: '/aianddataservice' },
 ];
 
-/** Hero pillars — /hero theme images by name (cloudimg, aimlimg, cyberimg, infraimg) */
+/** Hero pillars - copy aligned with `SOLUTIONS_CARDS` in Solutions Showcase */
 const HERO_SERVICE_BARS = [
   {
     title: 'Cloud',
     path: '/cloudservices',
-    image: '/hero/cloudimg.webp',
+    image: '/images/Cloudback.webp',
+    description:
+      'Cloud solutions that optimize cost, performance, and scale so you can innovate faster and operate with confidence.',
     cellClass:
       'h-[min(46vh,330px)] sm:h-[min(50vh,395px)] lg:h-full lg:min-h-0 lg:max-h-none lg:self-stretch',
   },
   {
     title: 'Data & AI',
     path: '/aianddataservice',
-    image: '/hero/aimlimg.webp',
+    image: '/images/GenAIback.webp',
+    description:
+      'Unlock value with AI and GenAI - automate processes, gain insights, and accelerate outcomes across your business.',
     cellClass:
       'h-[min(40vh,270px)] sm:h-[min(44vh,310px)] lg:h-[58%] lg:min-h-0 lg:max-h-[min(50vh,500px)] lg:self-end',
   },
   {
     title: 'Cybersecurity',
     path: '/cybersecurity',
-    image: '/hero/cyberimg.webp',
+    image: '/images/CyberSecback.webp',
+    description:
+      'Protect your digital assets with security and compliance solutions built for today’s threat landscape.',
     cellClass:
       'h-[min(40vh,270px)] sm:h-[min(44vh,310px)] lg:h-[58%] lg:min-h-0 lg:max-h-[min(50vh,500px)] lg:self-end',
   },
   {
     title: 'Infrastructure & Networking',
     path: '/infrastructureservice',
-    image: '/hero/infraimg.webp',
+    image: '/images/Infraback.webp',
+    description:
+      'Product development and engineering services that shorten time-to-market and maximize return on innovation.',
     cellClass:
       'h-[min(46vh,330px)] sm:h-[min(50vh,395px)] lg:h-full lg:min-h-0 lg:max-h-none lg:self-stretch',
   },
 ];
 
+/** Hero pillar bar-rise after splash (translate + stagger; chrome backup follows duration) */
+const HERO_BAR_RISE_DURATION_MS = 1000;
+const HERO_BAR_STAGGER_MS = 92;
+
 /** Pillar photo with skeleton so bars are not blank while images decode */
-function HeroServiceBarLink({ bar, index }) {
+function HeroServiceBarLink({ bar, index, revealBars, prefersReducedMotion, skipRevealChromeDelay }) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const onImgDone = useCallback(() => setImgLoaded(true), []);
+  const chromeBackupRef = useRef(null);
+
+  const delayMs = prefersReducedMotion ? 0 : index * HERO_BAR_STAGGER_MS;
+  const slideUp = prefersReducedMotion || revealBars;
+
+  const [showChrome, setShowChrome] = useState(
+    () => prefersReducedMotion || skipRevealChromeDelay,
+  );
+
+  useEffect(() => {
+    if (prefersReducedMotion || skipRevealChromeDelay) {
+      setShowChrome(Boolean(slideUp));
+      return;
+    }
+    if (!slideUp) {
+      setShowChrome(false);
+      return;
+    }
+    setShowChrome(false);
+    chromeBackupRef.current = window.setTimeout(() => {
+      setShowChrome(true);
+      chromeBackupRef.current = null;
+    }, delayMs + HERO_BAR_RISE_DURATION_MS + 40);
+    return () => {
+      if (chromeBackupRef.current != null) {
+        window.clearTimeout(chromeBackupRef.current);
+        chromeBackupRef.current = null;
+      }
+    };
+  }, [slideUp, delayMs, prefersReducedMotion, skipRevealChromeDelay]);
+
+  const onBarTransitionEnd = useCallback(
+    (e) => {
+      if (e.propertyName !== 'transform') return;
+      if (e.target !== e.currentTarget) return;
+      setShowChrome(true);
+      if (chromeBackupRef.current != null) {
+        window.clearTimeout(chromeBackupRef.current);
+        chromeBackupRef.current = null;
+      }
+    },
+    [],
+  );
 
   return (
-    <Link
-      to={bar.path}
-      aria-label={`${bar.title}: open service page`}
-      className={`group relative flex min-h-0 flex-col self-end overflow-hidden rounded-xl shadow-md shadow-black/5 ring-1 ring-black/[0.06] transition-shadow duration-200 hover:shadow-lg hover:ring-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70 ${bar.cellClass}`}
-    >
+    <div className={`${bar.cellClass} overflow-hidden rounded-xl`}>
+      <Link
+        to={bar.path}
+        aria-label={`${bar.title}: open service page`}
+        onTransitionEnd={prefersReducedMotion || skipRevealChromeDelay ? undefined : onBarTransitionEnd}
+        style={{
+          transitionDelay: slideUp ? `${delayMs}ms` : '0ms',
+        }}
+        className={`group relative flex h-full min-h-0 w-full flex-col self-end overflow-hidden rounded-xl transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 ${slideUp ? 'translate-y-0' : 'translate-y-[115%]'} motion-reduce:translate-y-0 ${showChrome ? 'shadow-md shadow-black/5 ring-1 ring-black/[0.06] transition-shadow duration-200 hover:shadow-lg hover:ring-black/10' : 'shadow-none ring-0 ring-transparent transition-shadow duration-200'}`}
+      >
       <span
         className={`absolute inset-0 z-[1] bg-linear-to-br from-slate-200/90 via-slate-100 to-slate-200/80 transition-opacity duration-300 ease-out ${imgLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100 animate-pulse'}`}
         aria-hidden
@@ -70,7 +131,7 @@ function HeroServiceBarLink({ bar, index }) {
       <img
         src={bar.image}
         alt=""
-        className={`relative z-[2] h-full min-h-[112px] w-full flex-1 object-cover object-center transition-opacity duration-300 ease-out group-hover:scale-[1.02] ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`relative z-[2] h-full min-h-[112px] w-full flex-1 object-cover object-center transition-[opacity,filter,transform] duration-300 ease-out motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:blur-md motion-safe:group-focus-visible:scale-[1.03] motion-safe:group-focus-visible:blur-md motion-reduce:group-hover:blur-none motion-reduce:group-focus-visible:blur-none motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
         sizes="(max-width: 1024px) 50vw, 25vw"
         loading="eager"
         fetchPriority="high"
@@ -78,8 +139,16 @@ function HeroServiceBarLink({ bar, index }) {
         onLoad={onImgDone}
         onError={onImgDone}
       />
-      <div className="pointer-events-none absolute inset-0 z-[3] bg-linear-to-t from-black/55 via-black/15 to-transparent opacity-90 transition-opacity duration-200 group-hover:from-black/60" />
-      <div className="absolute inset-x-0 bottom-0 z-[4] flex items-end justify-between gap-1.5 p-2.5 sm:p-3">
+      <div className="pointer-events-none absolute inset-0 z-[3] bg-linear-to-t from-black/55 via-black/20 to-black/10 opacity-90 transition-all duration-300 group-hover:from-black/75 group-hover:via-black/45 group-hover:to-black/25 group-focus-visible:from-black/75 group-focus-visible:via-black/45 group-focus-visible:to-black/25" />
+      <div
+        className="pointer-events-none absolute inset-x-0 top-10 bottom-[3.25rem] z-[5] flex items-center justify-center px-2.5 sm:px-3 opacity-0 translate-y-2 transition-all duration-300 ease-out motion-reduce:duration-75 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 sm:top-12 sm:bottom-16 lg:px-3.5"
+        aria-hidden
+      >
+        <p className="text-center font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-md sm:text-[15px] lg:text-[17px] lg:leading-snug line-clamp-6 sm:line-clamp-5">
+          {bar.description}
+        </p>
+      </div>
+      <div className="absolute inset-x-0 bottom-0 z-[6] flex items-end justify-between gap-1.5 p-2.5 sm:p-3">
         <span className="max-w-[calc(100%-2.75rem)] text-left font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-sm sm:text-[14px] lg:text-[15px]">
           {bar.title}
         </span>
@@ -91,6 +160,7 @@ function HeroServiceBarLink({ bar, index }) {
         </span>
       </div>
     </Link>
+    </div>
   );
 }
 
@@ -350,6 +420,31 @@ function TypewriterWords({ className = '', style = {} }) {
 
 const HeroSection = () => {
   const navigate = useNavigate();
+  const { loaderDone } = useAppLoader();
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,
+  );
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const fn = () => setPrefersReducedMotion(mq.matches);
+    mq.addEventListener('change', fn);
+    return () => mq.removeEventListener('change', fn);
+  }, []);
+
+  const [timedRevealFallback, setTimedRevealFallback] = useState(false);
+  useEffect(() => {
+    const id = window.setTimeout(() => setTimedRevealFallback(true), 2000);
+    return () => window.clearTimeout(id);
+  }, []);
+
+  const revealHeroBars = prefersReducedMotion || loaderDone || timedRevealFallback;
+
+  const loaderDoneAtHeroMountRef = useRef(undefined);
+  if (loaderDoneAtHeroMountRef.current === undefined) {
+    loaderDoneAtHeroMountRef.current = loaderDone;
+  }
+  const skipRevealChromeDelay = loaderDoneAtHeroMountRef.current === true;
+
   const { content, loading: contentLoading } = useContext(ContentContext);
   const cms = useContent('home', 'hero');
   const heroLoaded = !contentLoading && content?.home?.hero != null;
@@ -467,15 +562,15 @@ const HeroSection = () => {
 
   return (
     <>
-      {/* Hero — full-bleed homepage background; content above */}
+      {/* Hero - bg fills section (cover); slate only shows while image loads */}
       <section
-        className="relative min-h-dvh flex flex-col overflow-hidden pt-20 sm:pt-24 pb-0 px-4 sm:px-6 lg:px-8"
+        className="relative min-h-dvh flex flex-col overflow-hidden bg-slate-100 pt-20 sm:pt-24 pb-0 px-4 sm:px-6 lg:px-8 motion-safe:perspective-[1400px]"
         aria-label="Hero"
       >
         <img
           src={HOMEPAGE_HERO_BG}
           alt=""
-          className="pointer-events-none absolute inset-0 z-0 size-full min-h-dvh object-cover object-center"
+          className="pointer-events-none absolute inset-0 z-0 h-full min-h-dvh w-full object-cover object-center"
           loading="eager"
           fetchPriority="high"
           decoding="async"
@@ -486,7 +581,7 @@ const HeroSection = () => {
           <div className="lg:hidden text-center shrink-0 z-20 px-2 pb-4">
             <div className="flex flex-col justify-center items-center">
               <h1
-                className="apple-hero-text text-3xl sm:text-4xl font-normal leading-[1.14] tracking-tight text-slate-900 w-full max-w-md mx-auto"
+                className="apple-hero-text text-3xl sm:text-4xl font-semibold leading-[1.14] tracking-tight text-slate-900 w-full max-w-md mx-auto"
                 style={headingStyle}
               >
                 <span className="block">
@@ -494,8 +589,8 @@ const HeroSection = () => {
                 </span>
                 <span className="block">Businesses through</span>
                 <span className="block min-h-[1.05em] w-full flex justify-center mt-0.5">
-                  <strong className="inline-block min-w-[9ch] font-bold">
-                    <TypewriterWords className="text-xl sm:text-2xl font-bold tracking-wide" />
+                  <strong className="inline-block min-w-[9ch] font-extrabold">
+                    <TypewriterWords className="text-xl sm:text-2xl font-extrabold tracking-wide" />
                   </strong>
                 </span>
               </h1>
@@ -512,7 +607,7 @@ const HeroSection = () => {
             >
               <div className="pointer-events-auto mx-auto w-full max-w-[min(34rem,100%)] px-2">
                 <h1
-                  className="apple-hero-text text-4xl font-normal leading-[1.12] tracking-tight text-slate-900 xl:text-[2.5rem] 2xl:text-[3rem]"
+                  className="apple-hero-text text-4xl font-semibold leading-[1.12] tracking-tight text-slate-900 xl:text-[2.5rem] 2xl:text-[3rem]"
                   style={headingStyle}
                 >
                   <span className="block">
@@ -520,8 +615,8 @@ const HeroSection = () => {
                   </span>
                   <span className="block">Businesses through</span>
                   <span className="block min-h-[1.05em] w-full flex justify-center mt-0.5">
-                    <strong className="inline-block min-w-[10ch] font-bold">
-                      <TypewriterWords className="text-3xl font-bold tracking-wide xl:text-4xl 2xl:text-[2.35rem]" />
+                    <strong className="inline-block min-w-[10ch] font-extrabold">
+                      <TypewriterWords className="text-3xl font-extrabold tracking-wide xl:text-4xl 2xl:text-[2.35rem]" />
                     </strong>
                   </span>
                 </h1>
@@ -531,7 +626,14 @@ const HeroSection = () => {
             <div className="mt-auto flex min-h-0 w-full flex-1 flex-col justify-end pb-5 max-lg:pb-6 xl:pb-5">
               <div className="mx-auto grid w-full grid-cols-2 items-end gap-3 [grid-template-rows:1fr] sm:gap-4 lg:h-[min(78vh,840px)] lg:max-h-[calc(100dvh-6.5rem)] lg:min-h-[min(460px,62vh)] lg:grid-cols-4 lg:items-stretch lg:gap-4">
                 {HERO_SERVICE_BARS.map((bar, i) => (
-                  <HeroServiceBarLink key={bar.path} bar={bar} index={i} />
+                  <HeroServiceBarLink
+                    key={bar.path}
+                    bar={bar}
+                    index={i}
+                    revealBars={revealHeroBars}
+                    prefersReducedMotion={prefersReducedMotion}
+                    skipRevealChromeDelay={skipRevealChromeDelay}
+                  />
                 ))}
               </div>
             </div>
@@ -550,7 +652,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'1440\' height=\'120\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 60 Q360 0 720 60 T1440 60 V120 H0Z\' fill=\'%23ffffff\'/%3E%3C/svg%3E")', backgroundSize: '100% 100%' }} />
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6 flex flex-col lg:flex-row items-center sm:items-start lg:items-center gap-5 lg:gap-6">
-          {/* Title block — centered on mobile */}
+          {/* Title block - centered on mobile */}
           <div className="flex flex-col gap-2 lg:gap-3 shrink-0 items-center sm:items-start text-center sm:text-left w-full sm:w-auto">
             <h3 className="text-white text-lg sm:text-xl font-bold leading-tight max-w-sm">
               AI that drives real outcomes
@@ -564,7 +666,7 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Stats grid — card style; 1 col on mobile, 4 cols from sm */}
+          {/* Stats grid - card style; 1 col on mobile, 4 cols from sm */}
           <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full">
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
               <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">50%</p>
@@ -586,7 +688,7 @@ const HeroSection = () => {
         </div>
       </section>
 
-      {/* AI search intro — heading + input, then answers below (hidden, not removed) */}
+      {/* AI search intro - heading + input, then answers below (hidden, not removed) */}
       <section className="relative overflow-hidden bg-[#fafafa] hidden" aria-hidden="true">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 lg:py-8 relative flex flex-col items-center">
           <div className={`main-search-intro flex flex-col items-center justify-center gap-5 w-full max-w-2xl mx-auto ${hasAsked ? 'main-search-intro-hide-search' : ''}`}>
@@ -790,7 +892,7 @@ function InnovationsSection() {
               Where ideas meet impact
             </h2>
             <p className="text-(--apple-gray) text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
-              From research and emerging tech to accelerators and partnerships—we help you turn vision into outcomes. Explore how we innovate.
+              From research and emerging tech to accelerators and partnerships - we help you turn vision into outcomes. Explore how we innovate.
             </p>
             <Link
               to="/innovations"
@@ -817,7 +919,7 @@ const SOLUTIONS_CARDS = [
   {
     icon: 'psychology',
     title: 'Data & AI',
-    description: 'Unlock value with AI and GenAI—automate processes, gain insights, and accelerate outcomes across your business.',
+    description: 'Unlock value with AI and GenAI - automate processes, gain insights, and accelerate outcomes across your business.',
     path: '/aianddataservice',
   },
   {
@@ -895,7 +997,7 @@ function SolutionsShowcaseSection() {
               </span>
             </h2>
             <p className="text-(--apple-gray) text-lg leading-relaxed max-w-lg">
-              From cloud and cybersecurity to data and AI, we deliver solutions that fit your goals. We work alongside you to modernize, secure, and accelerate—so you can focus on what matters most.
+              From cloud and cybersecurity to data and AI, we deliver solutions that fit your goals. We work alongside you to modernize, secure, and accelerate - so you can focus on what matters most.
             </p>
           </div>
 
@@ -1133,7 +1235,7 @@ function PremiumPartnersSection() {
   );
 }
 
-/* ───────── Latest Highlights: hardcoded data — auto-scroll right to left ───────── */
+/* ───────── Latest Highlights: hardcoded data - auto-scroll right to left ───────── */
 function LatestHighlightsSection() {
   const [viewWidth, setViewWidth] = useState(1200);
   const [cardHovered, setCardHovered] = useState(false);
@@ -1234,7 +1336,7 @@ function LatestHighlightsSection() {
           })}
         </div>
 
-        {/* Desktop: auto-scrolling cards right to left — pause when any card is hovered */}
+        {/* Desktop: auto-scrolling cards right to left - pause when any card is hovered */}
         <div className="hidden md:flex items-center overflow-hidden min-h-[200px]">
           <div
             className={`flex items-center will-change-transform ${cardHovered ? 'highlights-marquee-paused' : ''}`}

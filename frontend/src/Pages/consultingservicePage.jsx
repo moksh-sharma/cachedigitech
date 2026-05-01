@@ -28,7 +28,7 @@ const capabilities = [
   {
     icon: Users,
     title: "Third-Party and Vendor Compliance",
-    description: "Through unified dashboards and real-time tracking, we help organizations continuously evaluate third-party compliance performance, certification status, and contractual obligations — reinforcing the integrity of your extended value chain.",
+    description: "Through unified dashboards and real-time tracking, we help organizations continuously evaluate third-party compliance performance, certification status, and contractual obligations - reinforcing the integrity of your extended value chain.",
   },
 ];
 
@@ -345,7 +345,7 @@ export default function CompliancePage() {
                 {/* Bottom Statement */}
                 <div className="pt-6 lg:pt-8 border-t border-gray-700">
                   <p className="text-xl lg:text-2xl font-bold text-red-400 leading-relaxed mb-6">
-                    Compliance is no longer a burden — it's a differentiator that drives sustainable growth.
+                    Compliance is no longer a burden - it's a differentiator that drives sustainable growth.
                   </p>
                   <Link
                     to="/contactus"

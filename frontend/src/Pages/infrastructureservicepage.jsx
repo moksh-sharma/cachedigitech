@@ -128,7 +128,7 @@ const InfrastructureServicesPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section — full viewport height */}
+      {/* Hero Section - full viewport height */}
       <section
         id="hero"
         className="relative min-h-screen bg-cover bg-center scroll-mt-0"

@@ -90,7 +90,7 @@ export default function CloudSubServicePage() {
                 <div className="absolute inset-0 bg-linear-to-tr from-red-600/15 to-transparent pointer-events-none z-10" />
                 <ImageWithFallback
                   src={page.bodyImage}
-                  alt={`${page.title} — Cache Digitech`}
+                  alt={`${page.title} - Cache Digitech`}
                   className="w-full aspect-4/3 sm:aspect-16/10 object-cover"
                   loading="eager"
                   fetchPriority="high"
@@ -137,7 +137,7 @@ export default function CloudSubServicePage() {
         </div>
       </section>
 
-      {/* CTA band — matches main cloud page dark section */}
+      {/* CTA band - matches main cloud page dark section */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.12),transparent)] pointer-events-none" />
         <div className="max-w-7xl mx-auto relative text-center">

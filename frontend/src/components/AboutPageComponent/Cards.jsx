@@ -193,7 +193,7 @@ function PartnershipCards() {
         </div>
       </section>
 
-      {/* Partner Logos — 3D dome gallery (drag to rotate, click to enlarge) */}
+      {/* Partner Logos - 3D dome gallery (drag to rotate, click to enlarge) */}
       <section ref={logosRef} className="relative py-20 md:py-28 overflow-hidden" style={{ background: 'linear-gradient(180deg, #fafbfc 0%, #f1f5f9 50%, #fafbfc 100%)' }}>
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-red-100/25 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-red-50/20 blur-[100px] pointer-events-none" />

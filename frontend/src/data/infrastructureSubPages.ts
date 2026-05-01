@@ -28,7 +28,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We design the right infrastructure and data protection strategy—current-state server, storage, network, and backup assessment, RPO/RTO definition, risk and resilience assessment, and end-to-end architecture with capacity planning and cost optimization.",
+        "We design the right infrastructure and data protection strategy - current-state server, storage, network, and backup assessment, RPO/RTO definition, risk and resilience assessment, and end-to-end architecture with capacity planning and cost optimization.",
       highlights: [
         "Infrastructure and data protection assessment",
         "Architecture and solution design for HA and BC/DR",
@@ -48,7 +48,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We deliver end-to-end infrastructure architecture—high availability, business continuity, and compliance-aligned designs for server, storage, network, and backup. From HLD to implementation-ready specs.",
+        "We deliver end-to-end infrastructure architecture - high availability, business continuity, and compliance-aligned designs for server, storage, network, and backup. From HLD to implementation-ready specs.",
       highlights: [
         "Server, storage, network, and backup architecture",
         "High availability and business continuity design",
@@ -68,7 +68,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We build stable, scalable compute and storage platforms—server deployment (rack and stack, firmware, OS hardening, validation), virtualization and HCI (VMware/Hyper-V/KVM), and storage implementation with zoning and performance validation.",
+        "We build stable, scalable compute and storage platforms - server deployment (rack and stack, firmware, OS hardening, validation), virtualization and HCI (VMware/Hyper-V/KVM), and storage implementation with zoning and performance validation.",
       highlights: [
         "Server deployment, firmware, OS, and validation",
         "Virtualization and HCI implementation",
@@ -88,7 +88,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We optimize and manage your infrastructure lifecycle—performance tuning, VM right-sizing, server consolidation, availability enhancement, and proactive monitoring. Keep platforms healthy and cost-efficient.",
+        "We optimize and manage your infrastructure lifecycle - performance tuning, VM right-sizing, server consolidation, availability enhancement, and proactive monitoring. Keep platforms healthy and cost-efficient.",
       highlights: [
         "Performance tuning and capacity optimization",
         "VM right-sizing and server consolidation",
@@ -108,7 +108,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We plan and execute data center migrations—workload discovery, dependency mapping, wave planning, and cutover with validation and rollback strategy. Minimize downtime and risk for server, storage, and network moves.",
+        "We plan and execute data center migrations - workload discovery, dependency mapping, wave planning, and cutover with validation and rollback strategy. Minimize downtime and risk for server, storage, and network moves.",
       highlights: [
         "Discovery, dependency mapping, and wave planning",
         "Application and data migration execution",
@@ -128,7 +128,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We deliver full-stack IT infrastructure solutions—servers, storage, networking, and backup—aligned to your business and compliance needs. From design through deployment and managed operations.",
+        "We deliver full-stack IT infrastructure solutions - servers, storage, networking, and backup - aligned to your business and compliance needs. From design through deployment and managed operations.",
       highlights: [
         "Integrated server, storage, network, and backup",
         "Hybrid IT and cloud integration",
@@ -148,7 +148,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We manage data center operations—capacity, power, cooling, and asset lifecycle—with monitoring, change management, and continuous improvement. Ensure availability and efficiency across facilities.",
+        "We manage data center operations - capacity, power, cooling, and asset lifecycle - with monitoring, change management, and continuous improvement. Ensure availability and efficiency across facilities.",
       highlights: [
         "Capacity, power, and cooling management",
         "Asset lifecycle and change management",
@@ -168,7 +168,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We design and deploy LAN, WAN, and wireless networks—VLANs, routing, switching, redundancy, and failover. Advanced networking includes leaf-spine, SDN, and traffic optimization with security (firewall, segmentation, zero-trust, remote access).",
+        "We design and deploy LAN, WAN, and wireless networks - VLANs, routing, switching, redundancy, and failover. Advanced networking includes leaf-spine, SDN, and traffic optimization with security (firewall, segmentation, zero-trust, remote access).",
       highlights: [
         "LAN, WAN, and data center network design",
         "VLANs, routing, switching, redundancy",
@@ -188,7 +188,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We manage server and storage estates—provisioning, performance, capacity, and lifecycle. SAN, NAS, object storage, all-flash and hybrid, with data migration and validation for DB, ERP, VDI, and AI workloads.",
+        "We manage server and storage estates - provisioning, performance, capacity, and lifecycle. SAN, NAS, object storage, all-flash and hybrid, with data migration and validation for DB, ERP, VDI, and AI workloads.",
       highlights: [
         "Server and storage lifecycle management",
         "SAN, NAS, object, and tiered storage",
@@ -208,7 +208,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We deploy and manage virtualization and hypervisor platforms—VMware, Hyper-V, KVM—and HCI with HA, clustering, and resource optimization. Ensure efficient, resilient virtual infrastructure.",
+        "We deploy and manage virtualization and hypervisor platforms - VMware, Hyper-V, KVM - and HCI with HA, clustering, and resource optimization. Ensure efficient, resilient virtual infrastructure.",
       highlights: [
         "VMware, Hyper-V, KVM deployment and management",
         "HCI implementation and HA/clustering",
@@ -228,7 +228,7 @@ export const infrastructureSubPages: SectionConfig = {
       heroImage: IMG("Infraback.webp"),
       bodyImage: IMG("infraa.webp"),
       intro:
-        "We design and implement backup and DR—RPO/RTO-driven strategy, backup architecture (on-prem, cloud, hybrid), implementation (server, VM, DB, application), cloud backup, replication, DR runbooks, and scheduled testing.",
+        "We design and implement backup and DR - RPO/RTO-driven strategy, backup architecture (on-prem, cloud, hybrid), implementation (server, VM, DB, application), cloud backup, replication, DR runbooks, and scheduled testing.",
       highlights: [
         "Backup strategy, architecture, and implementation",
         "Cloud backup and long-term archival",

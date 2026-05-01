@@ -248,7 +248,7 @@ export default function TelecomPage() {
                                 </p>
 
                                 <p className="text-lg lg:text-lg text-gray-600 leading-relaxed">
-                                    From the early days of switching systems to today's era of 5G, Edge, and Cloud, Cache has consistently stood as a trusted technology partner — delivering mission-critical infrastructure, zero-downtime operations, and digital resilience.
+                                    From the early days of switching systems to today's era of 5G, Edge, and Cloud, Cache has consistently stood as a trusted technology partner - delivering mission-critical infrastructure, zero-downtime operations, and digital resilience.
                                 </p>
                             </div>
 

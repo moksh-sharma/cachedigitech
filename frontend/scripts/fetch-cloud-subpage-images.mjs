@@ -2,7 +2,7 @@
  * Downloads royalty-free Unsplash photos and saves as WebP under public/cloud/subpages/.
  * Run from repo root: node frontend/scripts/fetch-cloud-subpage-images.mjs
  *
- * Unsplash License: https://unsplash.com/license — free to use for commercial projects.
+ * Unsplash License: https://unsplash.com/license - free to use for commercial projects.
  */
 import sharp from "sharp";
 import fs from "fs";

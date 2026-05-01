@@ -126,7 +126,7 @@ function Footer() {
           })}
         </nav>
 
-        {/* Social icons — circular outline, centered */}
+        {/* Social icons - circular outline, centered */}
         <div className="flex items-center justify-center gap-3 py-8">
           {SOCIALS.map((s) => (
             <a
@@ -196,7 +196,7 @@ function Footer() {
             </div>
           </div>
 
-          {/* Footer first region — row of link columns (BT-style) */}
+          {/* Footer first region - row of link columns (BT-style) */}
           <section className="row region region-footer-first py-5 sm:py-6 lg:py-8 shrink-0" aria-label="Footer navigation">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-x-5 gap-y-4 sm:gap-x-6 md:gap-x-8 lg:gap-x-10">
               {/* About Us */}
@@ -255,7 +255,7 @@ function Footer() {
                 </ul>
               </div>
 
-              {/* Company & Legal — one column each */}
+              {/* Company & Legal - one column each */}
               <div className="col-span-1">
                 <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Company</h3>
                 <ul className="space-y-2" role="list">
@@ -298,7 +298,7 @@ function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar — copyright & social */}
+        {/* Bottom bar - copyright & social */}
         <div className="border-t border-white/10 shrink-0">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-gray-500">

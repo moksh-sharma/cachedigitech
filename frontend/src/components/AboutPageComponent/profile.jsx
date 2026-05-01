@@ -130,7 +130,7 @@ export default function Profile() {
             <div className="rounded-2xl overflow-hidden shadow-xl border border-red-500/20 relative aspect-4/3 min-h-[240px] sm:min-h-[320px] order-1 md:order-2">
               <img
                 src="/leadership-booth.webp"
-                alt="Our Commitment — teamwork and partnership"
+                alt="Our Commitment - teamwork and partnership"
                 className="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"
@@ -166,7 +166,7 @@ export default function Profile() {
             <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl border border-gray-100 relative aspect-[4/3] w-full max-w-md mx-auto sm:max-w-none sm:mx-0 min-h-[200px] sm:min-h-[320px] bg-gray-100 order-1 lg:order-2">
               <img
                 src="/mission.webp"
-                alt="Our Philosophy — excellence with agility, service with heart"
+                alt="Our Philosophy - excellence with agility, service with heart"
                 className="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"
@@ -248,7 +248,7 @@ export default function Profile() {
                 <h3 className="text-xl sm:text-2xl font-bold">Our Vision</h3>
               </div>
               <p className="text-base sm:text-lg leading-relaxed text-white/90">
-                To become the most trusted technology partner and the best company for our customers, OEMs, and employees—powered by a global presence, best-in-class service infrastructure, NOC, and secure, compliant SOC.
+                To become the most trusted technology partner and the best company for our customers, OEMs, and employees-powered by a global presence, best-in-class service infrastructure, NOC, and secure, compliant SOC.
               </p>
               <p className="text-base sm:text-lg leading-relaxed text-white/80 mt-4">
                 We aim to continuously earn trust and confidence through operational excellence, accessibility, and unwavering commitment to quality.
@@ -262,7 +262,7 @@ export default function Profile() {
                 <h3 className="text-xl sm:text-2xl font-bold">Our Mission</h3>
               </div>
               <p className="text-base sm:text-lg leading-relaxed text-white/90">
-                To design and deliver agile, intelligent, and secure digital ecosystems that elevate business performance, strengthen digital trust, and drive sustainable global growth—while making every customer, partner, and employee proud to be part of the Cache Digitech journey.
+                To design and deliver agile, intelligent, and secure digital ecosystems that elevate business performance, strengthen digital trust, and drive sustainable global growth-while making every customer, partner, and employee proud to be part of the Cache Digitech journey.
               </p>
             </div>
           </div>

@@ -45,8 +45,8 @@ export function ProblemsSection() {
             <div className="heading-line-secondary"></div>
           </div>
           <p className="mt-6 text-gray-700 max-w-3xl mx-auto">
-            We help you identify root causes quickly and systematically — from security incidents
-            and network outages to cloud anomalies and compliance gaps — so your teams can focus
+            We help you identify root causes quickly and systematically - from security incidents
+            and network outages to cloud anomalies and compliance gaps - so your teams can focus
             on outcomes.
           </p>
         </div>

@@ -39,14 +39,14 @@
 
 @import "tailwindcss";
 
-/* Lenis smooth scroll — disable native smooth when Lenis is active */
+/* Lenis smooth scroll - disable native smooth when Lenis is active */
 @import "lenis/dist/lenis.css";
 
 html.lenis {
   scroll-behavior: auto;
 }
 
-/* Global polish — prevent horizontal scroll from wide content (marquees, sliders) */
+/* Global polish - prevent horizontal scroll from wide content (marquees, sliders) */
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
@@ -68,7 +68,7 @@ body {
   color: var(--apple-black);
 }
 
-/* Focus visible for accessibility — consistent ring across site */
+/* Focus visible for accessibility - consistent ring across site */
 :focus {
   outline: none;
 }
@@ -205,7 +205,7 @@ body {
 
 .apple-hero-text strong,
 .apple-hero-text b {
-  font-weight: 700;
+  font-weight: 800;
 }
 
 /* Gray part of hero heading (injected from CMS / hardcoded content) */
@@ -501,7 +501,7 @@ a:not(.no-underline):hover {
   text-decoration-thickness: 1.5px;
 }
 
-/* Smooth transitions — use with transition-all or transition-[property] */
+/* Smooth transitions - use with transition-all or transition-[property] */
 .transition-smooth {
   transition-duration: var(--duration-smooth);
   transition-timing-function: var(--ease-smooth);
@@ -572,7 +572,7 @@ a:not(.no-underline):hover {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Letter flip reveal (scroll-triggered, one-by-one) — animated reveal */
+/* Letter flip reveal (scroll-triggered, one-by-one) - animated reveal */
 .flip-reveal-wrap {
   perspective: 600px;
   min-height: 1.5em;

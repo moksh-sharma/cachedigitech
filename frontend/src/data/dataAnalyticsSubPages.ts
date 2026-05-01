@@ -26,7 +26,7 @@ export const dataAnalyticsSubPages: SectionConfig = {
       heroImage: IMG("GenAIback.webp"),
       bodyImage: IMG("dataai.webp"),
       intro:
-        "We design and implement cloud-native data platforms—data lakes, lakehouses, and warehouses—to centralize and govern your data for analytics and AI. From ingestion and storage to cataloging and quality, we build scalable foundations for real-time and batch workloads.",
+        "We design and implement cloud-native data platforms - data lakes, lakehouses, and warehouses - to centralize and govern your data for analytics and AI. From ingestion and storage to cataloging and quality, we build scalable foundations for real-time and batch workloads.",
       highlights: [
         "Data lake and lakehouse design and implementation",
         "Unified cataloging, lineage, and data quality",
@@ -46,7 +46,7 @@ export const dataAnalyticsSubPages: SectionConfig = {
       heroImage: IMG("GenAIback.webp"),
       bodyImage: IMG("dataai.webp"),
       intro:
-        "Turn data into decisions with self-service BI, dashboards, and advanced analytics—forecasting, segmentation, and predictive models. We enable business and technical users to explore data and act on insights with governance and performance at scale.",
+        "Turn data into decisions with self-service BI, dashboards, and advanced analytics - forecasting, segmentation, and predictive models. We enable business and technical users to explore data and act on insights with governance and performance at scale.",
       highlights: [
         "Self-service BI and executive dashboards",
         "Statistical and predictive analytics",
@@ -66,7 +66,7 @@ export const dataAnalyticsSubPages: SectionConfig = {
       heroImage: IMG("GenAIback.webp"),
       bodyImage: IMG("dataai.webp"),
       intro:
-        "We implement AI and ML at scale—from model development and MLOps to GenAI integration and intelligent automation. Automate workflows, improve accuracy, and embed AI into products and operations with responsible governance.",
+        "We implement AI and ML at scale - from model development and MLOps to GenAI integration and intelligent automation. Automate workflows, improve accuracy, and embed AI into products and operations with responsible governance.",
       highlights: [
         "MLOps, model lifecycle, and feature stores",
         "GenAI integration and responsible AI governance",
@@ -86,7 +86,7 @@ export const dataAnalyticsSubPages: SectionConfig = {
       heroImage: IMG("GenAIback.webp"),
       bodyImage: IMG("dataai.webp"),
       intro:
-        "Unify customer data and analytics to power CRM and engagement—360° views, segmentation, churn prediction, and campaign effectiveness. We integrate data platforms with CRM and marketing tools for insight-driven customer strategies.",
+        "Unify customer data and analytics to power CRM and engagement - 360° views, segmentation, churn prediction, and campaign effectiveness. We integrate data platforms with CRM and marketing tools for insight-driven customer strategies.",
       highlights: [
         "Customer 360 and unified data models",
         "Segmentation, propensity, and churn analytics",
@@ -106,7 +106,7 @@ export const dataAnalyticsSubPages: SectionConfig = {
       heroImage: IMG("GenAIback.webp"),
       bodyImage: IMG("dataai.webp"),
       intro:
-        "We implement data governance and security so analytics and AI run on a compliant, auditable foundation—classification, access controls, privacy-by-design, and alignment to GDPR, DPDP, and industry regulations.",
+        "We implement data governance and security so analytics and AI run on a compliant, auditable foundation - classification, access controls, privacy-by-design, and alignment to GDPR, DPDP, and industry regulations.",
       highlights: [
         "Data classification and access policies",
         "Privacy-by-design and consent management",

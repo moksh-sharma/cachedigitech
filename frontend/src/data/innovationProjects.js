@@ -1,4 +1,4 @@
-// Shared data for innovation projects — used by InnovationsPage and InnovationsProjectPage
+// Shared data for innovation projects - used by InnovationsPage and InnovationsProjectPage
 export const INNOVATION_PROJECTS = [
   {
     name: "Techbank",
@@ -69,7 +69,7 @@ export const INNOVATION_PROJECTS = [
     slug: "crm",
     tagline: "Centralized enterprise CRM for the full customer lifecycle.",
     description:
-      "Cache CRM is a centralized enterprise customer relationship management platform designed to manage the entire customer lifecycle—from lead generation and sales tracking to order processing, compliance management, and deployment workflows. The system eliminates fragmented tools by integrating all operational processes into a single platform. Its workflow-driven architecture ensures every action, document, and approval is traceable in real time, providing full transparency, audit readiness, and operational control across departments.",
+      "Cache CRM is a centralized enterprise customer relationship management platform designed to manage the entire customer lifecycle-from lead generation and sales tracking to order processing, compliance management, and deployment workflows. The system eliminates fragmented tools by integrating all operational processes into a single platform. Its workflow-driven architecture ensures every action, document, and approval is traceable in real time, providing full transparency, audit readiness, and operational control across departments.",
     image: "/images/innovations/crm.webp",
     features: [
       "End-to-end customer lifecycle: leads, sales, orders, compliance, deployment",
@@ -168,7 +168,7 @@ export const INNOVATION_PROJECTS = [
       "Cache GPT is a secure, on-premises generative AI platform designed as an enterprise alternative to public AI chat systems. It enables organizations to leverage conversational AI for knowledge retrieval, document assistance, and internal productivity while ensuring complete data privacy and compliance. By operating within the company's infrastructure, it provides AI capabilities without exposing sensitive information to external platforms.",
     image: "/images/innovations/cache-gpt.webp",
     features: [
-      "On-premises deployment—data never leaves your infrastructure",
+      "On-premises deployment-data never leaves your infrastructure",
       "Conversational AI for knowledge retrieval and document assistance",
       "Internal productivity with complete data privacy and compliance",
       "No exposure of sensitive information to external platforms",
