@@ -781,8 +781,8 @@ export default function DomeGallery({
                     draggable={false}
                     alt={it.alt}
                     decoding="async"
-                    loading={i < 20 ? 'eager' : 'lazy'}
-                    fetchPriority={i < 8 ? 'high' : 'low'}
+                    loading="eager"
+                    fetchPriority={i < 12 ? 'high' : 'low'}
                   />
                 </div>
               </div>

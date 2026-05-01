@@ -25,21 +25,8 @@ const PILLARS = [
 ];
 
 export default function WhoWeArePage({ onNavigateToService }) {
-  const [foundationInView, setFoundationInView] = useState(false);
+  const foundationInView = true;
   const foundationSectionRef = useRef(null);
-
-  useEffect(() => {
-    const el = foundationSectionRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setFoundationInView(true);
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div className="bg-white">

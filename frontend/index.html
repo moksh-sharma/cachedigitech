@@ -8,10 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Preload critical above-the-fold images for faster LCP -->
-  <link rel="preload" href="/loading.gif" as="image" fetchpriority="high" />
+  <!-- Home hero: full-bleed bg + four pillars first (same-origin, high priority) -->
   <link rel="preload" href="/homepage-bg.webp" as="image" fetchpriority="high" />
-  <link rel="preload" href="/hero/hero-digital-transformation.webp" as="image" />
+  <link rel="preload" href="/hero/cloudimg.webp" as="image" fetchpriority="high" />
+  <link rel="preload" href="/hero/aimlimg.webp" as="image" fetchpriority="high" />
+  <link rel="preload" href="/hero/cyberimg.webp" as="image" fetchpriority="high" />
+  <link rel="preload" href="/hero/infraimg.webp" as="image" fetchpriority="high" />
+  <!-- Splash GIF: after hero assets so pillar WebPs can start earlier -->
+  <link rel="preload" href="/loading.gif" as="image" />
   <link rel="preload" href="/navbar-logo.svg" as="image" />
   <link rel="preload" href="/images/innovations-meeting.webp" as="image" fetchpriority="low" />
   <!-- <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet"> -->
@@ -23,10 +27,38 @@
   <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
   <title>Cache Digitech</title>
   <style>
-    #app-loader { position: fixed; inset: 0; z-index: 99999; background: #0a0a0b; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box; }
-    #app-loader-img { width: 160px; height: auto; max-width: 65vw; object-fit: contain; }
-    @media (min-width: 480px) { #app-loader-img { width: 180px; max-width: 60vw; } }
-    @media (min-width: 768px) { #app-loader-img { width: 180px; max-width: 220px; } }
+    #app-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #0a0a0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    #app-loader-img {
+      width: 160px;
+      height: auto;
+      max-width: 65vw;
+      object-fit: contain;
+    }
+
+    @media (min-width: 480px) {
+      #app-loader-img {
+        width: 180px;
+        max-width: 60vw;
+      }
+    }
+
+    @media (min-width: 768px) {
+      #app-loader-img {
+        width: 180px;
+        max-width: 220px;
+      }
+    }
   </style>
 </head>
 

@@ -8,8 +8,9 @@ import Navbar from "./components/HomeComponent/Navbar";
 import Footer from "./components/HomeComponent/Footer";
 import CookieBanner from "./components/CookieBanner";
 
-// Route-based code splitting: load pages only when their route is visited
-const HomePage = lazy(() => import("./Render_Pages/HomePage"));
+// Home is imported eagerly so the first paint after the splash does not wait on a lazy chunk (hero is above the fold)
+import HomePage from "./Render_Pages/HomePage";
+// Route-based code splitting: load other pages only when their route is visited
 const ServiceDetail = lazy(() => import("./Render_Pages/service-detail"));
 const Contact = lazy(() => import("./components/ServicesComponent/contact"));
 const InsightPage = lazy(() => import("./Pages/InsightPage"));
@@ -46,12 +47,9 @@ const CampaignsPage = lazy(() => import("./Pages/CampaignsPage"));
 const NewsletterPage = lazy(() => import("./Pages/NewsletterPage"));
 const OffersPage = lazy(() => import("./Pages/OffersPage"));
 
-function PageLoader() {
-  return (
-    <div className="min-h-[60vh] flex items-center justify-center bg-gray-50">
-      <div className="animate-pulse text-gray-400 text-sm">Loading…</div>
-    </div>
-  );
+/** No “Loading…” text after the global splash — avoids a second loading state on route transitions */
+function RouteTransitionPlaceholder() {
+  return <div className="min-h-[50vh] w-full" aria-hidden />;
 }
 function App() {
   const location = useLocation();
@@ -106,7 +104,7 @@ function App() {
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 min-h-0">
-          <Suspense fallback={<PageLoader />}>
+          <Suspense fallback={<RouteTransitionPlaceholder />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/service/infra" element={<InfrastructureServicesPage />} />

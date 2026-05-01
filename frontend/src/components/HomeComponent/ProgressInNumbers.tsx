@@ -57,22 +57,10 @@ const DURATION_MS = 1800;
 const STAGGER_MS = 80;
 
 export function ProgressInNumbers() {
+  const inView = true;
   const sectionRef = useRef<HTMLElement>(null);
-  const [inView, setInView] = useState(false);
   const [displayNumbers, setDisplayNumbers] = useState<number[]>(() => STATS.map(() => 0));
   const animatedRef = useRef(false);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setInView(true);
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (!inView || animatedRef.current) return;
