@@ -65,6 +65,31 @@ const HERO_SERVICE_BARS = [
 const HERO_BAR_RISE_DURATION_MS = 1000;
 const HERO_BAR_STAGGER_MS = 92;
 
+/** Headline lines use same stagger as pillar bars; clip + slide from above */
+function HeroHeadlineRevealLine({ reveal, reducedMotion, delayMs, className = 'block', children }) {
+  return (
+    <span className={`overflow-hidden ${className}`}>
+      <span
+        className={`block transition-[transform,opacity] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${reducedMotion
+          ? reveal
+            ? 'translate-y-0 opacity-100'
+            : 'opacity-0'
+          : reveal
+            ? 'translate-y-0 opacity-100'
+            : '-translate-y-[120%] opacity-0'
+          }`}
+        style={
+          !reducedMotion && reveal
+            ? { transitionDelay: `${delayMs}ms` }
+            : undefined
+        }
+      >
+        {children}
+      </span>
+    </span>
+  );
+}
+
 /** Pillar photo with skeleton so bars are not blank while images decode */
 function HeroServiceBarLink({ bar, index, revealBars, prefersReducedMotion, skipRevealChromeDelay }) {
   const [imgLoaded, setImgLoaded] = useState(false);
@@ -124,42 +149,42 @@ function HeroServiceBarLink({ bar, index, revealBars, prefersReducedMotion, skip
         }}
         className={`group relative flex h-full min-h-0 w-full flex-col self-end overflow-hidden rounded-xl transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 ${slideUp ? 'translate-y-0' : 'translate-y-[115%]'} motion-reduce:translate-y-0 ${showChrome ? 'shadow-md shadow-black/5 ring-1 ring-black/[0.06] transition-shadow duration-200 hover:shadow-lg hover:ring-black/10' : 'shadow-none ring-0 ring-transparent transition-shadow duration-200'}`}
       >
-      <span
-        className={`absolute inset-0 z-[1] bg-linear-to-br from-slate-200/90 via-slate-100 to-slate-200/80 transition-opacity duration-300 ease-out ${imgLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100 animate-pulse'}`}
-        aria-hidden
-      />
-      <img
-        src={bar.image}
-        alt=""
-        className={`relative z-[2] h-full min-h-[112px] w-full flex-1 object-cover object-center transition-[opacity,filter,transform] duration-300 ease-out motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:blur-md motion-safe:group-focus-visible:scale-[1.03] motion-safe:group-focus-visible:blur-md motion-reduce:group-hover:blur-none motion-reduce:group-focus-visible:blur-none motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
-        sizes="(max-width: 1024px) 50vw, 25vw"
-        loading="eager"
-        fetchPriority="high"
-        decoding="async"
-        onLoad={onImgDone}
-        onError={onImgDone}
-      />
-      <div className="pointer-events-none absolute inset-0 z-[3] bg-linear-to-t from-black/55 via-black/20 to-black/10 opacity-90 transition-all duration-300 group-hover:from-black/75 group-hover:via-black/45 group-hover:to-black/25 group-focus-visible:from-black/75 group-focus-visible:via-black/45 group-focus-visible:to-black/25" />
-      <div
-        className="pointer-events-none absolute inset-x-0 top-10 bottom-[3.25rem] z-[5] flex items-center justify-center px-2.5 sm:px-3 opacity-0 translate-y-2 transition-all duration-300 ease-out motion-reduce:duration-75 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 sm:top-12 sm:bottom-16 lg:px-3.5"
-        aria-hidden
-      >
-        <p className="text-center font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-md sm:text-[15px] lg:text-[17px] lg:leading-snug line-clamp-6 sm:line-clamp-5">
-          {bar.description}
-        </p>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 z-[6] flex items-end justify-between gap-1.5 p-2.5 sm:p-3">
-        <span className="max-w-[calc(100%-2.75rem)] text-left font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-sm sm:text-[14px] lg:text-[15px]">
-          {bar.title}
-        </span>
         <span
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white opacity-0 transition-all duration-200 translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
+          className={`absolute inset-0 z-[1] bg-linear-to-br from-slate-200/90 via-slate-100 to-slate-200/80 transition-opacity duration-300 ease-out ${imgLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100 animate-pulse'}`}
+          aria-hidden
+        />
+        <img
+          src={bar.image}
+          alt=""
+          className={`relative z-[2] h-full min-h-[112px] w-full flex-1 object-cover object-center transition-[opacity,filter,transform] duration-300 ease-out motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:blur-md motion-safe:group-focus-visible:scale-[1.03] motion-safe:group-focus-visible:blur-md motion-reduce:group-hover:blur-none motion-reduce:group-focus-visible:blur-none motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+          sizes="(max-width: 1024px) 50vw, 25vw"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          onLoad={onImgDone}
+          onError={onImgDone}
+        />
+        <div className="pointer-events-none absolute inset-0 z-[3] bg-linear-to-t from-black/55 via-black/20 to-black/10 opacity-90 transition-all duration-300 group-hover:from-black/75 group-hover:via-black/45 group-hover:to-black/25 group-focus-visible:from-black/75 group-focus-visible:via-black/45 group-focus-visible:to-black/25" />
+        <div
+          className="pointer-events-none absolute inset-x-0 top-10 bottom-[3.25rem] z-[5] flex items-center justify-center px-2.5 sm:px-3 opacity-0 translate-y-2 transition-all duration-300 ease-out motion-reduce:duration-75 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 sm:top-12 sm:bottom-16 lg:px-3.5"
           aria-hidden
         >
-          <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
-        </span>
-      </div>
-    </Link>
+          <p className="text-center font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-md sm:text-[15px] lg:text-[17px] lg:leading-snug line-clamp-6 sm:line-clamp-5">
+            {bar.description}
+          </p>
+        </div>
+        <div className="absolute inset-x-0 bottom-0 z-[6] flex items-end justify-between gap-1.5 p-2.5 sm:p-3">
+          <span className="max-w-[calc(100%-2.75rem)] text-left font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-sm sm:text-[14px] lg:text-[15px]">
+            {bar.title}
+          </span>
+          <span
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white opacity-0 transition-all duration-200 translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
+            aria-hidden
+          >
+            <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+        </div>
+      </Link>
     </div>
   );
 }
@@ -207,7 +232,7 @@ const HERO_SLIDER_IMAGES = [
 
 const HERO_IMAGE_SLIDER_INTERVAL_MS = 5000;
 
-const HOMEPAGE_HERO_BG = '/homepage-bg.webp';
+const HOMEPAGE_HERO_BG = '/hero-grid-background.png';
 
 /** Slider that cycles through hero images with crossfade. Only mounts slides as needed so all 7 assets are not fetched at once. */
 function HeroImageSlider() {
@@ -242,7 +267,7 @@ function HeroImageSlider() {
             key={src}
             src={src}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out pointer-events-none"
+            className="absolute inset-0 h-full w-full object-cover brightness-[0.5] saturate-[0.72] contrast-[1.06] transition-opacity duration-1000 ease-in-out pointer-events-none"
             style={{
               opacity: isCurrent ? 1 : 0,
               zIndex: isCurrent ? 1 : 0,
@@ -255,6 +280,17 @@ function HeroImageSlider() {
         );
       })}
     </>
+  );
+}
+
+/** Mobile hero: original rotating full-bleed scenes (desktop uses perspective grid PNG). */
+function MobileHeroBackground() {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-0 min-h-dvh w-full overflow-hidden lg:hidden" aria-hidden>
+      <div className="relative h-full min-h-dvh w-full">
+        <HeroImageSlider />
+      </div>
+    </div>
   );
 }
 
@@ -562,69 +598,106 @@ const HeroSection = () => {
 
   return (
     <>
-      {/* Hero - bg fills section (cover); slate only shows while image loads */}
+      {/* Hero - bg fills section (cover); slate-200 shows while image loads */}
       <section
-        className="relative min-h-dvh flex flex-col overflow-hidden bg-slate-100 pt-20 sm:pt-24 pb-0 px-4 sm:px-6 lg:px-8 motion-safe:perspective-[1400px]"
+        className="relative min-h-dvh flex flex-col overflow-hidden bg-slate-200 pt-20 sm:pt-24 pb-0 px-4 sm:px-6 lg:px-8 motion-safe:perspective-[1400px]"
         aria-label="Hero"
       >
+        <MobileHeroBackground />
         <img
           src={HOMEPAGE_HERO_BG}
           alt=""
-          className="pointer-events-none absolute inset-0 z-0 h-full min-h-dvh w-full object-cover object-center"
+          className="pointer-events-none absolute inset-0 z-0 hidden h-full min-h-dvh w-full object-cover object-bottom lg:block"
           loading="eager"
           fetchPriority="high"
           decoding="async"
           aria-hidden
         />
+        {/* Mobile: neutral black veil (slate reads blue); stronger opacity for true dark */}
+        <div
+          className="pointer-events-none absolute inset-0 z-5 bg-black/72 lg:hidden"
+          aria-hidden
+        />
         <div className="relative z-10 flex flex-1 flex-col min-h-0 w-full max-w-[1400px] mx-auto">
-          {/* Mobile: headline above bars (no slide-in animation) */}
-          <div className="lg:hidden text-center shrink-0 z-20 px-2 pb-4">
-            <div className="flex flex-col justify-center items-center">
-              <h1
-                className="apple-hero-text text-3xl sm:text-4xl font-semibold leading-[1.14] tracking-tight text-slate-900 w-full max-w-md mx-auto"
-                style={headingStyle}
+          {/* Mobile only: centered headline + subcopy + CTAs; no service cards */}
+          <div className="lg:hidden flex flex-1 flex-col justify-center items-center text-center px-6 pt-4 pb-16 min-h-[min(calc(100dvh-5.5rem),820px)]">
+            <h1
+              className="hero-headline-font apple-hero-text flex w-full max-w-md flex-col items-center gap-y-1.5 text-[2.5rem] font-bold leading-[1.08] tracking-tight text-white drop-shadow-md sm:text-[2.85rem] sm:gap-y-2"
+              style={headingStyle}
+            >
+              <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={0}>
+                We
+              </HeroHeadlineRevealLine>
+              <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={HERO_BAR_STAGGER_MS}>
+                Empower
+              </HeroHeadlineRevealLine>
+              <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={HERO_BAR_STAGGER_MS * 2}>
+                Businesses
+              </HeroHeadlineRevealLine>
+              <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={HERO_BAR_STAGGER_MS * 3}>
+                through
+              </HeroHeadlineRevealLine>
+              <HeroHeadlineRevealLine
+                reveal={revealHeroBars}
+                reducedMotion={prefersReducedMotion}
+                delayMs={HERO_BAR_STAGGER_MS * 4}
+                className="mt-1 flex min-h-[1.12em] w-full justify-center sm:mt-1.5"
               >
-                <span className="block">
-                  We Empower
-                </span>
-                <span className="block">Businesses through</span>
-                <span className="block min-h-[1.05em] w-full flex justify-center mt-0.5">
-                  <strong className="inline-block min-w-[9ch] font-extrabold">
-                    <TypewriterWords className="text-xl sm:text-2xl font-extrabold tracking-wide" />
-                  </strong>
-                </span>
-              </h1>
+                <strong className="inline-block min-w-[10ch] font-extrabold tracking-[0.12em]">
+                  <TypewriterWords className="text-[2rem] font-extrabold tracking-[0.14em] text-white sm:text-[2.45rem]" />
+                </strong>
+              </HeroHeadlineRevealLine>
+            </h1>
+            <p className="mt-7 max-w-88 text-[15px] leading-[1.55] text-white/90 sm:max-w-md sm:text-[17px] sm:leading-relaxed">
+              {subheading}
+            </p>
+            <div className="mt-10 flex w-full max-w-md flex-wrap items-center justify-center gap-3 px-1">
+              <Link
+                to="/contactus"
+                className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 rounded-full bg-red-600 px-6 py-3 text-[13px] font-semibold text-white shadow-lg transition-colors hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:flex-initial sm:text-sm"
+              >
+                Get Started
+                <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
+              </Link>
+              <Link
+                to="/about"
+                className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-full border border-white bg-neutral-950/75 px-6 py-3 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:flex-initial sm:text-sm"
+              >
+                Learn More
+              </Link>
             </div>
           </div>
 
-          {/* Cradle: lg+ headline framed by outer bars; single grid (shared markup, no duplicate images) */}
-          <div className="relative flex min-h-0 w-full flex-1 flex-col lg:min-h-[calc(100dvh-6.5rem)]">
-            <div
-              className="pointer-events-none absolute inset-x-[18%] z-30 hidden text-center xl:inset-x-[20%] 2xl:inset-x-[22%] lg:block"
-              style={{
-                top: 'clamp(7rem, 14vh, 10rem)',
-              }}
-            >
-              <div className="pointer-events-auto mx-auto w-full max-w-[min(34rem,100%)] px-2">
-                <h1
-                  className="apple-hero-text text-4xl font-semibold leading-[1.12] tracking-tight text-slate-900 xl:text-[2.5rem] 2xl:text-[3rem]"
-                  style={headingStyle}
-                >
-                  <span className="block">
-                    We Empower
-                  </span>
-                  <span className="block">Businesses through</span>
-                  <span className="block min-h-[1.05em] w-full flex justify-center mt-0.5">
-                    <strong className="inline-block min-w-[10ch] font-extrabold">
-                      <TypewriterWords className="text-3xl font-extrabold tracking-wide xl:text-4xl 2xl:text-[2.35rem]" />
-                    </strong>
-                  </span>
-                </h1>
-              </div>
-            </div>
-
-            <div className="mt-auto flex min-h-0 w-full flex-1 flex-col justify-end pb-5 max-lg:pb-6 xl:pb-5">
-              <div className="mx-auto grid w-full grid-cols-2 items-end gap-3 [grid-template-rows:1fr] sm:gap-4 lg:h-[min(78vh,840px)] lg:max-h-[calc(100dvh-6.5rem)] lg:min-h-[min(460px,62vh)] lg:grid-cols-4 lg:items-stretch lg:gap-4">
+          {/* Desktop (lg+): grid + pillar cards + headline overlay */}
+          <div className="hidden lg:flex relative min-h-0 w-full flex-1 flex-col lg:min-h-[calc(100dvh-6.5rem)] lg:justify-center">
+            <div className="mt-auto flex min-h-0 w-full flex-1 flex-col justify-end pb-5 max-lg:pb-6 xl:pb-5 lg:mt-0 lg:flex-none lg:translate-y-5 lg:pb-5 xl:translate-y-6">
+              <div className="relative mx-auto grid w-full grid-cols-2 items-end gap-3 [grid-template-rows:1fr] sm:gap-4 lg:h-[min(78vh,840px)] lg:max-h-[calc(100dvh-6.5rem)] lg:min-h-[min(460px,62vh)] lg:grid-cols-4 lg:items-stretch lg:gap-4">
+                {/* Void above cols 2–3: exact horizontal span for gap-4 grid */}
+                <div className="pointer-events-none absolute top-0 z-30 hidden h-[42%] flex-col items-center justify-center px-2 text-center lg:left-[calc((100%-3rem)/4+1rem)] lg:flex lg:w-[calc(50%-0.5rem)]">
+                  <div className="pointer-events-auto w-full max-w-[min(42rem,100%)]">
+                    <h1
+                      className="hero-headline-font apple-hero-text text-5xl font-semibold leading-[1.08] tracking-tight text-slate-900 xl:text-[3.25rem] 2xl:text-[3.75rem]"
+                      style={headingStyle}
+                    >
+                      <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={0}>
+                        We Empower
+                      </HeroHeadlineRevealLine>
+                      <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={HERO_BAR_STAGGER_MS}>
+                        Businesses through
+                      </HeroHeadlineRevealLine>
+                      <HeroHeadlineRevealLine
+                        reveal={revealHeroBars}
+                        reducedMotion={prefersReducedMotion}
+                        delayMs={HERO_BAR_STAGGER_MS * 2}
+                        className="min-h-[1.05em] w-full flex justify-center mt-0.5"
+                      >
+                        <strong className="inline-block min-w-[10ch] font-extrabold">
+                          <TypewriterWords className="text-4xl font-extrabold tracking-wide xl:text-5xl 2xl:text-6xl" />
+                        </strong>
+                      </HeroHeadlineRevealLine>
+                    </h1>
+                  </div>
+                </div>
                 {HERO_SERVICE_BARS.map((bar, i) => (
                   <HeroServiceBarLink
                     key={bar.path}
