@@ -14,11 +14,10 @@ const DomeGalleryLazy = lazy(() => import('../AboutPageComponent/DomeGallery'));
 
 
 const SERVICE_LINKS = [
-  { name: 'Infrastructure', path: '/infrastructureservice' },
   { name: 'Cloud', path: '/cloudservices' },
   { name: 'Cybersecurity', path: '/cybersecurity' },
-  { name: 'Networking', path: '/consultingservice' },
   { name: 'Data & AI', path: '/aianddataservice' },
+  { name: 'Infrastructure & Networking', path: '/infrastructureservice' },
 ];
 
 /** Hero pillars - copy aligned with `SOLUTIONS_CARDS` in Solutions Showcase */
@@ -174,7 +173,7 @@ function HeroServiceBarLink({ bar, index, revealBars, prefersReducedMotion, skip
           </p>
         </div>
         <div className="absolute inset-x-0 bottom-0 z-[6] flex items-end justify-between gap-1.5 p-2.5 sm:p-3">
-          <span className="max-w-[calc(100%-2.75rem)] text-left font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-sm sm:text-[14px] lg:text-[15px]">
+          <span className="max-w-[calc(100%-2.75rem)] text-left font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-sm sm:text-[14px] lg:text-[15px] opacity-0 translate-y-1 transition-all duration-200 motion-reduce:opacity-100 motion-reduce:translate-y-0 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0">
             {bar.title}
           </span>
           <span
@@ -676,7 +675,7 @@ const HeroSection = () => {
                 <div className="pointer-events-none absolute top-0 z-30 hidden h-[42%] flex-col items-center justify-center px-2 text-center lg:left-[calc((100%-3rem)/4+1rem)] lg:flex lg:w-[calc(50%-0.5rem)]">
                   <div className="pointer-events-auto w-full max-w-[min(42rem,100%)]">
                     <h1
-                      className="hero-headline-font apple-hero-text text-5xl font-semibold leading-[1.08] tracking-tight text-slate-900 xl:text-[3.25rem] 2xl:text-[3.75rem]"
+                      className="hero-headline-font apple-hero-text text-4xl font-semibold leading-[1.08] tracking-tight text-slate-900 xl:text-[2.85rem] 2xl:text-[3.25rem]"
                       style={headingStyle}
                     >
                       <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={0}>
@@ -692,7 +691,7 @@ const HeroSection = () => {
                         className="min-h-[1.05em] w-full flex justify-center mt-0.5"
                       >
                         <strong className="inline-block min-w-[10ch] font-extrabold">
-                          <TypewriterWords className="text-4xl font-extrabold tracking-wide xl:text-5xl 2xl:text-6xl" />
+                          <TypewriterWords className="text-3xl font-extrabold tracking-wide xl:text-4xl 2xl:text-5xl" />
                         </strong>
                       </HeroHeadlineRevealLine>
                     </h1>

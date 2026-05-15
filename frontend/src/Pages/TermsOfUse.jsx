@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { 
-  FileText, Shield, Users, Building, CheckCircle, Target, Eye, Star, MapPin, Lock, AlertTriangle, ArrowUp, Calendar, Award 
+  FileText, Shield, Users, Building, CheckCircle, Target, Eye, Star, MapPin, Lock, AlertTriangle, Calendar, Award 
 } from 'lucide-react';
 
 const TermsOfUsePage = () => {
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const sections = [
     {
@@ -115,16 +108,17 @@ const TermsOfUsePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-28 px-6 sm:px-8 lg:px-12">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 pt-24 sm:pt-28 pb-20 sm:pb-24 lg:pb-28">
       {/* Header */}
-      <div className="max-w-3xl mx-auto text-center mb-12">
+      <div className="text-center mb-10 sm:mb-12">
         <FileText className="mx-auto h-12 w-12 text-red-600 mb-4" />
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Terms of Use</h1>
         <p className="text-gray-600">Cache Digitech Technology Solutions.</p>
       </div>
 
       {/* Sections */}
-      <div className="max-w-4xl mx-auto space-y-12">
+      <div className="space-y-10 sm:space-y-12">
         {sections.map((section) => {
           const Icon = section.icon;
           return (
@@ -140,16 +134,7 @@ const TermsOfUsePage = () => {
           );
         })}
       </div>
-
-      {/* Scroll to Top */}
-      {showScrollTop && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-6 right-6 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg transition-colors"
-        >
-          <ArrowUp className="h-5 w-5" />
-        </button>
-      )}
+      </div>
     </div>
   );
 };

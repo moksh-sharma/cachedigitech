@@ -125,7 +125,7 @@ export default function DataAIPage() {
       </section>
 
       {/* Overview Section */}
-      <section id="overview-content" className="relative min-h-0 md:min-h-screen bg-linear-to-br from-white via-red-50/30 to-white overflow-hidden pt-8 sm:pt-12 lg:pt-16 scroll-mt-20">
+      <section id="overview-content" className="relative bg-linear-to-br from-white via-red-50/30 to-white overflow-hidden pt-8 sm:pt-12 lg:pt-16 pb-8 sm:pb-10 lg:pb-12 scroll-mt-20">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(220,38,38,0.05),transparent)] pointer-events-none"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl"></div>

@@ -158,10 +158,10 @@ const InfrastructureServicesPage = () => {
 
       {/* Services Sections */}
       {services.map((service, index) => (
-        <section key={service.id} id={service.id} className="py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-12 scroll-mt-20">
+        <section key={service.id} id={service.id} className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-12 scroll-mt-20">
           <div className="max-w-6xl mx-auto">
             {/* Section Header */}
-            <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <div className="text-center mb-6 sm:mb-8 lg:mb-10">
               <div className="mb-4 sm:mb-6">
                 {React.createElement(service.icon, { className: "w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-red-600 mx-auto mb-3 sm:mb-4" })}
               </div>
@@ -170,7 +170,7 @@ const InfrastructureServicesPage = () => {
             </div>
 
             {/* Content Section */}
-            <div className="mb-10 sm:mb-16">
+            <div>
               <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed max-w-4xl mx-auto text-center px-2">
                 {service.description}
               </p>
@@ -188,14 +188,14 @@ const InfrastructureServicesPage = () => {
 
             {/* Divider */}
             {index < services.length - 1 && (
-              <div className="border-t border-gray-200 my-10 sm:my-16"></div>
+              <div className="mt-8 sm:mt-10 border-t border-gray-200"></div>
             )}
           </div>
         </section>
       ))}
 
       {/* Call to Action */}
-      <section className="py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
             Ready to Transform Your Infrastructure?

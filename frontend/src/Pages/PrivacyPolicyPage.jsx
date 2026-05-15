@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Shield, Database, Eye, Users, Lock, CheckCircle, ArrowUp } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { Shield, Database, Eye, Users, Lock, CheckCircle } from 'lucide-react';
 
 const PrivacyPolicyPage = () => {
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const sections = [
     {
@@ -234,7 +227,7 @@ const PrivacyPolicyPage = () => {
   ];
 
   return (
-    <div className="bg-gray-50 px-6 sm:px-8 lg:px-12 py-8 overflow-visible">
+    <div className="min-h-screen bg-gray-50 px-6 sm:px-8 lg:px-12 pt-24 sm:pt-28 pb-16 lg:pb-24 overflow-visible">
       {/* Header */}
       <div className="max-w-3xl mx-auto text-center mb-6">
         <Shield className="mx-auto h-10 w-10 text-red-600 mb-3" />
@@ -264,16 +257,6 @@ const PrivacyPolicyPage = () => {
           <p>© {new Date().getFullYear()} Cache Digitech Pvt. Ltd.</p>
         </div>
       </div>
-
-      {/* Scroll to Top */}
-      {showScrollTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg transition-colors"
-        >
-          <ArrowUp className="h-5 w-5" />
-        </button>
-      )}
     </div>
   );
 };

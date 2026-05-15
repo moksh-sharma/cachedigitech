@@ -116,10 +116,9 @@ function Navbar() {
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [activeNestedSubmenu, setActiveNestedSubmenu] = useState(null);
 
-  // Desktop mega-menu (hover to open)
+  // Desktop mega-menu (click to open)
   const [megaOpen, setMegaOpen] = useState(null); // which top-level section
   const megaRef = useRef(null);
-  const megaCloseTimeoutRef = useRef(null);
 
   // Scroll state for transparent → solid
   const [scrolled, setScrolled] = useState(false);
@@ -195,27 +194,6 @@ function Navbar() {
   // Close mega-menu on route change
   useEffect(() => { setMegaOpen(null); }, [location.pathname]);
 
-  const clearMegaCloseTimeout = () => {
-    if (megaCloseTimeoutRef.current) {
-      clearTimeout(megaCloseTimeoutRef.current);
-      megaCloseTimeoutRef.current = null;
-    }
-  };
-  const scheduleMegaClose = () => {
-    clearMegaCloseTimeout();
-    megaCloseTimeoutRef.current = setTimeout(() => setMegaOpen(null), 150);
-  };
-  const handleMegaTriggerEnter = (section) => {
-    clearMegaCloseTimeout();
-    setMegaOpen(section);
-  };
-  const handleMegaPanelEnter = () => {
-    clearMegaCloseTimeout();
-  };
-  const handleMegaPanelLeave = () => {
-    setMegaOpen(null);
-  };
-
   const submenuNavigation = Object.fromEntries(
     navLinks.map((l) => [l.label, { route: l.route, sectionId: l.sectionId ?? null }])
   );
@@ -241,19 +219,6 @@ function Navbar() {
     }
   };
 
-  const handleSectionHover = (section) => {
-    setHoveredSection(section);
-    setActiveSubmenu(section);
-  };
-
-  const handleSectionLeave = () => {
-    setTimeout(() => {
-      if (!document.querySelector(".submenu-panel:hover")) {
-        setHoveredSection(null);
-      }
-    }, 100);
-  };
-
   const isMobileDevice = () =>
     typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches;
 
@@ -275,9 +240,8 @@ function Navbar() {
           from { opacity: 0; transform: translateX(-20px); }
           to { opacity: 1; transform: translateX(0); }
         }
-        .submenu-panel:hover { display: block !important; }
         @keyframes megaSlideDown {
-          from { opacity: 0; transform: translateY(-8px); }
+          from { opacity: 0; transform: translateY(-10px) scale(0.98); }
           to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
@@ -334,8 +298,6 @@ function Navbar() {
                 <div
                   key={section}
                   className="relative"
-                  onMouseEnter={() => handleMegaTriggerEnter(section)}
-                  onMouseLeave={scheduleMegaClose}
                 >
                   <button
                     onClick={() => {
@@ -382,9 +344,7 @@ function Navbar() {
         {megaOpen && !DIRECT_LINK_SECTIONS.includes(megaOpen) && (
           <div
             className="hidden md:block absolute top-full left-0 right-0 bg-white backdrop-blur-md rounded-xl sm:rounded-2xl shadow-xl z-1000 pt-px "
-            style={{ animation: "megaSlideDown 0.25s ease-out" }}
-            onMouseEnter={handleMegaPanelEnter}
-            onMouseLeave={handleMegaPanelLeave}
+            style={{ animation: "megaSlideDown 0.28s ease-out" }}
           >
             <div className="max-w-[1400px] mx-auto px-8 py-6">
               <div className="flex gap-10">
@@ -505,8 +465,6 @@ function Navbar() {
               <div
                 key={index}
                 className="mb-1"
-                onMouseEnter={() => { if (!isMobileDevice()) handleSectionHover(section); }}
-                onMouseLeave={() => { if (!isMobileDevice()) handleSectionLeave(); }}
                 onClick={() => {
                   if (isMobileDevice()) {
                     setActiveSubmenu(section);

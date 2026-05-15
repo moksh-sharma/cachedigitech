@@ -37,25 +37,25 @@ export default function Profile() {
     "Government & Public Sector"
   ];
 
-  // Customer logos (using available assets in /public)
+  // Trusted-by marquee logos (assets in /public/about/profile-marquee)
   const customerLogos = [
-    { name: 'Airtel', img: '/clients/airtel.webp' },
-    { name: 'HT', img: '/clients/HT Media.webp' },
-    { name: 'Erricson', img: '/clients/ericsson.webp' },
-    { name: 'Energizer', img: '/clients/ienergizer.webp' },
-    { name: 'industryTower', img: '/clients/industower.webp' },
-    { name: 'JKCement', img: '/clients/jk cement.webp' },
-    { name: 'Jubilant', img: '/clients/jubilant.webp' },
-    { name: 'Lal Path Lab', img: '/clients/lal path lab.webp' },
-    { name: 'TCL', img: '/clients/tcl.webp' },
-    { name: 'Nokia', img: '/clients/nokia.webp' },
-    { name: 'Cisco', img: '/Partners/cisco.webp' },
-    { name: 'NSE', img: '/clients/nse.webp' },
-    { name: 'RJCorp', img: '/clients/rjcorp.webp' },
-    { name: 'CDAC', img: '/clients/cdac.webp' },
-    { name: 'PhonePe', img: '/clients/phonepe.webp' },
-    { name: 'Hero MotoCorp', img: '/clients/hero.webp' },
-    { name: 'Vodafone', img: '/clients/vodafone.webp' },
+    { name: 'Airtel', img: '/about/profile-marquee/airtel.webp' },
+    { name: 'HT', img: '/about/profile-marquee/ht-media.webp' },
+    { name: 'Erricson', img: '/about/profile-marquee/ericsson.webp' },
+    { name: 'Energizer', img: '/about/profile-marquee/ienergizer.webp' },
+    { name: 'industryTower', img: '/about/profile-marquee/industower.webp' },
+    { name: 'JKCement', img: '/about/profile-marquee/jk-cement.webp' },
+    { name: 'Jubilant', img: '/about/profile-marquee/jubilant.webp' },
+    { name: 'Lal Path Lab', img: '/about/profile-marquee/lal-path-lab.webp' },
+    { name: 'TCL', img: '/about/profile-marquee/tcl.webp' },
+    { name: 'Nokia', img: '/about/profile-marquee/nokia.webp' },
+    { name: 'Cisco', img: '/about/profile-marquee/cisco.webp' },
+    { name: 'NSE', img: '/about/profile-marquee/nse.webp' },
+    { name: 'RJCorp', img: '/about/profile-marquee/rjcorp.webp' },
+    { name: 'CDAC', img: '/about/profile-marquee/cdac.webp' },
+    { name: 'PhonePe', img: '/about/profile-marquee/phonepe.webp' },
+    { name: 'Hero MotoCorp', img: '/about/profile-marquee/hero.webp' },
+    { name: 'Vodafone', img: '/about/profile-marquee/vodafone.webp' },
   ];
 
   return (

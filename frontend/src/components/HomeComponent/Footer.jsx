@@ -1,11 +1,8 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { usePlacement } from "../../context/PlacementsContext";
 import { navLinks } from "./navLinks";
-
-const PrivacyPolicyPage = lazy(() => import("../../Pages/PrivacyPolicyPage"));
-const TermsOfUsePage = lazy(() => import("../../Pages/TermsOfUse"));
 
 /* ── Footer nav: same headings as navbar ── */
 const FOOTER_NAV = [
@@ -16,6 +13,11 @@ const FOOTER_NAV = [
   { heading: "Contact", items: ["Contact Us"] },
 ];
 
+const LEGAL_LINKS = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Use", href: "/terms-of-use" },
+];
+
 function getHref(label) {
   const link = navLinks.find((l) => l.label === label);
   if (!link) return "#";
@@ -23,49 +25,24 @@ function getHref(label) {
 }
 
 /* ── Mobile accordion sections (same content as desktop) ── */
-function getMobileSections(setShowPrivacy, setShowTerms) {
-  return [
-    { heading: "About Us", items: FOOTER_NAV[0].items.map((label) => ({ label, href: getHref(label) })) },
-    { heading: "Products", items: FOOTER_NAV[1].items.map((label) => ({ label, href: getHref(label) })) },
-    { heading: "Services", items: FOOTER_NAV[2].items.map((label) => ({ label, href: getHref(label) })) },
-    { heading: "Industries", items: FOOTER_NAV[3].items.map((label) => ({ label, href: getHref(label) })) },
-    {
-      heading: "Company",
-      items: [
-        { label: "About", href: "/about" },
-        { label: "Careers", href: "/careers" },
-        { label: "EPF Notice", href: "/epf-amendment-notice" },
-      ],
-    },
-    {
-      heading: "Legal",
-      items: [
-        { label: "Privacy Policy", href: null, onClick: () => setShowPrivacy(true) },
-        { label: "Terms of Use", href: null, onClick: () => setShowTerms(true) },
-      ],
-    },
-  ];
-}
-
-/* ── Legal Modals ── */
-function LegalModal({ onClose, children }) {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
-  }, []);
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="bg-gray-900/95 backdrop-blur-lg rounded-2xl shadow-2xl w-full max-w-2xl mx-auto p-0 relative max-h-[85vh] flex flex-col border border-white/5" onClick={(e) => e.stopPropagation()}>
-        <div className="flex-1 overflow-y-auto">{children}</div>
-        <div className="flex justify-end p-4">
-          <button type="button" className="bg-white text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-red-600 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors duration-200" onClick={onClose}>
-            OK
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+const MOBILE_SECTIONS = [
+  { heading: "About Us", items: FOOTER_NAV[0].items.map((label) => ({ label, href: getHref(label) })) },
+  { heading: "Products", items: FOOTER_NAV[1].items.map((label) => ({ label, href: getHref(label) })) },
+  { heading: "Services", items: FOOTER_NAV[2].items.map((label) => ({ label, href: getHref(label) })) },
+  { heading: "Industries", items: FOOTER_NAV[3].items.map((label) => ({ label, href: getHref(label) })) },
+  {
+    heading: "Company",
+    items: [
+      { label: "About", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "EPF Notice", href: "/epf-amendment-notice" },
+    ],
+  },
+  {
+    heading: "Legal",
+    items: LEGAL_LINKS.map(({ label, href }) => ({ label, href })),
+  },
+];
 
 /* ── Social icons data ── */
 const SOCIALS = [
@@ -79,19 +56,16 @@ const SOCIALS = [
 /* ── Footer ── */
 function Footer() {
   const navigate = useNavigate();
-  const [showPrivacy, setShowPrivacy] = useState(false);
-  const [showTerms, setShowTerms] = useState(false);
   const [mobileOpenSection, setMobileOpenSection] = useState(null);
   const footerLogoUrl = usePlacement("global", "footer", "bgImage") || "/navbar-logo.svg";
-  const mobileSections = getMobileSections(setShowPrivacy, setShowTerms);
 
   /* ── Mobile footer (accordion style, light gradient) ── */
   const mobileFooter = (
-    <footer className="md:hidden flex flex-col -mt-8 shrink-0 bg-[#0a0a0a] text-white border-t border-white/10" role="contentinfo">
+    <footer className="md:hidden flex flex-col -mt-8 pt-8 shrink-0 bg-[#0a0a0a] text-white border-t border-white/10" role="contentinfo">
       <div className="px-4 py-6 flex flex-col w-full">
         {/* Accordion navigation */}
         <nav className="flex flex-col divide-y divide-white/10" aria-label="Footer navigation">
-          {mobileSections.map((section) => {
+          {MOBILE_SECTIONS.map((section) => {
             const isOpen = mobileOpenSection === section.heading;
             return (
               <div key={section.heading}>
@@ -108,15 +82,9 @@ function Footer() {
                   <ul className="pb-4 pl-0 space-y-2" role="list">
                     {section.items.map((item) => (
                       <li key={item.label}>
-                        {item.href != null ? (
-                          <Link to={item.href} className="text-sm text-gray-400 hover:text-white block py-0.5" onClick={() => setMobileOpenSection(null)}>
-                            {item.label}
-                          </Link>
-                        ) : (
-                          <button type="button" onClick={() => { item.onClick?.(); setMobileOpenSection(null); }} className="text-left text-sm text-gray-400 hover:text-white block py-0.5 w-full">
-                            {item.label}
-                          </button>
-                        )}
+                        <Link to={item.href} className="text-sm text-gray-400 hover:text-white block py-0.5" onClick={() => setMobileOpenSection(null)}>
+                          {item.label}
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -159,9 +127,9 @@ function Footer() {
         {/* Cookie policy */}
         <p className="text-center text-sm text-gray-500 pb-4">
           We use cookies on our site. Please read more about{" "}
-          <button type="button" onClick={() => setShowPrivacy(true)} className="text-red-400 hover:text-red-300 hover:underline font-medium">
+          <Link to="/privacy-policy" className="text-red-400 hover:text-red-300 hover:underline font-medium">
             cookies policy
-          </button>{" "}
+          </Link>{" "}
           here.
         </p>
 
@@ -177,7 +145,7 @@ function Footer() {
     <>
       {mobileFooter}
 
-      <footer className="hidden md:flex bg-[#0a0a0a] text-white flex-col -mt-8 shrink-0 min-h-[520px]" style={{ boxShadow: '0 -4px 0 0 #0a0a0a' }} role="contentinfo">
+      <footer className="hidden md:flex bg-[#0a0a0a] text-white flex-col -mt-8 pt-8 shrink-0 min-h-[520px]" role="contentinfo">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 pb-0 flex flex-col w-full">
           {/* Brand row */}
           <div className="pb-4 sm:pb-6 border-b border-white/10 shrink-0">
@@ -267,16 +235,13 @@ function Footer() {
               <div className="col-span-1">
                 <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Legal</h3>
                 <ul className="space-y-2" role="list">
-                  <li>
-                    <button type="button" onClick={() => setShowPrivacy(true)} className="text-left text-[13px] text-gray-500 hover:text-white transition-colors">
-                      Privacy Policy
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" onClick={() => setShowTerms(true)} className="text-left text-[13px] text-gray-500 hover:text-white transition-colors">
-                      Terms of Use
-                    </button>
-                  </li>
+                  {LEGAL_LINKS.map(({ label, href }) => (
+                    <li key={label}>
+                      <Link to={href} className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -326,22 +291,6 @@ function Footer() {
         </div>
 
       </footer>
-
-      {/* Shared modals (mobile + desktop) */}
-      {showPrivacy && (
-        <LegalModal onClose={() => setShowPrivacy(false)}>
-          <Suspense fallback={<div className="p-6 text-gray-500">Loading…</div>}>
-            <PrivacyPolicyPage />
-          </Suspense>
-        </LegalModal>
-      )}
-      {showTerms && (
-        <LegalModal onClose={() => setShowTerms(false)}>
-          <Suspense fallback={<div className="p-6 text-gray-500">Loading…</div>}>
-            <TermsOfUsePage />
-          </Suspense>
-        </LegalModal>
-      )}
     </>
   );
 }
