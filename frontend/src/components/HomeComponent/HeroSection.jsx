@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect, useMemo, useContext, useCallback, lazy, Suspense } from 'react';
-import { ArrowRight } from 'lucide-react';
 import ContentContext, { useContent } from '../../context/ContentContext';
-import { useAppLoader } from '../../context/AppLoaderContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useChatFocus } from '../../context/ChatFocusContext';
 import { useChat } from '../../context/ChatContext';
+import { useAppLoader } from '../../context/AppLoaderContext';
 import WhoWeAre from './Whoweare';
 import { CEOSection } from '../InsightComponent/ceo-section';
 import AwardsSection from '../AboutPageComponent/ImageSlider';
@@ -19,174 +18,6 @@ const SERVICE_LINKS = [
   { name: 'Data & AI', path: '/aianddataservice' },
   { name: 'Infrastructure & Networking', path: '/infrastructureservice' },
 ];
-
-/** Hero pillars - copy aligned with `SOLUTIONS_CARDS` in Solutions Showcase */
-const HERO_SERVICE_BARS = [
-  {
-    title: 'Cloud',
-    path: '/cloudservices',
-    image: '/images/Cloudback.webp',
-    description:
-      'Cloud solutions that optimize cost, performance, and scale so you can innovate faster and operate with confidence.',
-    cellClass:
-      'h-[min(46vh,330px)] sm:h-[min(50vh,395px)] lg:h-full lg:min-h-0 lg:max-h-none lg:self-stretch',
-  },
-  {
-    title: 'Data & AI',
-    path: '/aianddataservice',
-    image: '/images/GenAIback.webp',
-    description:
-      'Unlock value with AI and GenAI - automate processes, gain insights, and accelerate outcomes across your business.',
-    cellClass:
-      'h-[min(40vh,270px)] sm:h-[min(44vh,310px)] lg:h-[58%] lg:min-h-0 lg:max-h-[min(50vh,500px)] lg:self-end',
-  },
-  {
-    title: 'Cybersecurity',
-    path: '/cybersecurity',
-    image: '/images/CyberSecback.webp',
-    description:
-      'Protect your digital assets with security and compliance solutions built for today’s threat landscape.',
-    cellClass:
-      'h-[min(40vh,270px)] sm:h-[min(44vh,310px)] lg:h-[58%] lg:min-h-0 lg:max-h-[min(50vh,500px)] lg:self-end',
-  },
-  {
-    title: 'Infrastructure & Networking',
-    path: '/infrastructureservice',
-    image: '/images/Infraback.webp',
-    description:
-      'Product development and engineering services that shorten time-to-market and maximize return on innovation.',
-    cellClass:
-      'h-[min(46vh,330px)] sm:h-[min(50vh,395px)] lg:h-full lg:min-h-0 lg:max-h-none lg:self-stretch',
-  },
-];
-
-/** Hero pillar bar-rise after splash (translate + stagger; chrome backup follows duration) */
-const HERO_BAR_RISE_DURATION_MS = 1000;
-const HERO_BAR_STAGGER_MS = 92;
-
-/** Headline lines use same stagger as pillar bars; clip + slide from above */
-function HeroHeadlineRevealLine({ reveal, reducedMotion, delayMs, className = 'block', children }) {
-  return (
-    <span className={`overflow-hidden ${className}`}>
-      <span
-        className={`block transition-[transform,opacity] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${reducedMotion
-          ? reveal
-            ? 'translate-y-0 opacity-100'
-            : 'opacity-0'
-          : reveal
-            ? 'translate-y-0 opacity-100'
-            : '-translate-y-[120%] opacity-0'
-          }`}
-        style={
-          !reducedMotion && reveal
-            ? { transitionDelay: `${delayMs}ms` }
-            : undefined
-        }
-      >
-        {children}
-      </span>
-    </span>
-  );
-}
-
-/** Pillar photo with skeleton so bars are not blank while images decode */
-function HeroServiceBarLink({ bar, index, revealBars, prefersReducedMotion, skipRevealChromeDelay }) {
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const onImgDone = useCallback(() => setImgLoaded(true), []);
-  const chromeBackupRef = useRef(null);
-
-  const delayMs = prefersReducedMotion ? 0 : index * HERO_BAR_STAGGER_MS;
-  const slideUp = prefersReducedMotion || revealBars;
-
-  const [showChrome, setShowChrome] = useState(
-    () => prefersReducedMotion || skipRevealChromeDelay,
-  );
-
-  useEffect(() => {
-    if (prefersReducedMotion || skipRevealChromeDelay) {
-      setShowChrome(Boolean(slideUp));
-      return;
-    }
-    if (!slideUp) {
-      setShowChrome(false);
-      return;
-    }
-    setShowChrome(false);
-    chromeBackupRef.current = window.setTimeout(() => {
-      setShowChrome(true);
-      chromeBackupRef.current = null;
-    }, delayMs + HERO_BAR_RISE_DURATION_MS + 40);
-    return () => {
-      if (chromeBackupRef.current != null) {
-        window.clearTimeout(chromeBackupRef.current);
-        chromeBackupRef.current = null;
-      }
-    };
-  }, [slideUp, delayMs, prefersReducedMotion, skipRevealChromeDelay]);
-
-  const onBarTransitionEnd = useCallback(
-    (e) => {
-      if (e.propertyName !== 'transform') return;
-      if (e.target !== e.currentTarget) return;
-      setShowChrome(true);
-      if (chromeBackupRef.current != null) {
-        window.clearTimeout(chromeBackupRef.current);
-        chromeBackupRef.current = null;
-      }
-    },
-    [],
-  );
-
-  return (
-    <div className={`${bar.cellClass} overflow-hidden rounded-xl`}>
-      <Link
-        to={bar.path}
-        aria-label={`${bar.title}: open service page`}
-        onTransitionEnd={prefersReducedMotion || skipRevealChromeDelay ? undefined : onBarTransitionEnd}
-        style={{
-          transitionDelay: slideUp ? `${delayMs}ms` : '0ms',
-        }}
-        className={`group relative flex h-full min-h-0 w-full flex-col self-end overflow-hidden rounded-xl transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 ${slideUp ? 'translate-y-0' : 'translate-y-[115%]'} motion-reduce:translate-y-0 ${showChrome ? 'shadow-md shadow-black/5 ring-1 ring-black/[0.06] transition-shadow duration-200 hover:shadow-lg hover:ring-black/10' : 'shadow-none ring-0 ring-transparent transition-shadow duration-200'}`}
-      >
-        <span
-          className={`absolute inset-0 z-[1] bg-linear-to-br from-slate-200/90 via-slate-100 to-slate-200/80 transition-opacity duration-300 ease-out ${imgLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100 animate-pulse'}`}
-          aria-hidden
-        />
-        <img
-          src={bar.image}
-          alt=""
-          className={`relative z-[2] h-full min-h-[112px] w-full flex-1 object-cover object-center transition-[opacity,filter,transform] duration-300 ease-out motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:blur-md motion-safe:group-focus-visible:scale-[1.03] motion-safe:group-focus-visible:blur-md motion-reduce:group-hover:blur-none motion-reduce:group-focus-visible:blur-none motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
-          sizes="(max-width: 1024px) 50vw, 25vw"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          onLoad={onImgDone}
-          onError={onImgDone}
-        />
-        <div className="pointer-events-none absolute inset-0 z-[3] bg-linear-to-t from-black/55 via-black/20 to-black/10 opacity-90 transition-all duration-300 group-hover:from-black/75 group-hover:via-black/45 group-hover:to-black/25 group-focus-visible:from-black/75 group-focus-visible:via-black/45 group-focus-visible:to-black/25" />
-        <div
-          className="pointer-events-none absolute inset-x-0 top-10 bottom-[3.25rem] z-[5] flex items-center justify-center px-2.5 sm:px-3 opacity-0 translate-y-2 transition-all duration-300 ease-out motion-reduce:duration-75 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 sm:top-12 sm:bottom-16 lg:px-3.5"
-          aria-hidden
-        >
-          <p className="text-center font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-md sm:text-[15px] lg:text-[17px] lg:leading-snug line-clamp-6 sm:line-clamp-5">
-            {bar.description}
-          </p>
-        </div>
-        <div className="absolute inset-x-0 bottom-0 z-[6] flex items-end justify-between gap-1.5 p-2.5 sm:p-3">
-          <span className="max-w-[calc(100%-2.75rem)] text-left font-glacial text-[13px] font-semibold leading-snug tracking-wide text-white drop-shadow-sm sm:text-[14px] lg:text-[15px] opacity-0 translate-y-1 transition-all duration-200 motion-reduce:opacity-100 motion-reduce:translate-y-0 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0">
-            {bar.title}
-          </span>
-          <span
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white opacity-0 transition-all duration-200 translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
-            aria-hidden
-          >
-            <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
-          </span>
-        </div>
-      </Link>
-    </div>
-  );
-}
 
 const CASE_STUDIES = [
   'Telecom',
@@ -231,8 +62,6 @@ const HERO_SLIDER_IMAGES = [
 
 const HERO_IMAGE_SLIDER_INTERVAL_MS = 5000;
 
-const HOMEPAGE_HERO_BG = '/hero-grid-background.png';
-
 /** Slider that cycles through hero images with crossfade. Only mounts slides as needed so all 7 assets are not fetched at once. */
 function HeroImageSlider() {
   const [index, setIndex] = useState(0);
@@ -266,7 +95,7 @@ function HeroImageSlider() {
             key={src}
             src={src}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover brightness-[0.5] saturate-[0.72] contrast-[1.06] transition-opacity duration-1000 ease-in-out pointer-events-none"
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out pointer-events-none"
             style={{
               opacity: isCurrent ? 1 : 0,
               zIndex: isCurrent ? 1 : 0,
@@ -279,17 +108,6 @@ function HeroImageSlider() {
         );
       })}
     </>
-  );
-}
-
-/** Mobile hero: original rotating full-bleed scenes (desktop uses perspective grid PNG). */
-function MobileHeroBackground() {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-0 min-h-dvh w-full overflow-hidden lg:hidden" aria-hidden>
-      <div className="relative h-full min-h-dvh w-full">
-        <HeroImageSlider />
-      </div>
-    </div>
   );
 }
 
@@ -455,31 +273,6 @@ function TypewriterWords({ className = '', style = {} }) {
 
 const HeroSection = () => {
   const navigate = useNavigate();
-  const { loaderDone } = useAppLoader();
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,
-  );
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const fn = () => setPrefersReducedMotion(mq.matches);
-    mq.addEventListener('change', fn);
-    return () => mq.removeEventListener('change', fn);
-  }, []);
-
-  const [timedRevealFallback, setTimedRevealFallback] = useState(false);
-  useEffect(() => {
-    const id = window.setTimeout(() => setTimedRevealFallback(true), 2000);
-    return () => window.clearTimeout(id);
-  }, []);
-
-  const revealHeroBars = prefersReducedMotion || loaderDone || timedRevealFallback;
-
-  const loaderDoneAtHeroMountRef = useRef(undefined);
-  if (loaderDoneAtHeroMountRef.current === undefined) {
-    loaderDoneAtHeroMountRef.current = loaderDone;
-  }
-  const skipRevealChromeDelay = loaderDoneAtHeroMountRef.current === true;
-
   const { content, loading: contentLoading } = useContext(ContentContext);
   const cms = useContent('home', 'hero');
   const heroLoaded = !contentLoading && content?.home?.hero != null;
@@ -551,6 +344,52 @@ const HeroSection = () => {
     return () => setChatFocused(false);
   }, [hasAsked, setChatFocused]);
 
+  // Hero entrance: Lenis-style RAF + lerp for smooth animation; starts after app loader is gone
+  const { loaderDone } = useAppLoader();
+  const HERO_DELAY_MS = 0;
+  const HERO_TILT_HOLD_MS = 500;
+  const HERO_LERP = 0.08; // Slide and text entrance
+  const HERO_TILT_LERP = 0.05; // Slower tilt + grayscale→color for a gentler reveal
+
+  const [heroProgress, setHeroProgress] = useState({ text: 0, slide: 0, tilt: 0 });
+  const progressRef = useRef({ text: 0, slide: 0, tilt: 0 });
+  const targetRef = useRef({ text: 0, slide: 0, tilt: 0 });
+  const tiltScheduledRef = useRef(false);
+  const rafRef = useRef(null);
+
+  useEffect(() => {
+    if (!loaderDone) return;
+    const t = setTimeout(() => {
+      targetRef.current = { text: 1, slide: 1, tilt: targetRef.current.tilt };
+    }, HERO_DELAY_MS);
+    return () => clearTimeout(t);
+  }, [loaderDone]);
+
+  useEffect(() => {
+    const tick = () => {
+      const cur = progressRef.current;
+      const tgt = targetRef.current;
+      const lerp = (current, target, factor) => {
+        const next = current + (target - current) * factor;
+        return Math.abs(next - target) < 0.0005 ? target : next;
+      };
+      const nextText = lerp(cur.text, tgt.text, HERO_LERP);
+      const nextSlide = lerp(cur.slide, tgt.slide, HERO_LERP);
+      const nextTilt = lerp(cur.tilt, tgt.tilt, HERO_TILT_LERP);
+      progressRef.current = { text: nextText, slide: nextSlide, tilt: nextTilt };
+      setHeroProgress({ text: nextText, slide: nextSlide, tilt: nextTilt });
+
+      if (nextSlide >= 0.98 && !tiltScheduledRef.current) {
+        tiltScheduledRef.current = true;
+        setTimeout(() => { targetRef.current.tilt = 1; }, HERO_TILT_HOLD_MS);
+      }
+      const done = nextText >= 1 && nextSlide >= 1 && nextTilt >= 1;
+      if (!done) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [loaderDone]);
+
   // Dropdown state for "Choose your interest"
   const [capOpen, setCapOpen] = useState(false);
   const [csOpen, setCsOpen] = useState(false);
@@ -597,116 +436,92 @@ const HeroSection = () => {
 
   return (
     <>
-      {/* Hero - bg fills section (cover); slate-200 shows while image loads */}
+      {/* Hero — left text, right image; mobile: cycling hero images as bg; desktop: homepage-bg + right slider */}
       <section
-        className="relative min-h-dvh flex flex-col overflow-hidden bg-slate-200 pt-20 sm:pt-24 pb-0 px-4 sm:px-6 lg:px-8 motion-safe:perspective-[1400px]"
+        className="relative min-h-screen min-h-[100dvh] flex flex-col overflow-hidden"
         aria-label="Hero"
       >
-        <MobileHeroBackground />
-        <img
-          src={HOMEPAGE_HERO_BG}
-          alt=""
-          className="pointer-events-none absolute inset-0 z-0 hidden h-full min-h-dvh w-full object-cover object-bottom lg:block"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          aria-hidden
-        />
-        {/* Mobile: neutral black veil (slate reads blue); stronger opacity for true dark */}
+        {/* Desktop: static background */}
         <div
-          className="pointer-events-none absolute inset-0 z-5 bg-black/72 lg:hidden"
+          className="hidden lg:block absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-100"
+          style={{ backgroundImage: 'url(/homepage-bg.webp)', zIndex: 0, opacity: 1 }}
           aria-hidden
         />
-        <div className="relative z-10 flex flex-1 flex-col min-h-0 w-full max-w-[1400px] mx-auto">
-          {/* Mobile only: centered headline + subcopy + CTAs; no service cards */}
-          <div className="lg:hidden flex flex-1 flex-col justify-center items-center text-center px-6 pt-4 pb-16 min-h-[min(calc(100dvh-5.5rem),820px)]">
-            <h1
-              className="hero-headline-font apple-hero-text flex w-full max-w-md flex-col items-center gap-y-1.5 text-[2.5rem] font-bold leading-[1.08] tracking-tight text-white drop-shadow-md sm:text-[2.85rem] sm:gap-y-2"
-              style={headingStyle}
+        {/* Mobile: hero slider images as full-bleed background + dark overlay for contrast */}
+        <div className="lg:hidden absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <HeroImageSlider />
+          <div className="absolute inset-0 z-[2] bg-black/80 pointer-events-none" aria-hidden />
+        </div>
+        <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 w-full max-w-7xl mx-auto items-center justify-items-center lg:justify-items-stretch min-h-0">
+            {/* Left: text — centered on mobile, left-aligned from lg; Lenis-style lerp entrance from left */}
+            <div
+              className="text-center lg:text-left space-y-7 sm:space-y-4 lg:space-y-4 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0"
+              style={{
+                transform: `translateX(calc(${-100 * (1 - heroProgress.text)}% - ${24 * (1 - heroProgress.text)}vw)) translateZ(${-30 * (1 - heroProgress.text)}px) scale(${0.98 + 0.02 * heroProgress.text})`,
+                opacity: 0.94 + 0.06 * heroProgress.text,
+                willChange: heroProgress.text < 1 ? 'transform, opacity' : 'auto',
+              }}
             >
-              <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={0}>
-                We
-              </HeroHeadlineRevealLine>
-              <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={HERO_BAR_STAGGER_MS}>
-                Empower
-              </HeroHeadlineRevealLine>
-              <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={HERO_BAR_STAGGER_MS * 2}>
-                Businesses
-              </HeroHeadlineRevealLine>
-              <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={HERO_BAR_STAGGER_MS * 3}>
-                through
-              </HeroHeadlineRevealLine>
-              <HeroHeadlineRevealLine
-                reveal={revealHeroBars}
-                reducedMotion={prefersReducedMotion}
-                delayMs={HERO_BAR_STAGGER_MS * 4}
-                className="mt-1 flex min-h-[1.12em] w-full justify-center sm:mt-1.5"
-              >
-                <strong className="inline-block min-w-[10ch] font-extrabold tracking-[0.12em]">
-                  <TypewriterWords className="text-[2rem] font-extrabold tracking-[0.14em] text-white sm:text-[2.45rem]" />
-                </strong>
-              </HeroHeadlineRevealLine>
-            </h1>
-            <p className="mt-7 max-w-88 text-[15px] leading-[1.55] text-white/90 sm:max-w-md sm:text-[17px] sm:leading-relaxed">
-              {subheading}
-            </p>
-            <div className="mt-10 flex w-full max-w-md flex-wrap items-center justify-center gap-3 px-1">
-              <Link
-                to="/contactus"
-                className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 rounded-full bg-red-600 px-6 py-3 text-[13px] font-semibold text-white shadow-lg transition-colors hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:flex-initial sm:text-sm"
-              >
-                Get Started
-                <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
-              </Link>
-              <Link
-                to="/about"
-                className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-full border border-white bg-neutral-950/75 px-6 py-3 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:flex-initial sm:text-sm"
-              >
-                Learn More
-              </Link>
+              <div className="min-h-32 lg:min-h-44 flex flex-col justify-center items-center lg:items-start">
+                <h1
+                  className={`apple-hero-text ${headingSizeClass} font-normal leading-[1.08] tracking-tight text-white lg:text-(--apple-black) w-full`}
+                  style={headingStyle}
+                >
+                  <span className="block">We</span>
+                  <span className="block"><strong>Empower</strong></span>
+                  <span className="block">Businesses</span>
+                  <span className="block">through</span>
+                  <span className="block min-h-[1.15em] w-full flex justify-center lg:justify-start">
+                    <strong className="inline-block min-w-[12ch]">
+                      <TypewriterWords />
+                    </strong>
+                  </span>
+                </h1>
+              </div>
+              <p className="text-xs sm:text-sm lg:text-base text-white lg:text-black font-light max-w-2xl leading-[1.6] sm:leading-[1.65] mx-auto lg:mx-0">
+                {subheading}
+              </p>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
+                <button
+                  type="button"
+                  onClick={() => navigate('/contactus')}
+                  className="inline-flex items-center gap-1.5 bg-red-600 text-white text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-red-500 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                >
+                  Get Started
+                  <span className="text-[15px] leading-none" aria-hidden>&rarr;</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate('/about')}
+                  className="inline-flex items-center gap-1.5 bg-white/10 border border-white text-white lg:bg-white lg:border-gray-300 lg:text-(--apple-black) text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-white/20 hover:border-white lg:hover:bg-gray-50 lg:hover:border-red-200 lg:hover:text-red-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                >
+                  Learn More
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Desktop (lg+): grid + pillar cards + headline overlay */}
-          <div className="hidden lg:flex relative min-h-0 w-full flex-1 flex-col lg:min-h-[calc(100dvh-6.5rem)] lg:justify-center">
-            <div className="mt-auto flex min-h-0 w-full flex-1 flex-col justify-end pb-5 max-lg:pb-6 xl:pb-5 lg:mt-0 lg:flex-none lg:translate-y-5 lg:pb-5 xl:translate-y-6">
-              <div className="relative mx-auto grid w-full grid-cols-2 items-end gap-3 [grid-template-rows:1fr] sm:gap-4 lg:h-[min(78vh,840px)] lg:max-h-[calc(100dvh-6.5rem)] lg:min-h-[min(460px,62vh)] lg:grid-cols-4 lg:items-stretch lg:gap-4">
-                {/* Void above cols 2–3: exact horizontal span for gap-4 grid */}
-                <div className="pointer-events-none absolute top-0 z-30 hidden h-[42%] flex-col items-center justify-center px-2 text-center lg:left-[calc((100%-3rem)/4+1rem)] lg:flex lg:w-[calc(50%-0.5rem)]">
-                  <div className="pointer-events-auto w-full max-w-[min(42rem,100%)]">
-                    <h1
-                      className="hero-headline-font apple-hero-text text-4xl font-semibold leading-[1.08] tracking-tight text-slate-900 xl:text-[2.85rem] 2xl:text-[3.25rem]"
-                      style={headingStyle}
-                    >
-                      <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={0}>
-                        We Empower
-                      </HeroHeadlineRevealLine>
-                      <HeroHeadlineRevealLine reveal={revealHeroBars} reducedMotion={prefersReducedMotion} delayMs={HERO_BAR_STAGGER_MS}>
-                        Businesses through
-                      </HeroHeadlineRevealLine>
-                      <HeroHeadlineRevealLine
-                        reveal={revealHeroBars}
-                        reducedMotion={prefersReducedMotion}
-                        delayMs={HERO_BAR_STAGGER_MS * 2}
-                        className="min-h-[1.05em] w-full flex justify-center mt-0.5"
-                      >
-                        <strong className="inline-block min-w-[10ch] font-extrabold">
-                          <TypewriterWords className="text-3xl font-extrabold tracking-wide xl:text-4xl 2xl:text-5xl" />
-                        </strong>
-                      </HeroHeadlineRevealLine>
-                    </h1>
-                  </div>
-                </div>
-                {HERO_SERVICE_BARS.map((bar, i) => (
-                  <HeroServiceBarLink
-                    key={bar.path}
-                    bar={bar}
-                    index={i}
-                    revealBars={revealHeroBars}
-                    prefersReducedMotion={prefersReducedMotion}
-                    skipRevealChromeDelay={skipRevealChromeDelay}
-                  />
-                ))}
+            {/* Right: image slider — hidden on mobile, visible from lg; entrance from right then tilt; sized to match left text block */}
+            <div
+              className="hidden lg:flex relative w-full max-w-[440px] mx-auto lg:max-w-none justify-center lg:justify-end"
+              style={{
+                minHeight: 'min(60vh, 420px)',
+                perspective: 1000,
+                perspectiveOrigin: 'center center',
+              }}
+            >
+              <div
+                className="relative w-full h-full min-h-[320px] lg:min-h-[360px] xl:min-h-[400px] max-w-[440px] aspect-square rounded-2xl overflow-hidden shadow-2xl"
+                style={{
+                  transformStyle: 'preserve-3d',
+                  backfaceVisibility: 'hidden',
+                  transform: `translateX(calc(${100 * (1 - heroProgress.slide)}% + ${24 * (1 - heroProgress.slide)}vw)) translateZ(${-20 * (1 - heroProgress.slide)}px) rotateY(${-12 * heroProgress.tilt}deg)`,
+                  opacity: 0.97 + 0.03 * heroProgress.slide,
+                  filter: heroProgress.tilt >= 1 ? 'none' : `grayscale(${1 - heroProgress.tilt})`,
+                  willChange: heroProgress.slide < 1 || heroProgress.tilt < 1 ? 'transform, opacity, filter' : 'auto',
+                }}
+              >
+                <HeroImageSlider />
               </div>
             </div>
           </div>
@@ -724,7 +539,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'1440\' height=\'120\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 60 Q360 0 720 60 T1440 60 V120 H0Z\' fill=\'%23ffffff\'/%3E%3C/svg%3E")', backgroundSize: '100% 100%' }} />
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6 flex flex-col lg:flex-row items-center sm:items-start lg:items-center gap-5 lg:gap-6">
-          {/* Title block - centered on mobile */}
+          {/* Title block — centered on mobile */}
           <div className="flex flex-col gap-2 lg:gap-3 shrink-0 items-center sm:items-start text-center sm:text-left w-full sm:w-auto">
             <h3 className="text-white text-lg sm:text-xl font-bold leading-tight max-w-sm">
               AI that drives real outcomes
@@ -738,7 +553,7 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Stats grid - card style; 1 col on mobile, 4 cols from sm */}
+          {/* Stats grid — card style; 1 col on mobile, 4 cols from sm */}
           <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full">
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
               <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">50%</p>
@@ -760,7 +575,7 @@ const HeroSection = () => {
         </div>
       </section>
 
-      {/* AI search intro - heading + input, then answers below (hidden, not removed) */}
+      {/* AI search intro — heading + input, then answers below (hidden, not removed) */}
       <section className="relative overflow-hidden bg-[#fafafa] hidden" aria-hidden="true">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 lg:py-8 relative flex flex-col items-center">
           <div className={`main-search-intro flex flex-col items-center justify-center gap-5 w-full max-w-2xl mx-auto ${hasAsked ? 'main-search-intro-hide-search' : ''}`}>
@@ -964,7 +779,7 @@ function InnovationsSection() {
               Where ideas meet impact
             </h2>
             <p className="text-(--apple-gray) text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
-              From research and emerging tech to accelerators and partnerships - we help you turn vision into outcomes. Explore how we innovate.
+              From research and emerging tech to accelerators and partnerships—we help you turn vision into outcomes. Explore how we innovate.
             </p>
             <Link
               to="/innovations"
@@ -991,7 +806,7 @@ const SOLUTIONS_CARDS = [
   {
     icon: 'psychology',
     title: 'Data & AI',
-    description: 'Unlock value with AI and GenAI - automate processes, gain insights, and accelerate outcomes across your business.',
+    description: 'Unlock value with AI and GenAI—automate processes, gain insights, and accelerate outcomes across your business.',
     path: '/aianddataservice',
   },
   {
@@ -1009,12 +824,21 @@ const SOLUTIONS_CARDS = [
 ];
 
 function SolutionsShowcaseSection() {
-  const visible = true;
+  const [visible, setVisible] = useState(false);
   const [gradientPos, setGradientPos] = useState({ x: 50, y: 50 });
   const [isHoveringHeading, setIsHoveringHeading] = useState(false);
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.15 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const el = headingRef.current;
@@ -1069,7 +893,7 @@ function SolutionsShowcaseSection() {
               </span>
             </h2>
             <p className="text-(--apple-gray) text-lg leading-relaxed max-w-lg">
-              From cloud and cybersecurity to data and AI, we deliver solutions that fit your goals. We work alongside you to modernize, secure, and accelerate - so you can focus on what matters most.
+              From cloud and cybersecurity to data and AI, we deliver solutions that fit your goals. We work alongside you to modernize, secure, and accelerate—so you can focus on what matters most.
             </p>
           </div>
 
@@ -1143,37 +967,68 @@ const OEM_PARTNERS = [
 const PARTNER_CARD_WIDTH = 96;   // w-24
 const PARTNER_GAP = 16;          // gap-4
 
-/** DomeGallery code-split via React.lazy; mount immediately so logos do not “reveal” on scroll into view. */
+/** Load DomeGallery + @use-gesture only when partners section is near viewport (lighter initial JS). */
 function LazyPartnersGlobe() {
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldLoad(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          io.disconnect();
+        }
+      },
+      { root: null, rootMargin: '280px 0px', threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       className="hidden lg:block rounded-2xl overflow-hidden bg-transparent"
       style={{ height: 'min(75vh, 580px)' }}
     >
-      <Suspense
-        fallback={
-          <div className="w-full h-full min-h-[400px] rounded-2xl bg-slate-200/25" aria-hidden />
-        }
-      >
-        <DomeGalleryLazy
-          images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name, label: p.level }))}
-          fit={0.62}
-          fitBasis="height"
-          minRadius={320}
-          maxRadius={440}
-          maxVerticalRotationDeg={55}
-          segments={18}
-          dragDampening={2}
-          grayscale={false}
-          instantLightbox
-          overlayBlurColor="#f1f5f9"
-          imageBorderRadius="12px"
-          openedImageBorderRadius="24px"
-          openedImageWidth="280px"
-          openedImageHeight="200px"
-          tileInset={7}
-        />
-      </Suspense>
+      {shouldLoad ? (
+        <Suspense
+          fallback={
+            <div
+              className="w-full h-full min-h-[400px] rounded-2xl bg-slate-200/25"
+              aria-hidden
+            />
+          }
+        >
+          <DomeGalleryLazy
+            images={OEM_PARTNERS.map((p) => ({ src: p.logo, alt: p.name, label: p.level }))}
+            fit={0.62}
+            fitBasis="height"
+            minRadius={320}
+            maxRadius={440}
+            maxVerticalRotationDeg={55}
+            segments={18}
+            dragDampening={2}
+            grayscale={false}
+            instantLightbox
+            overlayBlurColor="#f1f5f9"
+            imageBorderRadius="12px"
+            openedImageBorderRadius="24px"
+            openedImageWidth="280px"
+            openedImageHeight="200px"
+            tileInset={7}
+          />
+        </Suspense>
+      ) : (
+        <div className="w-full h-full min-h-[400px] rounded-2xl bg-slate-100/40" aria-hidden />
+      )}
     </div>
   );
 }
@@ -1307,7 +1162,7 @@ function PremiumPartnersSection() {
   );
 }
 
-/* ───────── Latest Highlights: hardcoded data - auto-scroll right to left ───────── */
+/* ───────── Latest Highlights: hardcoded data — auto-scroll right to left ───────── */
 function LatestHighlightsSection() {
   const [viewWidth, setViewWidth] = useState(1200);
   const [cardHovered, setCardHovered] = useState(false);
@@ -1408,7 +1263,7 @@ function LatestHighlightsSection() {
           })}
         </div>
 
-        {/* Desktop: auto-scrolling cards right to left - pause when any card is hovered */}
+        {/* Desktop: auto-scrolling cards right to left — pause when any card is hovered */}
         <div className="hidden md:flex items-center overflow-hidden min-h-[200px]">
           <div
             className={`flex items-center will-change-transform ${cardHovered ? 'highlights-marquee-paused' : ''}`}
