@@ -33,7 +33,7 @@ const ContactUsPage = () => {
       label: 'Phone',
       value: '+91 180030 94333',
       href: 'tel:+9118003094333',
-      description: 'Mon–Fri, 9am–6pm IST',
+      description: 'Mon-Fri, 9am-6pm IST',
     },
     {
       icon: MapPin,

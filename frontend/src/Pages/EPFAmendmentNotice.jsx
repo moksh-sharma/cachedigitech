@@ -12,7 +12,7 @@ function EPFAmendmentNotice() {
             <li>EPF Code - DSNHP2563737000</li>
             <li>Registered Name - Cache Technologies</li>
             <li>Date of Coverage - 01/10/2021</li>
-            <li>Number of Branches and Primary Branch Address - L-31 Ground Floor, Kailash Colony SOUTH, DELHI – 110048.</li>
+            <li>Number of Branches and Primary Branch Address - L-31 Ground Floor, Kailash Colony SOUTH, DELHI - 110048.</li>
             <li>Regional Office - DELHI (SOUTH), L-31 Ground Floor 110048</li>
           </ul>
         </section>

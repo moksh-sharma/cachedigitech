@@ -163,7 +163,7 @@ const serviceDetails = {
     ],
     whyChooseUs: {
       title: 'Why Choose Us for Cloud Solutions?',
-      description: 'The cloud isn\'t just about moving your data off-site; it\'s about transforming how your business operates. Our cloud experts don\'t just migrate your systems – we reimagine them for the cloud-native world. We help you unlock unprecedented scalability, reduce costs, and ensure your infrastructure can adapt to whatever the future brings.'
+      description: 'The cloud isn\'t just about moving your data off-site; it\'s about transforming how your business operates. Our cloud experts don\'t just migrate your systems - we reimagine them for the cloud-native world. We help you unlock unprecedented scalability, reduce costs, and ensure your infrastructure can adapt to whatever the future brings.'
     },
     benefits: [
       {
@@ -289,7 +289,7 @@ const serviceDetails = {
     ],
     whyChooseUs: {
       title: 'Why Choose Us for Cybersecurity?',
-      description: 'In today\'s digital world, security isn\'t optional – it\'s essential. We don\'t just protect your systems; we build a security culture that makes your entire organization resilient against threats. Our proactive approach means we stop attacks before they happen, not after the damage is done. Sleep peacefully knowing your digital assets are fortress-strong.'
+      description: 'In today\'s digital world, security isn\'t optional - it\'s essential. We don\'t just protect your systems; we build a security culture that makes your entire organization resilient against threats. Our proactive approach means we stop attacks before they happen, not after the damage is done. Sleep peacefully knowing your digital assets are fortress-strong.'
     },
     benefits: [
       {
@@ -352,7 +352,7 @@ const serviceDetails = {
     ],
     whyChooseUs: {
       title: 'Why Choose Us for IT Consulting?',
-      description: 'Technology moves fast, but strategic thinking makes it work for you. We don\'t just recommend the latest tools – we craft technology strategies that align with your business vision. Our consulting approach combines deep technical knowledge with business acumen to ensure every technology decision drives your success forward, not just follows trends.'
+      description: 'Technology moves fast, but strategic thinking makes it work for you. We don\'t just recommend the latest tools - we craft technology strategies that align with your business vision. Our consulting approach combines deep technical knowledge with business acumen to ensure every technology decision drives your success forward, not just follows trends.'
     },
     benefits: [
       {

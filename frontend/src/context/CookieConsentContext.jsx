@@ -3,7 +3,7 @@ import { getConsent, setConsent as setConsentStorage, resetConsent as resetConse
 
 const CookieConsentContext = createContext(null);
 
-/** GA measurement ID – only load when consent === 'accepted' */
+/** GA measurement ID - only load when consent === 'accepted' */
 const GA_MEASUREMENT_ID = 'G-S517TXV48S';
 
 function loadGoogleAnalytics() {

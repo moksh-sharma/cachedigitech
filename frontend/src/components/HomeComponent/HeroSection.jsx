@@ -436,7 +436,7 @@ const HeroSection = () => {
 
   return (
     <>
-      {/* Hero — left text, right image; mobile: cycling hero images as bg; desktop: homepage-bg + right slider */}
+      {/* Hero - left text, right image; mobile: cycling hero images as bg; desktop: homepage-bg + right slider */}
       <section
         className="relative min-h-screen min-h-[100dvh] flex flex-col overflow-hidden"
         aria-label="Hero"
@@ -454,7 +454,7 @@ const HeroSection = () => {
         </div>
         <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-14 xl:px-24 py-20 sm:py-24 lg:py-28 min-w-0 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 w-full max-w-7xl mx-auto items-center justify-items-center lg:justify-items-stretch min-h-0">
-            {/* Left: text — centered on mobile, left-aligned from lg; Lenis-style lerp entrance from left */}
+            {/* Left: text - centered on mobile, left-aligned from lg; Lenis-style lerp entrance from left */}
             <div
               className="text-center lg:text-left space-y-7 sm:space-y-4 lg:space-y-4 w-full max-w-2xl mx-auto lg:max-w-none lg:mx-0"
               style={{
@@ -482,26 +482,25 @@ const HeroSection = () => {
               <p className="text-xs sm:text-sm lg:text-base text-white lg:text-black font-light max-w-2xl leading-[1.6] sm:leading-[1.65] mx-auto lg:mx-0">
                 {subheading}
               </p>
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4">
                 <button
                   type="button"
                   onClick={() => navigate('/contactus')}
-                  className="inline-flex items-center gap-1.5 bg-red-600 text-white text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-red-500 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex items-center justify-center min-h-[52px] px-6 sm:px-7 rounded-full bg-red-600 text-white text-base font-semibold hover:bg-red-700 active:bg-red-800 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
                 >
                   Get Started
-                  <span className="text-[15px] leading-none" aria-hidden>&rarr;</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => navigate('/about')}
-                  className="inline-flex items-center gap-1.5 bg-white/10 border border-white text-white lg:bg-white lg:border-gray-300 lg:text-(--apple-black) text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-white/20 hover:border-white lg:hover:bg-gray-50 lg:hover:border-red-200 lg:hover:text-red-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex items-center justify-center min-h-[52px] px-6 sm:px-7 rounded-full bg-white text-black text-base font-semibold border border-gray-300 hover:bg-gray-50 hover:border-gray-400 active:bg-gray-100 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400"
                 >
                   Learn More
                 </button>
               </div>
             </div>
 
-            {/* Right: image slider — hidden on mobile, visible from lg; entrance from right then tilt; sized to match left text block */}
+            {/* Right: image slider - hidden on mobile, visible from lg; entrance from right then tilt; sized to match left text block */}
             <div
               className="hidden lg:flex relative w-full max-w-[440px] mx-auto lg:max-w-none justify-center lg:justify-end"
               style={{
@@ -539,7 +538,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'1440\' height=\'120\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 60 Q360 0 720 60 T1440 60 V120 H0Z\' fill=\'%23ffffff\'/%3E%3C/svg%3E")', backgroundSize: '100% 100%' }} />
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 sm:py-6 flex flex-col lg:flex-row items-center sm:items-start lg:items-center gap-5 lg:gap-6">
-          {/* Title block — centered on mobile */}
+          {/* Title block - centered on mobile */}
           <div className="flex flex-col gap-2 lg:gap-3 shrink-0 items-center sm:items-start text-center sm:text-left w-full sm:w-auto">
             <h3 className="text-white text-lg sm:text-xl font-bold leading-tight max-w-sm">
               AI that drives real outcomes
@@ -553,7 +552,7 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Stats grid — card style; 1 col on mobile, 4 cols from sm */}
+          {/* Stats grid - card style; 1 col on mobile, 4 cols from sm */}
           <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full">
             <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-3 transition-colors hover:bg-white/15">
               <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-white">50%</p>
@@ -575,7 +574,7 @@ const HeroSection = () => {
         </div>
       </section>
 
-      {/* AI search intro — heading + input, then answers below (hidden, not removed) */}
+      {/* AI search intro - heading + input, then answers below (hidden, not removed) */}
       <section className="relative overflow-hidden bg-[#fafafa] hidden" aria-hidden="true">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 lg:py-8 relative flex flex-col items-center">
           <div className={`main-search-intro flex flex-col items-center justify-center gap-5 w-full max-w-2xl mx-auto ${hasAsked ? 'main-search-intro-hide-search' : ''}`}>
@@ -741,7 +740,7 @@ const HeroSection = () => {
   );
 };
 
-/* ───────── Innovations (home strip) ───────── */
+/* --------- Innovations (home strip) --------- */
 const INNOVATIONS_HERO_IMAGE = '/images/innovations-meeting.webp';
 
 function InnovationsSection() {
@@ -779,7 +778,7 @@ function InnovationsSection() {
               Where ideas meet impact
             </h2>
             <p className="text-(--apple-gray) text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
-              From research and emerging tech to accelerators and partnerships—we help you turn vision into outcomes. Explore how we innovate.
+              From research and emerging tech to accelerators and partnerships-we help you turn vision into outcomes. Explore how we innovate.
             </p>
             <Link
               to="/innovations"
@@ -795,7 +794,7 @@ function InnovationsSection() {
   );
 }
 
-/* ───────── Solutions Showcase Section ───────── */
+/* --------- Solutions Showcase Section --------- */
 const SOLUTIONS_CARDS = [
   {
     icon: 'cloud',
@@ -806,7 +805,7 @@ const SOLUTIONS_CARDS = [
   {
     icon: 'psychology',
     title: 'Data & AI',
-    description: 'Unlock value with AI and GenAI—automate processes, gain insights, and accelerate outcomes across your business.',
+    description: 'Unlock value with AI and GenAI-automate processes, gain insights, and accelerate outcomes across your business.',
     path: '/aianddataservice',
   },
   {
@@ -877,7 +876,7 @@ function SolutionsShowcaseSection() {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
 
-          {/* ── Left: Heading + paragraph ── */}
+          {/* -- Left: Heading + paragraph -- */}
           <div className={`transition-all duration-700 ease-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-4xl md:text-5xl lg:text-[52px] font-bold tracking-tight leading-[1.08] mb-6">
               <span
@@ -893,11 +892,11 @@ function SolutionsShowcaseSection() {
               </span>
             </h2>
             <p className="text-(--apple-gray) text-lg leading-relaxed max-w-lg">
-              From cloud and cybersecurity to data and AI, we deliver solutions that fit your goals. We work alongside you to modernize, secure, and accelerate—so you can focus on what matters most.
+              From cloud and cybersecurity to data and AI, we deliver solutions that fit your goals. We work alongside you to modernize, secure, and accelerate-so you can focus on what matters most.
             </p>
           </div>
 
-          {/* ── Right: Solution cards (2 per row on mobile, 1 col on lg) ── */}
+          {/* -- Right: Solution cards (2 per row on mobile, 1 col on lg) -- */}
           <div className="grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4">
             {SOLUTIONS_CARDS.map((card, i) => (
               <div
@@ -936,7 +935,7 @@ function SolutionsShowcaseSection() {
   );
 }
 
-/* ───────── OEM Alliances Section (with category for globe popup) ───────── */
+/* --------- OEM Alliances Section (with category for globe popup) --------- */
 const OEM_PARTNERS = [
   { name: 'Dell', logo: '/community/dell.webp', level: 'Titanium' },
   { name: 'Cisco', logo: '/Partners/cisco.webp', level: 'Premier' },
@@ -1107,7 +1106,7 @@ function OEMAlliancesSection() {
   );
 }
 
-/* ───────── Premium Partners (logo + tier) ───────── */
+/* --------- Premium Partners (logo + tier) --------- */
 const PREMIUM_PARTNERS = [
   { name: 'Dell', tier: 'Titanium', logo: '/community/dell.webp' },
   { name: 'Cisco', tier: 'Premier', logo: '/Partners/cisco.webp' },
@@ -1162,7 +1161,7 @@ function PremiumPartnersSection() {
   );
 }
 
-/* ───────── Latest Highlights: hardcoded data — auto-scroll right to left ───────── */
+/* --------- Latest Highlights: hardcoded data - auto-scroll right to left --------- */
 function LatestHighlightsSection() {
   const [viewWidth, setViewWidth] = useState(1200);
   const [cardHovered, setCardHovered] = useState(false);
@@ -1263,7 +1262,7 @@ function LatestHighlightsSection() {
           })}
         </div>
 
-        {/* Desktop: auto-scrolling cards right to left — pause when any card is hovered */}
+        {/* Desktop: auto-scrolling cards right to left - pause when any card is hovered */}
         <div className="hidden md:flex items-center overflow-hidden min-h-[200px]">
           <div
             className={`flex items-center will-change-transform ${cardHovered ? 'highlights-marquee-paused' : ''}`}

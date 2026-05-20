@@ -3,10 +3,10 @@ import { Menu, ChevronLeft, ChevronRight, ChevronDown, X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { navLinks } from "./navLinks";
 
-/* ── Sections that are direct links (no dropdown) ── */
+/* -- Sections that are direct links (no dropdown) -- */
 const DIRECT_LINK_SECTIONS = ["Careers", "Contact"];
 
-/* ── Menu structure ── */
+/* -- Menu structure -- */
 const menuData = {
   "About Us": {
     items: ["Profile of Cache", "Leadership Team", "Our Alliances", "Awards & Certifications", "Leadership Vision", "Blogs"],
@@ -246,7 +246,7 @@ function Navbar() {
         }
       `}</style>
 
-      {/* ── Top Navbar: floating, dark translucent, white text, red logo ── */}
+      {/* -- Top Navbar: floating, dark translucent, white text, red logo -- */}
       <nav
         ref={megaRef}
         className={`fixed top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 z-1000 transition-all duration-600 ease-out bg-black/25 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-xl ${navbarVisible ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none"}`}
@@ -340,7 +340,7 @@ function Navbar() {
           </div>
         </div>
 
-        {/* ── Desktop Mega Menu Dropdown (stays open while hovering panel) ── */}
+        {/* -- Desktop Mega Menu Dropdown (stays open while hovering panel) -- */}
         {megaOpen && !DIRECT_LINK_SECTIONS.includes(megaOpen) && (
           <div
             className="hidden md:block absolute top-full left-0 right-0 bg-white backdrop-blur-md rounded-xl sm:rounded-2xl shadow-xl z-1000 pt-px "
@@ -408,7 +408,7 @@ function Navbar() {
         )}
       </nav>
 
-      {/* ── Mobile Sidebar Backdrop ── */}
+      {/* -- Mobile Sidebar Backdrop -- */}
       {menuOpen && (
         <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-1999"
@@ -416,7 +416,7 @@ function Navbar() {
         />
       )}
 
-      {/* ── Mobile Sidebar ── */}
+      {/* -- Mobile Sidebar -- */}
       <div className={`
         fixed top-0 left-0 w-screen md:w-72 h-full bg-white z-2000 flex flex-col transition-transform duration-500 ease-out shadow-2xl
         ${menuOpen ? "translate-x-0" : "-translate-x-full"}
@@ -488,7 +488,7 @@ function Navbar() {
         </div>
       </div>
 
-      {/* ── Mobile Submenu Panel ── */}
+      {/* -- Mobile Submenu Panel -- */}
       {activeSubmenu && menuOpen && (
         <div
           className="submenu-panel fixed top-0 left-0 md:left-72 right-0 md:right-auto w-screen md:w-64 h-full bg-white z-2001 shadow-2xl border-l border-gray-100 overflow-y-auto overflow-x-hidden"

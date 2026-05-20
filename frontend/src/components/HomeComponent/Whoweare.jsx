@@ -30,10 +30,10 @@ export default function WhoWeArePage({ onNavigateToService }) {
 
   return (
     <div className="bg-white">
-      {/* ── Dell / Campaign promotion ── */}
+      {/* -- Dell / Campaign promotion -- */}
       <CampaignPromoSection />
 
-      {/* ── Core Values Grid ── */}
+      {/* -- Core Values Grid -- */}
       <section
         ref={foundationSectionRef}
         className="py-14 lg:py-20 px-6 sm:px-8 lg:px-12 bg-linear-to-b from-white to-gray-50/80 overflow-hidden"
@@ -41,9 +41,8 @@ export default function WhoWeArePage({ onNavigateToService }) {
         <div className="max-w-7xl mx-auto">
           {/* Header: scroll-triggered fade + slide up */}
           <div
-            className={`text-center mb-12 lg:mb-14 transition-all duration-700 ease-out ${
-              foundationInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`text-center mb-12 lg:mb-14 transition-all duration-700 ease-out ${foundationInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
             style={{ transitionDelay: "50ms" }}
           >
             <p className="text-lg md:text-xl font-extrabold tracking-[0.3em] uppercase text-red-500 mb-3">
@@ -53,9 +52,8 @@ export default function WhoWeArePage({ onNavigateToService }) {
               Core Values
             </h2>
             <div
-              className={`mx-auto mt-4 h-0.5 w-16 bg-red-500/80 transition-all duration-700 ease-out ${
-                foundationInView ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
-              }`}
+              className={`mx-auto mt-4 h-0.5 w-16 bg-red-500/80 transition-all duration-700 ease-out ${foundationInView ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+                }`}
               style={{ transitionDelay: "250ms" }}
             />
           </div>
@@ -65,9 +63,8 @@ export default function WhoWeArePage({ onNavigateToService }) {
             {PILLARS.map((pillar, idx) => (
               <div
                 key={idx}
-                className={`group bg-white rounded-xl lg:rounded-2xl border border-gray-200/90 p-3 sm:p-4 lg:p-7 shadow-sm hover:shadow-xl hover:border-red-100 transition-all duration-500 ease-out ${
-                  foundationInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+                className={`group bg-white rounded-xl lg:rounded-2xl border border-gray-200/90 p-3 sm:p-4 lg:p-7 shadow-sm hover:shadow-xl hover:border-red-100 transition-all duration-500 ease-out ${foundationInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  }`}
                 style={{
                   transitionDelay: `${200 + idx * 80}ms`,
                 }}

@@ -208,9 +208,9 @@ export const HARDCODED_HIGHLIGHTS = [
   {
     image: "/images/highlights/highlight-04.webp",
     tag: "Award & Recognition",
-    title: "Cache Digitech Named Nutanix Enterprise Partner of the Year – North",
+    title: "Cache Digitech Named Nutanix Enterprise Partner of the Year - North",
     description:
-      "Cache Digitech has been recognized as the \"Enterprise Partner of the Year – North\" by Nutanix, highlighting our strong capabilities in delivering enterprise-grade infrastructure and cloud solutions. This recognition reflects the trust of our partners and the dedication of Team Cache in driving impactful technology outcomes for customers.",
+      "Cache Digitech has been recognized as the \"Enterprise Partner of the Year - North\" by Nutanix, highlighting our strong capabilities in delivering enterprise-grade infrastructure and cloud solutions. This recognition reflects the trust of our partners and the dedication of Team Cache in driving impactful technology outcomes for customers.",
     type: "Article",
     link: "https://www.linkedin.com/posts/prarthana-gupta-112510a5_we-are-delighted-to-share-that-cache-digitech-activity-7351302613625155584-T3lR/",
   },
@@ -226,9 +226,9 @@ export const HARDCODED_HIGHLIGHTS = [
   {
     image: "/images/highlights/highlight-06.webp",
     tag: "Award & Recognition",
-    title: "Dell Technologies Channel Partner of the Year – Services Business India (FY24)",
+    title: "Dell Technologies Channel Partner of the Year - Services Business India (FY24)",
     description:
-      "Cache Digitech was honored with the Channel Partner of the Year – Services Business India (FY24) award by Dell Technologies. This recognition highlights our commitment to delivering innovative IT services and reflects the dedication of Team Cache and the strong partnerships that drive our continued success.",
+      "Cache Digitech was honored with the Channel Partner of the Year - Services Business India (FY24) award by Dell Technologies. This recognition highlights our commitment to delivering innovative IT services and reflects the dedication of Team Cache and the strong partnerships that drive our continued success.",
     type: "Article",
     link: "https://www.linkedin.com/posts/cache-digitech-pvt-ltd_award-servicesbusinessinida-itsector-ugcPost-7215991568502071296-7lZQ/",
   },

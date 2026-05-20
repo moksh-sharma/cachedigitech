@@ -199,7 +199,7 @@ body {
   border-bottom: 0.5px solid var(--glass-border);
 }
 
-/* Hero main headline — distinct from body Inter */
+/* Hero main headline - distinct from body Inter */
 .hero-headline-font {
   font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
 }

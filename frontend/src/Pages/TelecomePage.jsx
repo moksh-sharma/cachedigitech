@@ -57,7 +57,7 @@ const capabilities = [
         icon: Users,
         title: "Global Support & Field Engineering Services",
         points: [
-            "Dedicated NOC/SOC with ITIL-aligned operations, proactive monitoring, and L1–L3 support.",
+            "Dedicated NOC/SOC with ITIL-aligned operations, proactive monitoring, and L1-L3 support.",
             "Field engineering presence across 8+ remote locations for leading operators.",
             "CCNA, NSE, and OEM-certified engineers ensuring continuous uptime and SLA adherence."
         ],
