@@ -53,6 +53,8 @@ export default function StudioShowcaseStack({
   backgroundOpacity = 0.55,
   renderOverlay,
   className = '',
+  fullWidth = false,
+  navRailClassName = '',
 }) {
   const count = items.length;
 
@@ -97,29 +99,36 @@ export default function StudioShowcaseStack({
   const shadowActive = `0 ${25 * shadowStrength}px ${50 * shadowStrength}px ${-12 * shadowStrength}px rgba(0, 0, 0, ${0.25 * shadowStrength})`;
   const shadowIdle = `0 ${25 * shadowStrength}px ${50 * shadowStrength}px ${-12 * shadowStrength}px rgba(0, 0, 0, ${0.1 * shadowStrength})`;
 
+  const navButtonClass =
+    'absolute top-1/2 -translate-y-1/2 z-50 flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-200 bg-white text-gray-700 shadow-md hover:bg-gray-50 transition-colors pointer-events-auto';
+
   return (
     <div
       className={`flex flex-col items-center justify-center w-full overflow-hidden py-6 sm:py-10 relative ${className}`.trim()}
     >
-      <button
-        type="button"
-        onClick={() => goToIndex((activeIndex - 1 + count) % count)}
-        className="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 z-50 flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-200 bg-white text-gray-700 shadow-md hover:bg-gray-50 transition-colors"
-        aria-label="Previous"
-      >
-        <ChevronLeft className="h-5 w-5" />
-      </button>
-      <button
-        type="button"
-        onClick={() => goToIndex((activeIndex + 1) % count)}
-        className="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 z-50 flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-200 bg-white text-gray-700 shadow-md hover:bg-gray-50 transition-colors"
-        aria-label="Next"
-      >
-        <ChevronRight className="h-5 w-5" />
-      </button>
+      <div className="absolute inset-0 z-50 pointer-events-none">
+        <div className={`relative h-full ${navRailClassName}`.trim()}>
+          <button
+            type="button"
+            onClick={() => goToIndex((activeIndex - 1 + count) % count)}
+            className={`${navButtonClass} left-0 sm:left-2`}
+            aria-label="Previous"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => goToIndex((activeIndex + 1) % count)}
+            className={`${navButtonClass} right-0 sm:right-2`}
+            aria-label="Next"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
 
       <div
-        className="relative w-full max-w-5xl mx-auto px-12 sm:px-14"
+        className={`relative w-full px-12 sm:px-14 ${fullWidth ? '' : 'max-w-5xl mx-auto'}`.trim()}
         style={{ height: responsive.cardHeight + 50 }}
       >
         <div className="relative w-full h-full flex items-center justify-center">

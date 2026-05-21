@@ -16,9 +16,11 @@ export function BlogSection() {
     author: post.author,
   }));
 
+  const navRailClassName = "max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-full";
+
   return (
     <section className="pt-8 lg:pt-10 pb-0 bg-gray-50 scroll-mt-20" id="blog">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 overflow-visible">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="text-center mb-10 sm:mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
             <span className="text-red-600">Blogs</span>
@@ -29,18 +31,23 @@ export function BlogSection() {
             integration and digital transformation.
           </p>
         </div>
+      </div>
 
-        {posts.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">No blog posts yet.</div>
-        ) : (
-          <div className="relative px-2 sm:px-4 pb-8 md:pb-10 overflow-visible">
-            <StudioShowcaseStack
-              items={stackItems}
-              defaultPosition="center"
-              borderRadius={12}
-              shadowStrength={1}
-              backgroundOpacity={0.55}
-              onItemClick={(item) => navigate(`/blog/${item.id}`)}
+      {posts.length === 0 ? (
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center py-12 text-gray-500">
+          No blog posts yet.
+        </div>
+      ) : (
+        <div className="relative w-full pb-8 md:pb-10 overflow-visible">
+          <StudioShowcaseStack
+            fullWidth
+            navRailClassName={navRailClassName}
+            items={stackItems}
+            defaultPosition="center"
+            borderRadius={12}
+            shadowStrength={1}
+            backgroundOpacity={0.55}
+            onItemClick={(item) => navigate(`/blog/${item.id}`)}
               renderOverlay={(item) => (
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-linear-to-t from-black/90 via-black/50 to-transparent pointer-events-none">
                   <div className="flex items-center text-xs text-white/80 mb-2">
@@ -59,9 +66,8 @@ export function BlogSection() {
                 </div>
               )}
             />
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

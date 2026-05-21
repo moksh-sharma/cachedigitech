@@ -1,12 +1,18 @@
 // src/App.jsx
 import React, { useEffect, Suspense, lazy } from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import { useLenis } from "./context/LenisContext";
 import { useAppLoader } from "./context/AppLoaderContext";
+import {
+  LOADER_HOLD_MS,
+  LOADER_EXIT_MS,
+  LOADER_TOTAL_MS,
+} from "./constants/appLoader";
 
 import Navbar from "./components/HomeComponent/Navbar";
 import Footer from "./components/HomeComponent/Footer";
 import CookieBanner from "./components/CookieBanner";
+import { AnimatedRoutes } from "./components/AnimatedRoutes";
 
 // Home is imported eagerly so the first paint after the splash does not wait on a lazy chunk (hero is above the fold)
 import HomePage from "./Render_Pages/HomePage";
@@ -47,65 +53,75 @@ const CampaignsPage = lazy(() => import("./Pages/CampaignsPage"));
 const NewsletterPage = lazy(() => import("./Pages/NewsletterPage"));
 const OffersPage = lazy(() => import("./Pages/OffersPage"));
 
-/** No “Loading…” text after the global splash - avoids a second loading state on route transitions */
-function RouteTransitionPlaceholder() {
-  return <div className="min-h-[50vh] w-full" aria-hidden />;
-}
 function App() {
-  const location = useLocation();
   const { scrollTo, resize } = useLenis();
   const { setLoaderDone } = useAppLoader();
 
-  // Remove loader as soon as the GIF has played once (duration parsed from loading.gif: 33 frames = 5000ms)
+  // Framer Page Loader: hold → split panels apart → reveal app (loaderDone)
   useEffect(() => {
     const loader = document.getElementById("app-loader");
-    const img = loader?.querySelector("#app-loader-img");
-    const gifPlayDurationMs = 5000; // One full loop of loading.gif
-    const maxWaitMs = 1500;
+    const topPanel = loader?.querySelector(".page-loader__panel--top");
+    const bottomPanel = loader?.querySelector(".page-loader__panel--bottom");
+    let holdTimer;
+    let exitTimer;
+    let startedExit = false;
+    let onPanelTransitionEnd;
 
-    const removeLoader = () => {
-      setLoaderDone(true);
+    const finishLoader = () => {
       if (loader?.parentNode) loader.remove();
+      document.documentElement.classList.remove("app-loader-active");
+      setLoaderDone(true);
     };
 
-    const scheduleRemove = () => {
-      setTimeout(removeLoader, gifPlayDurationMs);
+    const startExit = () => {
+      if (startedExit || !loader) return;
+      startedExit = true;
+      clearTimeout(holdTimer);
+      loader.classList.add("app-loader--exit");
+      loader.setAttribute("aria-hidden", "true");
+
+      let endedPanels = 0;
+      onPanelTransitionEnd = (e) => {
+        if (e.propertyName !== "transform") return;
+        if (e.target !== topPanel && e.target !== bottomPanel) return;
+        endedPanels += 1;
+        if (endedPanels < 2) return;
+        topPanel?.removeEventListener("transitionend", onPanelTransitionEnd);
+        bottomPanel?.removeEventListener("transitionend", onPanelTransitionEnd);
+        clearTimeout(exitTimer);
+        finishLoader();
+      };
+
+      topPanel?.addEventListener("transitionend", onPanelTransitionEnd);
+      bottomPanel?.addEventListener("transitionend", onPanelTransitionEnd);
+      exitTimer = window.setTimeout(finishLoader, LOADER_EXIT_MS + 120);
     };
 
-    if (!loader) return;
-
-    if (img) {
-      if (img.complete && img.naturalWidth > 0) {
-        scheduleRemove();
-      } else {
-        img.addEventListener("load", scheduleRemove, { once: true });
-        img.addEventListener("error", removeLoader, { once: true });
-      }
-    } else {
-      scheduleRemove();
+    if (!loader) {
+      setLoaderDone(true);
+      return undefined;
     }
-    setTimeout(removeLoader, maxWaitMs);
-  }, []);
 
-  // Scroll to top on route change and resize Lenis so smooth scroll applies to new page content
-  useEffect(() => {
-    if (scrollTo) {
-      scrollTo(0, { immediate: false });
-      // Recalculate dimensions after route change so Lenis applies to the new page
-      const t = resize ? setTimeout(resize, 100) : undefined;
-      return () => { if (t) clearTimeout(t); };
-    } else {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    }
-  }, [location.pathname, scrollTo, resize]);
+    document.documentElement.classList.add("app-loader-active");
+    holdTimer = window.setTimeout(startExit, LOADER_HOLD_MS);
+    const fallbackTimer = window.setTimeout(startExit, LOADER_TOTAL_MS);
+
+    return () => {
+      clearTimeout(holdTimer);
+      clearTimeout(fallbackTimer);
+      clearTimeout(exitTimer);
+      topPanel?.removeEventListener("transitionend", onPanelTransitionEnd);
+      bottomPanel?.removeEventListener("transitionend", onPanelTransitionEnd);
+      document.documentElement.classList.remove("app-loader-active");
+    };
+  }, [setLoaderDone]);
 
   return (
     <>
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 min-h-0">
-          <Suspense fallback={<RouteTransitionPlaceholder />}>
-            <Routes>
+          <AnimatedRoutes>
               <Route path="/" element={<HomePage />} />
               <Route path="/service/infra" element={<InfrastructureServicesPage />} />
               <Route path="/service/network" element={<NetworkingServicesPage />} />
@@ -153,8 +169,7 @@ function App() {
 
               <Route path="*" element={<NotFoundPage />} />
 
-            </Routes>
-          </Suspense>
+          </AnimatedRoutes>
         </main>
         <Footer />
         <CookieBanner />

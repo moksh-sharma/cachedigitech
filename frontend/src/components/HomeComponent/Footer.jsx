@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { usePlacement } from "../../context/PlacementsContext";
 import { navLinks } from "./navLinks";
-import TextPressure from "./TextPressure";
 import LiquidNavigation from "./LiquidNavigation";
 
 /* -- Footer nav: same headings as navbar -- */
@@ -138,30 +137,23 @@ function Footer() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 pb-0 flex flex-col w-full">
           {/* Brand row */}
           <div className="pb-4 sm:pb-6 border-b border-white/10 shrink-0">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10 lg:gap-14 xl:gap-16">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
               <img
                 src={footerLogoUrl}
                 alt="Cache Digitech"
-                className="h-[52px] w-auto object-contain shrink-0 opacity-90 hover:opacity-100 transition-opacity duration-300"
-                style={{ filter: "drop-shadow(0 2px 8px rgba(255,255,255,0.05))" }}
+                className="h-12 w-[130px] object-contain shrink-0 opacity-90 hover:opacity-100 transition-opacity duration-300"
                 decoding="async"
                 loading="lazy"
                 fetchPriority="low"
               />
-              <div className="flex-1 min-w-0 overflow-hidden">
-                <TextPressure
-                  text="Endeavouring Perfection"
-                  textColor="#FFFFFF"
-                  minFontSize={20}
-                  maxFontSize={48}
-                  flex
-                  textAlign="left"
-                  letterSpacing="0"
-                  width
-                  weight
-                  italic
-                />
-              </div>
+              <img
+                src="/women_owned.webp"
+                alt="Women Owned"
+                className="h-12 w-[130px] object-contain shrink-0 self-start sm:self-end"
+                decoding="async"
+                loading="lazy"
+                fetchPriority="low"
+              />
             </div>
           </div>
 

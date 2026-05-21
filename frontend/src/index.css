@@ -37,6 +37,8 @@
   animation: slide 10s linear infinite;
 }
 
+@import "./components/PageLoader.css";
+
 @import "tailwindcss";
 
 /* Lenis smooth scroll - disable native smooth when Lenis is active */
@@ -50,6 +52,23 @@ html.lenis {
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+}
+
+html.app-loader-active {
+  overflow: hidden;
+}
+
+html.app-loader-active body {
+  overflow: hidden;
+  background-color: #0a0a0b;
+}
+
+html.route-transition-active {
+  overflow: hidden;
+}
+
+html.route-transition-active body {
+  overflow: hidden;
 }
 
 body {

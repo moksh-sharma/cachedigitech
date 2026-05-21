@@ -1,0 +1,12 @@
+.particle-text-canvas {
+  cursor: default;
+  touch-action: none;
+}
+
+.particle-text-fallback {
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

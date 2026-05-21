@@ -14,8 +14,6 @@
   <link rel="preload" href="/images/GenAIback.webp" as="image" fetchpriority="high" />
   <link rel="preload" href="/images/CyberSecback.webp" as="image" fetchpriority="high" />
   <link rel="preload" href="/images/Infraback.webp" as="image" fetchpriority="high" />
-  <!-- Splash GIF: after hero assets so pillar WebPs can start earlier -->
-  <link rel="preload" href="/loading.gif" as="image" />
   <link rel="preload" href="/navbar-logo.svg" as="image" />
   <link rel="preload" href="/images/innovations-meeting.webp" as="image" fetchpriority="low" />
   <!-- <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet"> -->
@@ -32,40 +30,122 @@
       position: fixed;
       inset: 0;
       z-index: 99999;
-      background: #0a0a0b;
+      overflow: hidden;
+      pointer-events: auto
+    }
+
+    #app-loader.app-loader--exit {
+      pointer-events: none
+    }
+
+    .page-loader {
+      position: absolute;
+      inset: 0;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      box-sizing: border-box;
+      background: #000;
+      overflow: clip;
+      transition: background-color .6s cubic-bezier(.44, 0, .56, 1) .6s
     }
 
-    #app-loader-img {
-      width: 160px;
-      height: auto;
-      max-width: 65vw;
-      object-fit: contain;
+    #app-loader.app-loader--exit .page-loader {
+      background-color: transparent
     }
 
-    @media (min-width: 480px) {
-      #app-loader-img {
-        width: 180px;
-        max-width: 60vw;
+    .page-loader__main {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      height: 100%
+    }
+
+    .page-loader__frame {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      display: flex
+    }
+
+    .page-loader__frame--top {
+      top: 0
+    }
+
+    .page-loader__frame--bottom {
+      bottom: 0
+    }
+
+    .page-loader__panel {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      transition: transform .6s cubic-bezier(.44, 0, .56, 1) .6s;
+      will-change: transform
+    }
+
+    .page-loader__heading,
+    .page-loader__subtitle {
+      position: absolute;
+      left: 50%;
+      margin: 0;
+      white-space: pre;
+      font-family: Outfit, Inter, system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0;
+      animation: pli .6s cubic-bezier(.44, 0, .56, 1) .4s forwards
+    }
+
+    .page-loader__heading {
+      bottom: 2px;
+      font-size: clamp(1.5rem, 5.5vw, 2.5rem);
+      transform: translateX(-50%) translateY(5px)
+    }
+
+    .page-loader__subtitle {
+      top: 2px;
+      font-size: clamp(1rem, 3.5vw, 1.375rem);
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: none;
+      transform: translateX(-50%) translateY(-5px)
+    }
+
+    @keyframes pli {
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0)
       }
     }
 
-    @media (min-width: 768px) {
-      #app-loader-img {
-        width: 180px;
-        max-width: 220px;
-      }
+    #app-loader.app-loader--exit .page-loader__panel--top {
+      transform: translateY(calc(-100% - 50px))
+    }
+
+    #app-loader.app-loader--exit .page-loader__panel--bottom {
+      transform: translateY(calc(100% + 50px))
     }
   </style>
 </head>
 
 <body>
-  <div id="app-loader">
-    <img id="app-loader-img" src="/loading.gif" alt="Loading" />
+  <div id="app-loader" aria-hidden="false">
+    <div class="page-loader">
+      <div class="page-loader__main">
+        <div class="page-loader__frame page-loader__frame--top">
+          <div class="page-loader__panel page-loader__panel--top">
+            <p class="page-loader__heading">CACHE DIGITECH</p>
+          </div>
+        </div>
+        <div class="page-loader__frame page-loader__frame--bottom">
+          <div class="page-loader__panel page-loader__panel--bottom">
+            <p class="page-loader__subtitle">ENDEAVOURING PERFECTION</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div id="root"></div>
   <script>
