@@ -22,10 +22,6 @@ interface CaseStudy {
   duration: string;
 }
 
-interface IndustryMapping {
-  [key: string]: string;
-}
-
 interface DetailedData {
   [title: string]: {
     challenge?: string;
@@ -325,78 +321,28 @@ const caseStudies = [
 
 export function CaseStudiesSection() {
   const location = useLocation();
-  
-  // Extract unique industries for tabs (without "All")
-  const industries = Array.from(new Set(caseStudies.map(study => study.industry)));
-  const [activeTab, setActiveTab] = useState(industries[0] || '');
   const [selectedStudy, setSelectedStudy] = useState<CaseStudy | null>(null);
-  
-  // Map URL industry param to exact industry names used in case studies
-  const industryParamToTab: Record<string, string> = {
-    'Banking & Financial Services': 'BFSI',
-    'IT/ITES': 'IT & ITES',
-    'Government & Public Sector': 'Governance',
-    'Telecom': 'Telecom',
-    'BFSI': 'BFSI',
-    'Automobile & Manufacturing': 'Automobile & Manufacturing',
-    'Retail': 'Retail',
-    'Healthcare & Hospitality': 'Healthcare & Hospitality',
-    'Governance': 'Governance',
-    'IT & ITES': 'IT & ITES',
-  };
 
-  // Handle URL parameters for industry or active case study - run when search changes
+  // Scroll to section when linked from industry pages or solutions
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    // Prefer industry param when present
     const industryParam = urlParams.get('industry');
-    if (industryParam) {
-      const decodedParam = decodeURIComponent(industryParam);
-      const normalizedIndustry = industryParamToTab[decodedParam] || decodedParam;
-      if (normalizedIndustry && industries.includes(normalizedIndustry)) {
-        setActiveTab(normalizedIndustry);
-        setTimeout(() => {
-          const element = document.getElementById('success-stories');
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 300);
-      }
-      // Clear the param after applying so URL is clean; tab state keeps the filter
-      const newUrl = new URL(window.location.href);
-      newUrl.searchParams.delete('industry');
-      window.history.replaceState({}, '', newUrl.pathname + (newUrl.search || ''));
-    }
-
     const activeStudyParam = urlParams.get('activeStudy');
-    if (activeStudyParam) {
-      const industryMapping: IndustryMapping = {
-        'Telecom Network Modernization': 'Telecom',
-        'Banking & Financial Services Innovation': 'BFSI',
-        'Smart Manufacturing & Automotive Solutions': 'Automobile & Manufacturing',
-        'Retail Digital Transformation': 'Retail',
-        'Healthcare & Hospitality Innovation': 'Healthcare & Hospitality',
-        'Government Digital Services': 'Governance',
-        'IT Services & Technology Solutions': 'IT & ITES'
-      };
-      const mappedIndustry = industryMapping[activeStudyParam];
-      if (mappedIndustry && industries.includes(mappedIndustry)) {
-        setActiveTab(mappedIndustry);
-        setTimeout(() => {
-          const element = document.getElementById('success-stories');
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 300);
+
+    if (!industryParam && !activeStudyParam) return;
+
+    setTimeout(() => {
+      const element = document.getElementById('success-stories');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      const newUrl = new URL(window.location.href);
-      newUrl.searchParams.delete('activeStudy');
-      window.history.replaceState({}, '', newUrl.pathname + (newUrl.search || ''));
-    }
-  }, [location.search, industries]);
-  
-  // Filter case studies based on active tab
-  const filteredCaseStudies = caseStudies.filter(study => study.industry === activeTab);
+    }, 300);
+
+    const newUrl = new URL(window.location.href);
+    if (industryParam) newUrl.searchParams.delete('industry');
+    if (activeStudyParam) newUrl.searchParams.delete('activeStudy');
+    window.history.replaceState({}, '', newUrl.pathname + (newUrl.search || ''));
+  }, [location.search]);
 
   const handleViewDetails = (study: CaseStudy) => {
     setSelectedStudy(study);
@@ -637,26 +583,8 @@ export function CaseStudiesSection() {
           </p>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {industries.map((industry) => (
-            <button
-              key={industry}
-              type="button"
-              onClick={() => setActiveTab(industry)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                activeTab === industry
-                  ? "bg-red-600 text-white shadow-lg"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {industry}
-            </button>
-          ))}
-        </div>
-
         <div className="space-y-6">
-          {filteredCaseStudies.map((study, index) => (
+          {caseStudies.map((study, index) => (
             <div key={study.id}>
               <Card className="overflow-hidden h-auto hover:shadow-2xl transition-all duration-300 group bg-linear-to-br from-white to-gray-50 border-0 shadow-lg">
                 <div className={`grid lg:grid-cols-2 lg:items-stretch gap-4 lg:gap-0 ${index % 2 !== 0 ? 'lg:grid-flow-col-dense' : ''}`}>

@@ -52,6 +52,7 @@ html.lenis {
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
 html.app-loader-active {

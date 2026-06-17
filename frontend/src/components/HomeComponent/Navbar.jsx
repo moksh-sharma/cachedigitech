@@ -99,9 +99,9 @@ const menuData = {
   "Industries": {
     items: ["Telecom", "BFSI", "Automobile & Manufacturing", "Retail", "Healthcare & Hospitality", "Governance", "IT & ITES"],
   },
-  "Careers": {
-    items: ["Careers"],
-  },
+  // "Careers": {
+  //   items: ["Careers"],
+  // },
   "Contact": {
     items: ["Contact Us"],
   },

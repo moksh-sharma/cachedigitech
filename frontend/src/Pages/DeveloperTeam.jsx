@@ -13,9 +13,9 @@ const DeveloperTeam = () => {
     {
       id: 1,
       name: "Moksh Sharma",
-      role: "Full Stack AI Developer",
+      role: "Lead Full Stack AI Developer",
       photo: "/Developer/Moksh.webp",
-      linkedin: "https://www.linkedin.com/in/msam1113/",
+      linkedin: "https://www.linkedin.com/in/moksshhh/",
       github: "https://github.com/moksh-sharma",
       email: "moksh11072005@gmail.com",
       skills: ["Python", "ReactJs", "SQL", "Node.js"]
@@ -23,7 +23,7 @@ const DeveloperTeam = () => {
     {
       id: 2,
       name: "Rishabh ",
-      role: "Lead Gen AI Full-Stack Developer",
+      role: "Gen AI Full-Stack Developer",
       photo: "/Developer/rishabh.webp",
       linkedin: "#",
       github: "#",

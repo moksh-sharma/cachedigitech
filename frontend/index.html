@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="app-loader-active">
 
 <head>
   <meta charset="UTF-8" />
@@ -26,6 +26,15 @@
   <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
   <title>Cache Digitech</title>
   <style>
+    html.app-loader-active {
+      overflow: hidden;
+      scrollbar-gutter: stable;
+    }
+
+    html.app-loader-active body {
+      overflow: hidden;
+    }
+
     #app-loader {
       position: fixed;
       inset: 0;
@@ -79,44 +88,54 @@
       width: 100%;
       height: 100%;
       background: #000;
+      display: flex;
+      justify-content: center;
       transition: transform .6s cubic-bezier(.44, 0, .56, 1) .6s;
       will-change: transform
     }
 
+    .page-loader__panel--top {
+      align-items: flex-end;
+      padding-bottom: 2px
+    }
+
+    .page-loader__panel--bottom {
+      align-items: flex-start;
+      padding-top: 2px
+    }
+
     .page-loader__heading,
     .page-loader__subtitle {
-      position: absolute;
-      left: 50%;
+      position: relative;
       margin: 0;
-      white-space: pre;
+      white-space: nowrap;
+      text-align: center;
       font-family: Outfit, Inter, system-ui, sans-serif;
       font-weight: 600;
       letter-spacing: .12em;
       text-transform: uppercase;
       color: #fff;
       opacity: 0;
-      animation: pli .6s cubic-bezier(.44, 0, .56, 1) .4s forwards
+      animation: page-loader-text-in .6s cubic-bezier(.44, 0, .56, 1) .4s forwards
     }
 
     .page-loader__heading {
-      bottom: 2px;
       font-size: clamp(1.5rem, 5.5vw, 2.5rem);
-      transform: translateX(-50%) translateY(5px)
+      transform: translateY(5px)
     }
 
     .page-loader__subtitle {
-      top: 2px;
       font-size: clamp(1rem, 3.5vw, 1.375rem);
       font-weight: 500;
       letter-spacing: .08em;
       text-transform: none;
-      transform: translateX(-50%) translateY(-5px)
+      transform: translateY(-5px)
     }
 
-    @keyframes pli {
+    @keyframes page-loader-text-in {
       to {
         opacity: 1;
-        transform: translateX(-50%) translateY(0)
+        transform: translateY(0)
       }
     }
 

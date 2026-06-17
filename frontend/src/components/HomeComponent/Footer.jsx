@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { usePlacement } from "../../context/PlacementsContext";
 import { navLinks } from "./navLinks";
 import LiquidNavigation from "./LiquidNavigation";
+import FooterEyes from "./FooterEyes";
 
 /* -- Footer nav: same headings as navbar -- */
 const FOOTER_NAV = [
@@ -137,19 +138,22 @@ function Footer() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-6 sm:pt-8 pb-0 flex flex-col w-full">
           {/* Brand row */}
           <div className="pb-4 sm:pb-6 border-b border-white/10 shrink-0">
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 sm:items-end gap-4 sm:gap-6">
               <img
                 src={footerLogoUrl}
                 alt="Cache Digitech"
-                className="h-12 w-[130px] object-contain shrink-0 opacity-90 hover:opacity-100 transition-opacity duration-300"
+                className="h-12 w-[130px] object-contain shrink-0 opacity-90 hover:opacity-100 transition-opacity duration-300 justify-self-start"
                 decoding="async"
                 loading="lazy"
                 fetchPriority="low"
               />
+              <div className="flex justify-center justify-self-center py-1 sm:py-0">
+                <FooterEyes />
+              </div>
               <img
                 src="/women_owned.webp"
                 alt="Women Owned"
-                className="h-12 w-[130px] object-contain shrink-0 self-start sm:self-end"
+                className="h-12 w-[130px] object-contain shrink-0 justify-self-start sm:justify-self-end"
                 decoding="async"
                 loading="lazy"
                 fetchPriority="low"

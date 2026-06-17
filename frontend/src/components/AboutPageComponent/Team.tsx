@@ -8,6 +8,7 @@ interface TeamMember {
   image: string;
   link?: string;
   imageScale?: number;
+  imageOffsetY?: number;
 }
 
 const TeamSection: React.FC = () => {
@@ -19,7 +20,7 @@ const TeamSection: React.FC = () => {
     { id: 2, name: "Shraddha Gupta", designation: "Chief Executive Officer", image: "/team/shraddha.webp", link: "https://www.linkedin.com/in/shraddha--gupta/", imageScale: 1 },
     { id: 3, name: "Amit Chaudhary", designation: "Director", image: "/team/amit.webp", link: "https://www.linkedin.com/in/amit-chaudhary-9643b38/", imageScale: 1.05 },
     { id: 4, name: "Vinod Pulyani", designation: "Chief Finance Officer", image: "/team/Vinod.webp", link: "https://www.linkedin.com/in/vinod-pulyani-6701426/", imageScale: 1.20 },
-    { id: 5, name: "Sourabh Srivastava", designation: "Vice President - Cyber Security", image: "/team/saurabh.webp", link: "https://www.linkedin.com/in/sourabh-kumar-srivastava-6b078b148/", imageScale: 1.20 },
+    { id: 5, name: "Sourabh Srivastava", designation: "Chief Information Security Officer & Data Protection Officer", image: "/team/saurabh.webp", link: "https://www.linkedin.com/in/sourabh-kumar-srivastava-6b078b148/", imageScale: 1.20, imageOffsetY: 8 },
     { id: 8, name: "Naresh Kumar", designation: "Vice President - Infra", image: "/team/naresh.webp", link: "/", imageScale: 1 },
     { id: 9, name: "Anurag Singh", designation: "Vice President - Operation", image: "/team/anurag.webp", link: "/", imageScale: 1 },
     { id: 14, name: "Varun Vohra", designation: "Pre-Sales Manager", image: "/team/varun.webp", link: "https://www.linkedin.com/in/varun-vohra-926bb4365?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", imageScale: 1 },
@@ -120,7 +121,9 @@ const TeamSection: React.FC = () => {
                     src={member.image}
                     alt={member.name}
                     className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                    style={{ transform: `scale(${member.imageScale || 1})` }}
+                    style={{
+                      transform: `scale(${member.imageScale || 1})${member.imageOffsetY ? ` translateY(${member.imageOffsetY}%)` : ""}`,
+                    }}
                     loading="lazy"
                     decoding="async"
                   />

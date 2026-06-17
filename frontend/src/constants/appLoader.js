@@ -13,14 +13,25 @@ export const LOADER_EXIT_MS = 1200;
 /** Max time before forcing loader removal. */
 export const LOADER_TOTAL_MS = LOADER_HOLD_MS + LOADER_EXIT_MS + 80;
 
-/** Black curtain slide duration (route transitions). */
-export const LOADER_SLIDE_MS = 1100;
+/**
+ * Framer LoadScreen bar transition — https://framer.com/m/Interactive-Components-Preloader-LoadScreen-j67ejr
+ * Two quick steps + one longer final step per direction.
+ */
+export const CURTAIN_STEP_MS = 200;
+export const CURTAIN_FINAL_MS = 400;
+export const LOADER_SLIDE_MS = CURTAIN_STEP_MS * 2 + CURTAIN_FINAL_MS;
 
-/** Shared easing for curtain transforms (route overlay). */
-export const CURTAIN_EASING = "cubic-bezier(0.76, 0, 0.24, 1)";
+/** Framer LoadScreen easing — cubic-bezier(1, 0, 0.56, 1) */
+export const CURTAIN_BAR_EASE = [1, 0, 0.56, 1];
+
+/** Vertical bar fill */
+export const CURTAIN_PANEL_FILL = "#000000";
 
 /** Centered logo on route transition curtains. */
 export const CURTAIN_LOGO_SRC = "/navbar-logo.svg";
+
+/** Legacy curtain easing (unused by bar loader, kept for reference). */
+export const CURTAIN_EASING = "cubic-bezier(0.76, 0, 0.24, 1)";
 
 /** Framer Page Loader branding */
 export const LOADER_HEADING = "CACHE DIGITECH";
