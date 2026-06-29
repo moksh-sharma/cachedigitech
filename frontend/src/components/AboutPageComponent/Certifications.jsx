@@ -4,9 +4,8 @@ function Certifications({ sectionOnly = false }) {
   const certifications = [
     { name: "ISO 9001:2015", logo: "/iso9001.webp", description: "Quality Management System" },
     { name: "ISO 27001:2022", logo: "/iso27001.webp", description: "Information Security Management" },
-    { name: "CMMI Level 5", logo: "/cmmilevel.webp", description: "Capability Maturity Model Integration" },
     { name: "MSME Registered", logo: "/msme.webp", description: "Micro, Small & Medium Enterprises" },
-    { name: "NSIC Registered", logo: "/nisc.webp", description: "National Small Industries Corporation" },
+    { name: "NISC Registered", logo: "/nisc.webp", description: "National Information Solutions Cooperative" },
     { name: "WEConnect International", logo: "/weconnect.webp", description: "Women-Owned Business Certification" },
   ];
 

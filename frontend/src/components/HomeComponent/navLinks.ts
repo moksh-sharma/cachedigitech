@@ -30,7 +30,6 @@ export const navLinks: NavLink[] = [
   { label: "Cache DB", route: "/innovations/projects/cache-db" },
   { label: "Cache DOC", route: "/innovations/projects/cache-doc" },
   { label: "Web & App Development", route: "/innovations/projects/custom-app-development" },
-  { label: "GRC (Sanchalan)", route: "/innovations/projects/grc" },
 
   // Search aliases (same page)
   { label: "Awards and Accolades", route: "/about/awards" },

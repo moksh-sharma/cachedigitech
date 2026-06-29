@@ -33,22 +33,6 @@ export const INNOVATION_PROJECTS = [
     ],
   },
   {
-    name: "GRC (Sanchalan)",
-    slug: "grc",
-    tagline: "AI-enabled Governance, Risk, and Compliance platform.",
-    description:
-      "Sanchalan.ai is an AI-enabled Governance, Risk, and Compliance (GRC) platform that helps organizations manage regulatory requirements, security policies, and compliance frameworks in a centralized environment. The system automates compliance checklists, collects required documents, and tracks audit readiness across departments. With built-in risk monitoring and reporting capabilities, it reduces manual compliance effort while ensuring organizations maintain strong governance, transparency, and regulatory alignment.",
-    image: "/images/innovations/grc.webp",
-    features: [
-      "Centralized management of regulatory requirements and security policies",
-      "Automated compliance checklists and document collection",
-      "Audit readiness tracking across departments",
-      "Built-in risk monitoring and reporting",
-      "Strong governance, transparency, and regulatory alignment",
-      "Reduced manual compliance effort",
-    ],
-  },
-  {
     name: "AskCache",
     slug: "askcache",
     tagline: "Enterprise AI knowledge and solution architecture assistant.",

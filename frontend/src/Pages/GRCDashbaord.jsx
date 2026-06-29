@@ -58,7 +58,6 @@ export default function GRCDashboard() {
             "IRDA ISNP",
             "SEBI",
             "NPCI",
-            "Aadhaar",
             "P2P Lending",
             "NBFC"
           ]

@@ -62,8 +62,8 @@ const capabilities = [
   },
   {
     icon: Database,
-    title: "Database Activity Monitoring (DAM) / Financial Data Protection (FIN)",
-    description: "Continuous monitoring of critical databases and financial data to prevent misuse and unauthorized access.",
+    title: "Database Activity Monitoring (DAM)",
+    description: "Continuous monitoring of critical databases to prevent misuse and unauthorized access.",
   },
   {
     icon: Mail,
@@ -74,11 +74,6 @@ const capabilities = [
     icon: Search,
     title: "Security Audits",
     description: "Periodic independent assessments to validate configuration, compliance, and control effectiveness.",
-  },
-  {
-    icon: Eye,
-    title: "Dark & Deep Web Monitoring",
-    description: "Continuous surveillance of dark web sources to detect leaked credentials or compromised data early.",
   },
 ];
 

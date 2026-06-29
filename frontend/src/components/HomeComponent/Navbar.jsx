@@ -50,7 +50,7 @@ const menuData = {
     ],
     submenus: {
       "Finance & Enterprise Solutions": ["Techbank", "CRM", "Bid Intelligence"],
-      "Operations & Compliance": ["GRC (Sanchalan)", "EDM", "Cache DOC"],
+      "Operations & Compliance": ["EDM", "Cache DOC"],
       "Workforce & Productivity": ["HRMS", "Employee App", "Mail Integration"],
       "GenAI and software solutions": ["AskCache", "Cache GPT", "Cache BI", "Cache DB", "Web & App Development"],
     },
