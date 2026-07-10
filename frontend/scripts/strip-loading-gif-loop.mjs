@@ -5,9 +5,11 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { assertWithin } from "./path-safe.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const gifPath = path.join(__dirname, "../public/loading.gif");
+const publicDir = path.resolve(__dirname, "..", "public");
+const gifPath = assertWithin(publicDir, path.join(publicDir, "loading.gif"));
 const b = fs.readFileSync(gifPath);
 const marker = Buffer.from("NETSCAPE2.0");
 const idx = b.indexOf(marker);

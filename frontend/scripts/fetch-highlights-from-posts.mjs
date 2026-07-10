@@ -9,6 +9,7 @@ import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { safeJoin, logScriptError } from './path-safe.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.resolve(__dirname, '..', 'public', 'images', 'highlights');
@@ -52,7 +53,7 @@ async function fetchText(url) {
     },
     redirect: 'follow',
   });
-  if (!res.ok) throw new Error(`GET ${url} -> ${res.status}`);
+  if (!res.ok) throw new Error(`GET failed with status ${res.status}`);
   return res.text();
 }
 
@@ -65,7 +66,7 @@ async function fetchBuffer(url) {
     },
     redirect: 'follow',
   });
-  if (!res.ok) throw new Error(`GET image -> ${res.status}`);
+  if (!res.ok) throw new Error(`GET image failed with status ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
 }
 
@@ -76,16 +77,16 @@ async function main() {
   for (let i = 0; i < POST_URLS.length; i++) {
     const postUrl = POST_URLS[i];
     const slug = `highlight-${String(i + 1).padStart(2, '0')}.webp`;
-    const dest = path.join(outDir, slug);
-    console.log(`[${i + 1}/${POST_URLS.length}] ${postUrl}`);
+    const dest = safeJoin(outDir, slug);
+    console.log(`[${i + 1}/${POST_URLS.length}] fetching highlight`);
 
     const html = await fetchText(postUrl);
     const imageUrl = extractOgImage(html);
     if (!imageUrl) {
-      throw new Error(`No og:image in HTML for ${postUrl}`);
+      throw new Error(`No og:image found for highlight ${i + 1}`);
     }
     if (!imageUrl.includes('media.licdn.com')) {
-      console.warn('  og:image is not LinkedIn CDN:', imageUrl);
+      console.warn('  og:image is not LinkedIn CDN');
     }
 
     const buf = await fetchBuffer(imageUrl);
@@ -94,14 +95,14 @@ async function main() {
       .toFile(dest);
 
     results.push(`/images/highlights/${slug}`);
-    console.log('  ->', dest, `(${Math.round(fs.statSync(dest).size / 1024)} KB)`);
+    console.log('  ->', path.relative(outDir, dest), `(${Math.round(fs.statSync(dest).size / 1024)} KB)`);
   }
 
   console.log('\nPublic paths for blogsAndHighlights.js:');
   results.forEach((p) => console.log(`  ${p}`));
 }
 
-main().catch((e) => {
-  console.error(e);
+main().catch(() => {
+  logScriptError('fetch-highlights');
   process.exit(1);
 });

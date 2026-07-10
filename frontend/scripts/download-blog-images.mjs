@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
+import { safeJoin, logScriptError } from "./path-safe.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -22,7 +23,7 @@ const BLOGS = [
   { slug: "blog-10-future-of-work", url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=85" },
 ];
 
-const OUT_DIR = path.join(__dirname, "..", "public", "blog");
+const OUT_DIR = path.resolve(__dirname, "..", "public", "blog");
 
 async function fetchBuffer(url) {
   const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" } });
@@ -38,13 +39,13 @@ async function main() {
   for (const { slug, url } of BLOGS) {
     try {
       const buffer = await fetchBuffer(url);
-      const outPath = path.join(OUT_DIR, `${slug}.webp`);
+      const outPath = safeJoin(OUT_DIR, `${slug}.webp`);
       await sharp(buffer)
         .webp({ quality: 85 })
         .toFile(outPath);
       console.log(`  ${slug}.webp`);
-    } catch (err) {
-      console.error(`  ${slug}: ${err.message}`);
+    } catch {
+      logScriptError(slug);
     }
   }
 

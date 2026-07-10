@@ -8,6 +8,7 @@ import sharp from "sharp";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { safeJoin, logScriptError } from "./path-safe.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.resolve(__dirname, "..", "public", "cloud", "subpages");
@@ -39,7 +40,7 @@ async function downloadBuffer(url) {
       Accept: "image/jpeg,image/webp,image/*,*/*;q=0.8",
     },
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
 }
 
@@ -53,16 +54,16 @@ async function toWebp(buf, destPath) {
 async function main() {
   fs.mkdirSync(outDir, { recursive: true });
   for (const [base, heroUrl, bodyUrl] of jobs) {
-    const heroPath = path.join(outDir, `${base}.webp`);
-    const bodyPath = path.join(outDir, `${base}-body.webp`);
+    const heroPath = safeJoin(outDir, `${base}.webp`);
+    const bodyPath = safeJoin(outDir, `${base}-body.webp`);
     try {
       console.log("Fetching", base, "hero…");
       await toWebp(await downloadBuffer(heroUrl), heroPath);
       console.log("Fetching", base, "body…");
       await toWebp(await downloadBuffer(bodyUrl), bodyPath);
       console.log("OK", base);
-    } catch (e) {
-      console.error("FAIL", base, e.message);
+    } catch {
+      logScriptError(base);
       process.exitCode = 1;
     }
   }
