@@ -11,23 +11,23 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import ffmpegStatic from "ffmpeg-static";
-import { assertWithin, logScriptError } from "./path-safe.mjs";
+import { assertWithin, safeJoin, logScriptError } from "./path-safe.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.resolve(__dirname, "..", "public");
-const VIDEOS_DIR = path.resolve(PUBLIC, "videos");
+const VIDEOS_DIR = safeJoin(PUBLIC, "videos");
 
 const TASKS = [
   {
     name: "About page background",
-    src: assertWithin(PUBLIC, path.join(VIDEOS_DIR, "aboutpage.mp4")),
-    dest: assertWithin(PUBLIC, path.join(VIDEOS_DIR, "aboutpage.gif")),
+    src: safeJoin(PUBLIC, "videos", "aboutpage.mp4"),
+    dest: safeJoin(PUBLIC, "videos", "aboutpage.gif"),
     vf: "fps=15,scale=800:-1:flags=lanczos",
   },
   {
     name: "AI logo animation",
-    src: assertWithin(PUBLIC, path.join(PUBLIC, "ai-logo-animation.webm")),
-    dest: assertWithin(PUBLIC, path.join(PUBLIC, "ai-logo-animation.gif")),
+    src: safeJoin(PUBLIC, "ai-logo-animation.webm"),
+    dest: safeJoin(PUBLIC, "ai-logo-animation.gif"),
     vf: "fps=20,scale=480:-1:flags=lanczos",
   },
 ];
@@ -61,7 +61,7 @@ async function main() {
     }
     try {
       await runFfmpeg(src, dest, vf);
-      console.log(`OK ${name} -> ${path.relative(PUBLIC, dest)}`);
+      console.log(`OK ${name}`);
       done++;
     } catch {
       logScriptError(name);
