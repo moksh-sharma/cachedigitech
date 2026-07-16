@@ -36,12 +36,12 @@ function Certifications({ sectionOnly = false }) {
             </p>
           </header>
 
-          {/* Certifications / Logos grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5 sm:gap-6">
+          {/* Certifications / Logos — centered row(s) */}
+          <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
             {certifications.map((cert) => (
               <div
                 key={cert.name}
-                className="group flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm p-5 sm:p-6 rounded-2xl border border-gray-100/80 shadow-sm hover:shadow-lg hover:border-red-100/60 transition-all duration-300"
+                className="group w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[170px] flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm p-5 sm:p-6 rounded-2xl border border-gray-100/80 shadow-sm hover:shadow-lg hover:border-red-100/60 transition-all duration-300"
               >
                 <div className="w-full aspect-square max-w-[140px] max-h-[140px] flex items-center justify-center mb-3">
                   <img

@@ -114,7 +114,4 @@ export const navLinks: NavLink[] = [
 
   // Contact
   { label: "Contact Us", route: "/contactus" },
-
-  // Company
-  { label: "Careers", route: "/careers" },
 ];

@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { navLinks } from "./navLinks";
 
 /* -- Sections that are direct links (no dropdown) -- */
-const DIRECT_LINK_SECTIONS = ["Careers", "Contact"];
+const DIRECT_LINK_SECTIONS = ["Contact"];
 
 /* -- Menu structure -- */
 const menuData = {
@@ -72,7 +72,7 @@ const menuData = {
         "Strategy Consulting",
         "Infrastructure Advisory",
         "Security Consulting",
-        "Risk & Compliance",
+        "GRC",
         "IT Audits",
         "Process Optimization",
       ],

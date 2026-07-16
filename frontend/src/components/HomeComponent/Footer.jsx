@@ -35,13 +35,9 @@ const MOBILE_SECTIONS = [
     heading: "Company",
     items: [
       { label: "About", href: "/about" },
-      { label: "Careers", href: "/careers" },
       { label: "EPF Notice", href: "/epf-amendment-notice" },
+      ...LEGAL_LINKS.map(({ label, href }) => ({ label, href })),
     ],
-  },
-  {
-    heading: "Legal",
-    items: LEGAL_LINKS.map(({ label, href }) => ({ label, href })),
   },
 ];
 
@@ -157,13 +153,13 @@ function Footer() {
             </div>
           </div>
 
-          {/* Footer first region - row of link columns (BT-style) */}
+          {/* Footer first region - row of link columns */}
           <section className="row region region-footer-first py-5 sm:py-6 lg:py-8 shrink-0" aria-label="Footer navigation">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-x-5 gap-y-4 sm:gap-x-6 md:gap-x-8 lg:gap-x-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-5 gap-y-6 sm:gap-x-6 md:gap-x-8 lg:gap-x-10">
               {/* About Us */}
               <div className="col-span-1">
-                <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-2">About Us</h3>
-                <ul className="space-y-1.5" role="list">
+                <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">About Us</h3>
+                <ul className="space-y-2" role="list">
                   {FOOTER_NAV[0].items.map((label) => (
                     <li key={label}>
                       <Link to={getHref(label)} className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">
@@ -216,18 +212,20 @@ function Footer() {
                 </ul>
               </div>
 
-              {/* Company & Legal - one column each */}
+              {/* Company (includes legal links) */}
               <div className="col-span-1">
                 <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Company</h3>
                 <ul className="space-y-2" role="list">
-                  <li><Link to="/about" className="text-[13px] text-gray-500 hover:text-white transition-colors">About</Link></li>
-                  <li><Link to="/careers" className="text-[13px] text-gray-500 hover:text-white transition-colors">Careers</Link></li>
-                  <li><Link to="/epf-amendment-notice" className="text-[13px] text-gray-500 hover:text-white transition-colors">EPF Notice</Link></li>
-                </ul>
-              </div>
-              <div className="col-span-1">
-                <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">Legal</h3>
-                <ul className="space-y-2" role="list">
+                  <li>
+                    <Link to="/about" className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">
+                      About
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/epf-amendment-notice" className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">
+                      EPF Notice
+                    </Link>
+                  </li>
                   {LEGAL_LINKS.map(({ label, href }) => (
                     <li key={label}>
                       <Link to={href} className="text-[13px] text-gray-500 hover:text-white transition-colors duration-200">

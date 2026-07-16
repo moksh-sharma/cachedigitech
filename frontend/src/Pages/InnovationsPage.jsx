@@ -570,12 +570,6 @@ export default function InnovationsPage() {
               >
                 Contact Us
               </Link>
-              <Link
-                to="/careers"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 sm:px-8 py-3 sm:py-4 rounded-full border border-white/30 transition-all duration-300 ease-out sm:hover:-translate-y-0.5 text-sm sm:text-base w-full sm:w-auto min-h-[44px]"
-              >
-                Careers in innovation
-              </Link>
             </div>
           </div>
         </div>

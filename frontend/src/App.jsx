@@ -32,7 +32,6 @@ const PartnershipCards = lazy(() => import("./components/AboutPageComponent/Card
 const TeamSection = lazy(() => import("./components/AboutPageComponent/Team"));
 const PrivacyPolicyPage = lazy(() => import("./Pages/PrivacyPolicyPage"));
 const TermsOfUsePage = lazy(() => import("./Pages/TermsOfUse"));
-const Careers = lazy(() => import("./Pages/Career"));
 const EPFAmendmentNotice = lazy(() => import("./Pages/EPFAmendmentNotice"));
 const CloudServicesPage = lazy(() => import("./Pages/coudpage"));
 const CloudSubServicePage = lazy(() => import("./Pages/CloudSubServicePage"));
@@ -122,52 +121,52 @@ function App() {
         <Navbar />
         <main className="flex-1 min-h-0">
           <AnimatedRoutes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/service/infra" element={<InfrastructureServicesPage />} />
-              <Route path="/service/network" element={<NetworkingServicesPage />} />
-              <Route path="/service/cloud-solutions" element={<CloudServicesPage />} />
-              <Route path="/cloudservices" element={<CloudServicesPage />} />
-              <Route path="/cloud/:slug" element={<CloudSubServicePage />} />
-              <Route path="/cybersecurity/:slug" element={<ServiceSubPage section="cybersecurity" />} />
-              <Route path="/cybersecurity" element={<CybersecurityServicesPage />} />
-              <Route path="/infrastructure/:slug" element={<ServiceSubPage section="infrastructure" />} />
-              <Route path="/infrastructureservice" element={<InfrastructureServicesPage />} />
-              <Route path="/data-analytics/:slug" element={<ServiceSubPage section="data-analytics" />} />
-              <Route path="/aianddataservice" element={<AIDataServicesPage />} />
-              <Route path="/managed-services/:slug" element={<ServiceSubPage section="managed-services" />} />
-              <Route path="/manageservices" element={<ManagedServicesPage />} />
-              <Route path="/consulting/:slug" element={<ServiceSubPage section="consulting" />} />
-              <Route path="/consultingservice" element={<NetworkingConsultingPage />} />
-              <Route path="/grc-dashboard" element={<GRC />} />
-              <Route path="/telecom" element={<TelecomPage />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/insights" element={<InsightPage />} />
-              <Route path="/blogs" element={<BlogsPage />} />
-              <Route path="/case-studies" element={<CaseStudiesPage />} />
-              <Route path="/blog/:id" element={<BlogDetailPage />} />
-              <Route path="/admin" element={<Navigate to="/" replace />} />
-              <Route path="/community" element={<CommunityPage />} />
-              <Route path="/developerteam" element={<DeveloperTeam />} />
-              <Route path="/contactus" element={<ContactUsPage />} />
-              <Route path="/about" element={<AboutCache />} />
-              <Route path="/innovations" element={<InnovationsPage />} />
-              <Route path="/innovations/projects/:slug" element={<InnovationsProjectPage />} />
-              <Route path="/about/profile" element={<Profile />} />
-              <Route path="/about/awards" element={<AwardsAndCertificationsPage />} />
-              <Route path="/about/certifications" element={<Navigate to="/about/awards" replace />} />
-              <Route path="/about/alliances" element={<PartnershipCards />} />
-              <Route path="/about/leadership" element={<TeamSection />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-              <Route path="/terms-of-use" element={<TermsOfUsePage />} />
-              <Route path="/careers" element={<Careers />} />
-              <Route path="/epf-amendment-notice" element={<EPFAmendmentNotice />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/service/infra" element={<InfrastructureServicesPage />} />
+            <Route path="/service/network" element={<NetworkingServicesPage />} />
+            <Route path="/service/cloud-solutions" element={<CloudServicesPage />} />
+            <Route path="/cloudservices" element={<CloudServicesPage />} />
+            <Route path="/cloud/:slug" element={<CloudSubServicePage />} />
+            <Route path="/cybersecurity/:slug" element={<ServiceSubPage section="cybersecurity" />} />
+            <Route path="/cybersecurity" element={<CybersecurityServicesPage />} />
+            <Route path="/infrastructure/:slug" element={<ServiceSubPage section="infrastructure" />} />
+            <Route path="/infrastructureservice" element={<InfrastructureServicesPage />} />
+            <Route path="/data-analytics/:slug" element={<ServiceSubPage section="data-analytics" />} />
+            <Route path="/aianddataservice" element={<AIDataServicesPage />} />
+            <Route path="/managed-services/:slug" element={<ServiceSubPage section="managed-services" />} />
+            <Route path="/manageservices" element={<ManagedServicesPage />} />
+            <Route path="/consulting/:slug" element={<ServiceSubPage section="consulting" />} />
+            <Route path="/consultingservice" element={<NetworkingConsultingPage />} />
+            <Route path="/grc-dashboard" element={<GRC />} />
+            <Route path="/telecom" element={<TelecomPage />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/insights" element={<InsightPage />} />
+            <Route path="/blogs" element={<BlogsPage />} />
+            <Route path="/case-studies" element={<CaseStudiesPage />} />
+            <Route path="/blog/:id" element={<BlogDetailPage />} />
+            <Route path="/admin" element={<Navigate to="/" replace />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/developerteam" element={<DeveloperTeam />} />
+            <Route path="/contactus" element={<ContactUsPage />} />
+            <Route path="/about" element={<AboutCache />} />
+            <Route path="/innovations" element={<InnovationsPage />} />
+            <Route path="/innovations/projects/:slug" element={<InnovationsProjectPage />} />
+            <Route path="/about/profile" element={<Profile />} />
+            <Route path="/about/awards" element={<AwardsAndCertificationsPage />} />
+            <Route path="/about/certifications" element={<Navigate to="/about/awards" replace />} />
+            <Route path="/about/alliances" element={<PartnershipCards />} />
+            <Route path="/about/leadership" element={<TeamSection />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-of-use" element={<TermsOfUsePage />} />
+            <Route path="/careers" element={<Navigate to="/" replace />} />
+            <Route path="/epf-amendment-notice" element={<EPFAmendmentNotice />} />
 
-              {/* Notification pages */}
-              <Route path="/campaigns" element={<CampaignsPage />} />
-              <Route path="/newsletter" element={<NewsletterPage />} />
-              <Route path="/offers" element={<OffersPage />} />
+            {/* Notification pages */}
+            <Route path="/campaigns" element={<CampaignsPage />} />
+            <Route path="/newsletter" element={<NewsletterPage />} />
+            <Route path="/offers" element={<OffersPage />} />
 
-              <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<NotFoundPage />} />
 
           </AnimatedRoutes>
         </main>

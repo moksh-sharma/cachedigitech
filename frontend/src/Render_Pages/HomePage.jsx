@@ -9,8 +9,6 @@ const CTASection = lazy(() => import('../components/HomeComponent/Subscribe'))
 const BlogSection = lazy(() =>
   import('../components/InsightComponent/blog-section').then((m) => ({ default: m.BlogSection }))
 )
-const CareersSection = lazy(() => import('../components/HomeComponent/CareersSection'))
-
 function BelowFoldFallback() {
   return <div className="min-h-[24px] w-full" aria-hidden />
 }
@@ -27,7 +25,6 @@ export default function HomePage() {
         <CacheSolutionsSection />
         <ProgressInNumbers />
         <BlogSection />
-        <CareersSection />
         <CTASection />
       </Suspense>
     </>
