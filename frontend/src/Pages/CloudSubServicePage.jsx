@@ -1,18 +1,17 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 import { ArrowRight, CheckCircle, Cloud, Sparkles } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import {
   cloudSubPageBySlug,
   isCloudSubPageSlug,
 } from "../data/cloudSubPages";
-import NotFoundPage from "./NotFoundPage";
 
 export default function CloudSubServicePage() {
   const { slug } = useParams();
 
   if (!slug || !isCloudSubPageSlug(slug)) {
-    return <NotFoundPage />;
+    return <Navigate to="/404" replace />;
   }
 
   const page = cloudSubPageBySlug[slug];

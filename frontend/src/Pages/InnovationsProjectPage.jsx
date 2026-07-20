@@ -10,7 +10,7 @@ export default function InnovationsProjectPage() {
   const project = INNOVATION_PROJECTS.find((p) => p.slug === slug);
 
   if (!project) {
-    return <Navigate to="/innovations" replace />;
+    return <Navigate to="/404" replace />;
   }
 
   const heroImage = project.image || FALLBACK_HERO_IMAGE;

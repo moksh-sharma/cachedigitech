@@ -2,15 +2,16 @@ Options -MultiViews
 RewriteEngine On
 RewriteBase /
 
+# If Apache would return 404, serve the SPA so React Router can show /404
+ErrorDocument 404 /index.html
+
 # SPA fallback: serve index.html for any path that is not a real file/dir
-# Fixes reload/refresh on deep links (e.g. /about, /contactus)
+# Unknown URLs (e.g. /mn) load the app, which redirects to /404
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-# Skip rewrite for asset paths and known file types
 RewriteCond %{REQUEST_URI} !^/assets/
-RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|gif|png|svg|ico|webp|avif|woff2?|ttf|eot|otf|json|html|xml|txt|pdf|zip)$ [NC]
-
-RewriteRule . /index.html [L]
+RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|gif|png|svg|ico|webp|avif|woff2?|ttf|eot|otf|json|html|xml|txt|pdf|zip|map|webm|mp4)$ [NC]
+RewriteRule ^ index.html [L,QSA]
 
 # Enable compression (smaller transfer = faster load)
 <IfModule mod_deflate.c>

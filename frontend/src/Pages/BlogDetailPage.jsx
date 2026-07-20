@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Calendar, User, Clock, Tag, ArrowLeft } from 'lucide-react';
 import { HARDCODED_BLOGS } from '../data/blogsAndHighlights';
@@ -9,18 +9,7 @@ export default function BlogDetailPage() {
   const post = HARDCODED_BLOGS.find((b) => String(b.id) === String(id)) ?? null;
 
   if (!post) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-6 sm:px-8 lg:px-12">
-        <p className="text-gray-600 mb-4">Blog post not found.</p>
-        <Link
-          to="/blogs"
-          className="inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-medium"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Blogs
-        </Link>
-      </div>
-    );
+    return <Navigate to="/404" replace />;
   }
 
   return (
