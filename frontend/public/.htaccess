@@ -2,23 +2,58 @@ Options -MultiViews
 RewriteEngine On
 RewriteBase /
 
-# If Apache would return 404, serve the SPA so React Router can show /404
+# ---------------------------------------------------------------------------
+# Real HTTP 404 for unknown paths (Hostinger / Apache)
+#
+# - Existing files/dirs (assets) are served as-is (200)
+# - Known SPA routes are rewritten to index.html (200)
+# - Everything else → Apache 404 + ErrorDocument body = index.html (status 404)
+#   React then shows the /404 UI while the response header stays 404.
+# ---------------------------------------------------------------------------
 ErrorDocument 404 /index.html
 
-# SPA fallback: serve index.html for any path that is not a real file/dir
-# Unknown URLs (e.g. /mn) load the app, which redirects to /404
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/assets/
-RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|gif|png|svg|ico|webp|avif|woff2?|ttf|eot|otf|json|html|xml|txt|pdf|zip|map|webm|mp4)$ [NC]
-RewriteRule ^ index.html [L,QSA]
+# Never rewrite the document we serve for errors / entry
+RewriteRule ^index\.html$ - [L]
 
-# Enable compression (smaller transfer = faster load)
+# Serve real files and directories (JS/CSS/images/etc.)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Static asset extensions (even if file check missed)
+RewriteCond %{REQUEST_URI} \.(css|js|mjs|jpe?g|gif|png|svg|ico|webp|avif|woff2?|ttf|eot|otf|json|html|xml|txt|pdf|zip|map|webm|mp4|wasm)$ [NC]
+RewriteRule ^ - [L]
+
+# ---- Known SPA routes → index.html (HTTP 200) ----
+# Home
+RewriteRule ^$ /index.html [L,QSA]
+
+# Exact pages (optional trailing slash)
+RewriteRule ^(service/infra|service/network|service/cloud-solutions)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(cloudservices|cybersecurity|infrastructureservice|aianddataservice|manageservices|consultingservice)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(grc-dashboard|telecom|contact|insights|blogs|case-studies|admin|community|developerteam|contactus)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(about|about/profile|about/awards|about/certifications|about/alliances|about/leadership)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(innovations|privacy-policy|terms-of-use|careers|epf-amendment-notice)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(campaigns|newsletter|offers)/?$ /index.html [L,QSA,NC]
+
+# Dynamic segments (prefix allowlist; invalid slugs still get 200 — React shows 404 UI)
+RewriteRule ^cloud/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^cybersecurity/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^infrastructure/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^data-analytics/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^managed-services/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^consulting/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^blog/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^innovations/projects/[^/]+/?$ /index.html [L,QSA,NC]
+
+# No catch-all rewrite. Unknown paths (e.g. /mn) fall through → HTTP 404.
+
+# Enable compression
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
 </IfModule>
 
-# Set cache headers for static assets (long cache = faster repeat loads)
+# Cache headers for static assets
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType image/jpg "access plus 1 year"

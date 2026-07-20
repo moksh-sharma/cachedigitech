@@ -1,15 +1,16 @@
 import React from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Calendar, User, Clock, Tag, ArrowLeft } from 'lucide-react';
 import { HARDCODED_BLOGS } from '../data/blogsAndHighlights';
+import NotFoundPage from './NotFoundPage';
 
 export default function BlogDetailPage() {
   const { id } = useParams();
   const post = HARDCODED_BLOGS.find((b) => String(b.id) === String(id)) ?? null;
 
   if (!post) {
-    return <Navigate to="/404" replace />;
+    return <NotFoundPage />;
   }
 
   return (

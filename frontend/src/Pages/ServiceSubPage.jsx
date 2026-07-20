@@ -1,20 +1,21 @@
 import React from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ArrowRight, CheckCircle, Sparkles } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { getSectionConfig, isSectionKey } from "../data/sectionRegistry";
 import { pageBySlug, isSlugValid } from "../data/serviceSubPageTypes";
+import NotFoundPage from "./NotFoundPage";
 
 export default function ServiceSubPage({ section }) {
   const { slug } = useParams();
 
   if (!section || !isSectionKey(section) || !slug) {
-    return <Navigate to="/404" replace />;
+    return <NotFoundPage />;
   }
 
   const config = getSectionConfig(section);
   if (!config || !isSlugValid(config, slug)) {
-    return <Navigate to="/404" replace />;
+    return <NotFoundPage />;
   }
 
   const pagesBySlug = pageBySlug(config);

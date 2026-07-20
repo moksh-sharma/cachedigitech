@@ -1,11 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { spaAllowlist404Plugin } from './spaAllowlist404Plugin.js'
 
 export default defineConfig({
   base: '/',
-  plugins: [react(),
-  tailwindcss()
+  plugins: [
+    react(),
+    tailwindcss(),
+    spaAllowlist404Plugin(),
   ],
   build: {
     rollupOptions: {

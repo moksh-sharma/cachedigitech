@@ -2,13 +2,35 @@ Options -MultiViews
 RewriteEngine On
 RewriteBase /
 
-# Serve SPA for missing paths so React can show the 404 page
+# Real HTTP 404 for unknown paths — see frontend/public/.htaccess for full comments.
 ErrorDocument 404 /index.html
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|gif|png|svg|ico|webp|avif|woff2?|ttf|eot|otf|json|html|xml|txt|pdf|zip|map|webm|mp4)$ [NC]
-RewriteRule ^ index.html [L,QSA]
+RewriteRule ^index\.html$ - [L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteCond %{REQUEST_URI} \.(css|js|mjs|jpe?g|gif|png|svg|ico|webp|avif|woff2?|ttf|eot|otf|json|html|xml|txt|pdf|zip|map|webm|mp4|wasm)$ [NC]
+RewriteRule ^ - [L]
+
+RewriteRule ^$ /index.html [L,QSA]
+
+RewriteRule ^(service/infra|service/network|service/cloud-solutions)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(cloudservices|cybersecurity|infrastructureservice|aianddataservice|manageservices|consultingservice)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(grc-dashboard|telecom|contact|insights|blogs|case-studies|admin|community|developerteam|contactus)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(about|about/profile|about/awards|about/certifications|about/alliances|about/leadership)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(innovations|privacy-policy|terms-of-use|careers|epf-amendment-notice)/?$ /index.html [L,QSA,NC]
+RewriteRule ^(campaigns|newsletter|offers)/?$ /index.html [L,QSA,NC]
+
+RewriteRule ^cloud/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^cybersecurity/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^infrastructure/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^data-analytics/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^managed-services/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^consulting/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^blog/[^/]+/?$ /index.html [L,QSA,NC]
+RewriteRule ^innovations/projects/[^/]+/?$ /index.html [L,QSA,NC]
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json

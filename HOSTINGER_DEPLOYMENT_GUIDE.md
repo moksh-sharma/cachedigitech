@@ -62,15 +62,21 @@ public_html/
 ## Troubleshooting
 
 ### Common Issues:
-1. **404 Errors on Route Navigation:**
-   - Ensure .htaccess file is uploaded and working
-   - Check if mod_rewrite is enabled on your hosting
+1. **404 Errors on valid Route Navigation / refresh:**
+   - Ensure `.htaccess` from `frontend/dist` (copied from `frontend/public/.htaccess`) is uploaded
+   - Check that `mod_rewrite` is enabled on Hostinger
+   - New routes must be added to the allowlist in `.htaccess` or they will return HTTP 404
 
-2. **Images Not Loading:**
+2. **Unknown URLs should return HTTP 404 (not 200):**
+   - Current `.htaccess` only rewrites **known** SPA paths to `index.html` (status 200)
+   - Unknown paths (e.g. `/mn`) use `ErrorDocument 404 /index.html` so the **response status is 404** while still loading the React 404 UI
+   - After changing routes in `App.jsx`, update the allowlist rules in `frontend/public/.htaccess`
+
+3. **Images Not Loading:**
    - Verify all image paths are correct
    - Check file permissions (should be 644)
 
-3. **CSS/JS Not Loading:**
+4. **CSS/JS Not Loading:**
    - Clear browser cache
    - Check if files are uploaded correctly
    - Verify file permissions

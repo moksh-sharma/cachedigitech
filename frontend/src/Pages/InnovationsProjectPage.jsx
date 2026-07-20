@@ -1,7 +1,8 @@
 import React from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Check } from "lucide-react";
 import { INNOVATION_PROJECTS } from "../data/innovationProjects";
+import NotFoundPage from "./NotFoundPage";
 
 const FALLBACK_HERO_IMAGE = "/hero-bg-image.webp";
 
@@ -10,7 +11,7 @@ export default function InnovationsProjectPage() {
   const project = INNOVATION_PROJECTS.find((p) => p.slug === slug);
 
   if (!project) {
-    return <Navigate to="/404" replace />;
+    return <NotFoundPage />;
   }
 
   const heroImage = project.image || FALLBACK_HERO_IMAGE;
