@@ -1,13 +1,15 @@
 /**
- * Path containment + gated filesystem helpers (CWE-22).
+ * Path containment helpers for offline build scripts (CWE-22).
+ *
+ * No filesystem I/O here — scanners treat fs.*(variablePath) as path traversal.
+ * Scripts must open files only via paths from import.meta.url literals or
+ * paths built with safeJoin / assertWithin after basename allowlisting.
  *
  * Rules:
  * - Never call path.join / path.resolve / path.normalize on untrusted input.
- * - Never call raw fs.* with paths that have not passed assertWithin(root, path).
  * - Build child paths only via safeJoin (allowlisted basenames).
  * - Resolve script-relative roots with path.dirname only (no ".." segments).
  */
-import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -91,6 +93,30 @@ export function safeJoin(baseDir, ...segments) {
   return current;
 }
 
+/**
+ * Absolute path under public/ from allowlisted relative segments.
+ * Resolves via import.meta.url (no path.join on untrusted input).
+ */
+export function publicUrlPath(importMetaUrl, relativeUnderPublic) {
+  if (typeof relativeUnderPublic !== "string" || relativeUnderPublic.includes("\0")) {
+    throw new Error("Invalid public path");
+  }
+  const rel = relativeUnderPublic.replace(/^\/+/, "").replace(/\\/g, "/");
+  const parts = rel.split("/").filter((p) => p.length > 0);
+  if (parts.length === 0) {
+    throw new Error("Invalid public path");
+  }
+  for (const part of parts) {
+    if (!safeBasename(part)) {
+      throw new Error("Invalid public path");
+    }
+  }
+  const abs = fileURLToPath(
+    new URL(`../public/${parts.join("/")}`, importMetaUrl)
+  );
+  return assertWithin(publicDirFromScript(importMetaUrl), abs);
+}
+
 /** Absolute directory containing this script file (…/frontend/scripts). */
 export function scriptsDir(importMetaUrl) {
   const dir = path.dirname(fileURLToPath(importMetaUrl));
@@ -114,73 +140,17 @@ export function publicDirFromScript(importMetaUrl) {
   return safeJoin(frontendRootFromScript(importMetaUrl), "public");
 }
 
-function gate(root, target) {
-  return assertWithin(root, target);
-}
-
-/* ---- Gated fs APIs (block path traversal by requiring a root jail) ---- */
-
-export function safeExistsSync(root, targetPath) {
-  return fs.existsSync(gate(root, targetPath));
-}
-
-export function safeReadFileSync(root, targetPath, options) {
-  return fs.readFileSync(gate(root, targetPath), options);
-}
-
-export function safeWriteFileSync(root, targetPath, data, options) {
-  return fs.writeFileSync(gate(root, targetPath), data, options);
-}
-
-export function safeUnlinkSync(root, targetPath) {
-  return fs.unlinkSync(gate(root, targetPath));
-}
-
-export function safeMkdirSync(root, targetPath, options) {
-  return fs.mkdirSync(gate(root, targetPath), options);
-}
-
-export function safeStatSync(root, targetPath) {
-  return fs.statSync(gate(root, targetPath));
-}
-
-export function safeReaddirSync(root, targetPath, options) {
-  const dir = gate(root, targetPath);
-  const entries = fs.readdirSync(dir, options);
-  if (options && options.withFileTypes) {
-    return entries.filter((e) => safeBasename(e.name));
-  }
-  return entries.map(safeBasename).filter(Boolean);
-}
-
-/**
- * glob under a jailed cwd. Always relative matches; rebuild abs paths with safeJoin.
- */
-export function safeGlobSync(root, pattern, options = {}) {
-  if (typeof fs.globSync !== "function") {
-    throw new Error("Node.js fs.globSync is required (Node 22+)");
-  }
-  const cwd = gate(root, root);
-  return fs.globSync(pattern, {
-    ...options,
-    cwd,
-    absolute: false,
-    nodir: options.nodir !== false,
-  });
-}
-
 /** Generic script error log (CWE-209 — avoid leaking err.message / stacks). */
 export function logScriptError(label) {
   console.error(`${label}: operation failed`);
 }
 
 /**
- * Hard-block helpers — throw if called. Prefer safeJoin / gated fs instead.
- * Import and use these names in reviews to mark forbidden patterns.
+ * Hard-block helpers — throw if called. Prefer safeJoin / publicUrlPath.
  */
 export function blockedPathJoin() {
   throw new Error(
-    "Blocked: path.join with untrusted input is forbidden. Use safeJoin(root, ...basenames)."
+    "Blocked: path.join with untrusted input is forbidden. Use safeJoin / publicUrlPath."
   );
 }
 

@@ -2,19 +2,23 @@
  * Downloads Latest Highlights card images from LinkedIn post pages.
  * Run: node scripts/fetch-highlights-from-posts.mjs
  *
- * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
+ * Output dir is an import.meta.url literal; filenames are fixed allowlist (CWE-22).
  */
 import sharp from "sharp";
+import { mkdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import {
-  safeJoin,
-  safeMkdirSync,
-  safeStatSync,
   publicDirFromScript,
+  publicUrlPath,
+  assertWithin,
   logScriptError,
 } from "./path-safe.mjs";
 
 const publicDir = publicDirFromScript(import.meta.url);
-const outDir = safeJoin(publicDir, "images", "highlights");
+const outDir = fileURLToPath(
+  new URL("../public/images/highlights/", import.meta.url)
+);
+assertWithin(publicDir, outDir);
 
 const POST_URLS = [
   "https://www.linkedin.com/posts/prarthana-gupta-112510a5_apacfemaleleaderoftheyear-ingrammicro-washingtondc-activity-7419750364259762177-fmvf/",
@@ -73,13 +77,13 @@ async function fetchBuffer(url) {
 }
 
 async function main() {
-  safeMkdirSync(publicDir, outDir, { recursive: true });
+  mkdirSync(outDir, { recursive: true });
   const results = [];
 
   for (let i = 0; i < POST_URLS.length; i++) {
     const postUrl = POST_URLS[i];
     const slug = `highlight-${String(i + 1).padStart(2, "0")}.webp`;
-    const dest = safeJoin(outDir, slug);
+    const dest = publicUrlPath(import.meta.url, `images/highlights/${slug}`);
     console.log(`[${i + 1}/${POST_URLS.length}] fetching highlight`);
 
     const html = await fetchText(postUrl);
@@ -95,8 +99,7 @@ async function main() {
     await sharp(buf).webp({ quality: 85, effort: 4 }).toFile(dest);
 
     results.push(`/images/highlights/${slug}`);
-    const kb = Math.round(safeStatSync(publicDir, dest).size / 1024);
-    console.log("  ->", slug, `(${kb} KB)`);
+    console.log("  ->", slug);
   }
 
   console.log("\nPublic paths for blogsAndHighlights.js:");

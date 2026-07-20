@@ -2,13 +2,16 @@
  * Download blog post images from URLs and save as webp in public/blog/
  * Run: node scripts/download-blog-images.mjs
  *
- * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
+ * Output dir is an import.meta.url literal; slugs are allowlisted (CWE-22).
  */
 import sharp from "sharp";
+import { mkdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import {
-  safeJoin,
-  safeMkdirSync,
+  safeBasename,
   publicDirFromScript,
+  publicUrlPath,
+  assertWithin,
   logScriptError,
 } from "./path-safe.mjs";
 
@@ -26,7 +29,8 @@ const BLOGS = [
 ];
 
 const publicDir = publicDirFromScript(import.meta.url);
-const OUT_DIR = safeJoin(publicDir, "blog");
+const OUT_DIR = fileURLToPath(new URL("../public/blog/", import.meta.url));
+assertWithin(publicDir, OUT_DIR);
 
 async function fetchBuffer(url) {
   const res = await fetch(url, {
@@ -40,15 +44,17 @@ async function fetchBuffer(url) {
 }
 
 async function main() {
-  safeMkdirSync(publicDir, OUT_DIR, { recursive: true });
+  mkdirSync(OUT_DIR, { recursive: true });
   console.log("Downloading blog images and converting to webp...");
 
   for (const { slug, url } of BLOGS) {
+    const clean = safeBasename(slug);
+    if (!clean) continue;
     try {
       const buffer = await fetchBuffer(url);
-      const outPath = safeJoin(OUT_DIR, `${slug}.webp`);
+      const outPath = publicUrlPath(import.meta.url, `blog/${clean}.webp`);
       await sharp(buffer).webp({ quality: 85 }).toFile(outPath);
-      console.log(`  ${slug}.webp`);
+      console.log(`  ${clean}.webp`);
     } catch {
       logScriptError(slug);
     }

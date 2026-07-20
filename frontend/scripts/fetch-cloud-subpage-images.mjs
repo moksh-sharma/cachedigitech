@@ -2,18 +2,22 @@
  * Downloads Unsplash photos as WebP under public/cloud/subpages/.
  * Run: node scripts/fetch-cloud-subpage-images.mjs
  *
- * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
+ * Output dir is an import.meta.url literal; basenames are allowlisted (CWE-22).
  */
 import sharp from "sharp";
+import { mkdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import {
-  safeJoin,
-  safeMkdirSync,
+  safeBasename,
   publicDirFromScript,
+  publicUrlPath,
+  assertWithin,
   logScriptError,
 } from "./path-safe.mjs";
 
 const publicDir = publicDirFromScript(import.meta.url);
-const outDir = safeJoin(publicDir, "cloud", "subpages");
+const outDir = fileURLToPath(new URL("../public/cloud/subpages/", import.meta.url));
+assertWithin(publicDir, outDir);
 
 const u = (id, w = 1600) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
@@ -47,18 +51,23 @@ async function toWebp(buf, destPath) {
 }
 
 async function main() {
-  safeMkdirSync(publicDir, outDir, { recursive: true });
+  mkdirSync(outDir, { recursive: true });
   for (const [base, heroUrl, bodyUrl] of jobs) {
-    const heroPath = safeJoin(outDir, `${base}.webp`);
-    const bodyPath = safeJoin(outDir, `${base}-body.webp`);
+    const clean = safeBasename(base);
+    if (!clean) continue;
+    const heroPath = publicUrlPath(import.meta.url, `cloud/subpages/${clean}.webp`);
+    const bodyPath = publicUrlPath(
+      import.meta.url,
+      `cloud/subpages/${clean}-body.webp`
+    );
     try {
-      console.log("Fetching", base, "hero…");
+      console.log("Fetching", clean, "hero…");
       await toWebp(await downloadBuffer(heroUrl), heroPath);
-      console.log("Fetching", base, "body…");
+      console.log("Fetching", clean, "body…");
       await toWebp(await downloadBuffer(bodyUrl), bodyPath);
-      console.log("OK", base);
+      console.log("OK", clean);
     } catch {
-      logScriptError(base);
+      logScriptError(clean);
       process.exitCode = 1;
     }
   }

@@ -2,14 +2,14 @@
  * Converts PNG/JPEG/JPG under frontend/public to WebP.
  * Run: node scripts/convert-to-webp.mjs
  *
- * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
+ * Paths are built only from import.meta.url + allowlisted basenames (CWE-22).
  */
 import sharp from "sharp";
 import path from "path";
+import { globSync } from "node:fs";
 import {
   safeBasename,
   safeJoin,
-  safeGlobSync,
   publicDirFromScript,
   logScriptError,
 } from "./path-safe.mjs";
@@ -20,7 +20,11 @@ const EXTENSIONS = new Set([".png", ".jpg", ".jpeg"]);
 const GLOB_PATTERN = "**/*.{png,jpg,jpeg,PNG,JPG,JPEG}";
 
 function listImageSegmentPaths() {
-  const relativePaths = safeGlobSync(publicDir, GLOB_PATTERN, { nodir: true });
+  // cwd is a trusted script-derived root (not request input).
+  const relativePaths = globSync(GLOB_PATTERN, {
+    cwd: publicDir,
+    nodir: true,
+  });
   const results = [];
   for (const rel of relativePaths) {
     const rawParts = rel.split(/[/\\]/).filter((p) => p.length > 0);

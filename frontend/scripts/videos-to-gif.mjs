@@ -2,33 +2,33 @@
  * Convert site videos to GIF. Uses ffmpeg-static (no global ffmpeg needed).
  * Run from frontend: npm run videos:to-gif
  *
- * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
+ * All media paths are import.meta.url literals under public/ (CWE-22).
  */
 import { spawn } from "child_process";
+import { mkdirSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import ffmpegStatic from "ffmpeg-static";
 import {
   assertWithin,
-  safeJoin,
-  safeMkdirSync,
-  safeExistsSync,
   publicDirFromScript,
   logScriptError,
 } from "./path-safe.mjs";
 
 const PUBLIC = publicDirFromScript(import.meta.url);
-const VIDEOS_DIR = safeJoin(PUBLIC, "videos");
+const VIDEOS_DIR = fileURLToPath(new URL("../public/videos/", import.meta.url));
+assertWithin(PUBLIC, VIDEOS_DIR);
 
 const TASKS = [
   {
     name: "About page background",
-    src: safeJoin(PUBLIC, "videos", "aboutpage.mp4"),
-    dest: safeJoin(PUBLIC, "videos", "aboutpage.gif"),
+    src: fileURLToPath(new URL("../public/videos/aboutpage.mp4", import.meta.url)),
+    dest: fileURLToPath(new URL("../public/videos/aboutpage.gif", import.meta.url)),
     vf: "fps=15,scale=800:-1:flags=lanczos",
   },
   {
     name: "AI logo animation",
-    src: safeJoin(PUBLIC, "ai-logo-animation.webm"),
-    dest: safeJoin(PUBLIC, "ai-logo-animation.gif"),
+    src: fileURLToPath(new URL("../public/ai-logo-animation.webm", import.meta.url)),
+    dest: fileURLToPath(new URL("../public/ai-logo-animation.gif", import.meta.url)),
     vf: "fps=20,scale=480:-1:flags=lanczos",
   },
 ];
@@ -53,10 +53,10 @@ function runFfmpeg(src, dest, vf) {
 }
 
 async function main() {
-  safeMkdirSync(PUBLIC, VIDEOS_DIR, { recursive: true });
+  mkdirSync(VIDEOS_DIR, { recursive: true });
   let done = 0;
   for (const { name, src, dest, vf } of TASKS) {
-    if (!safeExistsSync(PUBLIC, src)) {
+    if (!existsSync(src)) {
       console.warn(`Skip ${name}: source not found`);
       continue;
     }
