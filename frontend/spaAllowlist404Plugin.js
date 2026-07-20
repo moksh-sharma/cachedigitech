@@ -1,21 +1,28 @@
 import fs from "node:fs";
 import path from "node:path";
 import { isKnownSpaRoute, shouldSkipSpaCheck } from "./spaRouteAllowlist.js";
+import { assertWithin, safeJoin } from "./scripts/path-safe.mjs";
 
 /**
  * Serve index.html with HTTP 404 for unknown SPA paths (dev + preview).
  * Mirrors Hostinger .htaccess allowlist behavior.
+ *
+ * CWE-22: index.html is resolved only via safeJoin under Vite's project root —
+ * never path.join with request-derived segments.
  */
 export function spaAllowlist404Plugin() {
   return {
     name: "spa-allowlist-404",
     configureServer(server) {
+      const projectRoot = server.config.root;
       server.middlewares.use(async (req, res, next) => {
         try {
           await handleUnknownSpa(req, res, next, {
-            root: server.config.root,
+            projectRoot,
             transformIndexHtml: (url, html) =>
               server.transformIndexHtml(url, html),
+            // Fixed relative segments only (literals)
+            indexSegments: ["index.html"],
           });
         } catch (err) {
           next(err);
@@ -23,13 +30,13 @@ export function spaAllowlist404Plugin() {
       });
     },
     configurePreviewServer(server) {
+      const projectRoot = server.config.root;
       server.middlewares.use(async (req, res, next) => {
         try {
           await handleUnknownSpa(req, res, next, {
-            root: server.config.root,
-            // preview: dist/index.html, no transform
+            projectRoot,
             transformIndexHtml: async (_url, html) => html,
-            indexFile: path.join(server.config.root, "dist", "index.html"),
+            indexSegments: ["dist", "index.html"],
           });
         } catch (err) {
           next(err);
@@ -39,7 +46,33 @@ export function spaAllowlist404Plugin() {
   };
 }
 
-async function handleUnknownSpa(req, res, next, { root, transformIndexHtml, indexFile }) {
+/**
+ * Resolve the SPA shell path under projectRoot using allowlisted basenames only.
+ * @param {string} projectRoot
+ * @param {string[]} indexSegments e.g. ["index.html"] or ["dist","index.html"]
+ */
+function resolveShellHtml(projectRoot, indexSegments) {
+  if (typeof projectRoot !== "string" || !path.isAbsolute(projectRoot)) {
+    throw new Error("Invalid project root");
+  }
+  if (!Array.isArray(indexSegments) || indexSegments.length === 0) {
+    throw new Error("Invalid index segments");
+  }
+  // safeJoin rejects "..", separators, and enforces containment under projectRoot
+  const file = safeJoin(projectRoot, ...indexSegments);
+  assertWithin(projectRoot, file);
+  if (path.basename(file) !== "index.html") {
+    throw new Error("Shell file must be index.html");
+  }
+  return file;
+}
+
+async function handleUnknownSpa(
+  req,
+  res,
+  next,
+  { projectRoot, transformIndexHtml, indexSegments }
+) {
   if (req.method !== "GET" && req.method !== "HEAD") {
     return next();
   }
@@ -52,10 +85,14 @@ async function handleUnknownSpa(req, res, next, { root, transformIndexHtml, inde
     return next();
   }
 
-  // Accept: prefer HTML navigations; still 404 bare unknown paths
   const accept = req.headers.accept || "";
   if (accept.includes("text/html") || accept.includes("*/*") || !accept) {
-    const file = indexFile || path.join(root, "index.html");
+    let file;
+    try {
+      file = resolveShellHtml(projectRoot, indexSegments);
+    } catch {
+      return next();
+    }
     if (!fs.existsSync(file)) {
       return next();
     }
