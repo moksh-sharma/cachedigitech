@@ -1,6 +1,6 @@
 // src/App.jsx
 import React, { useEffect, Suspense, lazy } from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Route, Navigate, useLocation } from "react-router-dom";
 import { useLenis } from "./context/LenisContext";
 import { useAppLoader } from "./context/AppLoaderContext";
 import {
@@ -8,11 +8,13 @@ import {
   LOADER_EXIT_MS,
   LOADER_TOTAL_MS,
 } from "./constants/appLoader";
+import { isKnownSpaRoute } from "../spaRouteAllowlist.js";
 
 import Navbar from "./components/HomeComponent/Navbar";
 import Footer from "./components/HomeComponent/Footer";
 import CookieBanner from "./components/CookieBanner";
 import { AnimatedRoutes } from "./components/AnimatedRoutes";
+import NotFoundPage from "./Pages/NotFoundPage";
 
 // Home is imported eagerly so the first paint after the splash does not wait on a lazy chunk (hero is above the fold)
 import HomePage from "./Render_Pages/HomePage";
@@ -44,7 +46,6 @@ const TelecomPage = lazy(() => import("./Pages/TelecomePage"));
 const NetworkingConsultingPage = lazy(() => import("./Pages/consultingservicePage"));
 const ManagedServicesPage = lazy(() => import("./Pages/ManagedServices"));
 const GRC = lazy(() => import("./Pages/GRCDashbaord"));
-const NotFoundPage = lazy(() => import("./Pages/NotFoundPage"));
 const BlogDetailPage = lazy(() => import("./Pages/BlogDetailPage"));
 const BlogsPage = lazy(() => import("./Pages/BlogsPage"));
 const CaseStudiesPage = lazy(() => import("./Pages/CaseStudiesPage"));
@@ -55,8 +56,14 @@ const OffersPage = lazy(() => import("./Pages/OffersPage"));
 function App() {
   const { scrollTo, resize } = useLenis();
   const { setLoaderDone } = useAppLoader();
+  const location = useLocation();
+  const skipSplash =
+    typeof window !== "undefined" &&
+    (window.__CACHE_SKIP_APP_LOADER__ === true ||
+      !isKnownSpaRoute(location.pathname));
 
   // Framer Page Loader: hold → split panels apart → reveal app (loaderDone)
+  // Skipped entirely for unknown URLs (404 pages)
   useEffect(() => {
     const loader = document.getElementById("app-loader");
     const topPanel = loader?.querySelector(".page-loader__panel--top");
@@ -71,6 +78,11 @@ function App() {
       document.documentElement.classList.remove("app-loader-active");
       setLoaderDone(true);
     };
+
+    if (!loader || skipSplash) {
+      finishLoader();
+      return undefined;
+    }
 
     const startExit = () => {
       if (startedExit || !loader) return;
@@ -96,11 +108,6 @@ function App() {
       exitTimer = window.setTimeout(finishLoader, LOADER_EXIT_MS + 120);
     };
 
-    if (!loader) {
-      setLoaderDone(true);
-      return undefined;
-    }
-
     document.documentElement.classList.add("app-loader-active");
     holdTimer = window.setTimeout(startExit, LOADER_HOLD_MS);
     const fallbackTimer = window.setTimeout(startExit, LOADER_TOTAL_MS);
@@ -113,7 +120,7 @@ function App() {
       bottomPanel?.removeEventListener("transitionend", onPanelTransitionEnd);
       document.documentElement.classList.remove("app-loader-active");
     };
-  }, [setLoaderDone]);
+  }, [setLoaderDone, skipSplash]);
 
   return (
     <>
