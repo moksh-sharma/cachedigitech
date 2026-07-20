@@ -1,14 +1,16 @@
 /**
  * Download blog post images from URLs and save as webp in public/blog/
- * Run from frontend: node scripts/download-blog-images.mjs
+ * Run: node scripts/download-blog-images.mjs
+ *
+ * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
  */
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 import sharp from "sharp";
-import { safeJoin, logScriptError } from "./path-safe.mjs";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import {
+  safeJoin,
+  safeMkdirSync,
+  publicDirFromScript,
+  logScriptError,
+} from "./path-safe.mjs";
 
 const BLOGS = [
   { slug: "blog-1-ai-enterprise", url: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&q=85" },
@@ -23,26 +25,29 @@ const BLOGS = [
   { slug: "blog-10-future-of-work", url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=85" },
 ];
 
-const OUT_DIR = path.resolve(__dirname, "..", "public", "blog");
+const publicDir = publicDirFromScript(import.meta.url);
+const OUT_DIR = safeJoin(publicDir, "blog");
 
 async function fetchBuffer(url) {
-  const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" } });
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    },
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const ab = await res.arrayBuffer();
-  return Buffer.from(ab);
+  return Buffer.from(await res.arrayBuffer());
 }
 
 async function main() {
-  fs.mkdirSync(OUT_DIR, { recursive: true });
+  safeMkdirSync(publicDir, OUT_DIR, { recursive: true });
   console.log("Downloading blog images and converting to webp...");
 
   for (const { slug, url } of BLOGS) {
     try {
       const buffer = await fetchBuffer(url);
       const outPath = safeJoin(OUT_DIR, `${slug}.webp`);
-      await sharp(buffer)
-        .webp({ quality: 85 })
-        .toFile(outPath);
+      await sharp(buffer).webp({ quality: 85 }).toFile(outPath);
       console.log(`  ${slug}.webp`);
     } catch {
       logScriptError(slug);

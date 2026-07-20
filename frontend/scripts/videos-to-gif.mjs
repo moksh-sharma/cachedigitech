@@ -1,20 +1,21 @@
 /**
  * Convert site videos to GIF. Uses ffmpeg-static (no global ffmpeg needed).
+ * Run from frontend: npm run videos:to-gif
  *
- * 1. Place source files:
- *    - public/videos/aboutpage.mp4
- *    - public/ai-logo-animation.webm
- * 2. Run from frontend: npm run videos:to-gif
+ * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
  */
 import { spawn } from "child_process";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 import ffmpegStatic from "ffmpeg-static";
-import { assertWithin, safeJoin, logScriptError } from "./path-safe.mjs";
+import {
+  assertWithin,
+  safeJoin,
+  safeMkdirSync,
+  safeExistsSync,
+  publicDirFromScript,
+  logScriptError,
+} from "./path-safe.mjs";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PUBLIC = path.resolve(__dirname, "..", "public");
+const PUBLIC = publicDirFromScript(import.meta.url);
 const VIDEOS_DIR = safeJoin(PUBLIC, "videos");
 
 const TASKS = [
@@ -52,10 +53,10 @@ function runFfmpeg(src, dest, vf) {
 }
 
 async function main() {
-  fs.mkdirSync(VIDEOS_DIR, { recursive: true });
+  safeMkdirSync(PUBLIC, VIDEOS_DIR, { recursive: true });
   let done = 0;
   for (const { name, src, dest, vf } of TASKS) {
-    if (!fs.existsSync(src)) {
+    if (!safeExistsSync(PUBLIC, src)) {
       console.warn(`Skip ${name}: source not found`);
       continue;
     }

@@ -1,14 +1,16 @@
 /**
- * Download innovation project images from URLs and save as webp in public/images/innovations/
- * Run from frontend: node scripts/download-innovation-images.mjs
+ * Download innovation project images to public/images/innovations/
+ * Run: node scripts/download-innovation-images.mjs
+ *
+ * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
  */
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 import sharp from "sharp";
-import { safeJoin, logScriptError } from "./path-safe.mjs";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import {
+  safeJoin,
+  safeMkdirSync,
+  publicDirFromScript,
+  logScriptError,
+} from "./path-safe.mjs";
 
 const PROJECTS = [
   { slug: "techbank", url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" },
@@ -27,26 +29,29 @@ const PROJECTS = [
   { slug: "custom-app-development", url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80" },
 ];
 
-const OUT_DIR = path.resolve(__dirname, "..", "public", "images", "innovations");
+const publicDir = publicDirFromScript(import.meta.url);
+const OUT_DIR = safeJoin(publicDir, "images", "innovations");
 
 async function fetchBuffer(url) {
-  const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" } });
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    },
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const ab = await res.arrayBuffer();
-  return Buffer.from(ab);
+  return Buffer.from(await res.arrayBuffer());
 }
 
 async function main() {
-  fs.mkdirSync(OUT_DIR, { recursive: true });
+  safeMkdirSync(publicDir, OUT_DIR, { recursive: true });
   console.log("Downloading and converting to webp...");
 
   for (const { slug, url } of PROJECTS) {
     try {
       const buffer = await fetchBuffer(url);
       const outPath = safeJoin(OUT_DIR, `${slug}.webp`);
-      await sharp(buffer)
-        .webp({ quality: 82 })
-        .toFile(outPath);
+      await sharp(buffer).webp({ quality: 82 }).toFile(outPath);
       console.log(`  ${slug}.webp`);
     } catch {
       logScriptError(slug);

@@ -1,39 +1,41 @@
 /**
  * Downloads Latest Highlights card images from LinkedIn post pages.
- * Direct media.licdn.com URLs in data often expire (403); each post's og:image
- * contains a fresh signed CDN URL for the same photo.
+ * Run: node scripts/fetch-highlights-from-posts.mjs
  *
- * Run from frontend/: node scripts/fetch-highlights-from-posts.mjs
+ * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
  */
-import sharp from 'sharp';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { safeJoin, logScriptError } from './path-safe.mjs';
+import sharp from "sharp";
+import {
+  safeJoin,
+  safeMkdirSync,
+  safeStatSync,
+  publicDirFromScript,
+  logScriptError,
+} from "./path-safe.mjs";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const outDir = path.resolve(__dirname, '..', 'public', 'images', 'highlights');
+const publicDir = publicDirFromScript(import.meta.url);
+const outDir = safeJoin(publicDir, "images", "highlights");
 
 const POST_URLS = [
-  'https://www.linkedin.com/posts/prarthana-gupta-112510a5_apacfemaleleaderoftheyear-ingrammicro-washingtondc-activity-7419750364259762177-fmvf/',
-  'https://www.linkedin.com/posts/prarthana-gupta-112510a5_technology-breathe-cache-activity-7383343055010979840-Jay2/',
-  'https://www.linkedin.com/posts/prarthana-gupta-112510a5_delltechnologies-cache-partnerships-activity-7369212066651394048-KO8s/',
-  'https://www.linkedin.com/posts/prarthana-gupta-112510a5_we-are-delighted-to-share-that-cache-digitech-activity-7351302613625155584-T3lR/',
-  'https://www.linkedin.com/posts/nitika-mehta-b7b11a18_imc2025-digitalindia-telecom-ugcPost-7382066224739848192-gECd/',
-  'https://www.linkedin.com/posts/cache-digitech-pvt-ltd_award-servicesbusinessinida-itsector-ugcPost-7215991568502071296-7lZQ/',
-  'https://www.linkedin.com/posts/etcio_etcioac24-etcio-etcioac24-activity-7200119202781814784-CEya/',
+  "https://www.linkedin.com/posts/prarthana-gupta-112510a5_apacfemaleleaderoftheyear-ingrammicro-washingtondc-activity-7419750364259762177-fmvf/",
+  "https://www.linkedin.com/posts/prarthana-gupta-112510a5_technology-breathe-cache-activity-7383343055010979840-Jay2/",
+  "https://www.linkedin.com/posts/prarthana-gupta-112510a5_delltechnologies-cache-partnerships-activity-7369212066651394048-KO8s/",
+  "https://www.linkedin.com/posts/prarthana-gupta-112510a5_we-are-delighted-to-share-that-cache-digitech-activity-7351302613625155584-T3lR/",
+  "https://www.linkedin.com/posts/nitika-mehta-b7b11a18_imc2025-digitalindia-telecom-ugcPost-7382066224739848192-gECd/",
+  "https://www.linkedin.com/posts/cache-digitech-pvt-ltd_award-servicesbusinessinida-itsector-ugcPost-7215991568502071296-7lZQ/",
+  "https://www.linkedin.com/posts/etcio_etcioac24-etcio-etcioac24-activity-7200119202781814784-CEya/",
 ];
 
 const UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
 function decodeHtmlEntities(s) {
   return s
-    .replace(/&amp;/g, '&')
+    .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>');
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
 }
 
 function extractOgImage(html) {
@@ -47,11 +49,11 @@ function extractOgImage(html) {
 async function fetchText(url) {
   const res = await fetch(url, {
     headers: {
-      'User-Agent': UA,
-      Accept: 'text/html,application/xhtml+xml',
-      'Accept-Language': 'en-US,en;q=0.9',
+      "User-Agent": UA,
+      Accept: "text/html,application/xhtml+xml",
+      "Accept-Language": "en-US,en;q=0.9",
     },
-    redirect: 'follow',
+    redirect: "follow",
   });
   if (!res.ok) throw new Error(`GET failed with status ${res.status}`);
   return res.text();
@@ -60,23 +62,23 @@ async function fetchText(url) {
 async function fetchBuffer(url) {
   const res = await fetch(url, {
     headers: {
-      'User-Agent': UA,
-      Accept: 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
-      Referer: 'https://www.linkedin.com/',
+      "User-Agent": UA,
+      Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+      Referer: "https://www.linkedin.com/",
     },
-    redirect: 'follow',
+    redirect: "follow",
   });
   if (!res.ok) throw new Error(`GET image failed with status ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
 }
 
 async function main() {
-  fs.mkdirSync(outDir, { recursive: true });
+  safeMkdirSync(publicDir, outDir, { recursive: true });
   const results = [];
 
   for (let i = 0; i < POST_URLS.length; i++) {
     const postUrl = POST_URLS[i];
-    const slug = `highlight-${String(i + 1).padStart(2, '0')}.webp`;
+    const slug = `highlight-${String(i + 1).padStart(2, "0")}.webp`;
     const dest = safeJoin(outDir, slug);
     console.log(`[${i + 1}/${POST_URLS.length}] fetching highlight`);
 
@@ -85,24 +87,23 @@ async function main() {
     if (!imageUrl) {
       throw new Error(`No og:image found for highlight ${i + 1}`);
     }
-    if (!imageUrl.includes('media.licdn.com')) {
-      console.warn('  og:image is not LinkedIn CDN');
+    if (!imageUrl.includes("media.licdn.com")) {
+      console.warn("  og:image is not LinkedIn CDN");
     }
 
     const buf = await fetchBuffer(imageUrl);
-    await sharp(buf)
-      .webp({ quality: 85, effort: 4 })
-      .toFile(dest);
+    await sharp(buf).webp({ quality: 85, effort: 4 }).toFile(dest);
 
     results.push(`/images/highlights/${slug}`);
-    console.log('  ->', path.relative(outDir, dest), `(${Math.round(fs.statSync(dest).size / 1024)} KB)`);
+    const kb = Math.round(safeStatSync(publicDir, dest).size / 1024);
+    console.log("  ->", slug, `(${kb} KB)`);
   }
 
-  console.log('\nPublic paths for blogsAndHighlights.js:');
+  console.log("\nPublic paths for blogsAndHighlights.js:");
   results.forEach((p) => console.log(`  ${p}`));
 }
 
 main().catch(() => {
-  logScriptError('fetch-highlights');
+  logScriptError("fetch-highlights");
   process.exit(1);
 });

@@ -1,19 +1,25 @@
 /**
  * Convert .jpg files in public/hero/ to .webp
  * Run from frontend: node scripts/hero-jpg-to-webp.mjs
+ *
+ * All FS access is jailed under public/hero via path-safe gated APIs (CWE-22).
  */
-import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import sharp from "sharp";
-import { safeBasename, safeJoin, logScriptError } from "./path-safe.mjs";
+import {
+  safeBasename,
+  safeJoin,
+  safeReaddirSync,
+  safeUnlinkSync,
+  publicDirFromScript,
+  logScriptError,
+} from "./path-safe.mjs";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const HERO_DIR = path.resolve(__dirname, "..", "public", "hero");
+const publicDir = publicDirFromScript(import.meta.url);
+const HERO_DIR = safeJoin(publicDir, "hero");
 
 async function main() {
-  const files = fs
-    .readdirSync(HERO_DIR)
+  const files = safeReaddirSync(publicDir, HERO_DIR)
     .map(safeBasename)
     .filter((f) => f && f.toLowerCase().endsWith(".jpg"));
   if (files.length === 0) {
@@ -22,12 +28,13 @@ async function main() {
   }
   console.log("Converting JPG to WebP in public/hero/...");
   for (const file of files) {
-    const base = path.basename(file, path.extname(file));
+    const base = safeBasename(path.basename(file, path.extname(file)));
+    if (!base) continue;
     const srcPath = safeJoin(HERO_DIR, file);
     const outPath = safeJoin(HERO_DIR, `${base}.webp`);
     try {
       await sharp(srcPath).webp({ quality: 85 }).toFile(outPath);
-      fs.unlinkSync(srcPath);
+      safeUnlinkSync(publicDir, srcPath);
       console.log(`  ${file} -> ${base}.webp (removed original)`);
     } catch {
       logScriptError(file);

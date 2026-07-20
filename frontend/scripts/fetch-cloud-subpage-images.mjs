@@ -1,26 +1,23 @@
 /**
- * Downloads royalty-free Unsplash photos and saves as WebP under public/cloud/subpages/.
- * Run from repo root: node frontend/scripts/fetch-cloud-subpage-images.mjs
+ * Downloads Unsplash photos as WebP under public/cloud/subpages/.
+ * Run: node scripts/fetch-cloud-subpage-images.mjs
  *
- * Unsplash License: https://unsplash.com/license - free to use for commercial projects.
+ * All FS access is jailed under public/ via path-safe gated APIs (CWE-22).
  */
 import sharp from "sharp";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import { safeJoin, logScriptError } from "./path-safe.mjs";
+import {
+  safeJoin,
+  safeMkdirSync,
+  publicDirFromScript,
+  logScriptError,
+} from "./path-safe.mjs";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const outDir = path.resolve(__dirname, "..", "public", "cloud", "subpages");
+const publicDir = publicDirFromScript(import.meta.url);
+const outDir = safeJoin(publicDir, "cloud", "subpages");
 
-/** width param for CDN; we re-encode to WebP locally */
 const u = (id, w = 1600) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
 
-/**
- * Per subpage: hero (wide banner feel) + body (detail / secondary)
- * Photo IDs are Unsplash path segments after photo-
- */
 const jobs = [
   ["cloud-strategy", u("photo-1552664730-d307ca884978"), u("photo-1553877522-43269d4ea984")],
   ["hybrid-cloud", u("photo-1451187580459-43490279c0fa"), u("photo-1558494949-ef010cbdcc31")],
@@ -36,9 +33,7 @@ const jobs = [
 
 async function downloadBuffer(url) {
   const res = await fetch(url, {
-    headers: {
-      Accept: "image/jpeg,image/webp,image/*,*/*;q=0.8",
-    },
+    headers: { Accept: "image/jpeg,image/webp,image/*,*/*;q=0.8" },
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
@@ -52,7 +47,7 @@ async function toWebp(buf, destPath) {
 }
 
 async function main() {
-  fs.mkdirSync(outDir, { recursive: true });
+  safeMkdirSync(publicDir, outDir, { recursive: true });
   for (const [base, heroUrl, bodyUrl] of jobs) {
     const heroPath = safeJoin(outDir, `${base}.webp`);
     const bodyPath = safeJoin(outDir, `${base}-body.webp`);
