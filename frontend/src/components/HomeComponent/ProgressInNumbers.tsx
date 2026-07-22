@@ -2,11 +2,11 @@ import { useEffect, useState, useRef } from "react";
 
 const STATS = [
   { value: "32+", label: "Years of Legacy" },
-  { value: "24×7", label: "Support Availability" },
+  { value: "24x7", label: "Support Availability" },
   { value: "3", label: "Office Locations" },
   { value: "7+", label: "Core Service Domains" },
   { value: "6+", label: "Industry Verticals Served" },
-  { value: "24×7", label: "Monitoring Coverage" },
+  { value: "24x7", label: "Monitoring Coverage" },
   { value: "2", label: "ISO Certifications" },
   { value: "5", label: "CMMI Level" },
   { value: "Pan India", label: "Service Coverage" },

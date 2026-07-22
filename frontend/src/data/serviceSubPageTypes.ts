@@ -1,5 +1,14 @@
 import type { LucideIcon } from "lucide-react";
 
+export type ServiceListSection = {
+  title: string;
+  items: string[];
+  /** Optional lead-in text above the pointer list. */
+  intro?: string;
+  /** Optional note below the pointer list. */
+  footnote?: string;
+};
+
 export type ServiceSubPageDef = {
   slug: string;
   title: string;
@@ -8,8 +17,12 @@ export type ServiceSubPageDef = {
   heroImage: string;
   bodyImage: string;
   intro: string;
+  /** Optional extra overview paragraphs after `intro`. */
+  introParagraphs?: string[];
   highlights: string[];
   offerings: { title: string; description: string; icon: LucideIcon }[];
+  /** Optional pointer sections (capabilities, benefits, etc.). */
+  listSections?: ServiceListSection[];
 };
 
 export type SectionConfig = {

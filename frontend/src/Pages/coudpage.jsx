@@ -1,511 +1,359 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Cloud, Shield, Search, Upload, RotateCcw, RefreshCw, Monitor, Zap, Mail, Users, PenTool, Wrench, Settings, ArrowRight, Server, Lightbulb, TrendingUp, CheckCircle, Sparkles } from "lucide-react";
+import {
+  Cloud,
+  ArrowRight,
+  CheckCircle,
+  Sparkles,
+  Upload,
+  RefreshCw,
+  LineChart,
+  Receipt,
+  Shield,
+  Server,
+} from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { usePlacement } from "../context/PlacementsContext";
 
-const capabilities = [
-  {
-    icon: Shield,
-    title: "Cloud Security Services",
-    description: "End-to-end protection for data, workloads, and applications across multi-cloud and hybrid environments - powered by zero-trust architecture and compliance-first governance.",
-  },
-  {
-    icon: Cloud,
-    title: "Hybrid Cloud Solutions",
-    description: "Seamlessly integrate on-premises systems with public and private clouds to achieve maximum flexibility, scalability, and operational control.",
-  },
-  {
-    icon: Search,
-    title: "Cloud Assessment & Strategy",
-    description: "Evaluate your current cloud adoption and identify opportunities to improve performance, security, and cost optimization before migration.",
-  },
+const callouts = [
+  "34+ Years of Enterprise IT & Data Centre Heritage",
+  "3 Hyperscalers (AWS, Azure, GCP) Under One Roof",
+  "15%-30% Guaranteed Cloud Cost Optimization",
+  "< 15 Min Response SLA with 24/7/365 NOC & SOC Coverage",
+];
+
+const pillars = [
   {
     icon: Upload,
-    title: "Cloud Migration Services",
-    description: "Migrate applications and workloads to leading cloud platforms (AWS, Azure, Google Cloud, or hybrid environments) with minimal downtime and maximum efficiency.",
-  },
-  {
-    icon: RotateCcw,
-    title: "Cloud Repatriation",
-    description: "Move workloads strategically back to on-premises infrastructure when business, cost, or compliance requirements demand.",
+    title: "Seamless Cloud Migration & Rehosting",
+    description:
+      "Zero downtime lift-and-shift of VMs, ERPs, and databases to AWS, Azure, or GCP.",
+    to: "/cloud/cloud-migration",
   },
   {
     icon: RefreshCw,
-    title: "Application Modernization",
-    description: "Transform legacy applications into cloud-native, scalable, and cost-efficient systems that support your digital goals.",
+    title: "Application Replatforming & Modernization",
+    description:
+      "Refactor monoliths into microservices, containers, and serverless cloud-native stacks.",
+    to: "/cloud/app-modernization",
   },
   {
-    icon: Monitor,
-    title: "Managed Cloud Operations",
-    description: "Proactive monitoring, governance, and performance optimization to ensure your cloud environment runs securely and efficiently.",
+    icon: LineChart,
+    title: "Continuous Cloud Optimization & FinOps",
+    description:
+      "Eliminate waste with rightsizing, reservations, and continuous spend discipline.",
+    to: "/cloud/cloud-operations",
   },
   {
-    icon: Zap,
-    title: "Cloud Deployment & Automation",
-    description: "Simplify cloud and edge deployments through automation, ensuring compliance, reliability, and fast time-to-value.",
-  },
-  {
-    icon: Mail,
-    title: "Enterprise Email Solutions",
-    description: "Secure, scalable, and collaborative cloud-based email systems with built-in data protection and advanced availability.",
+    icon: Receipt,
+    title: "Multi-Cloud Billing & Spend Management",
+    description:
+      "One vendor, three clouds - single invoice with partner discounts and rebates.",
+    to: "/cloud/multi-cloud-billing",
   },
 ];
 
-const phases = [
+const matrixRows = [
   {
-    icon: Search,
-    title: "Audit",
-    objective: "Assess your IT and cloud ecosystem to identify cost, performance, and security gaps.",
-    highlights: "Infrastructure evaluation, risk analysis, cost-benefit insights.",
-    color: "from-red-500 to-red-600"
+    purePlay: "Cloud-only focus; ignores legacy hardware constraints",
+    cache:
+      "Deep expertise in hybrid architecture, SAN storage, and physical networking",
   },
   {
-    icon: Users,
-    title: "Consult",
-    objective: "Define the right cloud strategy aligned with your digital transformation goals.",
-    highlights: "Platform selection, compliance mapping, cloud roadmap.",
-    color: "from-red-600 to-red-700"
+    purePlay: "Multi-vendor billing chaos",
+    cache: "Single invoice for AWS, Azure, GCP & IT",
   },
   {
-    icon: PenTool,
-    title: "Design",
-    objective: "Architect scalable, secure, and future-ready cloud solutions.",
-    highlights: "Hybrid and multi-cloud design, data management, and security frameworks.",
-    color: "from-red-500 to-red-600"
-  },
-  {
-    icon: Wrench,
-    title: "Build",
-    objective: "Deploy, migrate, and integrate with automation for faster delivery.",
-    highlights: "Infrastructure provisioning, cloud integration, continuous deployment.",
-    color: "from-red-600 to-red-700"
-  },
-  {
-    icon: Settings,
-    title: "Operate & Manage",
-    objective: "Optimize and govern your cloud environment for long-term success.",
-    highlights: "Monitoring, performance tuning, and cost management.",
-    color: "from-red-500 to-red-600"
+    purePlay: "Reactive ticket support",
+    cache: "Proactive 24/7/365 NOC + SOC Command",
   },
 ];
 
-const achievements = [
-  {
-    icon: Server,
-    title: "Resilient Infrastructure",
-    description: "Enterprise-grade cloud and hybrid solutions designed for mission-critical operations.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovation Enablement",
-    description: "Scalable infrastructure supporting advanced R&D and rapid prototyping.",
-  },
-  {
-    icon: Zap,
-    title: "Business Agility",
-    description: "Flexible frameworks enabling quick response to evolving business needs.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Growth Acceleration",
-    description: "Optimized cloud infrastructure built for scalability, performance, and cost-efficiency.",
-  },
+const managedHighlights = [
+  "24/7/365 Live Monitoring: Automated health checks across all multi-cloud endpoints.",
+  "Autonomous Threat Triage: Real-time SIEM log ingestion and incident remediation.",
+  "Strict SLAs: Guarantees fast response and resolution times for mission-critical alerts.",
+  "Regulatory Compliance: Fully aligned with strict data security standards.",
 ];
 
-const benefits = [
-  {
-    icon: Cloud,
-    title: "End-to-End Cloud Expertise",
-    description: "Proven experience across cloud migration, hybrid cloud, and digital transformation programs.",
-  },
-  {
-    icon: Shield,
-    title: "Security by Design",
-    description: "Built-in zero-trust, compliance, and governance frameworks for every engagement.",
-  },
-  {
-    icon: Zap,
-    title: "Automation & Intelligence",
-    description: "AI-driven monitoring, auto-scaling, and predictive analytics for optimized operations.",
-  },
-  {
-    icon: Settings,
-    title: "Flexible Deployment Models",
-    description: "Choose from cloud, hybrid, edge, or on-premises based on your operational and regulatory needs.",
-  },
-  {
-    icon: CheckCircle,
-    title: "Proven Delivery Excellence",
-    description: "Consistent, outcome-driven execution across industries and enterprise scales.",
-  },
+const aiHighlights = [
+  "Funded AI PoC Program: Test customized Generative AI use cases in under 3 weeks using hyperscaler credits.",
+  "Enterprise Search & Knowledge Engines: Turn internal PDFs, logs, and database streams into instant natural-language query tools.",
+  "Autonomous Workflow Automation: Deploy intelligent AI agents to automate L1 support, threat triage, and repetitive back-office tasks.",
 ];
 
 export default function CloudPage() {
-  const heroImageUrl = usePlacement('cloudservices', 'main', 'heroImage') || '/images/cloudimg.webp';
+  const heroImageUrl =
+    usePlacement("cloudservices", "main", "heroImage") || "/images/cloudimg.webp";
 
   return (
     <div className="min-h-screen bg-white">
-
-      {/* Hero Banner */}
-      <section id="hero" className="relative h-screen scroll-mt-0">
+      {/* Hero */}
+      <section id="hero" className="relative min-h-[70vh] sm:min-h-[80vh] md:min-h-screen scroll-mt-0">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('${heroImageUrl}')` }}
         />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative max-w-7xl mx-auto h-full min-h-[50vh] sm:min-h-[60vh] md:min-h-0 flex flex-col items-center justify-center px-4 sm:px-6 pt-20 sm:pt-24 pb-12 text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-extrabold text-white tracking-tight">
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-transparent to-black/50" />
+        <div className="relative max-w-7xl mx-auto h-full min-h-[70vh] sm:min-h-[80vh] md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 pt-24 sm:pt-28 pb-12 text-center">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-black/35 border border-white/40 rounded-full text-white text-[10px] sm:text-xs font-medium mb-4 backdrop-blur-sm">
+            <Cloud className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
             Cloud
+          </div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight max-w-5xl leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.65)]">
+            34 Years of Enterprise Mastery. One Unified Multi-Cloud Powerhouse.
           </h1>
-          <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg lg:text-xl text-white/90 max-w-3xl leading-relaxed">
-            Secure, agile cloud and digital transformation to modernize and scale your enterprise.
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-white max-w-3xl leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">
+            We bridge legacy on-premises architecture with high-velocity cloud
+            innovation. As official partners with AWS, Microsoft Azure, and Google
+            Cloud Platform (GCP), Cache Digitech simplifies your multi-cloud
+            journey, eliminates spend waste, and secures your infrastructure
+            24/7/365.
           </p>
         </div>
       </section>
 
-      {/* Overview Section */}
-      <section id="overview-content" className="relative bg-linear-to-br from-white via-red-50/30 to-white overflow-hidden pt-8 sm:pt-12 lg:pt-16 pb-8 sm:pb-10 lg:pb-12 scroll-mt-20">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(220,38,38,0.05),transparent)] pointer-events-none"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl"></div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 lg:py-14">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-center">
-            <div className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium">
-                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                Cloud Services
-              </div>
-
-              {/* Main Heading */}
-              <div className="space-y-2 sm:space-y-3 lg:space-y-4">
-                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight">
-                  <span className="text-red-600">Cloud & Digital Transformation</span>{" "}
-                  Services by{" "}
-                  <span className="text-red-600 relative inline-block">
-                    Cache
-                    <span className="absolute -bottom-0.5 lg:-bottom-1 left-0 w-full h-0.5 bg-red-600/30 rounded-full" aria-hidden />
-                  </span>
-                </h1>
-
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 font-light leading-snug">
-                  Empowering enterprises to innovate, modernize, and scale with secure, agile, and intelligent cloud solutions.
-                </p>
-              </div>
-
-              {/* Description */}
-              <div className="space-y-2 sm:space-y-3 lg:space-y-4">
-                <p className="text-xs sm:text-sm lg:text-base text-gray-600 leading-relaxed">
-                  We help organizations accelerate their digital transformation through end-to-end cloud consulting and infrastructure modernization. Our expertise spans public, private, and hybrid cloud environments so your technology ecosystem stays agile, efficient, and future-ready.
-                </p>
-
-                <p className="text-xs sm:text-sm lg:text-base text-gray-600 leading-relaxed">
-                  From cloud migration and application modernization to security, governance, and operations, we enable your business to innovate at speed while maintaining enterprise-grade reliability and compliance.
-                </p>
-              </div>
+      {/* Callout ribbon */}
+      <section className="bg-gray-900 text-white py-6 sm:py-8 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {callouts.map((item) => (
+            <div
+              key={item}
+              className="flex items-start gap-2.5 text-sm sm:text-[15px] leading-snug"
+            >
+              <CheckCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" aria-hidden />
+              <span>{item}</span>
             </div>
+          ))}
+        </div>
+      </section>
 
-            {/* Hero Image */}
-            <div className="relative order-1 lg:order-last">
-              <div className="relative">
-                <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-2xl sm:rounded-3xl"></div>
+      {/* Core pillars */}
+      <section id="capabilities" className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 bg-gray-50 scroll-mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium mb-3">
+              <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              Core Cloud Service Pillars
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+              Four pillars. One multi-cloud outcome.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            {pillars.map((pillar) => {
+              const Icon = pillar.icon;
+              return (
+                <Link
+                  key={pillar.title}
+                  to={pillar.to}
+                  className="group bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 shadow-md border border-gray-100 hover:shadow-lg hover:border-red-100 transition-all"
+                >
+                  <div className="w-10 h-10 bg-linear-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <Icon className="w-5 h-5 text-white" aria-hidden />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-2">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                    {pillar.description}
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600">
+                    Explore
+                    <ArrowRight className="w-4 h-4" aria-hidden />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Hybrid advantage */}
+      <section id="hybrid-advantage" className="relative py-10 sm:py-14 lg:py-16 overflow-hidden scroll-mt-20">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(220,38,38,0.06),transparent)] pointer-events-none" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <div className="space-y-4 sm:space-y-5 order-2 lg:order-1">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium">
+                <Server className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                Why Cache Digitech?
+              </div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+                The Hybrid & On-Prem Advantage
+              </h2>
+              <p className="text-base sm:text-lg font-semibold text-gray-800">
+                We Know the Physical Metal. We Master the Digital Cloud.
+              </p>
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                Pure-play cloud vendors don&apos;t understand the realities of
+                legacy hardware, air-gapped networks, and hybrid data centers. With
+                34 years of enterprise data center experience, Cache Digitech
+                speaks fluently in both environments. We know how to integrate
+                existing on-premise infrastructure with AWS, Azure, and GCP into a
+                single, cohesive, highly resilient hybrid cloud ecosystem.
+              </p>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
                 <ImageWithFallback
                   src="/images/cloud.webp"
-                  alt="Cloud Computing Infrastructure"
-                  className="w-full h-36 sm:h-44 md:h-52 lg:h-64 xl:h-80 object-cover rounded-xl sm:rounded-2xl shadow-xl"
+                  alt="Hybrid cloud infrastructure"
+                  className="w-full aspect-4/3 sm:aspect-16/10 object-cover"
                   loading="eager"
                   fetchPriority="high"
                 />
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Capabilities Section */}
-      <section id="capabilities" className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gray-50 scroll-mt-20">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-5 sm:mb-8 lg:mb-10">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium mb-2 sm:mb-3">
-              <Cloud className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-              Our Capabilities
+          {/* Matrix */}
+          <div className="mt-10 sm:mt-12">
+            <h3 className="text-center text-lg sm:text-xl font-bold text-gray-900 mb-5 sm:mb-6 tracking-wide">
+              The Hybrid Advantage Matrix
+            </h3>
+            <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+              <table className="w-full min-w-[640px] text-left text-sm">
+                <thead>
+                  <tr className="bg-gray-900 text-white">
+                    <th className="px-4 py-3 sm:px-5 sm:py-4 font-semibold w-1/2">
+                      Pure-Play Cloud Vendors
+                    </th>
+                    <th className="px-4 py-3 sm:px-5 sm:py-4 font-semibold w-1/2 bg-red-600">
+                      Cache Digitech (34-Year Legacy)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {matrixRows.map((row, i) => (
+                    <tr
+                      key={row.purePlay}
+                      className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                    >
+                      <td className="px-4 py-3 sm:px-5 sm:py-4 text-gray-600 align-top border-t border-gray-100">
+                        {row.purePlay}
+                      </td>
+                      <td className="px-4 py-3 sm:px-5 sm:py-4 text-gray-800 font-medium align-top border-t border-gray-100">
+                        {row.cache}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">
-              Cache Cloud Capabilities
-            </h2>
-          </div>
-
-          {/* Capabilities Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
-            {capabilities.map((capability, index) => {
-              const Icon = capability.icon;
-              return (
-                <div
-                  key={index}
-                  className="group relative bg-white rounded-lg sm:rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
-                >
-                  {/* Icon Container */}
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-linear-to-br from-red-500 to-red-600 rounded-md sm:rounded-lg flex items-center justify-center mb-2 sm:mb-3 group-hover:scale-105 transition-transform duration-300">
-                    <Icon className="w-4 h-4 sm:w-4 lg:w-5 lg:h-5 text-white" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="space-y-1 sm:space-y-2">
-                    <h3 className="text-sm sm:text-base lg:text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-300 leading-tight">
-                      {capability.title}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed text-[11px] sm:text-xs lg:text-sm">
-                      {capability.description}
-                    </p>
-                  </div>
-
-                  {/* Gradient Overlay on Hover */}
-                  <div className="absolute inset-0 bg-linear-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-5 rounded-lg sm:rounded-xl lg:rounded-2xl transition-opacity duration-300 pointer-events-none"></div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </section>
 
-      {/* Transformation Approach Section */}
-      <section id="approach" className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-white scroll-mt-20">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-5 sm:mb-8 lg:mb-10">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium mb-2 sm:mb-3">
-              <Settings className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-              Our Approach
+      {/* Managed ops teaser */}
+      <section className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium">
+              <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              Managed Operations
             </div>
-
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">
-              Our Proven Cloud Transformation Approach
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+              24/7/365 NOC & SOC Command Center
             </h2>
-
-            <p className="text-xs sm:text-sm lg:text-base text-gray-600 max-w-4xl mx-auto mb-4 sm:mb-6 px-2">
-              At Cache, we follow a structured five-phase model designed for transparency, agility, and measurable outcomes:
+            <p className="text-base sm:text-lg font-semibold text-gray-800">
+              Military-Grade Security. Always-On Operational Resilience.
             </p>
-
-            {/* Process Flow */}
-            <div className="flex items-center justify-center gap-1 sm:gap-2 lg:gap-3 flex-wrap">
-              {phases.map((phase, index) => (
-                <div key={index} className="flex items-center">
-                  <span className="text-red-600 font-bold text-[11px] sm:text-xs lg:text-sm">{phase.title}</span>
-                  {index < phases.length - 1 && (
-                    <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 lg:w-4 lg:h-4 text-red-600 mx-0.5 sm:mx-1 lg:mx-2 shrink-0" />
-                  )}
-                </div>
-              ))}
-            </div>
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+              Sleep soundly knowing your cloud environment is monitored,
+              optimized, and defended around the clock. Our fully operational,
+              enterprise-grade Network Operations Center (NOC) and Security
+              Operations Center (SOC) ensure zero blind spots, proactive threat
+              hunting, and rapid incident response.
+            </p>
+            <Link
+              to="/cloud/managed-cloud-services"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:text-red-500"
+            >
+              Explore managed cloud services
+              <ArrowRight className="w-4 h-4" aria-hidden />
+            </Link>
           </div>
-
-          {/* Phases Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
-            {phases.map((phase, index) => {
-              const Icon = phase.icon;
-              return (
-                <div
-                  key={index}
-                  className="group relative bg-gray-50 hover:bg-white rounded-lg sm:rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
-                >
-                  {/* Phase Number */}
-                  <div className="absolute top-2 right-2 sm:top-3 sm:right-3 w-5 h-5 sm:w-6 sm:h-6 bg-red-100 rounded-full flex items-center justify-center">
-                    <span className="text-red-600 font-bold text-[10px] sm:text-xs">{index + 1}</span>
-                  </div>
-
-                  {/* Icon Container */}
-                  <div className={`w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-linear-to-br ${phase.color} rounded-md sm:rounded-lg flex items-center justify-center mb-2 sm:mb-3 group-hover:scale-105 transition-transform duration-300`}>
-                    <Icon className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="space-y-1.5 sm:space-y-2">
-                    <h3 className="text-sm sm:text-base lg:text-lg font-bold text-red-600">
-                      {phase.title}
-                    </h3>
-
-                    <div className="space-y-1 sm:space-y-1.5">
-                      <div>
-                        <p className="font-medium text-gray-900 text-[11px] sm:text-xs">Objective:</p>
-                        <p className="text-gray-600 text-[11px] sm:text-xs leading-relaxed">
-                          {phase.objective}
-                        </p>
-                      </div>
-
-                      <div>
-                        <p className="font-medium text-gray-900 text-[11px] sm:text-xs">Highlights:</p>
-                        <p className="text-gray-600 text-[11px] sm:text-xs leading-relaxed">
-                          {phase.highlights}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Gradient Overlay on Hover */}
-                  <div className={`absolute inset-0 bg-linear-to-br ${phase.color} opacity-0 group-hover:opacity-5 rounded-lg sm:rounded-xl lg:rounded-2xl transition-opacity duration-300 pointer-events-none`}></div>
-                </div>
-              );
-            })}
-          </div>
+          <ul className="space-y-3">
+            {managedHighlights.map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-2.5 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm text-sm text-gray-700"
+              >
+                <CheckCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" aria-hidden />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Infrastructure Operations Section */}
-      <section id="infrastructure" className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gray-50 scroll-mt-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-center">
-            {/* Content Side */}
-            <div className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1">
-              {/* Header */}
-              <div className="space-y-2 sm:space-y-3">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium">
-                  <Server className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                  Infrastructure Excellence
-                </div>
-
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
-                  Infrastructure & Cloud
-                  <span className="text-red-600 block">Operations</span>
-                </h2>
-
-                <p className="text-xs sm:text-sm lg:text-base text-gray-600 leading-relaxed">
-                  Cache delivers robust infrastructure management and cloud operations services that ensure seamless performance across your technology ecosystem - including data centers, storage, hypervisors, and multi-cloud platforms.
-                </p>
-              </div>
-
-              {/* Achievements */}
-              <div className="space-y-3 sm:space-y-4 lg:space-y-6">
-                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900">
-                  We help enterprises achieve:
-                </h3>
-
-                <div className="space-y-2 sm:space-y-3 lg:space-y-4">
-                  {achievements.map((achievement, index) => {
-                    const Icon = achievement.icon;
-                    return (
-                      <div
-                        key={index}
-                        className="group flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 lg:p-4 bg-white hover:bg-red-50/50 rounded-lg sm:rounded-xl border border-gray-100 hover:border-red-200 hover:shadow-md transition-all duration-300"
-                      >
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 bg-red-600 rounded-md sm:rounded-lg flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
-                          <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-4 lg:h-4 text-white" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-300 mb-0.5 sm:mb-1 text-sm sm:text-base lg:text-lg">
-                            {achievement.title}
-                          </h4>
-                          <p className="text-gray-600 text-[11px] sm:text-xs lg:text-sm leading-relaxed">
-                            {achievement.description}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+      {/* AI CoE teaser */}
+      <section className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 bg-white">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <div className="space-y-4 order-2 lg:order-1">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium">
+              <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              AI Center of Excellence
             </div>
-
-            {/* Image Side */}
-            <div className="relative order-1 lg:order-last">
-              {/* Main Image */}
-              <div className="relative">
-                <ImageWithFallback
-                  src="/images/cloud2.webp"
-                  alt="Cloud Server Data Center"
-                  className="w-full h-36 sm:h-44 md:h-52 lg:h-72 xl:h-80 object-cover rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl"
-                />
-                <div className="absolute inset-0 bg-linear-to-tr from-red-600/10 to-transparent rounded-lg sm:rounded-xl lg:rounded-2xl"></div>
-              </div>
-
-              {/* Background Decoration */}
-              <div className="absolute -z-10 top-4 right-4 lg:top-8 lg:right-8 w-48 h-48 lg:w-72 lg:h-72 bg-red-600/5 rounded-full blur-3xl"></div>
-            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+              From Raw Data to Autonomous Enterprise AI
+            </h2>
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+              Stop experimenting with static AI chatbots - build production-ready
+              intelligence that drives top-line revenue. The Cache Digitech AI CoE
+              builds customized Large Language Models (LLMs), Retrieval-Augmented
+              Generation (RAG) pipelines, and autonomous agentic workflows
+              natively on AWS Bedrock, Azure OpenAI, and GCP Vertex AI.
+            </p>
+            <Link
+              to="/cloud/ai-coe"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:text-red-500"
+            >
+              Explore the AI CoE
+              <ArrowRight className="w-4 h-4" aria-hidden />
+            </Link>
           </div>
+          <ul className="space-y-3 order-1 lg:order-2">
+            {aiHighlights.map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-2.5 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100 shadow-sm text-sm text-gray-700"
+              >
+                <CheckCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" aria-hidden />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Why Partner Section */}
-      <section id="partnership" className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden scroll-mt-20">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.1),transparent)] pointer-events-none"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(220,38,38,0.05),transparent)] pointer-events-none"></div>
-
-        <div className="max-w-7xl mx-auto relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-center">
-            {/* Content Side */}
-            <div className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1">
-              {/* Header */}
-              <div className="space-y-2 sm:space-y-3">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/20 border border-red-600/30 rounded-full text-red-400 text-[11px] sm:text-xs font-medium">
-                  <Cloud className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                  Partnership Benefits
-                </div>
-
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
-                  Why Partner
-                  <span className="text-red-400 block">with Cache</span>
-                </h2>
-              </div>
-
-              {/* Benefits List */}
-              <div className="space-y-2 sm:space-y-3 lg:space-y-4">
-                {benefits.map((benefit, index) => {
-                  const Icon = benefit.icon;
-                  return (
-                    <div key={index} className="group flex items-start gap-2 sm:gap-3">
-                      <div className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 bg-red-600 rounded-md sm:rounded-lg flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
-                        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-4 lg:h-4 text-white" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-white group-hover:text-red-400 transition-colors duration-300 mb-0.5 sm:mb-1 text-xs sm:text-sm">
-                          {benefit.title}
-                        </h3>
-                        <p className="text-gray-300 text-[11px] sm:text-xs lg:text-sm leading-relaxed">
-                          {benefit.description}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Bottom CTA */}
-              <div className="pt-3 sm:pt-4 lg:pt-6 border-t border-gray-700">
-                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-2 sm:mb-3">
-                  Accelerate Your Cloud Journey with Cache
-                </h3>
-                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
-                  Partner with Cache for end-to-end cloud strategy, migration, and operations. We help you innovate faster while keeping security, compliance, and cost under control.
-                </p>
-                <Link
-                  to="/contactus"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800"
-                >
-                  Get in touch
-                  <ArrowRight className="w-3.5 h-3.5" aria-hidden />
-                </Link>
-              </div>
-            </div>
-
-            {/* Image Side */}
-            <div className="relative order-1 lg:order-last">
-              {/* Main Image Container */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-linear-to-tr from-red-600/20 to-transparent rounded-xl sm:rounded-2xl"></div>
-                <ImageWithFallback
-                  src="/images/infraimg.webp"
-                  alt="Digital Transformation Technology"
-                  className="w-full h-36 sm:h-44 md:h-52 lg:h-72 xl:h-80 object-cover rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl"
-                />
-              </div>
-
-              {/* Background Glow */}
-              <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 lg:w-96 lg:h-96 bg-red-600/20 rounded-full blur-3xl"></div>
-            </div>
+      {/* Final CTA */}
+      <section className="py-12 sm:py-16 px-4 sm:px-6 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.12),transparent)] pointer-events-none" />
+        <div className="max-w-3xl mx-auto relative text-center">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">
+            Ready to Slash Cloud Costs and Accelerate Your AI Roadmap?
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-gray-300 leading-relaxed">
+            Book a 15-minute strategy session with our Multi-Cloud Solutions
+            Architects and claim your Complimentary 14-Day Cloud Cost Assessment.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              to="/contactus"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-500 text-white text-sm font-semibold rounded-lg transition-colors"
+            >
+              Claim Your Free Cloud Audit
+              <ArrowRight className="w-4 h-4" aria-hidden />
+            </Link>
+            <Link
+              to="/contactus"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-white/90 text-sm font-semibold rounded-lg border border-white/25 hover:bg-white/10 transition-colors"
+            >
+              Schedule Architecture Review
+            </Link>
           </div>
         </div>
       </section>

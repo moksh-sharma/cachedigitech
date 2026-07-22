@@ -14,7 +14,18 @@ const menuData = {
   "What We Do": {
     items: ["Cloud", "Cybersecurity", "Data Analytics & AI", "Infra & Networking"],
     submenus: {
-      "Cloud": ["Cloud Overview", "Cloud Strategy", "Hybrid Cloud", "Cloud Security", "App Modernization", "Cloud Operations"],
+      "Cloud": [
+        "Cloud Overview",
+        "Cloud Migration & Rehosting",
+        "App Replatforming & Modernization",
+        "Cloud Optimization & FinOps",
+        "Multi-Cloud Billing",
+        "NOC & SOC Command Center",
+        "AI Center of Excellence",
+        "Cloud Strategy",
+        "Hybrid Cloud",
+        "Cloud Security",
+      ],
       "Cybersecurity": [
         "Cybersecurity Overview",
         "Security Consulting",
@@ -60,10 +71,14 @@ const menuData = {
     submenus: {
       "Cloud": [
         "Cloud Overview",
+        "Cloud Migration & Rehosting",
+        "App Replatforming & Modernization",
+        "Cloud Optimization & FinOps",
+        "Multi-Cloud Billing",
+        "NOC & SOC Command Center",
+        "AI Center of Excellence",
         "Cloud Consulting",
-        "Cloud Migration",
         "Cloud Architecture",
-        "Managed Cloud Services",
         "Cloud Security",
         "DevOps & Automation",
       ],
@@ -79,7 +94,7 @@ const menuData = {
       "Managed Services": [
         "Managed Services Overview",
         "Network Managed Services",
-        "IT Infrastructure Management",
+        "IT Infrastructure Managed Services",
         "Cloud Managed Services",
         "Security Operations (SOC / SIEM / MDR)",
         "DevOps & Automation Services",

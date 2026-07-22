@@ -36,7 +36,7 @@ function Certifications({ sectionOnly = false }) {
             </p>
           </header>
 
-          {/* Certifications / Logos — centered row(s) */}
+          {/* Certifications / Logos - centered row(s) */}
           <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
             {certifications.map((cert) => (
               <div

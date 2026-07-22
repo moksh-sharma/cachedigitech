@@ -1,7 +1,7 @@
 /**
  * Path containment helpers for offline build scripts (CWE-22).
  *
- * No filesystem I/O here — scanners treat fs.*(variablePath) as path traversal.
+ * No filesystem I/O here - scanners treat fs.*(variablePath) as path traversal.
  * Scripts must open files only via paths from import.meta.url literals or
  * paths built with safeJoin / assertWithin after basename allowlisting.
  *
@@ -126,7 +126,7 @@ export function scriptsDir(importMetaUrl) {
   return dir;
 }
 
-/** frontend/ root = parent of scripts/ (via dirname — no ".." path segment). */
+/** frontend/ root = parent of scripts/ (via dirname - no ".." path segment). */
 export function frontendRootFromScript(importMetaUrl) {
   const root = path.dirname(scriptsDir(importMetaUrl));
   if (!path.isAbsolute(root) || !rejectTraversal(root)) {
@@ -140,13 +140,13 @@ export function publicDirFromScript(importMetaUrl) {
   return safeJoin(frontendRootFromScript(importMetaUrl), "public");
 }
 
-/** Generic script error log (CWE-209 — avoid leaking err.message / stacks). */
+/** Generic script error log (CWE-209 - avoid leaking err.message / stacks). */
 export function logScriptError(label) {
   console.error(`${label}: operation failed`);
 }
 
 /**
- * Hard-block helpers — throw if called. Prefer safeJoin / publicUrlPath.
+ * Hard-block helpers - throw if called. Prefer safeJoin / publicUrlPath.
  */
 export function blockedPathJoin() {
   throw new Error(

@@ -14,14 +14,14 @@ export const LOADER_EXIT_MS = 1200;
 export const LOADER_TOTAL_MS = LOADER_HOLD_MS + LOADER_EXIT_MS + 80;
 
 /**
- * Framer LoadScreen bar transition — https://framer.com/m/Interactive-Components-Preloader-LoadScreen-j67ejr
+ * Framer LoadScreen bar transition - https://framer.com/m/Interactive-Components-Preloader-LoadScreen-j67ejr
  * Two quick steps + one longer final step per direction.
  */
 export const CURTAIN_STEP_MS = 200;
 export const CURTAIN_FINAL_MS = 400;
 export const LOADER_SLIDE_MS = CURTAIN_STEP_MS * 2 + CURTAIN_FINAL_MS;
 
-/** Framer LoadScreen easing — cubic-bezier(1, 0, 0.56, 1) */
+/** Framer LoadScreen easing - cubic-bezier(1, 0, 0.56, 1) */
 export const CURTAIN_BAR_EASE = [1, 0, 0.56, 1];
 
 /** Vertical bar fill */

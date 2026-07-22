@@ -1,0 +1,21 @@
+---
+description: Always use ASCII hyphen "-" — never en/em dashes or ×
+alwaysApply: true
+---
+
+# Hyphens only (no fancy dashes)
+
+In all user-facing copy, titles, comments, and docs in this project:
+
+- Use the ASCII hyphen-minus `-` only
+- Do **not** use en dash `–` (U+2013), em dash `—` (U+2014), minus `−` (U+2212), or similar
+- For multiplication / “by”, use `x` (e.g. `24x7`, `24x7x365`) — not `×`
+- For ranges, use `-` (e.g. `15%-30%`, `30-40%`)
+- For clause breaks, use ` - ` with spaces (e.g. `secure - whether working…`)
+
+```text
+❌ 15%–30% | 24×7 | Page — Not Found | debt—eliminate
+✅ 15%-30% | 24x7 | Page - Not Found | debt - eliminate
+```
+
+When editing existing text, normalize any `–` / `—` / `×` to `-` / `x`.

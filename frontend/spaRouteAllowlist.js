@@ -1,5 +1,5 @@
 /**
- * Shared SPA route allowlist — keep in sync with public/.htaccess.
+ * Shared SPA route allowlist - keep in sync with public/.htaccess.
  * Used by Vite (dev/preview) to return HTTP 404 for unknown paths.
  */
 

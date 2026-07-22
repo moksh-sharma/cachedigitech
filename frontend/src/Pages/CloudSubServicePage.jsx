@@ -154,14 +154,14 @@ export default function CloudSubServicePage() {
               to="/contactus"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-500 text-white text-sm font-semibold rounded-lg transition-colors"
             >
-              Get in touch
+              Claim Your Free Cloud Audit
               <ArrowRight className="w-4 h-4" aria-hidden />
             </Link>
             <Link
-              to="/cloudservices"
+              to="/contactus"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 text-white/90 text-sm font-semibold rounded-lg border border-white/25 hover:bg-white/10 transition-colors"
             >
-              Explore full cloud portfolio
+              Schedule Architecture Review
             </Link>
           </div>
         </div>

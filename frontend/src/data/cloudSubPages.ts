@@ -10,6 +10,9 @@ import {
   LayoutGrid,
   Headphones,
   Workflow,
+  Receipt,
+  Sparkles,
+  RefreshCw,
 } from "lucide-react";
 
 export type CloudSubPageSlug =
@@ -22,7 +25,9 @@ export type CloudSubPageSlug =
   | "cloud-migration"
   | "cloud-architecture"
   | "managed-cloud-services"
-  | "devops-automation";
+  | "devops-automation"
+  | "multi-cloud-billing"
+  | "ai-coe";
 
 export type CloudSubPageDef = {
   slug: CloudSubPageSlug;
@@ -30,7 +35,6 @@ export type CloudSubPageDef = {
   shortTitle: string;
   tagline: string;
   heroImage: string;
-  /** Secondary image in content section */
   bodyImage: string;
   intro: string;
   highlights: string[];
@@ -102,43 +106,124 @@ export const cloudSubPages: CloudSubPageDef[] = [
     ],
   },
   {
+    slug: "cloud-migration",
+    title: "Seamless Cloud Migration & Rehosting",
+    shortTitle: "Migration & Rehosting",
+    tagline: "Zero Downtime. Zero Friction. Instant Scale.",
+    heroImage: IMG("cloud-migration"),
+    bodyImage: IMG("cloud-migration-body"),
+    intro:
+      "Stop worrying about cutover risks and business disruption. Whether moving legacy VMs, complex SAP ERPs, or mission-critical databases, our automated migration pipelines transfer your workloads to AWS, Azure, or GCP smoothly and securely.",
+    highlights: [
+      "100% data integrity with synchronous replication",
+      "Automated landing zone architecture tailored to compliance rules",
+      "Full leverage of hyperscaler funding programs (AWS MAP, Azure AMMP)",
+    ],
+    offerings: [
+      { title: "Lift & Shift", description: "Automated rehosting pipelines for VMs, ERPs, and databases.", icon: Upload },
+      { title: "Landing zones", description: "Compliance-ready foundations on AWS, Azure, and GCP.", icon: LayoutGrid },
+      { title: "Funding programs", description: "Maximize AWS MAP, Azure AMMP, and partner incentives.", icon: LineChart },
+    ],
+  },
+  {
     slug: "app-modernization",
-    title: "App Modernization",
-    shortTitle: "Modernization",
-    tagline: "From monoliths to scalable, cloud-native patterns.",
+    title: "Application Replatforming & Modernization",
+    shortTitle: "Replatforming",
+    tagline: "Turn Monoliths into Agile, Cloud-Native Engines.",
     heroImage: IMG("app-modernization"),
     bodyImage: IMG("app-modernization-body"),
     intro:
-      "Refactor, re-platform, or rebuild applications to unlock elasticity, resilience, and faster release cycles - without losing business continuity.",
+      "Don't just shift your technical debt to the cloud - eliminate it. We refactor and replatform legacy systems into microservices, containerized stacks (Kubernetes/Docker), and serverless architectures designed for speed and reliability.",
     highlights: [
-      "Microservices and API-first design",
-      "Containers, serverless, and managed platforms",
-      "Data and integration modernization alongside apps",
+      "Up to 40% boost in application processing performance",
+      "Instant auto-scaling during traffic spikes",
+      "Zero-downtime CI/CD deployment pipelines",
     ],
     offerings: [
-      { title: "Portfolio analysis", description: "6R-style classification and modernization sequencing.", icon: LayoutGrid },
-      { title: "Cloud-native build", description: "Kubernetes, serverless, and managed PaaS where they fit best.", icon: Cloud },
-      { title: "Quality & release", description: "Testing strategy, blue/green, and rollback-safe deployments.", icon: Workflow },
+      { title: "Microservices", description: "Decompose monoliths into scalable service boundaries.", icon: LayoutGrid },
+      { title: "Containers & K8s", description: "Kubernetes/Docker platforms built for resilience.", icon: Cloud },
+      { title: "Serverless & CI/CD", description: "Event-driven architectures with zero-downtime releases.", icon: RefreshCw },
     ],
   },
   {
     slug: "cloud-operations",
-    title: "Cloud Operations",
-    shortTitle: "Operations",
-    tagline: "Reliable day-2 ops: SRE practices, observability, and cost discipline.",
+    title: "Continuous Cloud Optimization & FinOps",
+    shortTitle: "FinOps",
+    tagline: "Eliminate Cloud Waste. Reclaim Up to 30% of Your Budget.",
     heroImage: IMG("cloud-operations"),
     bodyImage: IMG("cloud-operations-body"),
     intro:
-      "Keep production healthy with clear SLIs/SLOs, incident response, capacity planning, and FinOps-aware operations tuned to your risk profile.",
+      "Over 30% of average enterprise cloud spend is wasted on idle instances, unattached storage, and misaligned commitments. Our FinOps squad performs continuous, automated rightsizing and reservation management so you only pay for what you consume.",
     highlights: [
-      "24×7-ready operating procedures and escalation",
-      "Observability, alerting, and performance tuning",
-      "Change, patch, and configuration governance",
+      "Complimentary 14-Day Cloud Cost Audit",
+      "Automated resource scheduling and rightsizing",
+      "Real-time anomaly alerts preventing surprise invoices",
     ],
     offerings: [
-      { title: "Service operations", description: "Incident, problem, and change aligned to ITIL where needed.", icon: Headphones },
-      { title: "Platform reliability", description: "SRE practices, error budgets, and resilience testing.", icon: Server },
-      { title: "Optimization", description: "Rightsizing, reservations, and continuous improvement loops.", icon: LineChart },
+      { title: "Cost audit", description: "Complimentary 14-day assessment of cloud waste and savings.", icon: LineChart },
+      { title: "Rightsizing", description: "Automated scheduling and instance optimization.", icon: Server },
+      { title: "Anomaly alerts", description: "Real-time spend signals before invoices spike.", icon: Shield },
+    ],
+  },
+  {
+    slug: "multi-cloud-billing",
+    title: "Multi-Cloud Billing & Spend Management",
+    shortTitle: "Billing",
+    tagline: "One Vendor. Three Clouds. Zero Financial Complexity.",
+    heroImage: IMG("cloud-operations"),
+    bodyImage: IMG("cloud-operations-body"),
+    intro:
+      "Streamline your procurement process. Consolidate your AWS, Azure, and GCP bills into a single, transparent monthly invoice with custom discount structures, simplified AUD/INR billing, and no administrative friction.",
+    highlights: [
+      "Single-window billing management across AWS, Azure, and GCP",
+      "Unlocks custom partner discount structures and volume rebates",
+      "Dedicated billing specialists managing commitment plans",
+    ],
+    offerings: [
+      { title: "Single invoice", description: "One transparent bill across all hyperscalers.", icon: Receipt },
+      { title: "Partner discounts", description: "Custom structures and volume rebates unlocked.", icon: LineChart },
+      { title: "Commitment plans", description: "Specialists managing reservations and spend plans.", icon: Users },
+    ],
+  },
+  {
+    slug: "managed-cloud-services",
+    title: "24/7/365 NOC & SOC Command Center",
+    shortTitle: "NOC & SOC",
+    tagline: "Military-Grade Security. Always-On Operational Resilience.",
+    heroImage: IMG("managed-cloud-services"),
+    bodyImage: IMG("managed-cloud-services-body"),
+    intro:
+      "Sleep soundly knowing your cloud environment is monitored, optimized, and defended around the clock. Our fully operational, enterprise-grade Network Operations Center (NOC) and Security Operations Center (SOC) ensure zero blind spots, proactive threat hunting, and rapid incident response.",
+    highlights: [
+      "24/7/365 Live Monitoring: Automated health checks across all multi-cloud endpoints",
+      "Autonomous Threat Triage: Real-time SIEM log ingestion and incident remediation",
+      "Strict SLAs: Guarantees fast response and resolution times for mission-critical alerts",
+      "Regulatory Compliance: Fully aligned with strict data security standards",
+    ],
+    offerings: [
+      { title: "Live monitoring", description: "Automated health checks across multi-cloud endpoints.", icon: Headphones },
+      { title: "Threat triage", description: "SIEM ingestion and autonomous incident remediation.", icon: Shield },
+      { title: "SLA & compliance", description: "Mission-critical response times and data security standards.", icon: Server },
+    ],
+  },
+  {
+    slug: "ai-coe",
+    title: "AI Center of Excellence (CoE)",
+    shortTitle: "AI CoE",
+    tagline: "From Raw Data to Autonomous Enterprise AI.",
+    heroImage: IMG("app-modernization"),
+    bodyImage: IMG("app-modernization-body"),
+    intro:
+      "Stop experimenting with static AI chatbots - build production-ready intelligence that drives top-line revenue. The Cache Digitech AI CoE builds customized Large Language Models (LLMs), Retrieval-Augmented Generation (RAG) pipelines, and autonomous agentic workflows natively on AWS Bedrock, Azure OpenAI, and GCP Vertex AI.",
+    highlights: [
+      "Funded AI PoC Program: Test customized Generative AI use cases in under 3 weeks using hyperscaler credits",
+      "Enterprise Search & Knowledge Engines: Turn internal PDFs, logs, and database streams into instant natural-language query tools",
+      "Autonomous Workflow Automation: Deploy intelligent AI agents to automate L1 support, threat triage, and repetitive back-office tasks",
+    ],
+    offerings: [
+      { title: "Funded PoCs", description: "Generative AI use cases live in under 3 weeks with credits.", icon: Sparkles },
+      { title: "Knowledge engines", description: "Natural-language search over PDFs, logs, and data streams.", icon: Cloud },
+      { title: "Agentic workflows", description: "AI agents for L1 support, triage, and back-office tasks.", icon: Workflow },
     ],
   },
   {
@@ -162,26 +247,6 @@ export const cloudSubPages: CloudSubPageDef[] = [
     ],
   },
   {
-    slug: "cloud-migration",
-    title: "Cloud Migration",
-    shortTitle: "Migration",
-    tagline: "Move workloads safely with minimal disruption.",
-    heroImage: IMG("cloud-migration"),
-    bodyImage: IMG("cloud-migration-body"),
-    intro:
-      "Plan and execute migrations with dependency mapping, wave planning, cutover rehearsal, and hypercare - whether you rehost, replatform, or refactor.",
-    highlights: [
-      "Discovery, sizing, and migration factory approach",
-      "Database and data movement with validation",
-      "Cutover, rollback, and business continuity planning",
-    ],
-    offerings: [
-      { title: "Migration assessment", description: "Inventory, 6Rs classification, and TCO modeling.", icon: LineChart },
-      { title: "Execution waves", description: "Tooling, automation, and repeatable migration runbooks.", icon: Upload },
-      { title: "Validation & cutover", description: "Testing, parity checks, and go-live support.", icon: Server },
-    ],
-  },
-  {
     slug: "cloud-architecture",
     title: "Cloud Architecture",
     shortTitle: "Architecture",
@@ -199,26 +264,6 @@ export const cloudSubPages: CloudSubPageDef[] = [
       { title: "Reference architecture", description: "Diagrams, standards, and reusable building blocks.", icon: LayoutGrid },
       { title: "Non-functional requirements", description: "Performance, RPO/RTO, and compliance-by-design.", icon: Shield },
       { title: "Patterns & automation", description: "IaC-ready designs and guardrails for builders.", icon: Workflow },
-    ],
-  },
-  {
-    slug: "managed-cloud-services",
-    title: "Managed Cloud Services",
-    shortTitle: "Managed cloud",
-    tagline: "Hands-on management of your cloud estate.",
-    heroImage: IMG("managed-cloud-services"),
-    bodyImage: IMG("managed-cloud-services-body"),
-    intro:
-      "Offload routine operations while staying in control. We monitor, patch, optimize, and report-so your teams focus on products, not plumbing.",
-    highlights: [
-      "Proactive monitoring and incident handling",
-      "Patch, backup, and configuration lifecycle",
-      "Cost and capacity reviews with clear reporting",
-    ],
-    offerings: [
-      { title: "Managed infrastructure", description: "Compute, storage, and core platform services.", icon: Server },
-      { title: "Service desk integration", description: "Ticketing, SLAs, and escalation paths.", icon: Headphones },
-      { title: "Continuous improvement", description: "Monthly reviews, recommendations, and roadmap.", icon: LineChart },
     ],
   },
   {

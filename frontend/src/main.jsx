@@ -25,7 +25,7 @@ function bootPathname() {
   return window.location.pathname || "/";
 }
 
-// Skip splash immediately on unknown URLs (404) — before React mounts
+// Skip splash immediately on unknown URLs (404) - before React mounts
 if (!isKnownSpaRoute(bootPathname())) {
   document.getElementById("app-loader")?.remove();
   document.documentElement.classList.remove("app-loader-active");

@@ -1,4 +1,4 @@
-# Cache Digitech – Complete website sitemap
+# Cache Digitech - Complete website sitemap
 
 Base URL (development): `http://localhost:5178`  
 Base URL (production): replace with your domain (e.g. `https://www.cachedigitech.com`)
@@ -34,11 +34,11 @@ Base URL (production): replace with your domain (e.g. `https://www.cachedigitech
 | `/about/leadership` | Leadership Team |
 
 **About page (`/about`) anchor sections:**
-- `#concept-of-cache` – Concept of Cache (video section)
-- `#profile-of-cache` – Profile of Cache
-- `#mission-vision` – Mission & Vision
-- `#team` – Team
-- `#meaning-of-logo` – Meaning of Logo
+- `#concept-of-cache` - Concept of Cache (video section)
+- `#profile-of-cache` - Profile of Cache
+- `#mission-vision` - Mission & Vision
+- `#team` - Team
+- `#meaning-of-logo` - Meaning of Logo
 
 ---
 
@@ -91,10 +91,10 @@ Base URL (production): replace with your domain (e.g. `https://www.cachedigitech
 | `/insights` | Insights (Leadership Vision, Blogs, Case Studies, etc.) |
 
 **Insights page anchor sections:**
-- `#LeadershipVision` – Leadership Vision
-- `#blog` – Blogs
-- `#success-stories` – Case Studies
-- `#problems_and_diagnostics` – Problems & Diagnostics
+- `#LeadershipVision` - Leadership Vision
+- `#blog` - Blogs
+- `#success-stories` - Case Studies
+- `#problems_and_diagnostics` - Problems & Diagnostics
 
 ---
 
@@ -130,14 +130,14 @@ Base URL (production): replace with your domain (e.g. `https://www.cachedigitech
 ### Other
 | Path | Description |
 |------|-------------|
-| `*` (any other path) | 404 – Not Found page |
+| `*` (any other path) | 404 - Not Found page |
 
 ---
 
 ## Admin (backend)
 | URL | Description |
 |-----|-------------|
-| `/admin` | Admin portal (login + dashboard) – requires backend running and proxy or same origin |
+| `/admin` | Admin portal (login + dashboard) - requires backend running and proxy or same origin |
 | `/admin/login` | Admin login page |
 
 ---

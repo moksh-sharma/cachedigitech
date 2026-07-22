@@ -20,6 +20,10 @@ export default function ServiceSubPage({ section }) {
 
   const pagesBySlug = pageBySlug(config);
   const page = pagesBySlug[slug];
+  const introParagraphs = page.introParagraphs ?? [];
+  const hasHighlights = page.highlights?.length > 0;
+  const hasOfferings = page.offerings?.length > 0;
+  const listSections = page.listSections ?? [];
 
   return (
     <div className="min-h-screen bg-white">
@@ -77,17 +81,27 @@ export default function ServiceSubPage({ section }) {
               <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed">
                 {page.intro}
               </p>
-              <ul className="space-y-2.5 sm:space-y-3">
-                {page.highlights.map((line) => (
-                  <li
-                    key={line}
-                    className="flex items-start gap-2.5 text-sm sm:text-base text-gray-600"
-                  >
-                    <CheckCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" aria-hidden />
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
+              {introParagraphs.map((para) => (
+                <p
+                  key={para.slice(0, 48)}
+                  className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed"
+                >
+                  {para}
+                </p>
+              ))}
+              {hasHighlights && (
+                <ul className="space-y-2.5 sm:space-y-3">
+                  {page.highlights.map((line) => (
+                    <li
+                      key={line}
+                      className="flex items-start gap-2.5 text-sm sm:text-base text-gray-600"
+                    >
+                      <CheckCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" aria-hidden />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             <div className="order-1 lg:order-2">
               <div className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
@@ -105,41 +119,88 @@ export default function ServiceSubPage({ section }) {
         </div>
       </section>
 
-      {/* Offerings */}
-      <section className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8 sm:mb-10 lg:mb-12 max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium mb-3">
-              <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-              What we deliver
+      {/* Pointer list sections */}
+      {listSections.map((sectionDef, index) => (
+        <section
+          key={sectionDef.title}
+          className={`py-10 sm:py-14 lg:py-16 px-4 sm:px-6 ${
+            index % 2 === 0 ? "bg-gray-50" : "bg-white"
+          }`}
+        >
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium mb-3">
+                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                {sectionDef.title}
+              </div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+                {sectionDef.title}
+              </h2>
+              {sectionDef.intro && (
+                <p className="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">
+                  {sectionDef.intro}
+                </p>
+              )}
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-              Core offerings
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
-            {page.offerings.map((o) => {
-              const Icon = o.icon;
-              return (
-                <div
-                  key={o.title}
-                  className="group bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 shadow-md border border-gray-100 hover:shadow-lg hover:border-red-100 transition-all duration-300"
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-5xl mx-auto">
+              {sectionDef.items.map((item) => (
+                <li
+                  key={item}
+                  className={`flex items-start gap-2.5 text-sm sm:text-base text-gray-700 rounded-xl px-4 py-3 border border-gray-100 shadow-sm ${
+                    index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                  }`}
                 >
-                  <div className="w-10 h-10 bg-linear-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                    <Icon className="w-5 h-5 text-white" aria-hidden />
-                  </div>
-                  <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-2">
-                    {o.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {o.description}
-                  </p>
-                </div>
-              );
-            })}
+                  <CheckCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" aria-hidden />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            {sectionDef.footnote && (
+              <p className="mt-6 text-center text-xs sm:text-sm text-gray-500 max-w-3xl mx-auto">
+                {sectionDef.footnote}
+              </p>
+            )}
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
+
+      {/* Offerings */}
+      {hasOfferings && (
+        <section className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 bg-gray-50">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-8 sm:mb-10 lg:mb-12 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium mb-3">
+                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                What we deliver
+              </div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+                Core offerings
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+              {page.offerings.map((o) => {
+                const Icon = o.icon;
+                return (
+                  <div
+                    key={o.title}
+                    className="group bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 shadow-md border border-gray-100 hover:shadow-lg hover:border-red-100 transition-all duration-300"
+                  >
+                    <div className="w-10 h-10 bg-linear-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                      <Icon className="w-5 h-5 text-white" aria-hidden />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-2">
+                      {o.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {o.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA band */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
