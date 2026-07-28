@@ -98,7 +98,7 @@ const menuData = {
         "Cloud Managed Services",
         "Security Operations (SOC / SIEM / MDR)",
         "DevOps & Automation Services",
-        "End-User & Workplace Support",
+        "End-User & Workplace Services",
       ],
       "Infrastructure & Networking": [
         "Infrastructure Overview",

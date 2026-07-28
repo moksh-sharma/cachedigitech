@@ -91,6 +91,7 @@ export const navLinks: NavLink[] = [
   { label: "Cloud Managed Services", route: "/managed-services/cloud-managed-services" },
   { label: "Security Operations (SOC / SIEM / MDR)", route: "/managed-services/security-operations-soc-siem-mdr" },
   { label: "DevOps & Automation Services", route: "/managed-services/devops-automation-services" },
+  { label: "End-User & Workplace Services", route: "/managed-services/end-user-workplace-support" },
   { label: "End-User & Workplace Support", route: "/managed-services/end-user-workplace-support" },
   { label: "Consulting & Auditing", route: "/consultingservice" },
   { label: "Consulting Overview", route: "/consultingservice" },
