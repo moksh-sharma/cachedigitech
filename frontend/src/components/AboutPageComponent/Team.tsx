@@ -18,7 +18,6 @@ const TeamSection: React.FC = () => {
   const teamMembers: TeamMember[] = [
     { id: 1, name: "Prarthana Gupta", designation: "Chairperson & Managing Director", image: "/team/prarthna.webp", link: "https://www.linkedin.com/in/prarthana-gupta-112510a5/", imageScale: 1.1 },
     { id: 2, name: "Shraddha Gupta", designation: "Chief Executive Officer", image: "/team/shraddha.webp", link: "https://www.linkedin.com/in/shraddha--gupta/", imageScale: 1 },
-    { id: 3, name: "Amit Chaudhary", designation: "Director", image: "/team/amit.webp", link: "https://www.linkedin.com/in/amit-chaudhary-9643b38/", imageScale: 1.05 },
     { id: 4, name: "Vinod Pulyani", designation: "Chief Finance Officer", image: "/team/Vinod.webp", link: "https://www.linkedin.com/in/vinod-pulyani-6701426/", imageScale: 1.20 },
     { id: 5, name: "Sourabh Srivastava", designation: "Chief Information Security Officer & Data Protection Officer", image: "/team/saurabh.webp", link: "https://www.linkedin.com/in/sourabh-kumar-srivastava-6b078b148/", imageScale: 1.20, imageOffsetY: 8 },
     { id: 8, name: "Naresh Kumar", designation: "Vice President - Infra", image: "/team/naresh.webp", link: "/", imageScale: 1 },
