@@ -71,13 +71,33 @@ export const cybersecuritySubPages: SectionConfig = {
         "Our Managed SOC serves as a unified security command center - continuous surveillance across hybrid-cloud and on-premise, intelligent triage to prioritize critical threats, threat hunting for APTs, and end-to-end lifecycle orchestration from detection to recovery.",
       highlights: [
         "24/7 monitoring across hybrid-cloud and on-premise environments",
-        "SIEM/SOAR, threat intelligence, and XDR platforms",
-        "Automated response playbooks to contain threats and minimize disruption",
+        "SIEM with UEBA behavioral analytics and SOAR automated response",
+        "Faster threat detection, streamlined incident response, and continuous enterprise protection",
       ],
       offerings: [
-        { title: "Surveillance & triage", description: "High-fidelity monitoring and prioritization of critical threats.", icon: Activity },
+        { title: "SIEM & UEBA", description: "Centralized visibility with intelligent monitoring and behavioral analytics.", icon: Activity },
+        { title: "SOAR response", description: "Automated playbooks to contain threats and minimize disruption.", icon: Shield },
         { title: "Threat hunting", description: "Proactive hunting for advanced persistent threats.", icon: Search },
-        { title: "Lifecycle orchestration", description: "Detection through recovery with playbooks and validation.", icon: Shield },
+      ],
+    },
+    {
+      slug: "vulnerability-management",
+      title: "Vulnerability Management",
+      shortTitle: "Vulnerability Management",
+      tagline: "Discover, prioritize, and remediate risk before threats become incidents.",
+      heroImage: IMG("CyberSecback.webp"),
+      bodyImage: IMG("cybersec.webp"),
+      intro:
+        "Proactively reduce cyber risk through continuous vulnerability discovery, risk-based prioritization, and guided remediation. We help organizations strengthen their security posture with automated assessments and actionable insights before threats become incidents.",
+      highlights: [
+        "Continuous vulnerability discovery across hybrid estates",
+        "Risk-based prioritization aligned to business impact",
+        "Guided remediation with actionable, audit-ready insights",
+      ],
+      offerings: [
+        { title: "Discovery", description: "Automated assessments across networks, apps, and cloud workloads.", icon: Search },
+        { title: "Prioritization", description: "Risk-based scoring so teams fix what matters first.", icon: BarChart3 },
+        { title: "Remediation", description: "Guided playbooks and validation to close exposures.", icon: Shield },
       ],
     },
     {
@@ -88,16 +108,16 @@ export const cybersecuritySubPages: SectionConfig = {
       heroImage: IMG("CyberSecback.webp"),
       bodyImage: IMG("cybersec.webp"),
       intro:
-        "We secure identity and data across hybrid and multi-cloud: zero-trust identity, MFA/SSO, privileged access management, and least-privilege lifecycle. Plus DLP, data classification, and cloud security posture (CSPM, workload protection, CIEM, data security posture) for continuous compliance.",
+        "Protect sensitive business data through intelligent discovery, classification, monitoring, and policy-driven controls across endpoints, the cloud, email, and hybrid environments - ensuring security, compliance, and business continuity. We also secure identity and cloud posture with zero-trust IAM, CSPM, and workload protection.",
       highlights: [
+        "DLP with discovery, classification, and policy-driven controls",
         "Zero-trust identity, MFA, PAM, and least-privilege access governance",
-        "Data classification, exfiltration prevention, and regulatory compliance",
-        "CSPM, workload protection, CIEM, and cloud data posture",
+        "CSPM, CASB, workload protection, and cloud data posture",
       ],
       offerings: [
+        { title: "Data Loss Prevention", description: "Discovery, classification, monitoring, and exfiltration controls.", icon: Shield },
         { title: "Identity & access", description: "IAM, PAM, and identity governance across cloud and on-prem.", icon: Lock },
-        { title: "Data protection", description: "DLP, classification, and data sovereignty controls.", icon: Shield },
-        { title: "Cloud security", description: "CNAPP, workload protection, and compliance automation.", icon: Cloud },
+        { title: "Cloud security", description: "CASB, CSPM, CNAPP, and compliance automation.", icon: Cloud },
       ],
     },
     {

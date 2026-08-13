@@ -28,21 +28,21 @@ const pillars = [
     title: "Seamless Cloud Migration & Rehosting",
     description:
       "Zero downtime lift-and-shift of VMs, ERPs, and databases to AWS, Azure, or GCP.",
-    to: "/cloud/cloud-migration",
+    to: "/cloud/cloud-application-transformation",
   },
   {
     icon: RefreshCw,
     title: "Application Replatforming & Modernization",
     description:
       "Refactor monoliths into microservices, containers, and serverless cloud-native stacks.",
-    to: "/cloud/app-modernization",
+    to: "/cloud/cloud-application-transformation",
   },
   {
     icon: LineChart,
     title: "Continuous Cloud Optimization & FinOps",
     description:
       "Eliminate waste with rightsizing, reservations, and continuous spend discipline.",
-    to: "/cloud/cloud-operations",
+    to: "/cloud/managed-cloud-services",
   },
   {
     icon: Receipt,

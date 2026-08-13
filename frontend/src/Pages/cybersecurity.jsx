@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Shield, Eye, Target, CheckCircle, Settings, Sparkles, Network, Lock, Server, Globe, Database, Mail, Search, UserCheck, Zap, RefreshCw, ArrowRight } from "lucide-react";
+import { Shield, Eye, Target, CheckCircle, Settings, Sparkles, Network, Lock, Server, Globe, Database, Mail, Search, UserCheck, Zap, RefreshCw, ArrowRight, FileCheck, Award } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { usePlacement } from "../context/PlacementsContext";
 
@@ -8,73 +8,158 @@ const capabilities = [
   {
     icon: UserCheck,
     title: "Consulting Services",
-    description: "Strategic guidance on security posture, risk management, policies, and compliance frameworks tailored to your enterprise goals.",
+    description:
+      "Strategic guidance on security posture, risk management, policies, and compliance frameworks tailored to your enterprise goals.",
   },
   {
     icon: Shield,
     title: "Firewall Management",
-    description: "Deployment, configuration, and lifecycle maintenance of perimeter and internal firewalls to protect critical networks.",
+    description:
+      "Deployment, configuration, and lifecycle maintenance of perimeter and internal firewalls to protect critical networks.",
   },
   {
     icon: Eye,
-    title: "Endpoint Detection & Response (EDR / MDR / XDR)",
-    description: "Continuous detection, investigation, and automated response to endpoint threats for enhanced endpoint security.",
+    title: "Endpoint Detection & Response (EDR/MDR/XDR)",
+    description:
+      "Continuous detection, investigation, and automated response to endpoint threats for enhanced endpoint security.",
   },
   {
     icon: Network,
     title: "Network Access Control (NAC)",
-    description: "Enforce access policies, authenticate devices, and maintain a secure, compliant network environment.",
+    description:
+      "Enforce access policies, authenticate devices, and maintain a secure, compliant network environment.",
   },
   {
     icon: Server,
-    title: "Security Information & Event Management (SIEM) & SOAR",
-    description: "Centralized monitoring, correlation, and automated response through our advanced Cache SOC / NOC frameworks.",
+    title: "Security Information & Event Management (SIEM)",
+    description:
+      "Centralize security visibility with intelligent threat monitoring, behavioral analytics (UEBA), and automated response (SOAR). Our SIEM services enable faster threat detection, streamlined incident response, and continuous protection across your enterprise.",
+  },
+  {
+    icon: Search,
+    title: "Vulnerability Management",
+    description:
+      "Proactively reduce cyber risk through continuous vulnerability discovery, risk-based prioritization, and guided remediation. We help organizations strengthen their security posture with automated assessments and actionable insights before threats become incidents.",
   },
   {
     icon: Lock,
     title: "Zero Trust Network Access (ZTNA)",
-    description: "Enforce least-privilege access, continuous identity verification, and micro-segmentation for stronger security control.",
+    description:
+      "Enforce least-privilege access, continuous identity verification, and micro-segmentation for stronger security control.",
   },
   {
     icon: Globe,
     title: "Web Application Firewall (WAF)",
-    description: "Protect your web applications from OWASP Top 10 vulnerabilities and evolving attack vectors.",
+    description:
+      "Protect your web applications from OWASP Top 10 vulnerabilities and evolving attack vectors.",
   },
   {
     icon: Database,
-    title: "Data Loss Prevention (DLP) & Data Classification",
-    description: "Identify, classify, and protect sensitive data across on-premises, cloud, and hybrid environments.",
+    title: "Data Loss Prevention (DLP)",
+    description:
+      "Protect sensitive business data through intelligent discovery, classification, monitoring, and policy-driven controls across endpoints, the cloud, email, and hybrid environments, ensuring security, compliance, and business continuity.",
   },
   {
     icon: Network,
     title: "Secure Access Service Edge (SASE)",
-    description: "Converged networking and security architecture at the edge to deliver secure, high-performance connectivity.",
+    description:
+      "Converged networking and security architecture at the edge to deliver secure, high-performance connectivity.",
   },
   {
     icon: Eye,
     title: "Network Detection & Response (NDR)",
-    description: "Real-time traffic monitoring and anomaly detection for proactive network defense.",
+    description:
+      "Real-time traffic monitoring and anomaly detection for proactive network defense.",
   },
   {
     icon: Shield,
-    title: "Cloud Access Security Broker (CASB) & Cloud Security Posture Management (CSPM / CSPN)",
-    description: "Unified visibility, policy enforcement, and threat control for cloud applications and workloads.",
+    title: "CASB & CSPM",
+    description:
+      "Unified visibility, policy enforcement, and threat control for cloud applications and workloads.",
   },
   {
     icon: Database,
-    title: "Database Activity Monitoring (DAM)",
-    description: "Continuous monitoring of critical databases to prevent misuse and unauthorized access.",
+    title: "Database Activity Monitoring",
+    description:
+      "Continuous monitoring of critical databases to prevent misuse and unauthorized access.",
   },
   {
     icon: Mail,
     title: "Email Security",
-    description: "Protection against phishing, spam, and advanced email-borne threats through AI-driven detection and policy enforcement.",
+    description:
+      "Protection against phishing, spam, and advanced email-borne threats through AI-driven detection and policy enforcement.",
   },
   {
-    icon: Search,
+    icon: FileCheck,
     title: "Security Audits",
-    description: "Periodic independent assessments to validate configuration, compliance, and control effectiveness.",
+    description:
+      "Periodic independent assessments to validate configuration, compliance, and control effectiveness.",
   },
+];
+
+const digitechCerts = [
+  "ISO 27001",
+  "ISO 9001",
+  "ISO 45001",
+  "ISO 14001",
+  "ISO 20000-1:2018",
+  "SOC 1 Type 1",
+  "SOC 2 Type 2",
+];
+
+const technologiesCerts = [
+  "ISO 27001",
+  "ISO 9001",
+  "ISO 45001",
+  "ISO 20000-1:2018",
+  "CMMI",
+];
+
+const partnerLogos = [
+  "Cisco",
+  "Broadcom",
+  "Veeam",
+  "Wiz",
+  "Forescout",
+  "Nutanix",
+  "Cloudsek",
+  "Check Point",
+  "Hitachi",
+  "Extreme Networks",
+  "Everest",
+  "NetApp",
+  "Tenable",
+  "Kaspersky",
+  "Dell",
+  "Palo Alto",
+  "Arista",
+  "CrowdStrike",
+  "Tufin",
+  "Motadata",
+  "Azure",
+  "HAProxy",
+  "Vehere",
+  "BeyondTrust",
+  "Red Hat",
+  "Radware",
+  "Zscaler",
+  "HPE",
+  "AWS",
+  "Imperva",
+  "Veritas",
+  "Akamai",
+  "Trellix",
+  "IBM Apptio Cloud",
+  "Netskope",
+  "HPI",
+  "Trend Micro",
+  "SentinelOne",
+  "Commvault",
+  "Fortinet",
+  "Microsoft",
+  "FireMon",
+  "GCP",
+  "Cato Networks",
 ];
 
 const specializedServices = [
@@ -472,6 +557,88 @@ export default function CybersecurityPage() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ISO & Compliance Certificates */}
+      <section id="compliance" className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 lg:px-12 bg-white scroll-mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium mb-3">
+              <Award className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              ISO & Compliance
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+              Certifications & Compliance
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">
+              Independently audited standards that underpin how we design, operate, and assure enterprise security programs.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            <div className="rounded-xl sm:rounded-2xl border border-gray-100 bg-gray-50 p-5 sm:p-6">
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-4">
+                Cache Digitech Pvt Ltd
+              </h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {digitechCerts.map((cert) => (
+                  <li
+                    key={`digitech-${cert}`}
+                    className="flex items-start gap-2 text-sm text-gray-700 bg-white rounded-lg px-3 py-2.5 border border-gray-100"
+                  >
+                    <CheckCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" aria-hidden />
+                    <span>{cert}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-xl sm:rounded-2xl border border-gray-100 bg-gray-50 p-5 sm:p-6">
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-4">
+                Cache Technologies
+              </h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {technologiesCerts.map((cert) => (
+                  <li
+                    key={`tech-${cert}`}
+                    className="flex items-start gap-2 text-sm text-gray-700 bg-white rounded-lg px-3 py-2.5 border border-gray-100"
+                  >
+                    <CheckCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" aria-hidden />
+                    <span>{cert}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partner logos */}
+      <section id="partners" className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 lg:px-12 bg-gray-50 scroll-mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-10 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-600 text-[11px] sm:text-xs font-medium mb-3">
+              <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              Technology Partners
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+              Partner Ecosystem
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">
+              We integrate and operate leading cybersecurity and infrastructure platforms across enterprise environments.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
+            {partnerLogos.map((name) => (
+              <span
+                key={name}
+                className="inline-flex items-center px-3 py-2 rounded-lg bg-white border border-gray-100 text-xs sm:text-sm font-medium text-gray-800 shadow-sm"
+              >
+                {name}
+              </span>
+            ))}
           </div>
         </div>
       </section>

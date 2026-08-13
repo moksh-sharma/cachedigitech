@@ -14,23 +14,20 @@ const menuData = {
   "What We Do": {
     items: ["Cloud", "Cybersecurity", "Data Analytics & AI", "Infra & Networking"],
     submenus: {
+      /* Cloud nav: overview + transformation + managed + billing + AI CoE only */
       "Cloud": [
         "Cloud Overview",
-        "Cloud Migration & Rehosting",
-        "App Replatforming & Modernization",
-        "Cloud Optimization & FinOps",
+        "Cloud & Application Transformation",
+        "Cloud Managed Services",
         "Multi-Cloud Billing",
-        "NOC & SOC Command Center",
         "AI Center of Excellence",
-        "Cloud Strategy",
-        "Hybrid Cloud",
-        "Cloud Security",
       ],
       "Cybersecurity": [
         "Cybersecurity Overview",
         "Security Consulting",
         "Infrastructure & Endpoint Security",
         "Threat Monitoring & Response",
+        "Vulnerability Management",
         "Data & Cloud Security",
         "Security Audits & Compliance",
       ],
@@ -69,18 +66,13 @@ const menuData = {
   "Services": {
     items: ["Cloud", "Consulting & Auditing", "Managed Services", "Infrastructure & Networking"],
     submenus: {
+      /* Cloud nav: overview + transformation + managed + billing + AI CoE only */
       "Cloud": [
         "Cloud Overview",
-        "Cloud Migration & Rehosting",
-        "App Replatforming & Modernization",
-        "Cloud Optimization & FinOps",
+        "Cloud & Application Transformation",
+        "Cloud Managed Services",
         "Multi-Cloud Billing",
-        "NOC & SOC Command Center",
         "AI Center of Excellence",
-        "Cloud Consulting",
-        "Cloud Architecture",
-        "Cloud Security",
-        "DevOps & Automation",
       ],
       "Consulting & Auditing": [
         "Consulting Overview",

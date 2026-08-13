@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import type { ServiceListSection } from "./serviceSubPageTypes";
 import {
   Cloud,
   Shield,
@@ -6,28 +7,23 @@ import {
   Server,
   LineChart,
   Users,
-  Upload,
   LayoutGrid,
-  Headphones,
   Workflow,
   Receipt,
   Sparkles,
-  RefreshCw,
 } from "lucide-react";
 
 export type CloudSubPageSlug =
   | "cloud-strategy"
   | "hybrid-cloud"
   | "cloud-security"
-  | "app-modernization"
-  | "cloud-operations"
   | "cloud-consulting"
-  | "cloud-migration"
   | "cloud-architecture"
   | "managed-cloud-services"
   | "devops-automation"
   | "multi-cloud-billing"
-  | "ai-coe";
+  | "ai-coe"
+  | "cloud-application-transformation";
 
 export type CloudSubPageDef = {
   slug: CloudSubPageSlug;
@@ -37,14 +33,164 @@ export type CloudSubPageDef = {
   heroImage: string;
   bodyImage: string;
   intro: string;
+  introParagraphs?: string[];
   highlights: string[];
   offerings: { title: string; description: string; icon: LucideIcon }[];
+  listSections?: ServiceListSection[];
 };
 
 /** Unsplash sources - run `node frontend/scripts/fetch-cloud-subpage-images.mjs` to download as WebP */
 const IMG = (name: string) => `/cloud/subpages/${name}.webp`;
 
+/** Old paths resolve to the combined sector pages. */
+const CLOUD_SLUG_ALIASES: Record<string, CloudSubPageSlug> = {
+  "cloud-migration": "cloud-application-transformation",
+  "app-modernization": "cloud-application-transformation",
+  "cloud-operations": "managed-cloud-services",
+};
+
 export const cloudSubPages: CloudSubPageDef[] = [
+  {
+    slug: "cloud-application-transformation",
+    title: "Cloud & Application Transformation",
+    shortTitle: "Cloud & App Transformation",
+    tagline:
+      "Zero Downtime. Zero Friction. Instant Scale. Turn Monoliths into Agile, Cloud-Native Engines.",
+    heroImage: IMG("cloud-migration"),
+    bodyImage: IMG("app-modernization-body"),
+    intro:
+      "Stop worrying about cutover risks and business disruption. We refactor and replatform legacy systems into microservices, containerized stacks (Kubernetes/Docker), and serverless architectures designed for speed and reliability.",
+    introParagraphs: [
+      "Whether moving legacy VMs, complex SAP ERPs, or mission-critical databases, our automated migration pipelines transfer your workloads to AWS, Azure, or GCP smoothly and securely.",
+    ],
+    highlights: [
+      "100% data integrity with synchronous replication",
+      "Automated landing zone architecture tailored to compliance rules",
+      "Full leverage of hyperscale funding programs (AWS MAP, Azure AMMP)",
+      "Instant auto-scaling during traffic spikes",
+      "Zero-downtime CI/CD deployment pipelines",
+    ],
+    offerings: [],
+    listSections: [
+      {
+        title: "Cloud Migration & Rehosting",
+        items: [
+          "Cloud Readiness Assessment",
+          "Migration Strategy & Planning",
+          "Discovery & Dependency Mapping",
+          "Application Rehosting (Lift & Shift)",
+          "Business Continuity & Downtime Management",
+          "Security & Compliance During Migration",
+          "Post-Migration Validation & Optimization",
+        ],
+      },
+      {
+        title: "Application Replatforming & Modernization",
+        items: [
+          "Application Assessment & Modernization Strategy",
+          "Application Replatforming",
+          "Containerization & Kubernetes Enablement",
+          "Microservices Architecture",
+          "Database Modernization",
+          "DevSecOps & CI/CD Enablement",
+          "Performance & Scalability Optimization",
+          "Legacy Application Modernization",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "managed-cloud-services",
+    title: "Cloud Managed Services",
+    shortTitle: "Cloud Managed",
+    tagline: "Eliminate Cloud Waste. Reclaim Up to 30% of Your Budget.",
+    heroImage: IMG("managed-cloud-services"),
+    bodyImage: IMG("managed-cloud-services-body"),
+    intro:
+      "Streamline your procurement process. Our fully operational, enterprise-grade Network Operations Center (NOC) and Security Operations Center (SOC) ensure zero blind spots, proactive threat hunting, and rapid incident response. Consolidate your AWS, Azure, and GCP bills into a single, transparent monthly invoice with custom discount structures, simplified AUD/INR billing, and no administrative friction.",
+    highlights: [
+      "Complimentary 14-Day Cloud Cost Audit",
+      "Automated resource scheduling and rightsizing",
+      "Real-time anomaly alerts preventing surprise invoices",
+      "24/7/365 Live Monitoring: Automated health checks across all multi-cloud endpoints",
+      "Autonomous Threat Triage: Real-time SIEM log ingestion and incident remediation",
+      "Strict SLAs: Guarantees fast response and resolution times for mission-critical alerts",
+    ],
+    offerings: [],
+    listSections: [
+      {
+        title: "Cloud Optimization & FinOps",
+        items: [
+          "Cloud Cost Assessment & Optimization",
+          "FinOps Strategy & Implementation",
+          "Reserved Instances & Savings Plans Optimization",
+          "Auto Scaling & Resource Scheduling",
+          "Cloud Usage Monitoring & Analytics",
+          "Performance & Cost Optimization",
+          "Continuous FinOps Monitoring & Reporting",
+        ],
+      },
+      {
+        title: "NOC & SOC Command Center",
+        intro:
+          "Military-Grade Security. Always-On Operational Resilience. Sleep soundly knowing your cloud environment is monitored, optimized, and defended around the clock.",
+        items: [
+          "24x7 Network Operations Center (NOC)",
+          "24x7 Security Operations Center (SOC)",
+          "Security Monitoring & Threat Detection",
+          "Event Log Management & SIEM",
+          "Vulnerability Assessment & Management",
+          "Endpoint Detection & Response (EDR/XDR)",
+          "Network Performance & Availability Monitoring",
+          "Alert Correlation & Escalation Management",
+          "Patch & Configuration Management",
+          "Backup & Disaster Recovery Monitoring",
+          "SLA Monitoring & Service Reporting",
+          "Regulatory Compliance: Fully aligned with strict data security standards",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "multi-cloud-billing",
+    title: "Multi-Cloud Billing & Spend Management",
+    shortTitle: "Billing",
+    tagline: "One Vendor. Three Clouds. Zero Financial Complexity.",
+    heroImage: IMG("cloud-operations"),
+    bodyImage: IMG("cloud-operations-body"),
+    intro:
+      "Streamline your procurement process. Consolidate your AWS, Azure, and GCP bills into a single, transparent monthly invoice with custom discount structures, simplified AUD/INR billing, and no administrative friction.",
+    highlights: [
+      "Single-window billing management across AWS, Azure, and GCP",
+      "Unlocks custom partner discount structures and volume rebates",
+      "Dedicated billing specialists managing commitment plans",
+    ],
+    offerings: [
+      { title: "Single invoice", description: "One transparent bill across all hyperscalers.", icon: Receipt },
+      { title: "Partner discounts", description: "Custom structures and volume rebates unlocked.", icon: LineChart },
+      { title: "Commitment plans", description: "Specialists managing reservations and spend plans.", icon: Users },
+    ],
+  },
+  {
+    slug: "ai-coe",
+    title: "AI Center of Excellence (CoE)",
+    shortTitle: "AI CoE",
+    tagline: "From Raw Data to Autonomous Enterprise AI.",
+    heroImage: IMG("app-modernization"),
+    bodyImage: IMG("app-modernization-body"),
+    intro:
+      "Stop experimenting with static AI chatbots - build production-ready intelligence that drives top-line revenue. The Cache Digitech AI CoE builds customized Large Language Models (LLMs), Retrieval-Augmented Generation (RAG) pipelines, and autonomous agentic workflows natively on AWS Bedrock, Azure OpenAI, and GCP Vertex AI.",
+    highlights: [
+      "Funded AI PoC Program: Test customized Generative AI use cases in under 3 weeks using hyperscaler credits",
+      "Enterprise Search & Knowledge Engines: Turn internal PDFs, logs, and database streams into instant natural-language query tools",
+      "Autonomous Workflow Automation: Deploy intelligent AI agents to automate L1 support, threat triage, and repetitive back-office tasks",
+    ],
+    offerings: [
+      { title: "Funded PoCs", description: "Generative AI use cases live in under 3 weeks with credits.", icon: Sparkles },
+      { title: "Knowledge engines", description: "Natural-language search over PDFs, logs, and data streams.", icon: Cloud },
+      { title: "Agentic workflows", description: "AI agents for L1 support, triage, and back-office tasks.", icon: Workflow },
+    ],
+  },
   {
     slug: "cloud-strategy",
     title: "Cloud Strategy",
@@ -103,127 +249,6 @@ export const cloudSubPages: CloudSubPageDef[] = [
       { title: "Security architecture", description: "Landing zones, segmentation, and zero-trust patterns.", icon: Shield },
       { title: "DevSecOps", description: "Shift-left scanning, secrets management, and pipeline controls.", icon: GitBranch },
       { title: "Posture & monitoring", description: "CSPM-style reviews, baselines, and incident readiness.", icon: Server },
-    ],
-  },
-  {
-    slug: "cloud-migration",
-    title: "Seamless Cloud Migration & Rehosting",
-    shortTitle: "Migration & Rehosting",
-    tagline: "Zero Downtime. Zero Friction. Instant Scale.",
-    heroImage: IMG("cloud-migration"),
-    bodyImage: IMG("cloud-migration-body"),
-    intro:
-      "Stop worrying about cutover risks and business disruption. Whether moving legacy VMs, complex SAP ERPs, or mission-critical databases, our automated migration pipelines transfer your workloads to AWS, Azure, or GCP smoothly and securely.",
-    highlights: [
-      "100% data integrity with synchronous replication",
-      "Automated landing zone architecture tailored to compliance rules",
-      "Full leverage of hyperscaler funding programs (AWS MAP, Azure AMMP)",
-    ],
-    offerings: [
-      { title: "Lift & Shift", description: "Automated rehosting pipelines for VMs, ERPs, and databases.", icon: Upload },
-      { title: "Landing zones", description: "Compliance-ready foundations on AWS, Azure, and GCP.", icon: LayoutGrid },
-      { title: "Funding programs", description: "Maximize AWS MAP, Azure AMMP, and partner incentives.", icon: LineChart },
-    ],
-  },
-  {
-    slug: "app-modernization",
-    title: "Application Replatforming & Modernization",
-    shortTitle: "Replatforming",
-    tagline: "Turn Monoliths into Agile, Cloud-Native Engines.",
-    heroImage: IMG("app-modernization"),
-    bodyImage: IMG("app-modernization-body"),
-    intro:
-      "Don't just shift your technical debt to the cloud - eliminate it. We refactor and replatform legacy systems into microservices, containerized stacks (Kubernetes/Docker), and serverless architectures designed for speed and reliability.",
-    highlights: [
-      "Up to 40% boost in application processing performance",
-      "Instant auto-scaling during traffic spikes",
-      "Zero-downtime CI/CD deployment pipelines",
-    ],
-    offerings: [
-      { title: "Microservices", description: "Decompose monoliths into scalable service boundaries.", icon: LayoutGrid },
-      { title: "Containers & K8s", description: "Kubernetes/Docker platforms built for resilience.", icon: Cloud },
-      { title: "Serverless & CI/CD", description: "Event-driven architectures with zero-downtime releases.", icon: RefreshCw },
-    ],
-  },
-  {
-    slug: "cloud-operations",
-    title: "Continuous Cloud Optimization & FinOps",
-    shortTitle: "FinOps",
-    tagline: "Eliminate Cloud Waste. Reclaim Up to 30% of Your Budget.",
-    heroImage: IMG("cloud-operations"),
-    bodyImage: IMG("cloud-operations-body"),
-    intro:
-      "Over 30% of average enterprise cloud spend is wasted on idle instances, unattached storage, and misaligned commitments. Our FinOps squad performs continuous, automated rightsizing and reservation management so you only pay for what you consume.",
-    highlights: [
-      "Complimentary 14-Day Cloud Cost Audit",
-      "Automated resource scheduling and rightsizing",
-      "Real-time anomaly alerts preventing surprise invoices",
-    ],
-    offerings: [
-      { title: "Cost audit", description: "Complimentary 14-day assessment of cloud waste and savings.", icon: LineChart },
-      { title: "Rightsizing", description: "Automated scheduling and instance optimization.", icon: Server },
-      { title: "Anomaly alerts", description: "Real-time spend signals before invoices spike.", icon: Shield },
-    ],
-  },
-  {
-    slug: "multi-cloud-billing",
-    title: "Multi-Cloud Billing & Spend Management",
-    shortTitle: "Billing",
-    tagline: "One Vendor. Three Clouds. Zero Financial Complexity.",
-    heroImage: IMG("cloud-operations"),
-    bodyImage: IMG("cloud-operations-body"),
-    intro:
-      "Streamline your procurement process. Consolidate your AWS, Azure, and GCP bills into a single, transparent monthly invoice with custom discount structures, simplified AUD/INR billing, and no administrative friction.",
-    highlights: [
-      "Single-window billing management across AWS, Azure, and GCP",
-      "Unlocks custom partner discount structures and volume rebates",
-      "Dedicated billing specialists managing commitment plans",
-    ],
-    offerings: [
-      { title: "Single invoice", description: "One transparent bill across all hyperscalers.", icon: Receipt },
-      { title: "Partner discounts", description: "Custom structures and volume rebates unlocked.", icon: LineChart },
-      { title: "Commitment plans", description: "Specialists managing reservations and spend plans.", icon: Users },
-    ],
-  },
-  {
-    slug: "managed-cloud-services",
-    title: "24/7/365 NOC & SOC Command Center",
-    shortTitle: "NOC & SOC",
-    tagline: "Military-Grade Security. Always-On Operational Resilience.",
-    heroImage: IMG("managed-cloud-services"),
-    bodyImage: IMG("managed-cloud-services-body"),
-    intro:
-      "Sleep soundly knowing your cloud environment is monitored, optimized, and defended around the clock. Our fully operational, enterprise-grade Network Operations Center (NOC) and Security Operations Center (SOC) ensure zero blind spots, proactive threat hunting, and rapid incident response.",
-    highlights: [
-      "24/7/365 Live Monitoring: Automated health checks across all multi-cloud endpoints",
-      "Autonomous Threat Triage: Real-time SIEM log ingestion and incident remediation",
-      "Strict SLAs: Guarantees fast response and resolution times for mission-critical alerts",
-      "Regulatory Compliance: Fully aligned with strict data security standards",
-    ],
-    offerings: [
-      { title: "Live monitoring", description: "Automated health checks across multi-cloud endpoints.", icon: Headphones },
-      { title: "Threat triage", description: "SIEM ingestion and autonomous incident remediation.", icon: Shield },
-      { title: "SLA & compliance", description: "Mission-critical response times and data security standards.", icon: Server },
-    ],
-  },
-  {
-    slug: "ai-coe",
-    title: "AI Center of Excellence (CoE)",
-    shortTitle: "AI CoE",
-    tagline: "From Raw Data to Autonomous Enterprise AI.",
-    heroImage: IMG("app-modernization"),
-    bodyImage: IMG("app-modernization-body"),
-    intro:
-      "Stop experimenting with static AI chatbots - build production-ready intelligence that drives top-line revenue. The Cache Digitech AI CoE builds customized Large Language Models (LLMs), Retrieval-Augmented Generation (RAG) pipelines, and autonomous agentic workflows natively on AWS Bedrock, Azure OpenAI, and GCP Vertex AI.",
-    highlights: [
-      "Funded AI PoC Program: Test customized Generative AI use cases in under 3 weeks using hyperscaler credits",
-      "Enterprise Search & Knowledge Engines: Turn internal PDFs, logs, and database streams into instant natural-language query tools",
-      "Autonomous Workflow Automation: Deploy intelligent AI agents to automate L1 support, threat triage, and repetitive back-office tasks",
-    ],
-    offerings: [
-      { title: "Funded PoCs", description: "Generative AI use cases live in under 3 weeks with credits.", icon: Sparkles },
-      { title: "Knowledge engines", description: "Natural-language search over PDFs, logs, and data streams.", icon: Cloud },
-      { title: "Agentic workflows", description: "AI agents for L1 support, triage, and back-office tasks.", icon: Workflow },
     ],
   },
   {
@@ -292,6 +317,12 @@ export const cloudSubPageBySlug = Object.fromEntries(
   cloudSubPages.map((p) => [p.slug, p])
 ) as Record<CloudSubPageSlug, CloudSubPageDef>;
 
-export function isCloudSubPageSlug(s: string): s is CloudSubPageSlug {
-  return s in cloudSubPageBySlug;
+export function resolveCloudSubPageSlug(s: string): CloudSubPageSlug | null {
+  if (s in cloudSubPageBySlug) return s as CloudSubPageSlug;
+  const aliased = CLOUD_SLUG_ALIASES[s];
+  return aliased ?? null;
+}
+
+export function isCloudSubPageSlug(s: string): boolean {
+  return resolveCloudSubPageSlug(s) !== null;
 }
