@@ -161,18 +161,24 @@ function Navbar() {
   const useLightNavText = isDarkHeroPage && !scrolled;
 
   // Scroll listener - transparent on top, solid on scroll; hide on scroll down, show on scroll up
+  // rAF-throttle + only setState when values change
   useEffect(() => {
+    let ticking = false;
     const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 60);
-      if (y <= scrollThreshold) {
-        setNavbarVisible(true);
-      } else if (y > lastScrollY.current) {
-        setNavbarVisible(false);
-      } else {
-        setNavbarVisible(true);
-      }
-      lastScrollY.current = y;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const nextScrolled = y > 60;
+        let nextVisible = true;
+        if (y > scrollThreshold) {
+          nextVisible = y <= lastScrollY.current;
+        }
+        setScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
+        setNavbarVisible((prev) => (prev === nextVisible ? prev : nextVisible));
+        lastScrollY.current = y;
+        ticking = false;
+      });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();

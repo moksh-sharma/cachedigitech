@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { usePageScroll } from '../hooks/usePageScroll';
 
 function NewsletterPage() {
-  const location = useLocation();
+  usePageScroll();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
-
-  useEffect(() => {
-    if (location.hash) {
-      const sectionId = location.hash.substring(1);
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [location]);
 
   const handleSubscribe = (e) => {
     e.preventDefault();

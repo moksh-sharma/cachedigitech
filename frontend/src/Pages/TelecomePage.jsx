@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Radio, Network, Shield, Cloud, Settings, TrendingUp, CheckCircle, Sparkles, Server, Cpu, Globe, Zap, Eye, Lock, Users, ArrowRight, Rocket } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { usePlacement } from "../context/PlacementsContext";
+import { scrollToTarget } from "../hooks/usePageScroll";
 
 const navItems = [
     { id: "hero", label: "Overview" },
@@ -146,9 +147,7 @@ export default function TelecomPage() {
 
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-        }
+        if (element) scrollToTarget(element, { offset: -80 });
     };
 
     return (

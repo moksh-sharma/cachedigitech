@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { usePageScroll } from '../hooks/usePageScroll';
 
 const OFFERS = [
   {
@@ -23,20 +24,8 @@ const OFFERS = [
 ];
 
 function OffersPage() {
-  const location = useLocation();
+  usePageScroll();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (location.hash) {
-      const sectionId = location.hash.substring(1);
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [location]);
 
   return (
     <div className="min-h-screen bg-white">

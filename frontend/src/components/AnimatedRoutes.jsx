@@ -15,7 +15,9 @@ function RouteTransitionPlaceholder() {
 export function AnimatedRoutes({ children }) {
   const location = useLocation();
   const { loaderDone } = useAppLoader();
-  const { scrollTo, resize } = useLenis();
+  const lenis = useLenis();
+  const scrollTo = lenis?.scrollTo;
+  const resize = lenis?.resize;
   const [displayLocation, setDisplayLocation] = useState(location);
   const [phase, setPhase] = useState("idle");
   const pendingLocationRef = useRef(null);

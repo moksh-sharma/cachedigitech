@@ -1,19 +1,12 @@
 import { motion } from 'framer-motion';
-import { 
-  Building2, 
-  Car, 
+import {
+  Building2,
   Signal,
-  Factory, 
-  ShoppingCart, 
-  Network, 
-  Heart, 
-  Pill, 
-  Plane, 
-  Store, 
-  Tv, 
-  Monitor 
+  Heart,
+  Store,
 } from 'lucide-react';
 import { useState } from 'react';
+import { LazyBackground } from '../LazyBackground';
 
 export function IndustryVerticals() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
@@ -27,7 +20,6 @@ export function IndustryVerticals() {
       color: 'from-blue-500 to-blue-600',
       image: '/industryvertical/bfsi.webp'
     },
-    
     {
       name: 'Healthcare',
       fullName: 'Healthcare & Medical',
@@ -36,8 +28,6 @@ export function IndustryVerticals() {
       color: 'from-red-400 to-pink-500',
       image: '/industryvertical/healthcare.webp'
     },
-    
-    
     {
       name: 'Retailing',
       fullName: 'Retail & E-commerce',
@@ -46,21 +36,19 @@ export function IndustryVerticals() {
       color: 'from-orange-500 to-red-500',
       image: '/industryvertical/reatailing.webp'
     },
-    
     {
-  name: 'Telecom',
-  fullName: 'Telecommunications',
-  icon: Signal,
-  description: 'Digital communication infrastructure including 5G, fiber optics, and network solutions.',
-  color: 'from-blue-500 to-sky-600',
-  image: '/industryvertical/telecom.webp'
-}
+      name: 'Telecom',
+      fullName: 'Telecommunications',
+      icon: Signal,
+      description: 'Digital communication infrastructure including 5G, fiber optics, and network solutions.',
+      color: 'from-blue-500 to-sky-600',
+      image: '/industryvertical/telecom.webp'
+    }
   ];
 
   return (
     <section id="industries" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -76,11 +64,10 @@ export function IndustryVerticals() {
           </p>
         </motion.div>
 
-        {/* Industries Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {industries.map((industry, index) => {
             const IconComponent = industry.icon;
-            
+
             return (
               <motion.div
                 key={industry.name}
@@ -93,25 +80,22 @@ export function IndustryVerticals() {
                 onHoverEnd={() => setHoveredCard(null)}
                 className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
               >
-                {/* Background Image */}
                 <div className="h-48 overflow-hidden">
                   <motion.div
                     animate={{ scale: hoveredCard === index ? 1.1 : 1 }}
                     transition={{ duration: 0.6 }}
-                    className="w-full h-full bg-cover bg-center relative"
-                    style={{ backgroundImage: `url(${industry.image})` }}
+                    className="w-full h-full relative"
                   >
-                    <div className={`absolute inset-0 `} />
+                    <LazyBackground
+                      src={industry.image}
+                      className="absolute inset-0 bg-cover bg-center bg-gray-200"
+                    />
+                    <div className="absolute inset-0" />
                   </motion.div>
                 </div>
 
-                {/* Content */}
                 <div className="p-6">
                   <motion.div
-                    // animate={{ 
-                    //   rotate: hoveredCard === index ? 360 : 0,
-                    //   scale: hoveredCard === index ? 1.1 : 1
-                    // }}
                     transition={{ duration: 0.6 }}
                     className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center mb-4 mx-auto"
                   >
@@ -121,16 +105,16 @@ export function IndustryVerticals() {
                   <h3 className="font-bold text-gray-900 text-center mb-2">
                     {industry.name}
                   </h3>
-                  
+
                   <p className="text-sm text-gray-600 text-center mb-3">
                     {industry.fullName}
                   </p>
 
                   <motion.p
                     initial={{ opacity: 0, height: 0 }}
-                    animate={{ 
-                      opacity: hoveredCard === index ? 1 : 0, 
-                      height: hoveredCard === index ? 'auto' : 0 
+                    animate={{
+                      opacity: hoveredCard === index ? 1 : 0,
+                      height: hoveredCard === index ? 'auto' : 0
                     }}
                     transition={{ duration: 0.3 }}
                     className="text-xs text-gray-600 text-center leading-relaxed overflow-hidden"
@@ -139,7 +123,6 @@ export function IndustryVerticals() {
                   </motion.p>
                 </div>
 
-                {/* Hover Indicator */}
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: hoveredCard === index ? '100%' : 0 }}

@@ -1,13 +1,19 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { lazy, Suspense } from "react";
 import { Target, Users, Lightbulb, Shield, TrendingUp } from 'lucide-react';
-import GrowthSection from "../components/AboutPageComponent/GrowthComponent";
-import CacheSolutionsSection from "../components/HomeComponent/CacheSolutionsSection";
-import { CEOSection } from "../components/InsightComponent/ceo-section";
-import AwardsSection from "../components/AboutPageComponent/ImageSlider";
-import Certifications from "../components/AboutPageComponent/Certifications";
-import CoreOfferingsSection from "../components/AboutPageComponent/CoreOfferingsSection";
 import { useContent } from "../context/ContentContext";
+import { usePageScroll } from '../hooks/usePageScroll';
+
+const CEOSection = lazy(() =>
+  import("../components/InsightComponent/ceo-section").then((m) => ({ default: m.CEOSection }))
+);
+const AwardsSection = lazy(() => import("../components/AboutPageComponent/ImageSlider"));
+const Certifications = lazy(() => import("../components/AboutPageComponent/Certifications"));
+const CoreOfferingsSection = lazy(() => import("../components/AboutPageComponent/CoreOfferingsSection"));
+const CacheSolutionsSection = lazy(() => import("../components/HomeComponent/CacheSolutionsSection"));
+
+function BelowFoldFallback() {
+  return <div className="min-h-[16vh] w-full" aria-hidden />;
+}
 
 const DEFAULT_ABOUT = {
   conceptOfCache: { title: "About Cache Digitech", body: "Cache Digitech is a global system integrator that partners with leaders in business and society to tackle their most important challenges and capture their greatest opportunities." },
@@ -16,7 +22,7 @@ const DEFAULT_ABOUT = {
 };
 
 function AboutCache() {
-  const location = useLocation();
+  usePageScroll();
   const concept = useContent('about', 'conceptOfCache');
   const profile = useContent('about', 'profileOfCache');
   const mission = useContent('about', 'missionVision');
@@ -39,77 +45,48 @@ function AboutCache() {
     }
   ];
 
-
-  // Certifications data moved to standalone Certifications component
-
-  useEffect(() => {
-    // Check if there's a hash in the URL for section navigation
-    if (location.hash) {
-      const sectionId = location.hash.substring(1); // Remove the # symbol
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 100);
-    } else {
-      window.scrollTo(0, 0); // scroll to top when page loads without hash
-    }
-  }, [location]);
-
-
   return (
     <div className="w-full">
       {/* ===== Video Section ===== */}
       <div id="concept-of-cache" className="relative w-full h-screen overflow-hidden">
-        {/* Background (GIF) */}
+        {/* Background (GIF) — LCP: eager */}
         <img
           src="/videos/aboutpage.gif"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           aria-hidden
           decoding="async"
+          loading="eager"
+          fetchPriority="high"
         />
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
-        {/* ✅ TEXT OVER VIDEO */}
         <div className="absolute inset-0 flex flex-col justify-center items-start px-6 sm:px-8 lg:px-12 text-white z-20">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">{concept.title || DEFAULT_ABOUT.conceptOfCache.title}</h1>
           <p className="max-w-2xl text-base sm:text-lg mb-4 sm:mb-6">
             {concept.body || DEFAULT_ABOUT.conceptOfCache.body}
           </p>
-          {/* <button className="flex items-center space-x-3 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-medium shadow-lg transition">
-            <span className="text-lg">Learn More</span>
-            <span className="flex items-center justify-center w-6 h-6 bg-white text-red-600 rounded-full text-sm">
-              ➝
-            </span>
-          </button> */}
         </div>
       </div>
 
       {/* ===== Company Stats Section ===== */}
       <div id="profile-of-cache" className="w-full bg-white py-16 px-6 sm:px-8 lg:px-12 text-center relative ">
-        {/* Top Heading */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-600 mb-4">{profile.title || DEFAULT_ABOUT.profileOfCache.title}</h2>
         <p className="max-w-4xl mx-auto text-lg md:text-xl text-gray-800 leading-relaxed mb-16">
           {profile.body || DEFAULT_ABOUT.profileOfCache.body}
         </p>
-        {/* Stats Grid */}
        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10 md:gap-12 mb-12 text-center">
-  {/* Founded */}
   <div>
     <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2">1991</h2>
     <p className="text-gray-700 text-sm sm:text-base">Founded By</p>
     <p className="text-gray-700 text-sm sm:text-base">Prarthana Gupta</p>
   </div>
 
-  {/* Revenue */}
   <div>
     <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2">800cr+</h2>
     <p className="text-gray-700 text-sm sm:text-base">Annual Revenue</p>
   </div>
 
-  {/* Cities */}
   <div>
     <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2">300+</h2>
     <p className="text-gray-700 text-sm sm:text-base">
@@ -118,32 +95,18 @@ function AboutCache() {
     </p>
   </div>
 </div>
-
-
-
-        {/* Red Button */}
-        {/* <div className="flex justify-center">
-          <button className="flex items-center space-x-3 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-medium shadow-md transition">
-            <span className="text-lg">Explore our offices</span>
-            <span className="flex items-center justify-center w-6 h-6 bg-white text-red-600 rounded-full text-sm">
-              ➝
-            </span>
-          </button>
-        </div> */}
       </div>
 
       {/* ===== Our Mission Section ===== */}
       <div id="mission-vision" className="w-full bg-gray-50 py-16 px-6 sm:px-8 lg:px-12">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* Left Content */}
             <div>
               <h2 className="text-4xl font-bold text-red-600 mb-4">{mission.title || DEFAULT_ABOUT.missionVision.title}</h2>
               <p className="text-gray-600 mb-8 text-lg leading-relaxed">
                 {mission.body || DEFAULT_ABOUT.missionVision.body}
               </p>
 
-              {/* Mission Points */}
               <div className="space-y-6">
                 {principles.map((principle, index) => (
                   <div key={index} className="flex gap-4">
@@ -161,12 +124,9 @@ function AboutCache() {
               </div>
             </div>
 
-            {/* Right Visual */}
             <div className="flex items-center justify-center lg:justify-end">
               <div className="relative w-full max-w-md">
-                {/* Interconnected Hexagon Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Top Row */}
                   <div className="bg-linear-to-br from-red-50 to-red-100 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="text-red-600 mb-2">
                       <Lightbulb className="w-10 h-10" />
@@ -183,7 +143,6 @@ function AboutCache() {
                     <p className="text-gray-600 text-xs">Strategic execution</p>
                   </div>
 
-                  {/* Bottom Row */}
                   <div className="bg-linear-to-br from-red-200 to-red-300 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     <div className="text-red-700 mb-2">
                       <Users className="w-10 h-10" />
@@ -201,7 +160,6 @@ function AboutCache() {
                   </div>
                 </div>
 
-                {/* Center Connecting Element */}
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
                   <div className="w-24 h-24 bg-white rounded-full shadow-2xl flex items-center justify-center border-4 border-red-500">
                     <TrendingUp className="w-12 h-12 text-red-600" />
@@ -213,26 +171,19 @@ function AboutCache() {
         </div>
       </div>
 
-      <div id="team">
-        <CEOSection />
-      </div>
+      <Suspense fallback={<BelowFoldFallback />}>
+        <div id="team">
+          <CEOSection />
+        </div>
 
-      {/* Awards & Certifications */}
-      <AwardsSection />
-      <Certifications sectionOnly />
+        <AwardsSection />
+        <Certifications sectionOnly />
+        <CoreOfferingsSection />
 
-      {/* Core Offerings (What We Do) */}
-      <CoreOfferingsSection />
-
-      {/* Cache Solutions Section */}
-      <div id="meaning-of-logo">
-        <CacheSolutionsSection />
-      </div>
-
-
-
-      {/* Subsections moved to standalone pages: Awards, Alliances, Certifications */}
-
+        <div id="meaning-of-logo">
+          <CacheSolutionsSection />
+        </div>
+      </Suspense>
     </div>
   );
 }

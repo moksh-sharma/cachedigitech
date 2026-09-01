@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { INNOVATION_PROJECTS } from "../data/innovationProjects";
 import {
   Lightbulb,
@@ -19,6 +19,8 @@ import {
   Sparkles,
   BookOpen,
 } from "lucide-react";
+import { usePageScroll } from '../hooks/usePageScroll';
+import { LazyBackground } from "../components/LazyBackground";
 
 // Local imagery from public folder
 const HERO_IMAGE = "/hero-bg-image.webp";
@@ -149,27 +151,16 @@ const INNOVATION_SPOTLIGHT = [
 ];
 
 export default function InnovationsPage() {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash) {
-      const sectionId = location.hash.substring(1);
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [location]);
+  usePageScroll();
 
   return (
     <div className="w-full min-h-screen bg-white overflow-x-hidden min-w-0">
       {/* Hero - professional, high-impact; mobile responsive */}
       <section className="relative min-h-[55vh] sm:min-h-[60vh] md:min-h-[70vh] lg:min-h-[75vh] flex flex-col justify-center overflow-hidden">
-        <div
+        <LazyBackground
+          src={HERO_IMAGE}
+          eager
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${HERO_IMAGE})` }}
           aria-hidden
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/60 to-black/85" aria-hidden />
@@ -219,9 +210,9 @@ export default function InnovationsPage() {
                 src={OVERVIEW_IMAGE}
                 alt="Collaboration and innovation"
                 className="w-full h-full object-cover aspect-4/3 max-w-full"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
-                fetchPriority="high"
+                fetchPriority="low"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent pointer-events-none" />
             </div>

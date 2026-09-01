@@ -31,6 +31,8 @@ export default function Profile() {
             className="w-full h-full object-cover"
             aria-hidden
             decoding="async"
+            loading="eager"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/70" />
         </div>

@@ -1,24 +1,12 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { usePageScroll } from '../hooks/usePageScroll';
 
 const ZOHO_CONTACT_FORM_URL =
   'https://forms.zohopublic.in/cachedigiteh1/form/CacheTest/formperma/8iVU_cZT4Drao9gm87I9to2E1ugmhqy5xSi8N9li9iM';
 
 const ContactUsPage = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash) {
-      const sectionId = location.hash.substring(1);
-      const timer = setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-    window.scrollTo(0, 0);
-  }, [location]);
+  usePageScroll();
 
   const contactItems = [
     {

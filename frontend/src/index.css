@@ -41,16 +41,16 @@
 
 @import "tailwindcss";
 
-/* Lenis smooth scroll - disable native smooth when Lenis is active */
+/* Lenis smooth scroll — disable native smooth so Lenis owns it */
 @import "lenis/dist/lenis.css";
 
+html,
 html.lenis {
   scroll-behavior: auto;
 }
 
 /* Global polish - prevent horizontal scroll from wide content (marquees, sliders) */
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
   scrollbar-gutter: stable;
 }

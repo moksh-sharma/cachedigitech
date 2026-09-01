@@ -27,6 +27,9 @@ export default defineConfig({
     host: true,
     port: 5178,
     strictPort: false,
+    watch: {
+      ignored: ['**/dist/**', '**/dist.zip', '**/*.zip'],
+    },
     // Proxy API to backend (chat)
     proxy: {
       '/api': {

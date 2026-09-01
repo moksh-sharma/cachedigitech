@@ -79,6 +79,9 @@ export function RouteTransitionCurtain({ phase, onCoverEnd, onRevealEnd }) {
           alt=""
           aria-hidden="true"
           draggable={false}
+          decoding="async"
+          loading="eager"
+          fetchPriority="high"
         />
       </div>
     </div>,

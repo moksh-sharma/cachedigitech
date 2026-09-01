@@ -1,7 +1,6 @@
 // src/App.jsx
 import React, { useEffect, Suspense, lazy } from "react";
 import { Route, Navigate, useLocation } from "react-router-dom";
-import { useLenis } from "./context/LenisContext";
 import { useAppLoader } from "./context/AppLoaderContext";
 import {
   LOADER_HOLD_MS,
@@ -52,9 +51,9 @@ const CaseStudiesPage = lazy(() => import("./Pages/CaseStudiesPage"));
 const CampaignsPage = lazy(() => import("./Pages/CampaignsPage"));
 const NewsletterPage = lazy(() => import("./Pages/NewsletterPage"));
 const OffersPage = lazy(() => import("./Pages/OffersPage"));
+const HowWeDeliverPage = lazy(() => import("./Pages/HowWeDeliverPage"));
 
 function App() {
-  const { scrollTo, resize } = useLenis();
   const { setLoaderDone } = useAppLoader();
   const location = useLocation();
   const skipSplash =
@@ -172,6 +171,7 @@ function App() {
             <Route path="/campaigns" element={<CampaignsPage />} />
             <Route path="/newsletter" element={<NewsletterPage />} />
             <Route path="/offers" element={<OffersPage />} />
+            <Route path="/how-we-deliver" element={<HowWeDeliverPage />} />
 
             <Route path="*" element={<NotFoundPage />} />
 

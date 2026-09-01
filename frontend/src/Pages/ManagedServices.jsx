@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
     Search, Users, FileText, Shield, Server,
     Monitor, Database, Settings, Eye,
@@ -8,25 +8,13 @@ import {
     Activity, Wifi, ArrowRight
 } from 'lucide-react';
 import { usePlacement } from '../context/PlacementsContext';
+import { usePageScroll } from '../hooks/usePageScroll';
 
 const ManagedServicesPage = () => {
     const [animatedText, setAnimatedText] = useState('');
     const [textIndex, setTextIndex] = useState(0);
-    const location = useLocation();
+    usePageScroll();
     const heroImageUrl = usePlacement('manageservices', 'main', 'heroImage') || '/servicesimages/managedservices.webp';
-
-    useEffect(() => {
-        // Check if there's a hash in the URL for section navigation
-        if (location.hash) {
-            const sectionId = location.hash.substring(1);
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        } else {
-            window.scrollTo(0, 0); // scroll to top when page loads
-        }
-    }, [location]);
 
     // Hero section animated texts
     const heroTexts = [

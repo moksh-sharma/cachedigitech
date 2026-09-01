@@ -4,6 +4,7 @@ import { Badge } from "../ui/badge";
 import { ArrowRight, TrendingUp, Clock, Users, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { scrollToTarget } from "../../hooks/usePageScroll";
 
 // Define types for case study data
 interface CaseStudyResults {
@@ -331,17 +332,17 @@ export function CaseStudiesSection() {
 
     if (!industryParam && !activeStudyParam) return;
 
-    setTimeout(() => {
+    const timer = window.setTimeout(() => {
       const element = document.getElementById('success-stories');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (element) scrollToTarget(element, { offset: -80 });
     }, 300);
 
     const newUrl = new URL(window.location.href);
     if (industryParam) newUrl.searchParams.delete('industry');
     if (activeStudyParam) newUrl.searchParams.delete('activeStudy');
     window.history.replaceState({}, '', newUrl.pathname + (newUrl.search || ''));
+
+    return () => window.clearTimeout(timer);
   }, [location.search]);
 
   const handleViewDetails = (study: CaseStudy) => {

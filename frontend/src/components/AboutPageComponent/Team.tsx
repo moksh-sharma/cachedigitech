@@ -162,7 +162,7 @@ const TeamSection: React.FC = () => {
                       aria-label={`${member.name} on LinkedIn`}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <img src="/linkedin.webp" alt="" className="w-4 h-4 opacity-80" aria-hidden decoding="async" />
+                      <img src="/linkedin.webp" alt="" className="w-4 h-4 opacity-80" aria-hidden decoding="async" loading="lazy" />
                       <span>LinkedIn</span>
                     </a>
                   )}

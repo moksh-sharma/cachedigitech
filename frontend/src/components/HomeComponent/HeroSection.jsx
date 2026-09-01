@@ -4,12 +4,19 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useChatFocus } from '../../context/ChatFocusContext';
 import { useChat } from '../../context/ChatContext';
 import { useAppLoader } from '../../context/AppLoaderContext';
-import WhoWeAre from './Whoweare';
-import { CEOSection } from '../InsightComponent/ceo-section';
-import AwardsSection from '../AboutPageComponent/ImageSlider';
-import Certifications from '../AboutPageComponent/Certifications';
 import { HARDCODED_HIGHLIGHTS } from '../../data/blogsAndHighlights';
+
+const WhoWeAre = lazy(() => import('./Whoweare'));
+const CEOSection = lazy(() =>
+  import('../InsightComponent/ceo-section').then((m) => ({ default: m.CEOSection }))
+);
+const AwardsSection = lazy(() => import('../AboutPageComponent/ImageSlider'));
+const Certifications = lazy(() => import('../AboutPageComponent/Certifications'));
 const DomeGalleryLazy = lazy(() => import('../AboutPageComponent/DomeGallery'));
+
+function BelowFoldFallback() {
+  return <div className="min-h-[20vh] w-full" aria-hidden />;
+}
 
 
 const SERVICE_LINKS = [
@@ -543,13 +550,13 @@ const HeroSection = () => {
             <h3 className="text-white text-lg sm:text-xl font-bold leading-tight max-w-sm">
               AI that drives real outcomes
             </h3>
-            <a
-              href="/about"
+            <Link
+              to="/how-we-deliver"
               className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white text-[#0a0a0b] text-xs font-semibold px-4 py-2 shadow-md hover:bg-red-500 hover:text-white hover:shadow-lg transition-all duration-200"
             >
               Learn how we deliver
               <span className="text-sm leading-none" aria-hidden>→</span>
-            </a>
+            </Link>
           </div>
 
           {/* Stats grid - card style; 1 col on mobile, 4 cols from sm */}
@@ -724,18 +731,26 @@ const HeroSection = () => {
       {/* Solutions Showcase */}
       <SolutionsShowcaseSection />
 
-      {/* Leadership Vision / Founder's Message */}
-      <CEOSection />
+      <Suspense fallback={<BelowFoldFallback />}>
+        <CEOSection />
+      </Suspense>
 
       {/* OEM Alliances Section */}
       <OEMAlliancesSection />
       {/* Premium Partners */}
       <PremiumPartnersSection />
       <LatestHighlightsSection />
-      <WhoWeAre />
+
+      <Suspense fallback={<BelowFoldFallback />}>
+        <WhoWeAre />
+      </Suspense>
+
       <InnovationsSection />
-      <AwardsSection />
-      <Certifications sectionOnly />
+
+      <Suspense fallback={<BelowFoldFallback />}>
+        <AwardsSection />
+        <Certifications sectionOnly />
+      </Suspense>
     </>
   );
 };
@@ -762,7 +777,7 @@ function InnovationsSection() {
               src={INNOVATIONS_HERO_IMAGE}
               alt="Innovation at Cache Digitech"
               className={`w-full h-full object-cover aspect-4/3 transition-opacity duration-300 ease-out ${innovImgLoaded ? 'opacity-100' : 'opacity-0'}`}
-              loading="eager"
+              loading="lazy"
               decoding="async"
               fetchPriority="low"
               onLoad={() => setInnovImgLoaded(true)}
@@ -1089,7 +1104,7 @@ function OEMAlliancesSection() {
                       src={p.logo}
                       alt={p.name}
                       className="w-full h-full object-contain"
-                      loading={i < 16 ? 'eager' : 'lazy'}
+                      loading={i < 6 ? 'eager' : 'lazy'}
                       decoding="async"
                       fetchPriority={i < 8 ? 'high' : 'low'}
                     />
@@ -1188,7 +1203,7 @@ function LatestHighlightsSection() {
         src={panel.image}
         alt=""
         className="absolute inset-0 w-full h-full min-h-[120px] object-cover transition-transform duration-500 ease-out group-hover:scale-105 pointer-events-none"
-        loading={marquee ? 'eager' : 'lazy'}
+        loading="lazy"
         decoding="async"
         fetchPriority={marquee ? 'auto' : 'low'}
         referrerPolicy="no-referrer"

@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Server, HardDrive, Cpu, Monitor, Network, Users,
   CheckCircle, TrendingUp, ArrowRight, Target, Database,
   FileText, Shield, Settings, Zap,
   Globe, Clock
 } from 'lucide-react';
+import { usePageScroll } from '../hooks/usePageScroll';
 
 const InfrastructureServicesPage = () => {
   const [animatedText, setAnimatedText] = useState('');
   const [textIndex, setTextIndex] = useState(0);
-
-  const location = useLocation();
-
-  useEffect(() => {
-    // Check if there's a hash in the URL for section navigation
-    if (location.hash) {
-      const sectionId = location.hash.substring(1);
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      window.scrollTo(0, 0); // scroll to top when page loads
-    }
-  }, [location]);
+  usePageScroll();
 
   // Hero section animated texts
   const heroTexts = [

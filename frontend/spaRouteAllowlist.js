@@ -38,6 +38,7 @@ const EXACT = new Set([
   "/campaigns",
   "/newsletter",
   "/offers",
+  "/how-we-deliver",
 ]);
 
 const DYNAMIC = [
